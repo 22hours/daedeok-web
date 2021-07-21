@@ -11,3 +11,37 @@
 
 - Next.js Meterial UI
 - SCSS
+
+## Dependencies
+- [ ] 디자인 시스템 라이브러리
+- [ ] Carousel
+- [ ] Drawer
+- [ ] Modal
+- [ ] Icons
+- [ ] Dropdown
+- [ ] Accordion
+- [ ] WYSIWYG EDITOR / VIEWER
+- [ ] Pagination
+- [ ] YouTube
+
+
+### Basic Design System
+```
+npm install @material-ui/core --save
+npm install @material-ui/icons --save
+```
+
+### Carousel
+```
+npm install react-material-ui-carousel --save
+```
+
+### WYSIWYG
+```
+npm i @toast-ui/editor --save
+```
+
+## YouTube
+```
+```
+
