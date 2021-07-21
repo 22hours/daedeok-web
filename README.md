@@ -9,7 +9,7 @@
 
 ## Design System
 
-- Next.js Meterial UI
+- Next.js Material UI
 - SCSS
 
 ## Dependencies
