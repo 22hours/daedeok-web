@@ -13,7 +13,7 @@
 - SCSS
 
 ## Dependencies
-- [ ] 디자인 시스템 라이브러리
+- [x] 디자인 시스템 라이브러리
 - [ ] Carousel
 - [ ] Drawer
 - [ ] Modal
