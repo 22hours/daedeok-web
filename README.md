@@ -29,6 +29,7 @@
 ```
 npm install @material-ui/core --save
 npm install @material-ui/icons --save
+npm install @material-ui/styles --save
 ```
 
 ### Carousel
