@@ -1,13 +1,7 @@
-import Layout from "components/Layout";
 import "../styles/globals.css";
 function MyApp({ Component, pageProps }) {
-    return (
-        <div>
-            <Layout>
-                <Component {...pageProps} />;
-            </Layout>
-        </div>
-    );
+    const Layout = Component.Layout || ((page) => page);
+    return Layout(<Component {...pageProps} />);
 }
 
 export default MyApp;
