@@ -3,7 +3,7 @@ import styles from "./ui/font.module.scss";
 type Props = {};
 
 const test = () => {
-    return <div className={styles.regular_h5}>test</div>;
+    return <div>d</div>;
 };
 
 export default test;
