@@ -36,11 +36,7 @@
     src: url("./../fonts/SCDream9.otf") format("truetype");
 }
 
-//COLORS
-$blue: #29b4aa;
-$yellow: #fbb800;
-$light_brown: #a65341;
-$gray: #8c8c8b;
-$light_gray: #f5f5f5;
-$dark_brown: #493741;
-$footer: #494137;
+body {
+    padding: 0px;
+    margin: 0px;
+}
