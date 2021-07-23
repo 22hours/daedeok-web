@@ -1,0 +1,32 @@
+// ClassLayout.module
+@import "styles/meta.scss";
+
+.container {
+    height: 100%;
+    @include mobile {
+    }
+    @include desktop {
+        display: grid;
+        grid-template-columns: 2.5fr 7.5fr;
+    }
+}
+.aside {
+    @include mobile {
+        visibility: hidden;
+    }
+    @include desktop {
+        visibility: visible;
+    }
+    background-color: gray;
+}
+.article {
+    background-color: white;
+    @include mobile {
+        display: grid;
+        grid-template-columns: 0fr 10fr 0fr;
+    }
+    @include desktop {
+        display: grid;
+        grid-template-columns: 0.5fr 9fr 0.5fr;
+    }
+}
