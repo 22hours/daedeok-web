@@ -1,62 +1,70 @@
 @import "styles/meta.scss";
 
-//home-buttons
-.bold_h1 {
-    font-family: "SCDream8";
-    font-size: 34px;
-}
-//home-notice,login
-.bold_h2 {
-    font-family: "SCDream8";
-    font-size: 30px;
-}
-//join-button
-.bold_h3 {
+//BUTTON
+.huge {
     font-family: "SCDream8";
     font-size: 28px;
 }
-//mypage
-.regular_h1 {
-    font-family: "SCDream6";
-    font-size: 45px;
-}
-//big-button
-.regular_h2 {
-    font-family: "SCDream5";
-    font-size: 35px;
-}
-//page-header
-.regular_h3 {
-    font-family: "SCDream6";
-    font-size: 30px;
-}
-//small-title
-.regular_h4 {
-    font-family: "SCDream5";
-    font-size: 20px;
-}
-//small-button
-.regular_h5 {
-    font-family: "SCDream5";
-    font-size: 18px;
-}
-//board
-.light_h1 {
-    font-family: "SCDream4";
-    font-size: 30px;
-}
-//board
-.light_h2 {
-    font-family: "SCDream";
+.large {
+    font-family: "SCDream7";
     font-size: 25px;
 }
-//details
-.light_h3 {
-    font-family: "SCDreasm";
+.medium {
+    font-family: "SCDream6";
     font-size: 22px;
 }
-//list-date,category
-.light_h4 {
-    font-family: "SCDream";
+.small {
+    font-family: "SCDream5";
     font-size: 20px;
+}
+
+//HEADER
+.h1_header {
+    font-family: "SCDream8";
+    font-size: 30px;
+}
+.h2_header {
+    font-family: "SCDream6";
+    font-size: 28px;
+}
+.h3_header {
+    font-family: "SCDream4";
+    font-size: 25px;
+}
+//TEXT
+.large_text {
+    font-family: "SCDream5";
+    font-size: 25px;
+}
+.medium_text {
+    font-family: "SCDream4";
+    font-size: 20px;
+}
+.small_text {
+    font-family: "SCDream4";
+    font-size: 15px;
+}
+.yellow_accent {
+    color: $yellow_accent;
+}
+.white {
+    color: white;
+}
+.mint_accent {
+    color: $mint_accent;
+}
+.gray_accent {
+    color: $gray_accent;
+}
+.brown_base {
+    color: $brown_base;
+}
+.brown_font {
+    color: $brown_font;
+}
+.light_accent {
+    color: $light_accent;
+}
+.red_accent {
+    color: $red_accent;
 }
