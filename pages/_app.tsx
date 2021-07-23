@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import "../styles/global.scss";
 function MyApp({ Component, pageProps }) {
     const Layout = Component.Layout || ((page) => page);
     return Layout(<Component {...pageProps} />);
