@@ -1,0 +1,61 @@
+// GlobalLayout.module
+// LAYOUT 사이즈 참고
+// https://github.com/22hours/daedeok-web/wiki/GLOBAL-LAYOUT-%EB%B9%84%EC%9C%A8
+@import "styles/meta.scss";
+
+$stripe_height: 36px;
+$header_height: 236px;
+$nav_height: 53px;
+$banner_height: 285px;
+$article_height: auto;
+$footer_height: 196px;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.stripe {
+    overflow: hidden;
+    height: $stripe_height;
+    background-color: brown;
+}
+
+.header {
+    height: $header_height;
+    overflow: hidden;
+    background-color: burlywood;
+    display: flex;
+    flex-direction: column;
+    .head {
+        flex-grow: 1;
+    }
+    .nav {
+        background-color: darkblue;
+        height: $nav_height;
+    }
+}
+
+.banner {
+    background-color: cadetblue;
+    height: $banner_height;
+}
+
+.article {
+    flex-grow: 1;
+    background-color: cornflowerblue;
+    display: grid;
+    grid-template-columns: 0.8fr 7fr 0.8fr;
+    .main_article {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: rgb(0, 255, 115);
+        height: 100%;
+    }
+}
+
+.footer {
+    background-color: salmon;
+    height: $footer_height;
+}
