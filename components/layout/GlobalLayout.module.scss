@@ -3,12 +3,21 @@
 // https://github.com/22hours/daedeok-web/wiki/GLOBAL-LAYOUT-%EB%B9%84%EC%9C%A8
 @import "styles/meta.scss";
 
+// PC 보정 후
 $pc_stripe_height: 36px;
 $pc_header_height: 196px; //236px
 $pc_nav_height: 53px;
 $pc_banner_height: 285px;
 $pc_article_height: auto;
 $pc_footer_height: 196px;
+
+// PC 보정 전
+// $pc_stripe_height: 32px;
+// $pc_header_height: 215px; //236px
+// $pc_nav_height: 63px;
+// $pc_banner_height: 310px;
+// $pc_article_height: auto;
+// $pc_footer_height: 204px;
 
 $mobile_stripe_height: 13px;
 $mobile_header_height: 89px; // HEAD + NAV 123px

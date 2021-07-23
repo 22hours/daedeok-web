@@ -1,3 +1,4 @@
+import Link from "next/link";
 type Props = {};
 
 const index = (props) => {
@@ -7,6 +8,9 @@ const index = (props) => {
         <div>
             <h2>index</h2>
             <h4>{props.data.status}</h4>
+            <Link href={"/class/[status]/[class_id]/board/detail/[...content_id]"} as={`/class/open/1/board/detail/1`}>
+                <button>gogo</button>
+            </Link>
         </div>
     );
 };
