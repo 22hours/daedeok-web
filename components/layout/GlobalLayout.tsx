@@ -3,18 +3,39 @@ import Image from "next/image";
 
 import Banner from "public/assets/banner.jpg";
 import HeaderLogo from "public/assets/headerlogo.png";
+import { useRouter } from "next/dist/client/router";
+
+// PAGE STROES
+import { ClassStoreProvider } from "store/ClassStore";
+import { AdminStoreProvider } from "store/AdminStore";
+
+type DetailPageProps = {
+    children: JSX.Element | JSX.Element[];
+};
+type RootPath = "" | "acinfo" | "admin" | "class" | "docs" | "lecture" | "lecture-category";
+
+const PageDetailLayout = ({ children }: DetailPageProps) => {
+    const router = useRouter();
+    // @ts-ignore
+    const rootPath: RootPath = router.route.split("/")[1];
+
+    switch (rootPath) {
+        case "class": {
+            return <ClassStoreProvider>{children}</ClassStoreProvider>;
+        }
+        case "admin": {
+            return <AdminStoreProvider>{children}</AdminStoreProvider>;
+        }
+        default:
+            return <div className={"NOTCLASS"}>{children}</div>;
+    }
+};
+
 type Props = {
     children: JSX.Element | JSX.Element[];
     isBannerHide?: boolean;
     isMenuHide?: boolean;
 };
-// 띠          2 : 100		    36px
-// 헤더		    11 : 100		196px
-// 메뉴		    3 : 100			53px
-// 배너		    16 : 100		285px
-// 아티클        47:100			1014(가변)
-// 푸터         11 : 100		196
-
 const GlobalLayout = ({ children, isBannerHide, isMenuHide }: Props) => {
     return (
         <div className={style.container}>
@@ -39,7 +60,9 @@ const GlobalLayout = ({ children, isBannerHide, isMenuHide }: Props) => {
             {/* ARTICLE */}
             <div className={style.article}>
                 <div></div>
-                <article className={style.main_article}>{children}</article>
+                <article className={style.main_article}>
+                    <PageDetailLayout>{children}</PageDetailLayout>
+                </article>
                 <div></div>
             </div>
 
