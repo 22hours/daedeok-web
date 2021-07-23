@@ -3,12 +3,19 @@
 // https://github.com/22hours/daedeok-web/wiki/GLOBAL-LAYOUT-%EB%B9%84%EC%9C%A8
 @import "styles/meta.scss";
 
-$stripe_height: 36px;
-$header_height: 236px;
-$nav_height: 53px;
-$banner_height: 285px;
-$article_height: auto;
-$footer_height: 196px;
+$pc_stripe_height: 36px;
+$pc_header_height: 196px; //236px
+$pc_nav_height: 53px;
+$pc_banner_height: 285px;
+$pc_article_height: auto;
+$pc_footer_height: 196px;
+
+$mobile_stripe_height: 13px;
+$mobile_header_height: 89px; // HEAD + NAV 123px
+$mobile_nav_height: 34px;
+$mobile_banner_height: 148px;
+$mobile_article_height: auto;
+$mobile_footer_height: 139px;
 
 .container {
     display: flex;
@@ -18,35 +25,82 @@ $footer_height: 196px;
 
 .stripe {
     overflow: hidden;
-    height: $stripe_height;
+    @include mobile {
+        height: $mobile_stripe_height;
+    }
+    @include desktop {
+        height: $pc_stripe_height;
+    }
     background-color: brown;
 }
 
 .header {
-    height: $header_height;
     overflow: hidden;
-    background-color: burlywood;
     display: flex;
     flex-direction: column;
     .head {
+        @include mobile {
+            height: $mobile_header_height;
+        }
+        @include desktop {
+            height: $pc_header_height;
+        }
         flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+            @include mobile {
+                height: 60px;
+            }
+            @include desktop {
+                height: 100px;
+            }
+        }
     }
     .nav {
         background-color: darkblue;
-        height: $nav_height;
+        @include mobile {
+            height: $mobile_nav_height;
+        }
+        @include desktop {
+            height: $pc_nav_height;
+        }
     }
 }
 
 .banner {
     background-color: cadetblue;
-    height: $banner_height;
+    @include mobile {
+        height: $mobile_banner_height;
+    }
+    @include desktop {
+        height: $pc_banner_height;
+    }
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    .mask {
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
 }
 
 .article {
     flex-grow: 1;
     background-color: cornflowerblue;
     display: grid;
-    grid-template-columns: 0.8fr 7fr 0.8fr;
+    @include mobile {
+        grid-template-columns: 0.2fr 7fr 0.2fr;
+    }
+
+    @include desktop {
+        grid-template-columns: 0.8fr 7fr 0.8fr;
+    }
+
     .main_article {
         padding-top: 40px;
         padding-bottom: 40px;
@@ -57,5 +111,11 @@ $footer_height: 196px;
 
 .footer {
     background-color: salmon;
-    height: $footer_height;
+    @include mobile {
+        height: $mobile_footer_height;
+    }
+
+    @include desktop {
+        height: $pc_footer_height;
+    }
 }
