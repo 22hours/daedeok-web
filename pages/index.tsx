@@ -1,3 +1,5 @@
+import GlobalLayout from "components/layout/GlobalLayout";
+
 import React from "react";
 import Test from "components/test";
 
@@ -11,3 +13,4 @@ export default function Home() {
         </div>
     );
 }
+Home.Layout = (page: any) => <GlobalLayout>{page}</GlobalLayout>;
