@@ -47,7 +47,7 @@ const GlobalLayout = ({ children, isBannerHide, isMenuHide }: Props) => {
     return (
         <div className={style.container}>
             {/* STRIPE */}
-            <div className={style.stripe}></div>
+            {!isMenuHide && <div className={style.stripe}></div>}
 
             {/* HEADER */}
             <div className={style.header}>
