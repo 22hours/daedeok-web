@@ -25,9 +25,8 @@ const Typo = ({ type, size, content, color }: Props) => {
         case "TEXT":
             var textSize = size + "_text";
             return <p className={`${styles[textSize]} ${styles[color]}`}>{content}</p>;
-        case "TEXT":
         default:
-            return <div></div>;
+            return <span></span>;
     }
 };
 

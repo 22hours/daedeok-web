@@ -1,0 +1,93 @@
+@import "styles/meta.scss";
+
+//SQUARE
+.square {
+    cursor: pointer;
+    padding-left: 15px;
+    padding-left: 15px;
+}
+
+//ROUND
+.round {
+    border-radius: 50px;
+    cursor: pointer;
+    padding-left: 15px;
+    padding-left: 15px;
+}
+
+//TEXT
+.text {
+    border-bottom: 1px solid $gray_accent;
+    cursor: pointer;
+    padding-left: 15px;
+    padding-left: 15px;
+}
+
+.small {
+    height: 45px;
+}
+
+.medium {
+    height: 115px;
+}
+
+.large {
+    height: 190px;
+}
+
+.full {
+    height: 70px;
+    width: 100%;
+}
+
+.inline {
+}
+
+.outline {
+    border: 1px solid $gray_accent;
+}
+
+.yellow_accent {
+    background-color: $yellow_accent;
+}
+.white {
+    background-color: white;
+}
+.mint_accent {
+    background-color: $mint_accent;
+}
+.gray_accent {
+    background-color: $gray_accent;
+}
+.brown_base {
+    background-color: $brown_base;
+}
+.brown_font {
+    background-color: $brown_font;
+}
+.light_accent {
+    background-color: $light_accent;
+}
+.red_accent {
+    background-color: $red_accent;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
