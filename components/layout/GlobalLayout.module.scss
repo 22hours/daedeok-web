@@ -102,6 +102,7 @@ $mobile_footer_height: 139px;
     flex-grow: 1;
     background-color: cornflowerblue;
     display: grid;
+
     @include mobile {
         grid-template-columns: 0.2fr 7fr 0.2fr;
     }
@@ -111,8 +112,6 @@ $mobile_footer_height: 139px;
     }
 
     .main_article {
-        padding-top: 40px;
-        padding-bottom: 40px;
         background-color: rgb(0, 255, 115);
         height: 100%;
     }
