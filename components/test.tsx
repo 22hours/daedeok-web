@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./ui/font.module.scss";
+import styles from "./ui/Typo.module.scss";
 type Props = {};
 
 const test = () => {

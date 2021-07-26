@@ -1,4 +1,4 @@
-import styles from "./font.module.scss";
+import styles from "./Typo.module.scss";
 
 type Props = {
     type: "BUTTON" | "HEADER" | "TEXT";
