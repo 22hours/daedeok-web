@@ -1,0 +1,17 @@
+// VideoClass.module
+@import "styles/meta.scss";
+
+.container {
+    width: 800px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.video_container {
+    flex-grow: 1;
+}
+
+.progress_container {
+    margin-top: 30px;
+}
