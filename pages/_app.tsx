@@ -1,4 +1,5 @@
 import "../styles/global.scss";
+import "styles/ui_input_global.scss";
 import GlobalLayout from "components/layout/GlobalLayout";
 import { useEffect } from "react";
 

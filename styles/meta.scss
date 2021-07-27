@@ -23,3 +23,75 @@ $breakpoint-desktop: 451px;
         @content;
     }
 }
+
+//BUTTON
+@mixin font_button_huge {
+    font-family: "SCDream8";
+    font-size: 28px;
+}
+
+@mixin font_button_large {
+    font-family: "SCDream7";
+    font-size: 25px;
+}
+@mixin font_button_medium {
+    font-family: "SCDream6";
+    font-size: 22px;
+}
+@mixin font_button_small {
+    font-family: "SCDream5";
+    font-size: 20px;
+}
+
+//HEADER
+@mixin font_h1_header {
+    font-family: "SCDream8";
+    font-size: 30px;
+}
+@mixin font_h2_header {
+    font-family: "SCDream6";
+    font-size: 28px;
+}
+@mixin font_h3_header {
+    font-family: "SCDream4";
+    font-size: 25px;
+}
+//TEXT
+
+@mixin font_large_text {
+    font-family: "SCDream5";
+    font-size: 25px;
+}
+@mixin font_medium_text {
+    font-family: "SCDream4";
+    font-size: 20px;
+}
+@mixin font_small_text {
+    font-family: "SCDream4";
+    font-size: 15px;
+}
+
+@mixin color_yellow_accent {
+    color: $yellow_accent;
+}
+@mixin color_white {
+    color: white;
+}
+@mixin color_mint_accent {
+    color: $mint_accent;
+}
+@mixin color_gray_accent {
+    color: $gray_accent;
+}
+@mixin color_brown_base {
+    color: $brown_base;
+}
+@mixin color_brown_font {
+    color: $brown_font;
+}
+@mixin color_light_accent {
+    color: $light_accent;
+}
+@mixin color_red_accent {
+    color: $red_accent;
+}

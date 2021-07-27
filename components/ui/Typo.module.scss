@@ -2,69 +2,59 @@
 
 //BUTTON
 .huge {
-    font-family: "SCDream8";
-    font-size: 28px;
+    @include font_button_huge;
 }
 .large {
-    font-family: "SCDream7";
-    font-size: 25px;
+    @include font_button_large;
 }
 .medium {
-    font-family: "SCDream6";
-    font-size: 22px;
+    @include font_button_medium;
 }
 .small {
-    font-family: "SCDream5";
-    font-size: 20px;
+    @include font_button_small;
 }
 
 //HEADER
 .h1_header {
-    font-family: "SCDream8";
-    font-size: 30px;
+    @include font_h1_header;
 }
 .h2_header {
-    font-family: "SCDream6";
-    font-size: 28px;
+    @include font_h2_header;
 }
 .h3_header {
-    font-family: "SCDream4";
-    font-size: 25px;
+    @include font_h3_header;
 }
 //TEXT
 .large_text {
-    font-family: "SCDream5";
-    font-size: 25px;
+    @include font_large_text;
 }
 .medium_text {
-    font-family: "SCDream4";
-    font-size: 20px;
+    @include font_medium_text;
 }
 .small_text {
-    font-family: "SCDream4";
-    font-size: 15px;
+    @include font_small_text;
 }
 .yellow_accent {
-    color: $yellow_accent;
+    @include color_yellow_accent;
 }
 .white {
-    color: white;
+    @include color_white;
 }
 .mint_accent {
-    color: $mint_accent;
+    @include color_mint_accent;
 }
 .gray_accent {
-    color: $gray_accent;
+    @include color_gray_accent;
 }
 .brown_base {
-    color: $brown_base;
+    @include color_brown_base;
 }
 .brown_font {
-    color: $brown_font;
+    @include color_brown_font;
 }
 .light_accent {
-    color: $light_accent;
+    @include color_light_accent;
 }
 .red_accent {
-    color: $red_accent;
+    @include color_red_accent;
 }
