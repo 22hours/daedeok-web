@@ -4,7 +4,9 @@ const useInput = (initialValue?: any, cb?: any) => {
     const [value, setValue] = useState<any>(initialValue || "");
     const onChange = (e) => {
         setValue(e.target.value);
-        cb(e.target.value);
+        if (cb) {
+            cb(e.target.value);
+        }
     };
     return { value, onChange };
 };
