@@ -1,0 +1,16 @@
+// CheckBox.module
+@import "styles/meta.scss";
+
+.container {
+    display: flex;
+    align-items: center;
+
+    input {
+        transform: scale(1.5);
+    }
+}
+
+.padding_bar {
+    margin-left: 5px;
+    margin-right: 5px;
+}

@@ -1,0 +1,19 @@
+// ProgressBar.module
+@import "styles/meta.scss";
+
+.container {
+    position: relative;
+}
+
+.percent_container {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: 0;
+
+    p {
+        margin: 0px;
+    }
+}

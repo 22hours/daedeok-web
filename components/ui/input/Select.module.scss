@@ -1,0 +1,32 @@
+// Select.module
+@import "styles/meta.scss";
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+.container:required:invalid {
+}
+
+.select_img {
+}
+
+.placeholder {
+    color: $gray_accent;
+}
+
+.arrow_wrapper {
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+    border: 1px solid $gray_accent;
+    svg {
+        color: $gray_accent;
+    }
+}

@@ -1,0 +1,12 @@
+// SearchBar.module
+@import "styles/meta.scss";
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    svg {
+        margin-right: 10px;
+        color: $gray_accent;
+    }
+}

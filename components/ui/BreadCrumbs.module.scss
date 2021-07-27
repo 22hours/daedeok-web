@@ -1,0 +1,16 @@
+// BreadCrumbs.module
+@import "styles/meta.scss";
+
+.container {
+    display: flex;
+    align-items: center;
+    a {
+        text-decoration: none;
+    }
+    p:hover {
+        color: $brown_base;
+    }
+    p {
+        margin-right: 5px;
+    }
+}
