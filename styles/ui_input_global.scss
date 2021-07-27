@@ -1,0 +1,74 @@
+// ui_input_global
+@import "styles/meta.scss";
+
+$form_place_holder: #bebebe;
+$form_disable: #dddddd;
+
+.form__box,
+.form__underline {
+    width: 100%;
+
+    input,
+    textarea,
+    select {
+        @include font_small_text;
+        -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+        -moz-box-sizing: border-box; /* Firefox, other Gecko */
+        box-sizing: border-box; /* Opera/IE 8+ */
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 100%;
+
+        border: 0px;
+        overflow: auto;
+        background: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select {
+        outline: 0;
+    }
+
+    .input::placeholder,
+    textarea::placeholder {
+        color: $form_place_holder;
+    }
+}
+
+// UNDERLINE
+.form__underline {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid $gray_accent;
+    margin-bottom: 20px;
+}
+.form__underline:focus-within {
+    outline: 0;
+    border-width: 2px;
+}
+
+// BOX
+.form__box {
+    border: 1px solid $gray_accent;
+}
+.form__box:focus-within {
+    outline: 0;
+    border-width: 2px;
+}
+
+.form__success {
+    border-color: $mint_accent;
+    border-width: 1.5px;
+}
+.form__error {
+    border-color: $red_accent;
+    border-width: 1.5px;
+}
+.form__disable {
+    border-color: $gray_accent;
+    background-color: $form_disable;
+}
