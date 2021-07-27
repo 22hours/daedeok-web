@@ -50,7 +50,7 @@ type Props = {
         | "white";
     icon: boolean;
     childButtonMargin: boolean;
-    onClickEvent: () => void;
+    onClick: () => void;
 };
 
 const CollapseButton = ({
@@ -66,7 +66,7 @@ const CollapseButton = ({
     childTextColor,
     icon,
     childButtonMargin,
-    onClickEvent,
+    onClick,
 }: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const handleToggle = () => setIsOpen(!isOpen);
@@ -81,7 +81,7 @@ const CollapseButton = ({
                 backgroundColor={mainBackgroundColor}
                 color={mainTextColor}
                 content={mainText}
-                onClickEvent={handleToggle}
+                onClick={handleToggle}
                 alignment={"between"}
             >
                 {icon ? (
@@ -110,10 +110,8 @@ const CollapseButton = ({
                                     content={it}
                                     color={childTextColor}
                                     alignment={"left"}
-                                    onClickEvent={onClickEvent}
-                                >
-                                    <></>
-                                </Button>
+                                    onClick={onClick}
+                                ></Button>
                             </div>
                         ) : (
                             <div key={`CATEGORY_ITEM::${idx}`}>
@@ -126,10 +124,8 @@ const CollapseButton = ({
                                     content={it}
                                     color={childTextColor}
                                     alignment={"left"}
-                                    onClickEvent={onClickEvent}
-                                >
-                                    <></>
-                                </Button>
+                                    onClick={onClick}
+                                ></Button>
                             </div>
                         )
                     )}
