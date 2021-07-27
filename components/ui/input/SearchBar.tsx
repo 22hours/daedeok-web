@@ -11,6 +11,7 @@ type Props = {
     form: "box" | "underline";
     value: string;
     onChange: (e) => void;
+    onEnterKeyDown?: (e) => void;
     placeholder?: string;
     maxLength?: number;
     style?: CSS.Properties;
@@ -19,13 +20,20 @@ type Props = {
 const SearchBar = (props: Props) => {
     const classNames = useFormStyle({ ...props, type: "basic" });
 
+    const onKeyDown = (e) => {
+        if (props.onEnterKeyDown) {
+            if (e.keyCode === 13) {
+                props.onEnterKeyDown(e);
+            }
+        }
+    };
     return (
         <div className={Object.values(classNames).concat(style.container).join(" ")}>
             <input
                 ref={props.ref || undefined}
-                // style={props.style || undefined}
                 type={"text"}
                 value={props.value}
+                onKeyDown={onKeyDown}
                 onChange={props.onChange}
                 maxLength={props.maxLength || undefined}
                 placeholder={props.placeholder || undefined}

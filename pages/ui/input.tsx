@@ -50,7 +50,12 @@ const Input = () => {
         </>,
         <>
             <Typo type={"HEADER"} size={"h2"} color={"brown_base"} content={"SEARCH BAR"} />
-            <SearchBar placeholder={"검색어를 입력하세요"} form={"box"} {...search} />
+            <SearchBar
+                placeholder={"검색어를 입력하세요"}
+                form={"box"}
+                {...search}
+                onEnterKeyDown={() => alert("HO")}
+            />
         </>,
         <>
             <Typo type={"HEADER"} size={"h2"} color={"brown_base"} content={"SELECT"} />
