@@ -19,30 +19,21 @@ const BorderLinearProgress = withStyles((theme) => ({
 }))(LinearProgress);
 
 type Props = {
-    value: number;
-    setValue: React.Dispatch<React.SetStateAction<number>>;
+    progress: number;
 };
 
-const ProgressBar = ({ value, setValue }: Props) => {
-    React.useEffect(() => {
-        const timer = setInterval(() => {
-            setValue((prevProgress) => (prevProgress >= 100 ? 1 : prevProgress + 1));
-        }, 800);
-        return () => {
-            clearInterval(timer);
-        };
-    }, []);
+const ProgressBar = ({ progress }: Props) => {
     return (
         <div className={style.container}>
             <div className={style.percent_container}>
                 <Typo
                     type={"TEXT"}
                     size={"medium"}
-                    color={value > 50 ? "white" : "brown_base"}
-                    content={`${value.toString()}%`}
+                    color={progress > 50 ? "white" : "brown_base"}
+                    content={`${progress.toFixed(0)}%`}
                 />
             </div>
-            <BorderLinearProgress variant="determinate" value={value} />
+            <BorderLinearProgress variant="determinate" value={progress} />
         </div>
     );
 };
