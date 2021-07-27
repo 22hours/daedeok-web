@@ -8,15 +8,7 @@ const test = () => {
     const childItem = ["첫번째", "두번째", "세번째"];
     return (
         <>
-            <div>
-                <CollapseButton
-                    mainText={"Collapse"}
-                    childItem={childItem}
-                    toggle={false}
-                    size={"medium"}
-                    fontSize={"medium"}
-                ></CollapseButton>
-            </div>
+            <div></div>
         </>
     );
 };

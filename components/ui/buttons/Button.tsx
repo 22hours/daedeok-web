@@ -47,7 +47,7 @@ const Button = ({
             var btnType = "square";
             return (
                 <div
-                    className={`${styles[btnType]} ${styles[size]} ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
+                    className={`${styles[btnType]} ${styles[size]}  ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
                     onClick={onClickEvent}
                 >
                     <Typo type={"BUTTON"} size={fontSize} color={color} content={content} />
@@ -58,7 +58,7 @@ const Button = ({
             var btnType = "round";
             return (
                 <div
-                    className={`${styles[btnType]} ${styles[size]} ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
+                    className={`${styles[btnType]}  ${styles[size]} ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
                     onClick={onClickEvent}
                 >
                     <Typo type={"BUTTON"} size={fontSize} color={color} content={content} />
@@ -69,7 +69,7 @@ const Button = ({
             var btnType = "text";
             return (
                 <div
-                    className={`${styles[btnType]} ${styles[size]} ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
+                    className={`${styles[btnType]}  ${styles[size]} ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
                     onClick={onClickEvent}
                 >
                     <Typo type={"BUTTON"} size={fontSize} color={color} content={content} />

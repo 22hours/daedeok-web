@@ -1,61 +1,140 @@
 import React, { useState } from "react";
 import styles from "./CollapseButton.module.scss";
 import Button from "./Button";
-import Typo from "../Typo";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import { style } from "@material-ui/system";
+import Collapse from "@material-ui/core/Collapse";
 
 type Props = {
     mainText: string;
-    childItem: Array<string>;
-    toggle: boolean;
-    size: "small" | "medium" | "large" | "full";
-    fontSize: "huge" | "large" | "medium" | "small";
+    childButtonItem: Array<string>;
+    mainButtonSize: "small" | "medium" | "large" | "full";
+    mainFontSize: "huge" | "large" | "medium" | "small";
+    mainBackgroundColor:
+        | "brown_base"
+        | "brown_font"
+        | "mint_accent"
+        | "yellow_accent"
+        | "red_accent"
+        | "gray_accent"
+        | "light_accent"
+        | "white";
+    mainTextColor:
+        | "brown_base"
+        | "brown_font"
+        | "mint_accent"
+        | "yellow_accent"
+        | "red_accent"
+        | "gray_accent"
+        | "light_accent"
+        | "white";
+    childButtonSize: "small" | "medium" | "large" | "full";
+    childFontSize: "huge" | "large" | "medium" | "small";
+    childBackgroundColor:
+        | "brown_base"
+        | "brown_font"
+        | "mint_accent"
+        | "yellow_accent"
+        | "red_accent"
+        | "gray_accent"
+        | "light_accent"
+        | "white";
+    childTextColor:
+        | "brown_base"
+        | "brown_font"
+        | "mint_accent"
+        | "yellow_accent"
+        | "red_accent"
+        | "gray_accent"
+        | "light_accent"
+        | "white";
+    icon: boolean;
+    childButtonMargin: boolean;
+    onClickEvent: () => void;
 };
 
-const CollapseButton = ({ mainText, childItem, toggle, size, fontSize }: Props) => {
-    const [isOpen, setIsOpen] = useState<boolean>(toggle);
+const CollapseButton = ({
+    mainText,
+    childButtonItem,
+    mainButtonSize,
+    mainFontSize,
+    mainBackgroundColor,
+    mainTextColor,
+    childButtonSize,
+    childFontSize,
+    childBackgroundColor,
+    childTextColor,
+    icon,
+    childButtonMargin,
+    onClickEvent,
+}: Props) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const handleToggle = () => setIsOpen(!isOpen);
-    console.log(isOpen);
-    console.log(childItem);
+
     return (
         <>
             <Button
                 type={"TEXT"}
-                size={size}
-                fontSize={fontSize}
+                size={mainButtonSize}
+                fontSize={mainFontSize}
                 line={"inline"}
-                backgroundColor={"light_accent"}
-                color={"brown_font"}
+                backgroundColor={mainBackgroundColor}
+                color={mainTextColor}
                 content={mainText}
                 onClickEvent={handleToggle}
                 alignment={"between"}
             >
-                {isOpen ? (
-                    <ArrowDropDownIcon style={{ marginRight: "15px" }} />
+                {icon ? (
+                    <>
+                        {isOpen ? (
+                            <ArrowDropDownIcon style={{ marginRight: "15px" }} />
+                        ) : (
+                            <ArrowRightIcon style={{ marginRight: "15px" }} />
+                        )}
+                    </>
                 ) : (
-                    <ArrowRightIcon style={{ marginRight: "15px" }} />
+                    <></>
                 )}
             </Button>
-            <div className={`${styles[isOpen.toString()]}`}>
-                {childItem.map((it, idx) => (
-                    <div key={`list::${idx}`} style={{ marginTop: "30px" }}>
-                        <Button
-                            type={"SQUARE"}
-                            content={it}
-                            size={"small"}
-                            fontSize={"medium"}
-                            color={"brown_font"}
-                            backgroundColor={"white"}
-                            line={"inline"}
-                            onClickEvent={() => window.alert("toggle")}
-                            alignment={"left"}
-                        ></Button>
-                    </div>
-                ))}
-            </div>
-            <div>dsfd</div>
+            <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                <>
+                    {childButtonItem.map((it, idx) =>
+                        childButtonMargin ? (
+                            <div key={`CATEGORY_ITEM::${idx}`} style={{ marginTop: "15px" }}>
+                                <Button
+                                    type={"SQUARE"}
+                                    size={childButtonSize}
+                                    line={"inline"}
+                                    backgroundColor={childBackgroundColor}
+                                    fontSize={childFontSize}
+                                    content={it}
+                                    color={childTextColor}
+                                    alignment={"left"}
+                                    onClickEvent={onClickEvent}
+                                >
+                                    <></>
+                                </Button>
+                            </div>
+                        ) : (
+                            <div key={`CATEGORY_ITEM::${idx}`}>
+                                <Button
+                                    type={"SQUARE"}
+                                    size={childButtonSize}
+                                    line={"inline"}
+                                    backgroundColor={childBackgroundColor}
+                                    fontSize={childFontSize}
+                                    content={it}
+                                    color={childTextColor}
+                                    alignment={"left"}
+                                    onClickEvent={onClickEvent}
+                                >
+                                    <></>
+                                </Button>
+                            </div>
+                        )
+                    )}
+                </>
+            </Collapse>
         </>
     );
 };
