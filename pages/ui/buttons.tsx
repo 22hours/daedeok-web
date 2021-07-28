@@ -23,7 +23,6 @@ const Buttons = () => {
                     mainTextColor={"brown_font"}
                     childButtonSize={"small"}
                     childFontSize={"smaller"}
-                    childBackgroundColor={"brown_base"}
                     childTextColor={"white"}
                 />
                 <DropdownButton
@@ -35,7 +34,6 @@ const Buttons = () => {
                     mainTextColor={"brown_font"}
                     childButtonSize={"small"}
                     childFontSize={"smaller"}
-                    childBackgroundColor={"brown_base"}
                     childTextColor={"white"}
                 />
                 <DropdownButton
@@ -47,7 +45,6 @@ const Buttons = () => {
                     mainTextColor={"brown_font"}
                     childButtonSize={"small"}
                     childFontSize={"smaller"}
-                    childBackgroundColor={"brown_base"}
                     childTextColor={"white"}
                 />
                 <DropdownButton
@@ -59,7 +56,6 @@ const Buttons = () => {
                     mainTextColor={"brown_font"}
                     childButtonSize={"small"}
                     childFontSize={"smaller"}
-                    childBackgroundColor={"brown_base"}
                     childTextColor={"white"}
                 />
                 <DropdownButton
@@ -71,7 +67,6 @@ const Buttons = () => {
                     mainTextColor={"brown_font"}
                     childButtonSize={"small"}
                     childFontSize={"smaller"}
-                    childBackgroundColor={"brown_base"}
                     childTextColor={"white"}
                 />
             </div>
