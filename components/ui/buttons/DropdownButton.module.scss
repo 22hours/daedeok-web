@@ -1,0 +1,83 @@
+@import "styles/meta.scss";
+
+.container {
+    flex-grow: 1;
+}
+
+//SQUARE
+.square {
+    flex-grow: 1;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-left: 1px solid $gray_accent;
+    border-top: 1px solid $gray_accent;
+    border-bottom: 1px solid $gray_accent;
+}
+
+.child_square {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border: solid 1px $gray_accent;
+}
+
+.child_square_on {
+    background-color: $yellow_accent;
+}
+
+.child_square_off {
+    background-color: $brown_base;
+}
+
+.small {
+    height: 45px;
+}
+
+.medium {
+    height: 115px;
+}
+
+.large {
+    height: 190px;
+}
+
+.full {
+    height: 70px;
+    width: 100%;
+}
+
+.yellow_accent {
+    background-color: $yellow_accent;
+}
+.white {
+    background-color: white;
+}
+.mint_accent {
+    background-color: $mint_accent;
+}
+.gray_accent {
+    background-color: $gray_accent;
+}
+.brown_base {
+    background-color: $brown_base;
+}
+.brown_font {
+    background-color: $brown_font;
+}
+.light_accent {
+    background-color: $light_accent;
+}
+.red_accent {
+    background-color: $red_accent;
+}
