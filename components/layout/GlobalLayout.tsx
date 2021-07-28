@@ -8,6 +8,9 @@ import { useRouter } from "next/dist/client/router";
 // LAYOUTS
 import ClassLayout from "components/layout/ClassLayout";
 
+//ORGANIMS
+import Header from "components/organism/Header";
+
 // PAGE STROES
 import { ClassStoreProvider } from "store/ClassStore";
 import { AdminStoreProvider } from "store/AdminStore";
@@ -54,7 +57,15 @@ const GlobalLayout = ({ children, isBannerHide, isMenuHide }: Props) => {
                 <div className={style.head}>
                     <Image src={HeaderLogo} alt={HeaderLogo.src} />
                 </div>
-                {!isMenuHide && <div className={style.nav}></div>}
+                {!isMenuHide && (
+                    <div className={style.nav}>
+                        <div></div>
+                        <div className={style.nav_inner}>
+                            <Header />
+                        </div>
+                        <div></div>
+                    </div>
+                )}
             </div>
 
             {/* BANNER */}

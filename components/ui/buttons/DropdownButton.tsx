@@ -31,7 +31,6 @@ type Props = {
         | "white";
     childButtonSize: "small" | "medium" | "large" | "full";
     childFontSize: "huge" | "large" | "medium" | "small" | "smaller";
-
     childTextColor:
         | "brown_base"
         | "brown_font"
@@ -90,7 +89,7 @@ const DropdownButton = (props: Props) => {
                 <Typo type={"BUTTON"} size={mainFontSize} color={mainTextColor} content={mainText} />
                 {children}
             </div>
-            <>
+            <div className={styles.child_box}>
                 {isOpen && (
                     <>
                         {childButtonItem.map((it, idx) => (
@@ -98,7 +97,7 @@ const DropdownButton = (props: Props) => {
                         ))}
                     </>
                 )}
-            </>
+            </div>
         </div>
     );
 };

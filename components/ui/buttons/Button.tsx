@@ -5,7 +5,7 @@ type Props = {
     children?: JSX.Element | JSX.Element[];
     type: "SQUARE" | "ROUND" | "TEXT";
     size: "small" | "medium" | "large" | "full";
-    fontSize: "huge" | "large" | "medium" | "small";
+    fontSize: "huge" | "large" | "medium" | "small" | "smaller";
     line: "inline" | "outline";
     backgroundColor:
         | "brown_base"
@@ -27,7 +27,7 @@ type Props = {
         | "white";
     content: string;
     alignment: "center" | "left" | "right" | "between";
-    onClick: () => void;
+    onClick?: () => void;
 };
 
 const Button = ({
