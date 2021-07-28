@@ -44,15 +44,16 @@ $mobile_footer_height: 139px;
 }
 
 .header {
-    overflow: hidden;
     display: flex;
     flex-direction: column;
+
     .head {
         @include mobile {
             height: $mobile_header_height;
         }
         @include desktop {
             height: $pc_header_height;
+            border-bottom: 1px solid $gray_accent;
         }
         flex-grow: 1;
         display: flex;
@@ -68,12 +69,21 @@ $mobile_footer_height: 139px;
         }
     }
     .nav {
-        background-color: darkblue;
+        display: grid;
         @include mobile {
             height: $mobile_nav_height;
+            grid-template-columns: 0.2fr 7fr 0.2fr;
         }
         @include desktop {
             height: $pc_nav_height;
+            grid-template-columns: 0.8fr 7fr 0.8fr;
+        }
+
+        .nav_inner {
+            border-right: 1px solid $gray_accent;
+            height: 100%;
+            width: 100%;
+            position: relative;
         }
     }
 }
