@@ -27,6 +27,8 @@ const TypoPage = () => {
                 <Typo type={"BUTTON"} size={"medium"} color={"brown_font"} content={"대덕바이블아카데미 medium"} />
                 <br />
                 <Typo type={"BUTTON"} size={"small"} color={"brown_font"} content={"대덕바이블아카데미 small"} />
+                <br />
+                <Typo type={"BUTTON"} size={"smaller"} color={"brown_font"} content={"대덕바이블아카데미 small"} />
             </div>
             <div>
                 <div style={{ fontSize: "20px", fontFamily: "SCDream8", color: "#29b4aa", marginBottom: "-25px" }}>

@@ -2,7 +2,7 @@ import styles from "./Typo.module.scss";
 
 type Props = {
     type: "BUTTON" | "HEADER" | "TEXT";
-    size: "huge" | "large" | "medium" | "small" | "h1" | "h2" | "h3";
+    size: "huge" | "large" | "medium" | "small" | "smaller" | "h1" | "h2" | "h3";
     color:
         | "brown_base"
         | "brown_font"

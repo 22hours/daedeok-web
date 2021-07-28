@@ -2,7 +2,7 @@ import styles from "./Button.module.scss";
 import Typo from "../Typo";
 
 type Props = {
-    children: JSX.Element | JSX.Element[] | undefined;
+    children?: JSX.Element | JSX.Element[];
     type: "SQUARE" | "ROUND" | "TEXT";
     size: "small" | "medium" | "large" | "full";
     fontSize: "huge" | "large" | "medium" | "small";
@@ -27,7 +27,7 @@ type Props = {
         | "white";
     content: string;
     alignment: "center" | "left" | "right" | "between";
-    onClickEvent: () => void | "";
+    onClick: () => void;
 };
 
 const Button = ({
@@ -40,7 +40,7 @@ const Button = ({
     content,
     color,
     alignment,
-    onClickEvent,
+    onClick,
 }: Props) => {
     switch (type) {
         case "SQUARE":
@@ -48,7 +48,7 @@ const Button = ({
             return (
                 <div
                     className={`${styles[btnType]} ${styles[size]}  ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
-                    onClick={onClickEvent}
+                    onClick={onClick}
                 >
                     <Typo type={"BUTTON"} size={fontSize} color={color} content={content} />
                     {children}
@@ -59,7 +59,7 @@ const Button = ({
             return (
                 <div
                     className={`${styles[btnType]}  ${styles[size]} ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
-                    onClick={onClickEvent}
+                    onClick={onClick}
                 >
                     <Typo type={"BUTTON"} size={fontSize} color={color} content={content} />
                     {children}
@@ -70,7 +70,7 @@ const Button = ({
             return (
                 <div
                     className={`${styles[btnType]}  ${styles[size]} ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
-                    onClick={onClickEvent}
+                    onClick={onClick}
                 >
                     <Typo type={"BUTTON"} size={fontSize} color={color} content={content} />
                     {children}
