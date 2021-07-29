@@ -9,6 +9,10 @@ import FileInput from "@ui/input/FileInput";
 import useBoolean from "lib/hooks/useBoolean";
 import useFileInput from "lib/hooks/useFileInput";
 import Typo from "@ui/Typo";
+import { useEffect } from "react";
+
+import AxiosClient from "lib/api/api";
+
 type Props = {};
 
 const PreviewBox = ({ children }) => {
@@ -40,7 +44,6 @@ const Input = () => {
     const coll = useBoolean(false);
 
     const file = useFileInput();
-
     const RenderList = [
         <>
             <Typo type={"HEADER"} size={"h2"} color={"brown_base"} content={"INPUT FILE"} />

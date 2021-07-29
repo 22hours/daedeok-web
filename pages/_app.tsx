@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { AuthProvider } from "store/AuthStore";
 
 function MyApp({ Component, pageProps }) {
     useEffect(() => {
@@ -19,10 +20,11 @@ function MyApp({ Component, pageProps }) {
     const Layout = Component.Layout || ((page) => <GlobalLayout>{page}</GlobalLayout>);
     // return Layout(<Component {...pageProps} />);
 
+    console.log("APP RENDER");
     return (
         <>
             <CssBaseline />
-            {Layout(<Component {...pageProps} />)}
+            <AuthProvider>{Layout(<Component {...pageProps} />)}</AuthProvider>
         </>
     );
 }
