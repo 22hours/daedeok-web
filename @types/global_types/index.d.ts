@@ -2,7 +2,7 @@
 declare module "@global_types" {
     export namespace meta_types {
         type user = {
-            user_id: number;
+            user_id: string;
             name: string;
             role: "ROLE_MEMBER";
             duty: string;
