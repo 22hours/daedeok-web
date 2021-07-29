@@ -10,9 +10,11 @@ declare module "@api_config_type" {
         };
         type api_params = {
             method: "GET" | "POST" | "UPDATE" | "DELETE";
-            domain: "MAIN";
+            domain: "MAIN" | "MAIN_NOBASE";
             ep:
+                | "TEST"
                 | "REFRESH"
+                | "TEST2"
                 // USER
                 | "USER_LOGIN"
                 | "USER_CHECK"
