@@ -8,7 +8,7 @@ import useBoolean from "lib/hooks/useBoolean";
 type Props = {
     children?: JSX.Element | JSX.Element[];
     mainText: string;
-    childButtonItem: Array<{ text: string; url: string }>;
+    childButtonItem: Array<{ text: string; url: string; className?: string }>;
     mainButtonSize: "small" | "medium" | "large" | "full";
     mainFontSize: "huge" | "large" | "medium" | "small" | "smaller";
     mainBackgroundColor:
@@ -40,6 +40,7 @@ type Props = {
         | "gray_accent"
         | "light_accent"
         | "white";
+    className?: string;
 };
 
 const ChildButton = (props: {
@@ -48,6 +49,7 @@ const ChildButton = (props: {
     childButtonSize: Props["childButtonSize"];
     childFontSize: Props["childFontSize"];
     childTextColor: Props["childTextColor"];
+    className?: string;
 }) => {
     const isOn = useBoolean();
     const toggle = () => isOn.onChange(!isOn.value);
@@ -55,7 +57,7 @@ const ChildButton = (props: {
     return (
         <Link href={props.url}>
             <div
-                className={`${onOffStyle} ${styles.child_square} ${styles[props.childButtonSize]} `}
+                className={`${props.className} ${onOffStyle} ${styles.child_square} ${styles[props.childButtonSize]} `}
                 onMouseEnter={toggle}
                 onMouseLeave={toggle}
             >
@@ -71,8 +73,15 @@ const ChildButton = (props: {
 };
 
 const DropdownButton = (props: Props) => {
-    const { children, mainText, childButtonItem, mainButtonSize, mainFontSize, mainBackgroundColor, mainTextColor } =
-        props;
+    const {
+        children,
+        mainText,
+        childButtonItem,
+        mainButtonSize,
+        mainFontSize,
+        mainBackgroundColor,
+        mainTextColor,
+    } = props;
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -85,7 +94,11 @@ const DropdownButton = (props: Props) => {
 
     return (
         <div onMouseEnter={mainMouseOver} onMouseLeave={mainMoueOut} className={styles.container}>
-            <div className={`${styles.square} ${styles[mainButtonSize]} ${styles[mainBackgroundColor]}`}>
+            <div
+                className={`${props.className || ""} ${styles.square} ${styles[mainButtonSize]} ${
+                    styles[mainBackgroundColor]
+                }`}
+            >
                 <Typo type={"BUTTON"} size={mainFontSize} color={mainTextColor} content={mainText} />
                 {children}
             </div>
@@ -93,7 +106,7 @@ const DropdownButton = (props: Props) => {
                 {isOpen && (
                     <>
                         {childButtonItem.map((it, idx) => (
-                            <ChildButton key={`ChildItem::${idx}`} url={it.url} text={it.text} {...props} />
+                            <ChildButton key={`ChildItem::${idx}`} {...it} {...props} className={it.className} />
                         ))}
                     </>
                 )}

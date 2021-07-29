@@ -9,7 +9,7 @@ import { useRouter } from "next/dist/client/router";
 import ClassLayout from "components/layout/ClassLayout";
 
 //ORGANIMS
-import Header from "components/organism/Header";
+import Header from "components/organism/Header/Header";
 
 // PAGE STROES
 import { ClassStoreProvider } from "store/ClassStore";

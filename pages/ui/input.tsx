@@ -9,9 +9,6 @@ import FileInput from "@ui/input/FileInput";
 import useBoolean from "lib/hooks/useBoolean";
 import useFileInput from "lib/hooks/useFileInput";
 import Typo from "@ui/Typo";
-import { useEffect } from "react";
-
-import AxiosClient from "lib/api/api";
 
 type Props = {};
 

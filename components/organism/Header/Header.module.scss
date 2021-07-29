@@ -1,28 +1,18 @@
 @import "styles/meta.scss";
 
 .container {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-}
-
-.header_wrapper {
-    flex-grow: 1;
-}
-
-//SQUARE
-.square {
-    flex-grow: 1;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    border-left: 1px solid $gray_accent;
+    @include desktop {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+    }
+    @include mobile {
+        height: 100%;
+    }
 }
 
 .small {

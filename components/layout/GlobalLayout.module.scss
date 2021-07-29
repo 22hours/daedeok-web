@@ -53,7 +53,6 @@ $mobile_footer_height: 139px;
         }
         @include desktop {
             height: $pc_header_height;
-            border-bottom: 1px solid $gray_accent;
         }
         flex-grow: 1;
         display: flex;
@@ -69,10 +68,11 @@ $mobile_footer_height: 139px;
         }
     }
     .nav {
+        border-top: 1px solid #8c8c8b;
         display: grid;
         @include mobile {
             height: $mobile_nav_height;
-            grid-template-columns: 0.2fr 7fr 0.2fr;
+            grid-template-columns: 0fr 1fr 0fr;
         }
         @include desktop {
             height: $pc_nav_height;
@@ -80,7 +80,9 @@ $mobile_footer_height: 139px;
         }
 
         .nav_inner {
-            border-right: 1px solid $gray_accent;
+            @include desktop {
+                border-right: 1px solid $gray_accent;
+            }
             height: 100%;
             width: 100%;
             position: relative;

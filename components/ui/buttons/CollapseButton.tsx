@@ -7,7 +7,6 @@ import Collapse from "@material-ui/core/Collapse";
 
 type Props = {
     mainText: string;
-    childButtonItem: Array<string>;
     mainButtonSize: "small" | "medium" | "large" | "full";
     mainFontSize: "huge" | "large" | "medium" | "small";
     mainBackgroundColor:
@@ -18,6 +17,7 @@ type Props = {
         | "red_accent"
         | "gray_accent"
         | "light_accent"
+        | "transparent"
         | "white";
     mainTextColor:
         | "brown_base"
@@ -28,46 +28,25 @@ type Props = {
         | "gray_accent"
         | "light_accent"
         | "white";
-    childButtonSize: "small" | "medium" | "large" | "full";
-    childFontSize: "huge" | "large" | "medium" | "small";
-    childBackgroundColor:
-        | "brown_base"
-        | "brown_font"
-        | "mint_accent"
-        | "yellow_accent"
-        | "red_accent"
-        | "gray_accent"
-        | "light_accent"
-        | "white";
-    childTextColor:
-        | "brown_base"
-        | "brown_font"
-        | "mint_accent"
-        | "yellow_accent"
-        | "red_accent"
-        | "gray_accent"
-        | "light_accent"
-        | "white";
+
     icon: boolean;
-    childButtonMargin: boolean;
-    onClick: () => void;
+    children: JSX.Element;
+    buttonClassName?: string;
+    childClassName?: string;
 };
 
-const CollapseButton = ({
-    mainText,
-    childButtonItem,
-    mainButtonSize,
-    mainFontSize,
-    mainBackgroundColor,
-    mainTextColor,
-    childButtonSize,
-    childFontSize,
-    childBackgroundColor,
-    childTextColor,
-    icon,
-    childButtonMargin,
-    onClick,
-}: Props) => {
+const CollapseButton = (props: Props) => {
+    const {
+        mainText,
+        mainButtonSize,
+        mainFontSize,
+        mainBackgroundColor,
+        mainTextColor,
+        children,
+        icon,
+        buttonClassName,
+        childClassName,
+    } = props;
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const handleToggle = () => setIsOpen(!isOpen);
 
@@ -83,6 +62,7 @@ const CollapseButton = ({
                 content={mainText}
                 onClick={handleToggle}
                 alignment={"between"}
+                className={buttonClassName || ""}
             >
                 {icon ? (
                     <>
@@ -96,40 +76,8 @@ const CollapseButton = ({
                     <></>
                 )}
             </Button>
-            <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                <>
-                    {childButtonItem.map((it, idx) =>
-                        childButtonMargin ? (
-                            <div key={`CATEGORY_ITEM::${idx}`} style={{ marginTop: "15px" }}>
-                                <Button
-                                    type={"SQUARE"}
-                                    size={childButtonSize}
-                                    line={"inline"}
-                                    backgroundColor={childBackgroundColor}
-                                    fontSize={childFontSize}
-                                    content={it}
-                                    color={childTextColor}
-                                    alignment={"left"}
-                                    onClick={onClick}
-                                ></Button>
-                            </div>
-                        ) : (
-                            <div key={`CATEGORY_ITEM::${idx}`}>
-                                <Button
-                                    type={"SQUARE"}
-                                    size={childButtonSize}
-                                    line={"inline"}
-                                    backgroundColor={childBackgroundColor}
-                                    fontSize={childFontSize}
-                                    content={it}
-                                    color={childTextColor}
-                                    alignment={"left"}
-                                    onClick={onClick}
-                                ></Button>
-                            </div>
-                        )
-                    )}
-                </>
+            <Collapse className={childClassName || ""} in={isOpen} timeout="auto" unmountOnExit>
+                <>{children}</>
             </Collapse>
         </>
     );

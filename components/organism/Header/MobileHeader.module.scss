@@ -1,0 +1,72 @@
+// MobileHeader.module
+@import "styles/meta.scss";
+.container {
+    @include desktop {
+        visibility: hidden;
+    }
+    @include mobile {
+        visibility: visible;
+    }
+    cursor: pointer;
+    background-color: $gray_accent;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    height: 100%;
+
+    .square {
+        background-color: white;
+        height: 100%;
+        flex-grow: 1;
+        text-align: center;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.drawer_container {
+    background-color: #616164;
+    height: 100%;
+    padding-top: 30px;
+
+    .section_img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        img {
+            width: 120px;
+        }
+    }
+
+    .scetion_grid_container {
+        background: white;
+        display: grid;
+        padding-top: 1px;
+        gap: 0px;
+
+        .scetion_collapse {
+            background-color: #616164;
+            svg {
+                color: white;
+            }
+        }
+
+        .scetion_collapse > div {
+            width: 65vw;
+            border: 0px;
+            border-bottom: 1px solid white;
+        }
+    }
+
+    .collapse_inner_button {
+        cursor: pointer;
+        padding-left: 10%;
+    }
+}
+
+.parent_on {
+    background: $yellow_accent !important;
+}
