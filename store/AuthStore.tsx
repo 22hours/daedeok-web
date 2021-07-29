@@ -73,7 +73,8 @@ export const AuthProvider = ({ children }) => {
         if (res_data.result === "SUCCESS") {
             return res_data.data.access_token;
         } else {
-            return "new_token";
+            alert("다시 로그인하십시오");
+            logout();
         }
     };
 
@@ -87,7 +88,7 @@ export const AuthProvider = ({ children }) => {
         var extraHeader = {};
         if (auth) {
             extraHeader = {
-                Authorization: `${StorageController.getTokenInStorage()?.access_token}`,
+                Authorization: `Bearer ${StorageController.getTokenInStorage()?.access_token}`,
             };
         }
         const res_data = await apiClient.API_CALL(method, domain, ep, url_query, data, extraHeader);

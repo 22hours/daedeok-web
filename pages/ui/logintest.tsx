@@ -18,6 +18,32 @@ const LoginTestComponent = () => {
         }
     };
 
+    const TestLoginCall = async () => {
+        const res = await clientSideApi("POST", "MAIN", "TEST", undefined, undefined);
+        if (res.result === "SUCCESS") {
+            const data = res.data;
+            login({
+                user_id: data.user_id,
+                name: data.name,
+                role: data.role,
+                duty: data.duty,
+                lecture_num: data.lecture_num,
+                access_token: data.access_token,
+                refresh_token: data.refresh_token,
+            });
+        } else {
+        }
+    };
+
+    const TestApiCall = async () => {
+        const res = await clientSideApi("POST", "MAIN", "TEST2", undefined, {});
+        if (res.result === "SUCCESS") {
+            console.log(res);
+        } else {
+            console.log(res);
+        }
+    };
+
     useEffect(() => {
         if (auth) {
             // CallClientSideApi();
@@ -73,13 +99,16 @@ const LoginTestComponent = () => {
                 </button>
             )}
 
-            <button
+            {/* <button
                 onClick={() => {
                     CallClientSideApi();
                 }}
             >
                 API CALL
-            </button>
+            </button> */}
+
+            <button onClick={() => TestLoginCall()}>LOGIN</button>
+            <button onClick={() => TestApiCall()}>CALL TEST</button>
         </>
     );
 };
@@ -94,7 +123,7 @@ const logintest = () => {
 };
 
 export async function getServerSideProps(ctx) {
-    AxiosClient.serverSideApi("GET", "MAIN", "TOTAL_NOTICE_FIND", "test_query", { params: 1 });
+    // AxiosClient.serverSideApi("GET", "MAIN", "TOTAL_NOTICE_FIND", "test_query", { params: 1 });
     return {
         props: {
             ...ctx.query.status,

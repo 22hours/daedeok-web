@@ -6,8 +6,12 @@ type api_params = api_config_type.api_params;
 
 export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["url_query"]) => {
     switch (ep) {
+        case "TEST":
+            return "user/test";
+        case "TEST2":
+            return "user/auth";
         case "REFRESH":
-            return "refresh";
+            return "user/reissue";
         // USER
         case `USER_LOGIN`:
             return `user/`;
