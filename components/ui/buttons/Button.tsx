@@ -15,6 +15,7 @@ type Props = {
         | "red_accent"
         | "gray_accent"
         | "light_accent"
+        | "transparent"
         | "white";
     color:
         | "brown_base"
@@ -27,27 +28,20 @@ type Props = {
         | "white";
     content: string;
     alignment: "center" | "left" | "right" | "between";
-    onClick?: () => void;
+    onClick?: any;
+    className?: string;
 };
 
-const Button = ({
-    children,
-    type,
-    size,
-    line,
-    backgroundColor,
-    fontSize,
-    content,
-    color,
-    alignment,
-    onClick,
-}: Props) => {
+const Button = (props: Props) => {
+    const { children, type, size, line, backgroundColor, fontSize, content, color, alignment, onClick } = props;
     switch (type) {
         case "SQUARE":
             var btnType = "square";
             return (
                 <div
-                    className={`${styles[btnType]} ${styles[size]}  ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
+                    className={`${props.className || ""} ${styles[btnType]} ${styles[size]}  ${styles[line]} ${
+                        styles[backgroundColor]
+                    } ${styles[alignment]}`}
                     onClick={onClick}
                 >
                     <Typo type={"BUTTON"} size={fontSize} color={color} content={content} />
@@ -58,7 +52,9 @@ const Button = ({
             var btnType = "round";
             return (
                 <div
-                    className={`${styles[btnType]}  ${styles[size]} ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
+                    className={`${props.className || ""}  ${styles[btnType]}  ${styles[size]} ${styles[line]} ${
+                        styles[backgroundColor]
+                    } ${styles[alignment]}`}
                     onClick={onClick}
                 >
                     <Typo type={"BUTTON"} size={fontSize} color={color} content={content} />
@@ -69,7 +65,9 @@ const Button = ({
             var btnType = "text";
             return (
                 <div
-                    className={`${styles[btnType]}  ${styles[size]} ${styles[line]} ${styles[backgroundColor]} ${styles[alignment]}`}
+                    className={`${props.className || ""}  ${styles[btnType]}  ${styles[size]} ${styles[line]} ${
+                        styles[backgroundColor]
+                    } ${styles[alignment]}`}
                     onClick={onClick}
                 >
                     <Typo type={"BUTTON"} size={fontSize} color={color} content={content} />
