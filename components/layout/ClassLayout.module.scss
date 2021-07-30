@@ -12,12 +12,19 @@
 }
 .aside {
     @include mobile {
-        width: 100vw;
+        background-color: white;
+        border-bottom: 1px solid $brown_base;
+        display: grid;
+        grid-template-columns: 0.2fr 7fr 0.2fr;
+        position: absolute;
+        left: 0px;
+        right: 0px;
     }
 }
 .article {
     background-color: white;
     @include mobile {
+        padding-top: 50px;
         display: grid;
         grid-template-columns: 0fr 10fr 0fr;
     }

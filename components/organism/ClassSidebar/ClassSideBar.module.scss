@@ -1,1 +1,35 @@
 @import "styles/meta.scss";
+.common_container {
+    padding: 20px;
+    height: 100%;
+    background-color: $light_accent;
+    section {
+        margin-bottom: 25px;
+    }
+}
+
+.section_user {
+    background-color: white;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 8px;
+    padding-right: 8px;
+    .user {
+        font-weight: bolder;
+    }
+    .wellcome {
+        margin-bottom: 2px;
+    }
+    .head {
+        display: flex;
+        align-items: flex-end;
+    }
+    .bottom {
+        margin-top: 12px;
+    }
+}
+
+.section_menulist {
+    .collapse_inner_button {
+    }
+}

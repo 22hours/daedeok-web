@@ -8,7 +8,7 @@ import Button from "@ui/buttons/Button";
 import { useRouter } from "next/dist/client/router";
 import { RouteController } from "lib/RouteController";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 type Props = {};
 
@@ -55,7 +55,7 @@ const DrawerInner = () => {
                                 <div className={style.scetion_collapse}>
                                     <CollapseButton
                                         mainText={fisrtItem.name}
-                                        mainButtonSize={"small"}
+                                        mainButtonSize={"medium"}
                                         mainFontSize={"small"}
                                         mainTextColor={"white"}
                                         mainBackgroundColor={"transparent"}
@@ -87,7 +87,7 @@ const DrawerInner = () => {
                                     <div className={`${style.scetion_collapse}`}>
                                         <Button
                                             type={"SQUARE"}
-                                            size={"small"}
+                                            size={"medium"}
                                             fontSize={"small"}
                                             backgroundColor={"transparent"}
                                             color={"white"}
@@ -108,24 +108,11 @@ const DrawerInner = () => {
 };
 
 const MobileHeader = () => {
-    const router = useRouter();
     const BoxItemList = ["아카데미 소개", "강의 카테고리", "개설된 강의 안내"];
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const toggleDrawer = () => {
         setIsOpen(!isOpen);
     };
-
-    const isFirstRun = useRef(true);
-    useEffect(() => {
-        if (isFirstRun.current) {
-            isFirstRun.current = false;
-            return;
-        }
-
-        if (isOpen) {
-            toggleDrawer();
-        }
-    }, [router.asPath]);
 
     return (
         <Drawer

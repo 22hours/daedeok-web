@@ -26,7 +26,7 @@ type HeaderProps = {
 
 type TextProps = {
     type: "TEXT";
-    size: "huge" | "large" | "medium" | "small" | "smaller";
+    size: "huge" | "large" | "medium" | "normal" | "small" | "smaller";
 };
 
 type Props = (CommonProps & ButtonProps) | (CommonProps & HeaderProps) | (CommonProps & TextProps);

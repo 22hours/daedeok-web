@@ -27,6 +27,7 @@
 .h3_header {
     @include font_h3_header;
 }
+
 //TEXT
 .large_text {
     @include font_large_text;
@@ -34,9 +35,16 @@
 .medium_text {
     @include font_medium_text;
 }
+.normal_text {
+    @include font_normal_text;
+}
 .small_text {
     @include font_small_text;
 }
+.smaller_text {
+    @include font_smaller_text;
+}
+
 .yellow_accent {
     @include color_yellow_accent;
 }
