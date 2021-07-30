@@ -48,7 +48,9 @@ const CollapseButton = (props: Props) => {
         childClassName,
     } = props;
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const handleToggle = () => setIsOpen(!isOpen);
+    const handleToggle = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
         <>
