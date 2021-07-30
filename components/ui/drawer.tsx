@@ -2,19 +2,16 @@ import React, { useState, cloneElement } from "react";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 
 type Props = {
+    isOpen: boolean;
+    toggleDrawer: () => void;
     drawerButtonChildren: JSX.Element;
     drawerInnerChildren: JSX.Element;
     drawerAnchor: "left" | "right" | "top" | "bottom";
 };
 const Drawer = (props: Props) => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const toggleDrawer = () => {
-        setIsOpen(!isOpen);
-    };
-
     const DrawerButton = (LocalProps) =>
         cloneElement(props.drawerButtonChildren, {
-            onClick: () => toggleDrawer(),
+            onClick: () => props.toggleDrawer(),
             ...LocalProps,
         });
 
@@ -23,7 +20,12 @@ const Drawer = (props: Props) => {
     return (
         <>
             <DrawerButton />
-            <SwipeableDrawer anchor={props.drawerAnchor} open={isOpen} onClose={toggleDrawer} onOpen={toggleDrawer}>
+            <SwipeableDrawer
+                anchor={props.drawerAnchor}
+                open={props.isOpen}
+                onClose={props.toggleDrawer}
+                onOpen={props.toggleDrawer}
+            >
                 <DrawerInner />
             </SwipeableDrawer>
         </>

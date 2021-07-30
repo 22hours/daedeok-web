@@ -22,13 +22,7 @@ const reducer = (state: State, action: Action): State => {
 
 export const ClassStoreProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, {});
-    useEffect(() => {
-        console.log("CLASS STORE MOUNT");
-    }, []);
 
-    useEffect(() => {
-        console.log("CLASS STORE RERENDER");
-    });
     return (
         <ClassStoreContext.Provider value={state}>
             <ClassStoreDispatchContext.Provider value={dispatch}>{children}</ClassStoreDispatchContext.Provider>
