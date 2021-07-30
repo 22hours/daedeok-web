@@ -1,9 +1,10 @@
 import Button from "@ui/buttons/Button";
 import Collapse from "@ui/buttons/CollapseButton";
 import Typo from "@ui/Typo";
-import style from "./Sidebar.module.scss";
+import style from "./PcSideBar.module.scss";
+type Props = {};
 
-const Sidebar = () => {
+const PcSideBar = () => {
     return (
         <div className={style.container}>
             <div className={style.user_info}>
@@ -22,4 +23,5 @@ const Sidebar = () => {
         </div>
     );
 };
-export default Sidebar;
+
+export default PcSideBar;

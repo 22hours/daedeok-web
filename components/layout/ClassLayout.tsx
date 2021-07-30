@@ -1,6 +1,6 @@
 import style from "./ClassLayout.module.scss";
 import GlobalLayout from "components/layout/GlobalLayout";
-import Sidebar from "components/organism/Sidebar/Sidebar";
+import ClassSidebar from "components/organism/ClassSidebar/ClassSideBar";
 
 type Props = {};
 
@@ -8,7 +8,7 @@ const ClassLayout = ({ children }) => {
     return (
         <div className={style.container}>
             <div className={style.aside}>
-                <Sidebar></Sidebar>
+                <ClassSidebar />
             </div>
             <div className={style.article}>
                 <div></div>

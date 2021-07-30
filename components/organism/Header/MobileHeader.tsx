@@ -56,7 +56,7 @@ const DrawerInner = () => {
                                     <CollapseButton
                                         mainText={fisrtItem.name}
                                         mainButtonSize={"small"}
-                                        mainFontSize={"medium"}
+                                        mainFontSize={"small"}
                                         mainTextColor={"white"}
                                         mainBackgroundColor={"transparent"}
                                         icon={true}
@@ -88,7 +88,7 @@ const DrawerInner = () => {
                                         <Button
                                             type={"SQUARE"}
                                             size={"small"}
-                                            fontSize={"medium"}
+                                            fontSize={"small"}
                                             backgroundColor={"transparent"}
                                             color={"white"}
                                             line={"inline"}

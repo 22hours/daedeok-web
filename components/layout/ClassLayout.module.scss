@@ -12,12 +12,8 @@
 }
 .aside {
     @include mobile {
-        visibility: hidden;
+        width: 100vw;
     }
-    @include desktop {
-        visibility: visible;
-    }
-    background-color: $light_accent;
 }
 .article {
     background-color: white;

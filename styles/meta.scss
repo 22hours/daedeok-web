@@ -12,6 +12,7 @@ $breakpoint-mobile: 450px;
 $breakpoint-tablet: 800px;
 $breakpoint-desktop: 451px;
 
+$mobile_font_resize_size: 5px;
 @mixin mobile {
     @media (max-width: #{$breakpoint-mobile - 1px}) {
         @content;
@@ -33,7 +34,7 @@ $breakpoint-desktop: 451px;
         font-size: $size;
     }
     @include mobile {
-        font-size: $size -5px;
+        font-size: $size - $mobile_font_resize_size;
     }
 }
 
@@ -46,7 +47,7 @@ $breakpoint-desktop: 451px;
         font-size: $size;
     }
     @include mobile {
-        font-size: $size -5px;
+        font-size: $size - $mobile_font_resize_size;
     }
 }
 @mixin font_button_medium {
@@ -58,7 +59,7 @@ $breakpoint-desktop: 451px;
         font-size: $size;
     }
     @include mobile {
-        font-size: $size -5px;
+        font-size: $size - $mobile_font_resize_size;
     }
 }
 @mixin font_button_small {
@@ -69,7 +70,7 @@ $breakpoint-desktop: 451px;
         font-size: $size;
     }
     @include mobile {
-        font-size: $size -5px;
+        font-size: $size - $mobile_font_resize_size;
     }
 }
 @mixin font_button_smaller {
@@ -80,7 +81,7 @@ $breakpoint-desktop: 451px;
         font-size: $size;
     }
     @include mobile {
-        font-size: $size - 5px;
+        font-size: $size - $mobile_font_resize_size;
     }
 }
 
@@ -94,7 +95,7 @@ $breakpoint-desktop: 451px;
         font-size: $size;
     }
     @include mobile {
-        font-size: $size - 5px;
+        font-size: $size - $mobile_font_resize_size;
     }
 }
 @mixin font_h2_header {
@@ -105,7 +106,7 @@ $breakpoint-desktop: 451px;
         font-size: $size;
     }
     @include mobile {
-        font-size: $size - 5px;
+        font-size: $size - $mobile_font_resize_size;
     }
 }
 @mixin font_h3_header {
@@ -116,7 +117,7 @@ $breakpoint-desktop: 451px;
         font-size: $size;
     }
     @include mobile {
-        font-size: $size - 5px;
+        font-size: $size - $mobile_font_resize_size;
     }
 }
 
@@ -129,7 +130,7 @@ $breakpoint-desktop: 451px;
         font-size: $size;
     }
     @include mobile {
-        font-size: $size - 5px;
+        font-size: $size - $mobile_font_resize_size;
     }
 }
 @mixin font_medium_text {
@@ -140,7 +141,7 @@ $breakpoint-desktop: 451px;
         font-size: $size;
     }
     @include mobile {
-        font-size: $size - 5px;
+        font-size: $size - $mobile_font_resize_size;
     }
 }
 @mixin font_small_text {
@@ -151,7 +152,7 @@ $breakpoint-desktop: 451px;
         font-size: $size;
     }
     @include mobile {
-        font-size: $size - 5px;
+        font-size: $size - $mobile_font_resize_size;
     }
 }
 
