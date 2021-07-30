@@ -7,9 +7,15 @@ import { useRouter } from "next/dist/client/router";
 
 type Props = {};
 
+const isInPath = (nowPath, buttonPath) => {
+    const nowPathInDouble = nowPath.split("/").slice(0, 3).join("/");
+    return nowPathInDouble === buttonPath;
+};
+
 const PcHeader = () => {
     const router = useRouter();
     const nowPathName = router.pathname;
+    const nowAsPath = router.asPath;
 
     return (
         <div className={style.container}>
@@ -21,9 +27,12 @@ const PcHeader = () => {
                     if (fisrtItem.isDropdown) {
                         const curDropdownItem = Object.keys(fisrtItem.childPage).map((second_key) => {
                             const secondItem = fisrtItem.childPage[second_key];
+                            const url = secondItem.isDynamic ? secondItem.as() : secondItem.pathname;
+                            const isOn = isInPath(nowAsPath, url);
                             return {
                                 text: secondItem.name,
-                                url: secondItem.pathname,
+                                url: url,
+                                className: isOn ? style.child_on : undefined,
                             };
                         });
                         return (

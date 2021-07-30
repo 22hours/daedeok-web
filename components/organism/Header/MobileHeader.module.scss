@@ -64,9 +64,19 @@
     .collapse_inner_button {
         cursor: pointer;
         padding-left: 10%;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        p {
+            margin: 0;
+        }
     }
 }
 
 .parent_on {
+    background: $yellow_accent !important;
+}
+
+.child_on {
     background: $yellow_accent !important;
 }

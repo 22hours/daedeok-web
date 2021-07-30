@@ -8,15 +8,28 @@ import Button from "@ui/buttons/Button";
 import { useRouter } from "next/dist/client/router";
 import { RouteController } from "lib/RouteController";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type Props = {};
 
-const DrawerInnerCollapseButton = (props: { name: string; pathname: string; isDynamic?: boolean; as?: any }) => {
+const isInPath = (nowPath, buttonPath) => {
+    const nowPathInDouble = nowPath.split("/").slice(0, 3).join("/");
+    return nowPathInDouble === buttonPath;
+};
+
+const DrawerInnerCollapseButton = (props: {
+    name: string;
+    pathname: string;
+    isDynamic?: boolean;
+    as?: any;
+    isOn?: boolean;
+}) => {
+    const isOnStyle = props.isOn ? style.child_on : "";
     return (
         //@ts-ignore
         <Link href={props.isDynamic ? props.as() : props.pathname}>
-            <div className={`${style.collapse_inner_button}`}>
-                <Typo type={"TEXT"} size={"medium"} color={"white"} content={props.name} />
+            <div className={`${isOnStyle} ${style.collapse_inner_button}`}>
+                <Typo type={"TEXT"} size={"small"} color={"white"} content={props.name} />
             </div>
         </Link>
     );
@@ -52,11 +65,15 @@ const DrawerInner = () => {
                                         <>
                                             {Object.keys(fisrtItem.childPage).map((second_key, idx) => {
                                                 const secondItem = fisrtItem.childPage[second_key];
-
+                                                const url = secondItem.isDynamic
+                                                    ? secondItem.as()
+                                                    : secondItem.pathname;
+                                                const isOn = isInPath(nowAsPath, url);
                                                 return (
                                                     <DrawerInnerCollapseButton
                                                         key={`mobile_drawer_item::${idx}`}
                                                         {...secondItem}
+                                                        isOn={isOn}
                                                     />
                                                 );
                                             })}
@@ -91,9 +108,19 @@ const DrawerInner = () => {
 };
 
 const MobileHeader = () => {
+    const router = useRouter();
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const toggleDrawer = () => setIsOpen(!isOpen);
     const BoxItemList = ["아카데미 소개", "강의 카테고리", "개설된 강의 안내"];
+
+    useEffect(() => {
+        toggleDrawer();
+    }, [router.asPath]);
+
     return (
         <Drawer
+            isOpen={isOpen}
+            toggleDrawer={toggleDrawer}
             drawerAnchor={"left"}
             drawerButtonChildren={
                 <div className={style.container}>
