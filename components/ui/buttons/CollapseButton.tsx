@@ -55,7 +55,7 @@ const CollapseButton = (props: Props) => {
     return (
         <>
             <Button
-                type={"TEXT"}
+                type={"UNDERLINE"}
                 size={mainButtonSize}
                 fontSize={mainFontSize}
                 line={"inline"}
