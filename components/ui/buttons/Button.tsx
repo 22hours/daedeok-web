@@ -4,7 +4,7 @@ import Typo from "../Typo";
 type Props = {
     children?: JSX.Element | JSX.Element[];
     type: "SQUARE" | "ROUND" | "TEXT";
-    size: "small" | "medium" | "large" | "full";
+    size: "free" | "smaller" | "small" | "medium" | "large" | "full";
     fontSize: "huge" | "large" | "medium" | "small" | "smaller";
     line: "inline" | "outline";
     backgroundColor:

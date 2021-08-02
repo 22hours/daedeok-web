@@ -1,0 +1,10 @@
+// Icon.module
+@import "styles/meta.scss";
+
+.delete {
+    font-size: 15px;
+    svg {
+        color: white;
+        background-color: gray;
+    }
+}

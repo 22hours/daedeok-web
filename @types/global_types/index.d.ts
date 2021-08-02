@@ -24,8 +24,30 @@ declare module "@global_types" {
             create_date: string;
             view: numbe;
         };
+        type classType = "ONLINE" | "ZOOM" | "OFFLINE";
     }
     export namespace req_types {
+        type classCommonItem = {
+            type: meta_types.classType;
+            week: number;
+            title: string;
+            tutor: string;
+            location: string;
+            date: string;
+            time: string;
+        };
+        type classOnlineType = {
+            video_link: string;
+            introduce: string;
+        };
+        type classZoomType = {
+            zoom_link: string;
+        };
+        type classPlanListItem =
+            | classCommonItem
+            | (classCommonItem & classOnlineType)
+            | (classCommonItem & classZoomType);
+        type classHandoutItem = { name: string; url: string };
         //(목사) 강의 개설
         type classNewItem = {
             title: string;
@@ -34,17 +56,8 @@ declare module "@global_types" {
             division_list: Array<{ first_division: string; second_division: string }>;
             student_limit: number;
             reference: string;
-            handout_list: Array<{ name: string; url: string }>;
-            plan_list: Array<{
-                week: number;
-                title: string;
-                location: string;
-                type: string;
-                link: string;
-                tutor: string;
-                introduce: string;
-                date: { date: string; time: string };
-            }>;
+            handout_list: Array<classHandoutItem>;
+            plan_list: Array<classPlanListItem>;
         };
         //(공통) 강의 게시글 생성
         type classNewBoardItem = {

@@ -12,24 +12,8 @@ const initState: State = {
     division_list: [],
     student_limit: 0,
     reference: "",
-    handout_list: [
-        {
-            name: "",
-            url: "",
-        },
-    ],
-    plan_list: [
-        {
-            week: 1,
-            title: "",
-            location: "",
-            type: "",
-            link: "",
-            introduce: "",
-            tutor: "",
-            date: { date: "", time: "" },
-        },
-    ],
+    handout_list: [],
+    plan_list: [],
 };
 
 // ACTION TYPES
@@ -44,16 +28,19 @@ type Action =
     | { type: "SET_LIMIT"; data: State["student_limit"] }
     | { type: "SET_REFERENCE"; data: State["reference"] }
     | { type: "SET_PLAN_WEEK"; data: State["plan_list"] }
+    | { type: "ADD_HANDOUT_FILE"; data: req_types.classHandoutItem }
+    | { type: "REMOVE_HANDOUT_FILE"; data: number }
     | { type: "SET_FILE"; data: State["handout_list"] }
     | { type: "SET_STATE"; data: State }
-    | { type: "ADD_PLAN"; data: string }
+    | { type: "ADD_PLAN"; data: meta_types.classType }
     | { type: "REMOVE_PLAN"; data: number }
     | { type: "SET_PLAN_WEEK"; data: { idx: number; week: number } }
     | { type: "SET_PLAN_TITLE"; data: { idx: number; title: string } }
     | { type: "SET_PLAN_TUTOR"; data: { idx: number; tutor: string } }
     | { type: "SET_PLAN_LOCATION"; data: { idx: number; location: string } }
-    | { type: "SET_PLAN_INTRO"; data: { idx: number; intro: string } }
-    | { type: "SET_PLAN_LINK"; data: { idx: number; link: string } }
+    | { type: "SET_PLAN_INTRO"; data: { idx: number; introduce: string } }
+    | { type: "SET_PLAN_VIDEO_LINK"; data: { idx: number; video_link: string } }
+    | { type: "SET_PLAN_ZOOM_LINK"; data: { idx: number; zoom_link: string } }
     | { type: "SET_PLAN_DATE"; data: { idx: number; date: string } }
     | { type: "SET_PLAN_TIME"; data: { idx: number; time: string } };
 
@@ -85,49 +72,26 @@ const reducer = (state: State, action: Action): State => {
                 category: action.data,
             };
         }
-        // case "SET_FIRST_DIVISION": {
-        //     var new_division_list = state.division_list.slice();
-        //     //@ts-ignore
-        //     var { idx, first_division } = action.data;
-        //     console.log(first_division);
-        //     new_division_list[idx] = {
-        //         ...new_division_list[idx],
-        //         //@ts-ignore
-        //         first_division: first_division,
-        //     };
-        //     return {
-        //         ...state, //@ts-ignore
-        //         division_list: new_division_list,
-        //     };
-        // }
-        // case "SET_SECOND_DIVISION": {
-        //     var new_division_list = state.division_list.slice();
-        //     //@ts-ignore
-        //     var { idx, second_division } = action.data;
-        //     console.log(second_division);
-        //     new_division_list[idx] = {
-        //         ...new_division_list[idx],
-        //         //@ts-ignore
-        //         second_division: second_division,
-        //     };
-        //     return {
-        //         ...state, //@ts-ignore
-        //         division_list: new_division_list,
-        //     };
-        // }
-
+        // DIVISION
         case "ADD_DIVISION_LIST": {
-            var new_division_list = state.division_list.slice();
-            //@ts-ignore
             var { first_division, second_division } = action.data;
-            new_division_list.push({
-                first_division: first_division,
-                second_division: second_division,
-            });
-            return {
-                ...state,
-                division_list: new_division_list,
-            };
+            if (
+                state.division_list.findIndex(
+                    (it) => it.first_division === first_division && it.second_division === second_division
+                ) === -1
+            ) {
+                var new_division_list = state.division_list.slice();
+                new_division_list.push({
+                    first_division: first_division,
+                    second_division: second_division,
+                });
+                return {
+                    ...state,
+                    division_list: new_division_list,
+                };
+            } else {
+                return state;
+            }
         }
 
         case "REMOVE_DIVISION_LIST": {
@@ -151,12 +115,24 @@ const reducer = (state: State, action: Action): State => {
                 reference: action.data,
             };
         }
-        case "SET_FILE": {
+        case "ADD_HANDOUT_FILE": {
+            var new_handout_list = state.handout_list.slice();
+            new_handout_list.push(action.data);
             return {
                 ...state,
-                handout_list: action.data,
+                handout_list: new_handout_list,
             };
         }
+        case "REMOVE_HANDOUT_FILE": {
+            var new_handout_list = state.handout_list.slice();
+            const targetIdx: number = action.data;
+            new_handout_list.splice(targetIdx, 1);
+            return {
+                ...state,
+                handout_list: new_handout_list,
+            };
+        }
+
         case "SET_PLAN_WEEK": {
             var new_plan_list = state.plan_list.slice();
             //@ts-ignore
@@ -215,23 +191,36 @@ const reducer = (state: State, action: Action): State => {
         case "SET_PLAN_INTRO": {
             var new_plan_list = state.plan_list.slice();
             //@ts-ignore
-            var { idx, intro } = action.data;
+            var { idx, introduce } = action.data;
             new_plan_list[idx] = {
                 ...new_plan_list[idx],
-                introduce: intro,
+                introduce: introduce,
             };
             return {
                 ...state,
                 plan_list: new_plan_list,
             };
         }
-        case "SET_PLAN_LINK": {
+        case "SET_PLAN_VIDEO_LINK": {
             var new_plan_list = state.plan_list.slice();
             //@ts-ignore
-            var { idx, link } = action.data;
+            var { idx, video_link } = action.data;
             new_plan_list[idx] = {
                 ...new_plan_list[idx],
-                link: link,
+                video_link: video_link,
+            };
+            return {
+                ...state,
+                plan_list: new_plan_list,
+            };
+        }
+        case "SET_PLAN_ZOOM_LINK": {
+            var new_plan_list = state.plan_list.slice();
+            //@ts-ignore
+            var { idx, zoom_link } = action.data;
+            new_plan_list[idx] = {
+                ...new_plan_list[idx],
+                zoom_link: zoom_link,
             };
             return {
                 ...state,
@@ -244,10 +233,7 @@ const reducer = (state: State, action: Action): State => {
             var { idx, date } = action.data;
             new_plan_list[idx] = {
                 ...new_plan_list[idx],
-                date: {
-                    ...new_plan_list[idx].date,
-                    date: date,
-                },
+                date: date,
             };
             return {
                 ...state,
@@ -261,10 +247,7 @@ const reducer = (state: State, action: Action): State => {
             var { idx, time } = action.data;
             new_plan_list[idx] = {
                 ...new_plan_list[idx],
-                date: {
-                    ...new_plan_list[idx].date,
-                    time: time,
-                },
+                time: time,
             };
             return {
                 ...state,
@@ -278,19 +261,31 @@ const reducer = (state: State, action: Action): State => {
 
         case "ADD_PLAN": {
             var new_plan_list = state.plan_list.slice();
-            new_plan_list.push({
-                week: 0,
+            const newPlanType: meta_types.classType = action.data;
+
+            var newPlanItem: req_types.classPlanListItem = {
+                // @ts-ignore
+                week: "",
                 title: "",
                 location: "",
-                type: action.data,
-                link: "",
-                introduce: "",
+                type: newPlanType,
                 tutor: "",
-                date: {
-                    date: "",
-                    time: "",
-                },
-            });
+                date: "",
+                time: "",
+            };
+            if (newPlanType === "ONLINE") {
+                newPlanItem = {
+                    ...newPlanItem,
+                    video_link: "",
+                    introduce: "",
+                };
+            } else if (newPlanType === "ZOOM") {
+                newPlanItem = {
+                    ...newPlanItem,
+                    zoom_link: "",
+                };
+            }
+            new_plan_list.push(newPlanItem);
             return {
                 ...state,
                 plan_list: new_plan_list,
@@ -319,13 +314,13 @@ export const ClassNewStoreProvider = ({ children }: { children: JSX.Element }) =
     );
 };
 
-export const useStoreState = () => {
+export const useClassNewStore = () => {
     const state = useContext(ClassNewStoreContext);
     if (!state) throw new Error("Cannot find ClassStoreProvider");
     return state;
 };
 
-export const useStoreDispatch = () => {
+export const useClassNewDispatch = () => {
     const dispatch = useContext(ClassNewStoreDispatchContext);
     if (!dispatch) throw new Error("Cannot find ClassStoreProvider");
     return dispatch;

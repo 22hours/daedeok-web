@@ -15,7 +15,7 @@ type Props = {
     disable?: boolean;
     error?: boolean;
     success?: boolean;
-    style?: CSS.Properties;
+    className?: string;
 };
 
 const Select = (props: Props) => {
@@ -29,7 +29,7 @@ const Select = (props: Props) => {
                     localRef.current.dispatchEvent(event);
                 }
             }}
-            className={Object.values(classNames).concat(style.wrapper).join(" ")}
+            className={Object.values(classNames).concat(props.className).concat(style.wrapper).join(" ")}
         >
             <select
                 className={style.container}

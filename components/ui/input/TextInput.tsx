@@ -14,7 +14,7 @@ type Props = {
     disable?: boolean;
     error?: boolean;
     success?: boolean;
-    style?: CSS.Properties;
+    className?: string;
 };
 
 const getInputType = (type: Props["type"]) => {
@@ -38,11 +38,10 @@ const TextInput = (props: Props) => {
     const classNames = useFormStyle({ ...props, type: "basic" });
 
     return (
-        <div className={Object.values(classNames).join(" ")}>
+        <div className={Object.values(classNames).concat(props.className).join(" ")}>
             <input
                 //@ts-ignore
                 ref={props.refs}
-                style={props.style || undefined}
                 type={getInputType(props.type)}
                 value={props.value}
                 onChange={props.onChange}

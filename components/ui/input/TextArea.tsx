@@ -4,26 +4,26 @@ import CSS from "csstype";
 import useFormStyle from "lib/hooks/useFormStyle";
 
 type Props = {
-    ref?: RefObject<HTMLTextAreaElement>;
-    value: string | number;
-    onChange: (e) => void;
+    refs?: HTMLTextAreaElement;
+    value?: string | number;
+    onChange?: (e) => void;
     placeholder?: string;
     maxLength?: number;
     disable?: boolean;
     error?: boolean;
     success?: boolean;
-    style?: CSS.Properties;
+    className?: string;
 };
 
 const TextArea = (props: Props) => {
     const classNames = useFormStyle({ ...props, type: "textarea" });
 
     return (
-        <div className={Object.values(classNames).join(" ")}>
+        <div className={Object.values(classNames).concat(props.className).join(" ")}>
             <textarea
-                className={style.container}
+                className={`${style.container}`}
+                // @ts-ignore
                 ref={props.ref || undefined}
-                style={props.style || undefined}
                 value={props.value}
                 onChange={props.onChange}
                 maxLength={props.maxLength || undefined}
