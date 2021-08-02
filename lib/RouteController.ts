@@ -144,7 +144,7 @@ const makeClassChildPage = () => {
         close: res["1"].close,
         complete: res["2"].complete,
     };
-    console.log(resObj);
+
     return resObj;
 };
 
@@ -172,7 +172,7 @@ export const RouteController = {
     },
     docs: {
         name: "docs",
-        pathname: "/",
+        pathname: "/docs",
         isVisible: false,
         isAccessAble: false,
         isDropdown: false,
@@ -370,7 +370,7 @@ export const RouteController = {
                 name: "수강 신청",
                 pathname: "/class/join",
                 accessRole: "ROLE_MEMBER",
-                isVisible: true,
+                isVisible: false,
 
                 childPage: {
                     detail: {

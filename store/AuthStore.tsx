@@ -2,7 +2,8 @@ import AxiosClient from "lib/api/api";
 import { api_config_type } from "@api_config_type";
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import { meta_types } from "@global_types";
-import StorageController from "lib/client/storageController";
+import CookieController from "lib/client/cookieController";
+import { AxiosResponse } from "axios";
 
 // ELEMENT TYPES
 type api_params = api_config_type.api_params;
@@ -24,16 +25,7 @@ type Store = {
         ep: api_params["ep"],
         url_query?: api_params["url_query"],
         data?: api_params["data"]
-    ) => Promise<
-        | {
-              result: "SUCCESS";
-              data: any;
-          }
-        | {
-              result: "ERROR";
-              msg: any;
-          }
-    >;
+    ) => Promise<api_config_type.api_response | AxiosResponse<any>>;
     login: (user_data: meta_types.user) => void;
     logout: () => void;
 };
@@ -68,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     const [auth, dispatch] = useReducer(reducer, null);
 
     const getNewAccessToken = async () => {
-        const token = StorageController.getTokenInStorage();
+        const token = CookieController.getTokenInCookie();
         const res_data = await apiClient.API_CALL("POST", "MAIN", "REFRESH", undefined, { ...token });
         if (res_data.result === "SUCCESS") {
             return res_data.data.access_token;
@@ -88,7 +80,7 @@ export const AuthProvider = ({ children }) => {
         var extraHeader = {};
         if (auth) {
             extraHeader = {
-                Authorization: `Bearer ${StorageController.getTokenInStorage()?.access_token}`,
+                Authorization: `Bearer ${CookieController.getTokenInCookie()?.access_token}`,
             };
         }
         const res_data = await apiClient.API_CALL(method, domain, ep, url_query, data, extraHeader);
@@ -135,17 +127,17 @@ export const AuthProvider = ({ children }) => {
                 lecture_num: userData.lecture_num,
             },
         });
-        StorageController.setUserDataInStorgae(userData);
+        CookieController.setUserWithCookie(userData);
     };
 
     const logout = () => {
         dispatch({ type: "LOGOUT" });
-        StorageController.removeUserDataInStorage();
+        CookieController.removeUserInCookie();
     };
 
     const initAuth = () => {
-        const userData: meta_types.user = StorageController.getUserDataInStorage();
-        if (userData) {
+        const userData: meta_types.user = CookieController.getUserWithCookie();
+        if (userData.user_id) {
             dispatch({
                 type: "LOGIN",
                 data: {

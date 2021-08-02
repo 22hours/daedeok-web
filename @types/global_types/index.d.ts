@@ -1,10 +1,11 @@
 //  ./@types/custom-types/index.d.ts
 declare module "@global_types" {
     export namespace meta_types {
+        type accessRole = "ROLE_ALL" | "ROLE_MEMBER" | "ROLE_TUTOR" | "ROLE_ADMIN";
         type user = {
             user_id: string;
             name: string;
-            role: "ROLE_MEMBER";
+            role: "ROLE_MEMBER" | "ROLE_TUTOR" | "ROLE_ADMIN";
             duty: string;
             lecture_num: 3;
             access_token: string;

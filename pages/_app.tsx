@@ -4,7 +4,9 @@ import GlobalLayout from "components/layout/GlobalLayout";
 import React, { useEffect } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { AuthProvider } from "store/AuthStore";
-import { FirebaseProvider } from "store/FirebaseStore";
+import "styles/nprogress.css";
+import NProgress from "nprogress";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
     useEffect(() => {
@@ -15,6 +17,27 @@ function MyApp({ Component, pageProps }) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
     }, []);
+
+    const router = useRouter();
+    useEffect(() => {
+        const handleStart = (url) => {
+            console.log(`Loading: ${url}`);
+            NProgress.start();
+        };
+        const handleStop = () => {
+            NProgress.done();
+        };
+
+        router.events.on("routeChangeStart", handleStart);
+        router.events.on("routeChangeComplete", handleStop);
+        router.events.on("routeChangeError", handleStop);
+
+        return () => {
+            router.events.off("routeChangeStart", handleStart);
+            router.events.off("routeChangeComplete", handleStop);
+            router.events.off("routeChangeError", handleStop);
+        };
+    }, [router]);
 
     const Layout = Component.Layout || ((page) => <GlobalLayout>{page}</GlobalLayout>);
 
