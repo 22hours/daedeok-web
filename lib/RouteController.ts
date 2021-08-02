@@ -18,7 +18,7 @@ const makeClassChildPage = () => {
                         name: "상세 페이지",
                         pathname: `/class/${[status]}/[...class_id]/board/[...content_id]`,
                         isDynamic: true,
-                        as: ({ class_id, content_id }) => `/class/${[status]}/${class_id}/board/${content_id}`,
+                        as: ({ class_id, content_id }) => `/class/${[status]}/${class_id}/board/detail/${content_id}`,
                     },
                     edit: {
                         name: "글 수정",
