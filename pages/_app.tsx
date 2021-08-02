@@ -2,10 +2,9 @@ import "../styles/global.scss";
 import "styles/ui_input_global.scss";
 import GlobalLayout from "components/layout/GlobalLayout";
 import React, { useEffect } from "react";
-
-import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { AuthProvider } from "store/AuthStore";
+import { FirebaseProvider } from "store/FirebaseStore";
 
 function MyApp({ Component, pageProps }) {
     useEffect(() => {
@@ -18,9 +17,7 @@ function MyApp({ Component, pageProps }) {
     }, []);
 
     const Layout = Component.Layout || ((page) => <GlobalLayout>{page}</GlobalLayout>);
-    // return Layout(<Component {...pageProps} />);
 
-    console.log("APP RENDER");
     return (
         <>
             <CssBaseline />
