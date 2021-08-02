@@ -4,11 +4,11 @@ import CSS from "csstype";
 import useFormStyle from "lib/hooks/useFormStyle";
 
 type Props = {
-    ref?: RefObject<HTMLInputElement>;
+    refs?: HTMLInputElement | null;
     type: "text" | "password" | "number" | "time" | "date";
     form: "box" | "underline";
-    value: string | number;
-    onChange: (e) => void;
+    value?: string | number;
+    onChange?: (e) => void;
     placeholder?: string;
     maxLength?: number;
     disable?: boolean;
@@ -36,10 +36,12 @@ const getInputType = (type: Props["type"]) => {
 
 const TextInput = (props: Props) => {
     const classNames = useFormStyle({ ...props, type: "basic" });
+
     return (
         <div className={Object.values(classNames).join(" ")}>
             <input
-                ref={props.ref || undefined}
+                //@ts-ignore
+                ref={props.refs}
                 style={props.style || undefined}
                 type={getInputType(props.type)}
                 value={props.value}

@@ -1,0 +1,44 @@
+@import "styles/meta.scss";
+
+.label {
+    border: 1px solid $gray_accent;
+    width: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.input_form {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.limit_form {
+    display: flex;
+}
+.check_box {
+    display: flex;
+    margin-left: 10px;
+    p {
+        width: 60px;
+    }
+}
+
+.button_group {
+    display: flex;
+    justify-content: left;
+    margin-top: 20px;
+}
+.class_type_button {
+    @include font_small_text;
+    background-color: $mint_accent;
+    color: white;
+    border-radius: 30px;
+    width: 100px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}

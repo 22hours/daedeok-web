@@ -31,7 +31,7 @@ declare module "@global_types" {
             title: string;
             content: string;
             category: string;
-            division: Array<{ first_division: string; second_division: string }>;
+            division_list: Array<{ first_division: string; second_division: string }>;
             student_limit: number;
             reference: string;
             handout_list: Array<{ name: string; url: string }>;
@@ -40,9 +40,10 @@ declare module "@global_types" {
                 title: string;
                 location: string;
                 type: string;
-                lik: string;
+                link: string;
+                tutor: string;
                 introduce: string;
-                date: string;
+                date: { date: string; time: string };
             }>;
         };
         //(공통) 강의 게시글 생성
@@ -71,7 +72,7 @@ declare module "@global_types" {
             content: string;
             tutor: string;
             type: Array<string>;
-            division: Array<{ first_division: string; second_division: string }>;
+            division_list: Array<{ first_division: string; second_division: string }>;
             refeerence: string;
             lecture_plan: Array<{ week: number; title: string; tutor: string; location: string }>;
         };
@@ -106,6 +107,7 @@ declare module "@global_types" {
                 week: number;
                 title: string;
                 location: string;
+                tutor: string;
                 type: string;
                 date: string;
             }>;

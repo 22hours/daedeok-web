@@ -1,11 +1,14 @@
-type Props = {};
+import ClassNew from "components/organism/ClassNew/ClassNew";
 
-const ClassNew = () => {
+//store
+import { ClassNewStoreProvider } from "store/ClassNewStore";
+
+const NewClass = () => {
     return (
-        <div>
-            <h2>ClassNew</h2>
-        </div>
+        <ClassNewStoreProvider>
+            <ClassNew />
+        </ClassNewStoreProvider>
     );
 };
 
-export default ClassNew;
+export default NewClass;

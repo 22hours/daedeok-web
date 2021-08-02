@@ -6,9 +6,9 @@ import useFormStyle from "lib/hooks/useFormStyle";
 // icons
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 type Props = {
-    // ref: RefObject<HTMLSelectElement>;
+    refs?: HTMLInputElement | null;
     form: "box" | "underline";
-    value: string | number;
+    value?: string | number;
     option_list: { value: string; name: string }[];
     onChange: (e) => void;
     placeholder?: string;
@@ -34,7 +34,7 @@ const Select = (props: Props) => {
             <select
                 className={style.container}
                 // @ts-ignore
-                ref={localRef || undefined}
+                refs={localRef || undefined}
                 onChange={props.onChange}
                 value={props.value}
                 disabled={props.disable}
