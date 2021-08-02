@@ -1,4 +1,3 @@
-import { Children } from "react";
 import style from "./Board.module.scss";
 import Typo from "@ui/Typo";
 
