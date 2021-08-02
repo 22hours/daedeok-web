@@ -4,6 +4,7 @@ import Typo from "@ui/Typo";
 import { RouteController } from "lib/RouteController";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useAuthStore } from "store/AuthStore";
 import style from "./ClassSideBar.module.scss";
 
 import MobileSideBar from "./MobileSideBar";
@@ -12,7 +13,8 @@ import PcSideBar from "./PcSideBar";
 const SidebarMenuList = () => {
     // SERVER 에서 DATA FETCH 필요!
     // DUMMIES
-    const myRole = "ROLE_TUTOR";
+    const { auth } = useAuthStore();
+    const myRole = auth?.role;
     const nowOpenLecture = [
         { id: 1, name: "요한계시록-1", class_id: 1 },
         { id: 2, name: "요한계시록-2", class_id: 2 },
@@ -107,44 +109,62 @@ const SidebarMenuList = () => {
 };
 
 const CommonSideBar = () => {
-    const newClassLink = RouteController.class.childPage.new.pathname;
-    return (
-        <div className={style.common_container}>
-            <section className={style.section_user}>
-                <div className={style.head}>
-                    <Typo type={"TEXT"} size={"large"} content={"이연곤"} className={style.user} />
-                    &nbsp; &nbsp;
-                    <Typo type={"TEXT"} size={"normal"} content={"목사님 반갑습니다"} className={style.wellcome} />
-                </div>
-                <div>
-                    <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={"강사"} />
-                </div>
-                <div className={style.bottom}>
-                    <Typo type={"TEXT"} size={"small"} content={"진행중인 강의"} />
-                    &nbsp;
-                    <Typo type={"TEXT"} size={"small"} color={"mint_accent"} content={"3"} />
-                </div>
-            </section>
-            <section className={style.section_button}>
-                <Link href={newClassLink}>
-                    <Button
-                        type={"SQUARE"}
-                        size={"large"}
-                        fontSize={"medium"}
-                        line={"inline"}
-                        backgroundColor={"yellow_accent"}
-                        color={"white"}
-                        content={"강의 개설"}
-                        alignment={"center"}
-                    />
-                </Link>
-            </section>
-            <section className={style.section_menulist}>
-                <SidebarMenuList />
-                {/* {RouteController.class.childPage.open} */}
-            </section>
-        </div>
-    );
+    const { auth } = useAuthStore();
+    if (!auth) {
+        return <div></div>;
+    } else {
+        const role = auth.role === "ROLE_MEMBER" ? "멤버" : auth.role === "ROLE_TUTOR" ? "강사" : "관리자";
+        const newClassLink =
+            auth.role === "ROLE_TUTOR"
+                ? RouteController.class.childPage.new.pathname
+                : RouteController.class.childPage.join.pathname;
+
+        return (
+            <div className={style.common_container}>
+                <section className={style.section_user}>
+                    <div className={style.head}>
+                        <Typo type={"TEXT"} size={"large"} content={auth.name} className={style.user} />
+                        &nbsp; &nbsp;
+                        <Typo
+                            type={"TEXT"}
+                            size={"normal"}
+                            content={`${auth?.duty}님 반갑습니다`}
+                            className={style.wellcome}
+                        />
+                    </div>
+                    <div>
+                        <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={role} />
+                    </div>
+                    <div className={style.bottom}>
+                        <Typo
+                            type={"TEXT"}
+                            size={"small"}
+                            content={`${role === "강사" ? "진행중인" : "수강중인"} 강의`}
+                        />
+                        &nbsp;
+                        <Typo type={"TEXT"} size={"small"} color={"mint_accent"} content={"3"} />
+                    </div>
+                </section>
+                <section className={style.section_button}>
+                    <Link href={newClassLink}>
+                        <Button
+                            type={"SQUARE"}
+                            size={"large"}
+                            fontSize={"medium"}
+                            line={"inline"}
+                            backgroundColor={"yellow_accent"}
+                            color={"white"}
+                            content={role === "강사" ? "강의 개설" : "수강 신청"}
+                            alignment={"center"}
+                        />
+                    </Link>
+                </section>
+                <section className={style.section_menulist}>
+                    <SidebarMenuList />
+                </section>
+            </div>
+        );
+    }
 };
 
 const ClassSideBar = () => {
