@@ -9,14 +9,14 @@
 
 //ROUND
 .round {
-    border-radius: 50px;
     cursor: pointer;
-    padding-left: 15px;
-    padding-right: 15px;
+    border-radius: 50px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 //TEXT
-.text {
+.underline {
     border-bottom: 1px solid $gray_accent;
     cursor: pointer;
     padding-left: 15px;
@@ -25,18 +25,26 @@
 
 .smaller {
     height: 40px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.text {
+    cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .small {
-    height: 53px;
+    height: 20px;
 }
 
 .medium {
-    height: 115px;
+    height: 50px;
 }
 
 .large {
-    height: 190px;
+    height: 80px;
 }
 
 .full {

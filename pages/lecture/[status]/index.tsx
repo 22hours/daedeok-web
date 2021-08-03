@@ -1,13 +1,13 @@
+import Typo from "@ui/Typo";
 import React, { useState, useEffect } from "react";
 type Props = {};
 
 const index = (props) => {
-    console.log(props);
-
     return (
         <div>
-            <h2>STATUS</h2>
-            <h4>{props.data.status}</h4>
+            <Typo type={"HEADER"} size={"h1"} content={"STATUS"} />
+            <Typo type={"HEADER"} size={"h2"} content={"STATUS"} />
+            <Typo type={"HEADER"} size={"h3"} content={"STATUS"} />
         </div>
     );
 };

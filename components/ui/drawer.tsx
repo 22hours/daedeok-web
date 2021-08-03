@@ -1,5 +1,6 @@
-import React, { useState, cloneElement } from "react";
+import React, { useState, useRef, cloneElement, useEffect } from "react";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import { useRouter } from "next/dist/client/router";
 
 type Props = {
     isOpen: boolean;
@@ -16,6 +17,18 @@ const Drawer = (props: Props) => {
         });
 
     const DrawerInner = (LocalProps) => cloneElement(props.drawerInnerChildren, { ...LocalProps });
+    const router = useRouter();
+
+    const isFirstRun = useRef(true);
+    useEffect(() => {
+        if (isFirstRun.current) {
+            isFirstRun.current = false;
+            return;
+        }
+        if (props.isOpen) {
+            props.toggleDrawer();
+        }
+    }, [router.asPath]);
 
     return (
         <>
