@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import TableRow from "@ui/board/TableRow";
 import Button from "@ui/buttons/Button";
 import TableWrapper from "@ui/board/TableWrapper";
-import style from "./ClassPlanList.module.scss";
+import style from "./StudentClassPlanList.module.scss";
 import Link from "next/link";
 //store
 import { useAuthStore } from "store/AuthStore";
@@ -58,11 +58,17 @@ const ClassTypeBtn = ({ type, idx, classId }) => {
     }
 };
 
-const ClassPlanList = () => {
+const StudentClassPlanList = () => {
     const [planList, setPlanList] = useState<Array<{ id: number; week: number; title: string; type: string }>>([]);
     const { clientSideApi } = useAuthStore();
     const lectureId = useStoreState();
-    console.log(lectureId.class_id);
+
+    useEffect(() => {
+        if (lectureId.class_id) {
+            getClassPlanList();
+        }
+    }, [lectureId]);
+
     const getClassPlanList = async () => {
         const res_data = await clientSideApi(
             "GET",
@@ -76,10 +82,6 @@ const ClassPlanList = () => {
             setPlanList(data);
         }
     };
-
-    useEffect(() => {
-        getClassPlanList();
-    }, []);
 
     return (
         <div className={style.class_plan_list_wrapper}>
@@ -97,4 +99,4 @@ const ClassPlanList = () => {
         </div>
     );
 };
-export default ClassPlanList;
+export default StudentClassPlanList;

@@ -1,11 +1,11 @@
-import ClassPlanList from "components/organism/ClassPlanList/ClassPlanList";
+import StudentClassPlanList from "components/organism/StudentClassPlanList/StudentClassPlanList";
 
 type Props = {};
 
 const index = () => {
     return (
         <div>
-            <ClassPlanList />
+            <StudentClassPlanList />
         </div>
     );
 };
