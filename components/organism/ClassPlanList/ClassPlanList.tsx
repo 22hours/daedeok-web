@@ -82,7 +82,7 @@ const ClassPlanList = () => {
     }, []);
 
     return (
-        <div className={style.class_plan_lis_wrapper}>
+        <div className={style.class_plan_list_wrapper}>
             <TableWrapper>
                 {planList.map((it, idx) => (
                     <div key={idx}>
