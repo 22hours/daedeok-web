@@ -68,6 +68,9 @@ declare module "@api_config_type" {
                 | "LECTURE_BOARD_NEW_COMMENT"
                 | "LECTURE_BOARD_EDIT_COMMENT"
                 | "LECTURE_BOARD_DELETE_COMMENT"
+                // >>> ONLINE
+                | "LECTURE_ONLINE_DETAIL"
+                | 'LECTURE_ONLINE_DURATION'
                 // >>>  NEW
                 | "LECTURE_NEW"
                 | "LECTURE_EDIT"

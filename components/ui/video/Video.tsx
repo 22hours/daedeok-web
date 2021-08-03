@@ -7,16 +7,16 @@ import React from "react";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 
 type Props = {
-    progress: number;
-    setProgress: any;
+    duration: number;
+    setDuration: (duration: number) => void;
     video_url: string;
-    start: number;
     timerTick: number;
 };
 
 const Video = React.memo((props: Props) => {
     const [videoInfo, setVideoInfo] = useState(null);
     const YoutubeRef = useRef(null);
+
     const opts: Options = {
         height: "100%",
         width: "100%",
@@ -27,14 +27,23 @@ const Video = React.memo((props: Props) => {
             disablekb: 1, // 키보드 조작 X
             modestbranding: 1, // 로고 표시 X
             rel: 0, // 관련동영상 표시 X
-            start: props.start, // 시작
         },
+    };
+
+    const goPreviousDurationTime = async () => {
+        if (videoInfo) {
+            // @ts-ignore
+            const durationTime = await videoInfo.player.getDuration();
+            const startTime = durationTime * (props.duration / 100);
+            // @ts-ignore
+            videoInfo.player.seekTo(startTime);
+        }
     };
 
     const onReady = (event) => {
         // access to player in all event handlers via event.target
         // event.target.pauseVideo();
-        event.target.mute();
+        // event.target.mute();
 
         if (YoutubeRef.current) {
             setVideoInfo({
@@ -76,9 +85,11 @@ const Video = React.memo((props: Props) => {
 
     useEffect(() => {
         if (videoInfo) {
+            goPreviousDurationTime();
             const timer = setInterval(async () => {
-                const curProgress = await getProgress();
-                props.setProgress(curProgress);
+                // @ts-ignore
+                const curDuration: number = await getProgress();
+                props.setDuration(curDuration);
             }, props.timerTick);
             return () => {
                 clearInterval(timer);
