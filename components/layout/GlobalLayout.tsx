@@ -27,11 +27,7 @@ const PageDetailLayout = ({ children }: DetailPageProps) => {
 
     switch (rootPath) {
         case "class": {
-            return (
-                <ClassStoreProvider>
-                    <ClassLayout>{children}</ClassLayout>
-                </ClassStoreProvider>
-            );
+            return <ClassStoreProvider>{children}</ClassStoreProvider>;
         }
         case "admin": {
             return <AdminStoreProvider>{children}</AdminStoreProvider>;

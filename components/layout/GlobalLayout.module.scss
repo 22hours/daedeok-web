@@ -4,7 +4,7 @@
 @import "styles/meta.scss";
 
 // PC 보정 후
-$pc_stripe_height: 36px;
+$pc_stripe_height: 20px;
 $pc_header_height: 196px; //236px
 $pc_nav_height: 53px;
 $pc_banner_height: 285px;
@@ -40,7 +40,7 @@ $mobile_footer_height: 139px;
     @include desktop {
         height: $pc_stripe_height;
     }
-    background-color: brown;
+    background-color: $brown_base;
 }
 
 .header {
@@ -112,7 +112,6 @@ $mobile_footer_height: 139px;
 
 .article {
     flex-grow: 1;
-    background-color: cornflowerblue;
     display: grid;
 
     @include mobile {

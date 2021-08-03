@@ -1,5 +1,8 @@
+import { match } from "assert/strict";
+import ClassLayout from "components/layout/ClassLayout";
 import { useRouter } from "next/dist/client/router";
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
+import { ClassDetailProvider } from "./ClassDetailStore";
 
 // ELEMENT TYPES
 
@@ -22,11 +25,24 @@ const reducer = (state: State, action: Action): State => {
 };
 
 export const ClassStoreProvider = ({ children }) => {
+    const router = useRouter();
     const [state, dispatch] = useReducer(reducer, {});
+
+    const RenderChildren = () => {
+        if (router.pathname.includes("/class/[status]/[class_id]")) {
+            return <ClassDetailProvider>{children}</ClassDetailProvider>;
+        } else {
+            return <>{children}</>;
+        }
+    };
 
     return (
         <ClassStoreContext.Provider value={state}>
-            <ClassStoreDispatchContext.Provider value={dispatch}>{children}</ClassStoreDispatchContext.Provider>
+            <ClassStoreDispatchContext.Provider value={dispatch}>
+                <ClassLayout>
+                    <RenderChildren />
+                </ClassLayout>
+            </ClassStoreDispatchContext.Provider>
         </ClassStoreContext.Provider>
     );
 };
