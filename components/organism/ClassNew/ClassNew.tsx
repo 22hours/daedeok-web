@@ -448,20 +448,17 @@ const CategoryInput = () => {
 };
 
 const ClassNew = () => {
-    const { saveClass } = useClassNewStore();
+    const {  saveClass } = useClassNewStore();
     const titleRef = useRef<HTMLInputElement | null>(null);
     const contentRef = useRef<HTMLTextAreaElement | null>(null);
     const referenceRef = useRef<HTMLInputElement | null>(null);
 
-    const handleSaveClass = useCallback(
-        () =>
-            saveClass({
-                title: titleRef.current?.value,
-                content: contentRef.current?.value,
-                reference: referenceRef.current?.value,
-            }),
-        []
-    );
+    const handleSaveClass = () =>
+        saveClass({
+            title: titleRef.current?.value,
+            content: contentRef.current?.value,
+            reference: referenceRef.current?.value,
+        });
 
     return (
         <div className={style.container}>
@@ -513,7 +510,7 @@ const ClassNew = () => {
                     color="white"
                     content="개설"
                     alignment="center"
-                    onClick={handleSaveClass}
+                    onClick={() => handleSaveClass()}
                 />
             </div>
         </div>

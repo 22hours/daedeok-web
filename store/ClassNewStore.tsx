@@ -347,12 +347,19 @@ export const ClassNewStoreProvider = ({ children }: { children: JSX.Element }) =
             category: state.category,
             division_list: reqDivionList,
             student_limit: state.student_limit,
-            reference: state.reference,
+            reference: reference,
             handout_list: state.handout_list,
             plan_list: state.plan_list,
         };
 
-        const res = await clientSideApi("GET", "MAIN", "LECTURE_NEW", undefined, reqObj);
+        console.log(reqObj);
+        const res = await clientSideApi("POST", "MAIN", "LECTURE_NEW", undefined, reqObj);
+        if (res.result === "SUCCESS") {
+            console.log(res.data);
+            console.log(res);
+
+            alert("강의가 성공적으로 개설되었습니다");
+        }
     };
 
     const store = { ...state, saveClass };

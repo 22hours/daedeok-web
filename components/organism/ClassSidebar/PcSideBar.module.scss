@@ -2,6 +2,8 @@
 @import "styles/meta.scss";
 .container {
     height: 100%;
+    border-left: 1px solid $gray_accent;
+    border-right: 1px solid $gray_accent;
 }
 
 .user_info {

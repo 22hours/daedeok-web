@@ -1,6 +1,8 @@
 //  ./@types/custom-types/index.d.ts
 declare module "@global_types" {
     export namespace meta_types {
+        type BreadCrumbItem = { name: string; link: string };
+        type classStatus = "OPEN" | "CLOSE" | "COMPLETE";
         type accessRole = "ROLE_ALL" | "ROLE_MEMBER" | "ROLE_TUTOR" | "ROLE_ADMIN";
         type user = {
             user_id: string;

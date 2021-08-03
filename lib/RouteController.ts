@@ -6,7 +6,7 @@ const makeClassChildPage = () => {
                 name: "게시판",
                 pathname: `/class/${[status]}/[...class_id]/board`,
                 isDynamic: true,
-                as: ({ class_id }) => `/class/${[status]}/${class_id}`,
+                as: ({ class_id }) => `/class/${[status]}/${class_id}/board`,
                 childPage: {
                     new: {
                         name: "글 쓰기",
@@ -34,21 +34,21 @@ const makeClassChildPage = () => {
                 name: "강의 관리",
                 pathname: `/class/${[status]}/[...class_id]/manage/lecture`,
                 isDynamic: true,
-                as: ({ class_id }) => `/class/${[status]}/${class_id}/manange/lecture`,
+                as: ({ class_id }) => `/class/${[status]}/${class_id}/manage/lecture`,
             },
             manageStudent: {
                 accessRole: "ROLE_TUTOR",
                 name: "학생 관리",
                 pathname: `/class/${[status]}/[...class_id]/manage/student`,
                 isDynamic: true,
-                as: ({ class_id }) => `/class/${[status]}/${class_id}/manange/student`,
+                as: ({ class_id }) => `/class/${[status]}/${class_id}/manage/student`,
             },
             manageAttendance: {
                 accessRole: "ROLE_TUTOR",
                 name: "출석 관리",
                 pathname: `/class/${[status]}/[...class_id]/manage/attendance`,
                 isDynamic: true,
-                as: ({ class_id }) => `/class/${[status]}/${class_id}/manange/attendance`,
+                as: ({ class_id }) => `/class/${[status]}/${class_id}/manage/attendance`,
                 childPage: {
                     detail: {
                         accessRole: "ROLE_TUTOR",
@@ -56,7 +56,7 @@ const makeClassChildPage = () => {
                         pathname: `/class/${[status]}/[...class_id]/manage/attendance/detail/[...episode_id]`,
                         isDynamic: true,
                         as: ({ class_id, episode_id }) =>
-                            `/class/${[status]}/${class_id}/manange/attendance/detail/${episode_id}`,
+                            `/class/${[status]}/${class_id}/manage/attendance/detail/${episode_id}`,
                     },
                 },
             },

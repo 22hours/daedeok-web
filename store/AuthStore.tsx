@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
         data?: api_params["data"]
     ) => {
         var extraHeader = {};
-        if (auth) {
+        if (auth?.user_id) {
             extraHeader = {
                 Authorization: `Bearer ${CookieController.getTokenInCookie()?.access_token}`,
             };
@@ -87,6 +87,7 @@ export const AuthProvider = ({ children }) => {
         if (res_data.result === "SUCCESS") {
             return res_data;
         } else {
+            console.log(res_data.statusCode);
             switch (res_data.statusCode) {
                 case 701: {
                     // 토큰 만료
@@ -153,7 +154,7 @@ export const AuthProvider = ({ children }) => {
 
     const store: Store = {
         auth,
-        //@ts-ignore
+        // @ts-ignore
         clientSideApi,
         login,
         logout,

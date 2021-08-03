@@ -1,0 +1,29 @@
+// ClassDetailTopTab.module
+@import "styles/meta.scss";
+
+.container {
+    border-bottom: 2px solid $brown_base;
+    .tabCotnainer {
+        @include mobile {
+            width: 100%;
+        }
+        @include desktop {
+            width: 70%;
+            min-width: 500px;
+        }
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 1px;
+        background-color: $gray_accent;
+        padding-top: 1px;
+        padding-right: 1px;
+        padding-left: 1px;
+    }
+
+    .tabButton {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
