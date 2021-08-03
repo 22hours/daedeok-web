@@ -6,7 +6,7 @@ import style from "./StudentClassPlanList.module.scss";
 import Link from "next/link";
 //store
 import { useAuthStore } from "store/AuthStore";
-import { useStoreState } from "store/ClassDetailStore";
+import { useClassDetailStore } from "store/ClassDetailStore";
 
 const ClassTypeBtn = ({ type, idx, classId }) => {
     switch (type) {
@@ -61,7 +61,7 @@ const ClassTypeBtn = ({ type, idx, classId }) => {
 const StudentClassPlanList = () => {
     const [planList, setPlanList] = useState<Array<{ id: number; week: number; title: string; type: string }>>([]);
     const { clientSideApi } = useAuthStore();
-    const lectureId = useStoreState();
+    const lectureId = useClassDetailStore();
 
     useEffect(() => {
         if (lectureId.class_id) {
