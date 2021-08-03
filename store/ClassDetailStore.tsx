@@ -26,6 +26,7 @@ const ClassDetailDispatchContext = createContext<ContextDispatch | null>(null);
 type ProviderType = {
     children: JSX.Element;
     BreadCrumbsComponent: JSX.Element;
+    PageTitle: JSX.Element;
 };
 export const ClassDetailProvider = (props: ProviderType) => {
     const router = useRouter();
@@ -53,6 +54,7 @@ export const ClassDetailProvider = (props: ProviderType) => {
                 {classInfo && (
                     <>
                         {props.BreadCrumbsComponent}
+                        {props.PageTitle}
                         <ClassDetailTopTab status={classInfo.class_status} class_id={classInfo.class_id} />
                         {props.children}
                     </>
