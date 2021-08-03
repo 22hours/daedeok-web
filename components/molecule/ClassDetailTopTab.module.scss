@@ -2,6 +2,7 @@
 @import "styles/meta.scss";
 
 .container {
+    margin-bottom: 20px;
     border-bottom: 2px solid $brown_base;
     .tabCotnainer {
         @include mobile {

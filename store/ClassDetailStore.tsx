@@ -64,7 +64,7 @@ export const ClassDetailProvider = (props: ProviderType) => {
     );
 };
 
-export const useStoreState = () => {
+export const useClassDetailStore = () => {
     const state = useContext(ClassDetailContext);
     if (!state) throw new Error("Cannot find ClassDetailProvider");
     return state;

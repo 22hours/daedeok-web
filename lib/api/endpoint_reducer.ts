@@ -108,6 +108,9 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `lecture/${url_query.lecture_id}/board/${url_query.board_id}`;
         case `LECTURE_BOARD_DELETE_COMMENT`:
             return `lecture/${url_query.lecture_id}/board/${url_query.board_id}`;
+        // >>> ONLINE
+        case "LECTURE_ONLINE_DETAIL":
+            return `lecture/plan/${url_query.episode_id}/online`;
         // >>>  NEW
         case `LECTURE_NEW`:
             return `lecture/`;

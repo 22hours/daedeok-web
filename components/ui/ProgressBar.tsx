@@ -31,6 +31,7 @@ const ProgressBar = ({ progress }: Props) => {
                     size={"medium"}
                     color={progress > 50 ? "white" : "brown_base"}
                     content={`${progress.toFixed(0)}%`}
+                    className={style.typo}
                 />
             </div>
             <BorderLinearProgress variant="determinate" value={progress} />
