@@ -1,0 +1,145 @@
+@import "styles/meta.scss";
+
+.container {
+    margin-top: 20px;
+}
+.input_form {
+    display: flex;
+    margin-bottom: 10px;
+    min-height: 40px;
+    .form__box {
+        background-color: rebeccapurple;
+    }
+    .input {
+        flex-grow: 1;
+    }
+    .file_input_outter {
+        .file_input_button {
+            width: 130px;
+        }
+    }
+}
+.label {
+    @include mobile {
+        width: 80px;
+    }
+    @include desktop {
+        width: 130px;
+    }
+    border: 1px solid $gray_form;
+    height: 100%;
+    min-height: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+
+    p {
+        margin: 0px;
+    }
+}
+
+.limit_form {
+    display: flex;
+    .limit_input {
+        width: 150px;
+    }
+    .check_box {
+        width: 100%;
+    }
+}
+.check_box {
+    display: flex;
+    margin-left: 10px;
+    p {
+        width: 60px;
+    }
+}
+
+.button_group {
+    display: flex;
+    justify-content: left;
+    margin-top: 20px;
+}
+.class_type_button {
+    @include font_small_text;
+    background-color: $mint_accent;
+    color: white;
+    border-radius: 30px;
+    width: 100px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.DivisionInput {
+    margin-bottom: 20px;
+    .division_item_list {
+        display: flex;
+        flex-wrap: wrap;
+
+        .division_item {
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            .item_text {
+                display: flex;
+                margin-right: 5px;
+                p {
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}
+
+.HandoutFileInput {
+    .handout_item_list {
+        margin-left: 5px;
+        .HandoutItem {
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            .item_text {
+                display: flex;
+                margin-right: 5px;
+                p {
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}
+
+.PlanListInput {
+    margin-top: 20px;
+    .PlanItem {
+        margin-bottom: 25px;
+        .plan_list_input {
+            margin-bottom: 5px;
+        }
+    }
+    .PlanItemInput {
+        .plan_item_date_input {
+            @include desktop {
+                display: flex;
+                .plan_list_input {
+                    width: 180px;
+                    margin-right: 5px;
+                }
+                .plan_item_delete_btn {
+                    display: flex;
+                    align-items: center;
+                }
+            }
+        }
+    }
+}
+
+.submit_row {
+    display: flex;
+    justify-content: flex-end;
+}

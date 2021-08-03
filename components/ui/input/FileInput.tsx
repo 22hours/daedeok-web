@@ -3,11 +3,11 @@ import style from "./FileInput.module.scss";
 import CSS from "csstype";
 
 type Props = {
-    value: string;
-    accept: "image/*" | ".hwp,.word,.docx,.pptx,.show";
+    value?: string;
+    accept: "image/*" | ".hwp,.word,.docx,.pptx,.show" | "image/*,.hwp,.word,.docx,.pptx,.show";
     onChange: (e) => void;
     children: JSX.Element;
-    style?: CSS.Properties;
+    className?: string;
 };
 
 const FileInput = (props: Props) => {
@@ -21,16 +21,14 @@ const FileInput = (props: Props) => {
             },
         });
     return (
-        <div>
+        <div className={`${props.className || ""}`}>
             <ImgButton />
             <input
-                className={style.input}
+                className={`${style.input}`}
                 //@ts-ignore
                 ref={inputRef}
-                style={props.style || undefined}
                 type={"file"}
                 accept={props.accept}
-                value={props.value}
                 onChange={props.onChange}
             />
         </div>
