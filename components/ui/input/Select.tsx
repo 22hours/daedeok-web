@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import style from "./Select.module.scss";
 import CSS from "csstype";
 import useFormStyle from "lib/hooks/useFormStyle";
@@ -6,16 +6,16 @@ import useFormStyle from "lib/hooks/useFormStyle";
 // icons
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 type Props = {
-    // ref: RefObject<HTMLSelectElement>;
+    refs?: HTMLInputElement | null;
     form: "box" | "underline";
-    value: string | number;
+    value?: string | number;
     option_list: { value: string; name: string }[];
     onChange: (e) => void;
     placeholder?: string;
     disable?: boolean;
     error?: boolean;
     success?: boolean;
-    style?: CSS.Properties;
+    className?: string;
 };
 
 const Select = (props: Props) => {
@@ -29,12 +29,12 @@ const Select = (props: Props) => {
                     localRef.current.dispatchEvent(event);
                 }
             }}
-            className={Object.values(classNames).concat(style.wrapper).join(" ")}
+            className={Object.values(classNames).concat(props.className).concat(style.wrapper).join(" ")}
         >
             <select
                 className={style.container}
                 // @ts-ignore
-                ref={localRef || undefined}
+                refs={localRef || undefined}
                 onChange={props.onChange}
                 value={props.value}
                 disabled={props.disable}
