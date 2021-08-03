@@ -18,6 +18,7 @@ type State = {
 // ACTION TYPES
 type Action =
     | { type: "SET_INIT" }
+    | { type: "SET_CLASS_INFO"; data: State }
     | { type: "SET_BREADCRUMBS_LIST"; data: meta_types.BreadCrumbItem[] }
     | { type: "SET_PAGE_TITLE"; data: string };
 
@@ -38,6 +39,11 @@ export const ClassStoreProvider = ({ children }) => {
                 return {
                     breadCrumbList: [],
                     pageTitle: "",
+                };
+            }
+            case "SET_CLASS_INFO": {
+                return {
+                    ...action.data,
                 };
             }
             case "SET_BREADCRUMBS_LIST": {
@@ -78,7 +84,10 @@ const RenderChildren = ({ state, children }) => {
     const router = useRouter();
     if (router.pathname.includes("/class/[status]/[class_id]")) {
         return (
-            <ClassDetailProvider BreadCrumbsComponent={<BreadCrumbs item_list={state.breadCrumbList} />}>
+            <ClassDetailProvider
+                BreadCrumbsComponent={<BreadCrumbs item_list={state.breadCrumbList} />}
+                PageTitle={<Typo type={"HEADER"} size={"h3"} content={state.pageTitle} />}
+            >
                 <div>{children}</div>
             </ClassDetailProvider>
         );
@@ -86,6 +95,7 @@ const RenderChildren = ({ state, children }) => {
         return (
             <div>
                 <BreadCrumbs item_list={state.breadCrumbList} />
+                <Typo type={"HEADER"} size={"h3"} content={state.pageTitle} />
                 {children}
             </div>
         );
