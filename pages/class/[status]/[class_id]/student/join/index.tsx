@@ -1,9 +1,11 @@
+import ClassPlanList from "components/organism/ClassPlanList/ClassPlanList";
+
 type Props = {};
 
 const index = () => {
     return (
         <div>
-            <h2>join</h2>
+            <ClassPlanList />
         </div>
     );
 };
