@@ -48,7 +48,7 @@ const ClassDetailTopTab = (props: Props) => {
                 <div className={style.tabCotnainer}>
                     {tabList &&
                         tabList.map((it, idx) => (
-                            <Link key={`classtoptab${idx}`} href={it.link}>
+                            <Link key={`classtoptab${idx}`} href={it.link} passHref>
                                 <Button
                                     className={style.tabButton}
                                     type={"SQUARE"}
