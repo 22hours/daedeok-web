@@ -8,6 +8,7 @@ export const h22_axios = axios.create({});
 h22_axios.interceptors.response.use(
     (response: any): any => {
         var status_code = response.status;
+
         var res: api_config_type.api_response;
         switch (status_code) {
             case 200: {
@@ -16,6 +17,9 @@ h22_axios.interceptors.response.use(
             }
             case 201: {
                 var location = response.headers.location;
+                console.log(response);
+                console.log(response.headers.location);
+
                 res = { result: "SUCCESS", data: location || "SUCCESS" };
                 break;
             }
@@ -31,8 +35,7 @@ h22_axios.interceptors.response.use(
         return res;
     },
     async (error: any) => {
-        // const customErrorCode = error.response?.data?.status;
-        const customErrorCode: number = 701;
+        const customErrorCode = error.response?.data?.status;
         const error_msg: string = error.response?.data?.message;
         var res: api_config_type.api_response;
         console.debug(error);
