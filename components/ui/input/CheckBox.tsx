@@ -7,11 +7,12 @@ type Props = {
     value: boolean;
     onChange: (e) => void;
     isLabelRight?: boolean;
+    className?: string;
 };
 
 const CheckBox = (props: Props) => {
     return (
-        <div className={style.container}>
+        <div className={`${style.container} ${props.className || ""}`}>
             {props.isLabelRight ? (
                 <>
                     <input

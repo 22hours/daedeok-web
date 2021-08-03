@@ -1,0 +1,86 @@
+// ClassEditor.module
+@import "styles/meta.scss";
+
+.RowContainer {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    .label_container {
+        @include desktop {
+            width: 120px;
+            min-height: 41px;
+        }
+        @include mobile {
+            width: 100px;
+            min-height: 38px;
+        }
+        border: 1px solid $gray_form;
+        margin-right: 5px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .inputBox {
+        flex-grow: 1;
+    }
+    .form__box {
+        width: 100%;
+    }
+}
+
+.DivisionListInput {
+    margin-bottom: 20px;
+    .division_item_list {
+        .division_item {
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            .item_text {
+                display: flex;
+                margin-right: 5px;
+                p {
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}
+
+.StudentLimitInput {
+    .InputColumn {
+        flex-grow: 1;
+        display: flex;
+
+        .text {
+            flex-grow: 1;
+            margin-right: 5px;
+        }
+    }
+}
+
+.HandoutInput {
+    display: flex;
+    .file_input_button {
+        width: 130px;
+    }
+
+    .handout_item_list {
+        margin-left: 5px;
+        .HandoutItem {
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            .item_text {
+                display: flex;
+                margin-right: 5px;
+                p {
+                    margin-right: 5px;
+                }
+            }
+            svg {
+                cursor: pointer;
+            }
+        }
+    }
+}
