@@ -1,9 +1,12 @@
+import TutorClassPlanDetailList from "components/organism/TutorClassPlanDetailList/TutorClassPlanDetailList";
+import React from "react";
+
 type Props = {};
 
 const ManageAttendanceDetail = () => {
     return (
         <div>
-            <h2>[...episode_id]</h2>
+            <TutorClassPlanDetailList />
         </div>
     );
 };
