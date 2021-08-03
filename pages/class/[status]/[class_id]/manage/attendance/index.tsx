@@ -1,3 +1,4 @@
+import TutorClassPlanList from "components/organism/TutorClassPlanList/TutorClassPlanList";
 import { useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useClassStore } from "store/ClassStore";
@@ -20,7 +21,7 @@ const Index = () => {
     }, []);
     return (
         <div>
-            <h2>index</h2>
+            <TutorClassPlanList />
         </div>
     );
 };
