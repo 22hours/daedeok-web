@@ -1,11 +1,17 @@
+import React from "react";
+import ClassJoin from "components/organism/ClassJoin/ClassJoin";
+import { ClassJoinListStoreProvider } from "store/ClassJoinListStore";
+
 type Props = {};
 
-const ClassJoin = () => {
+const ClassJoinPage = () => {
     return (
         <div>
-            <h2>index</h2>
+            <ClassJoinListStoreProvider>
+                <ClassJoin />
+            </ClassJoinListStoreProvider>
         </div>
     );
 };
 
-export default ClassJoin;
+export default ClassJoinPage;

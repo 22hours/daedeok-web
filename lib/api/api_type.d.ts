@@ -57,6 +57,8 @@ declare module "@api_config_type" {
                 | "CATEGORY_DELETE"
                 // LECTURE
                 | "LECTURE_FIND"
+                | "LECTURE_FIND_POSSIBLE"
+                | "LECTURE_FIND_COMPLETE"
                 // >>>  BOARD
                 | "LECTURE_BOARD_FIND"
                 | "LECTURE_BOARD_DETAIL"
@@ -70,7 +72,9 @@ declare module "@api_config_type" {
                 | "LECTURE_NEW"
                 | "LECTURE_EDIT"
                 | "LECTURE_DELETE"
-                | "LECTURE_CLOSE";
+                | "LECTURE_CLOSE"
+                // >>>  JOIN
+                | "LECTURE_JOIN";
             url_query?: string | { lecture_id: string; board_id: string } | any;
             data?: any;
             extraHeader?: any;
