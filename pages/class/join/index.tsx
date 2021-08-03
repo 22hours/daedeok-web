@@ -65,7 +65,7 @@ const ClassJoinPage = () => {
     return (
         <div>
             <ClassJoinStoreProvider>
-                <ClassJoin dummy={dummy} />
+                <ClassJoin />
             </ClassJoinStoreProvider>
         </div>
     );

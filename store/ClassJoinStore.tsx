@@ -51,16 +51,13 @@ export const ClassJoinStoreProvider = ({ children }: { children: JSX.Element }) 
 
     const getClassListData = async () => {
         const res_data = await clientSideApi("GET", "MAIN", "LECTURE_FIND_POSSIBLE", undefined, {
-            page: 1,
+            page: 0,
             required_count: 7,
         });
-        if (res_data) {
-            console.log(res_data);
-            //@ts-ignore
-            if (res_data.result === "SUCCESS") {
-                var data = res_data.data;
-                dispatch({ type: "SET_CLASS_LIST", data: data });
-            }
+        console.log(res_data);
+        if (res_data.result === "SUCCESS") {
+            var data = res_data.data;
+            dispatch({ type: "SET_CLASS_LIST", data: data });
         }
     };
 

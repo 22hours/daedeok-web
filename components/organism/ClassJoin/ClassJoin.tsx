@@ -4,10 +4,12 @@ import Button from "@ui/buttons/Button";
 import UseDate from "lib/hooks/useDate";
 import TableWrapper from "@ui/board/TableWrapper";
 import style from "./ClassJoin.module.scss";
-//store
-import { useStoreDispatch, useStoreState } from "store/ClassJoinStore";
 
-const JoinButton = ({ state }) => {
+//store
+import { useAuthStore } from "store/AuthStore";
+import { useStoreState } from "store/ClassJoinStore";
+
+const JoinButton = ({ state, idx, handleClassJoin }) => {
     switch (state) {
         case "POSSIBLE":
             return (
@@ -20,6 +22,9 @@ const JoinButton = ({ state }) => {
                     size="small"
                     line="inline"
                     type="SQUARE"
+                    onClick={() => {
+                        handleClassJoin({ idx });
+                    }}
                 />
             );
         case "IMPOSSIBLE":
@@ -53,15 +58,31 @@ const JoinButton = ({ state }) => {
     }
 };
 
-const ClassJoin = ({ dummy }) => {
+const ClassJoin = () => {
+    const { clientSideApi } = useAuthStore();
     const data = useStoreState();
 
-    console.log(data);
+    const handleClassJoin = async ({ idx }) => {
+        const res_data = await clientSideApi(
+            "POST",
+            "MAIN",
+            "LECTURE_JOIN",
+            { lecture_id: idx },
+            {
+                lecture_id: idx,
+            }
+        );
+        if (res_data.result === "SUCCESS") {
+            alert("수강신청이 완료되었습니다.");
+        } else {
+            alert("실패했습니다. 다시 시도해주세요.");
+        }
+    };
 
     return (
         <div>
             <TableWrapper>
-                {dummy.map((it, idx) => (
+                {data.lecture_list.map((it, idx) => (
                     <div key={idx}>
                         <TableRow
                             title={it.title}
@@ -71,10 +92,10 @@ const ClassJoin = ({ dummy }) => {
                                 student_limit: it.student_limit === -1 ? "무제한" : it.student_limit,
                                 student_num: it.student_num,
                             }}
-                            href={"/ui/buttons"}
+                            href={`/class/join/detail/${it.id}`}
                         >
                             <div style={{ width: "90px", marginRight: "20px" }}>
-                                <JoinButton state={it.status} />
+                                <JoinButton state={it.status} idx={it.id} handleClassJoin={handleClassJoin} />
                             </div>
                         </TableRow>
                     </div>

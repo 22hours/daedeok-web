@@ -25,7 +25,7 @@ type Store = {
         ep: api_params["ep"],
         url_query?: api_params["url_query"],
         data?: api_params["data"]
-    ) => Promise<api_config_type.api_response | AxiosResponse<any>>;
+    ) => Promise<api_config_type.api_response>;
     login: (user_data: meta_types.user) => void;
     logout: () => void;
 };
@@ -153,6 +153,7 @@ export const AuthProvider = ({ children }) => {
 
     const store: Store = {
         auth,
+        //@ts-ignore
         clientSideApi,
         login,
         logout,
