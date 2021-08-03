@@ -1,64 +1,43 @@
 import style from "./Board.module.scss";
 import Typo from "@ui/Typo";
 
-{
-    /* 아래 복붙 후 사용
-    사용하지 않는 props 는 false로 입력
-
-    <Board
-    idx={false}
-    title={false}
-    studentInfo={false}
-    category={false}
-    author={false}
-    date={false}
-    studentName={false}
-    view={false}
-    studentLimit={false}
-> */
-}
-
 type Props = {
     children?: JSX.Element | JSX.Element[];
-    idx: number | boolean;
-    title: string | boolean;
-    studentName: string | boolean;
-    category: string | boolean;
-    author: string | boolean;
-    date: string | boolean;
-    studentLimit: { student_limit: any; student_num: number } | boolean;
-    view: number | boolean;
-    studentInfo: { duty: string; first_division: string; second_division: string; phone_number: string } | boolean;
+    idx?: number;
+    title?: string;
+    studentName?: string;
+    category?: string;
+    author?: string;
+    date?: string;
+    studentLimit?: { student_limit: any; student_num: number };
+    view?: number;
+    studentInfo?: { duty: string; first_division: string; second_division: string; phone_number: string };
 };
 
-const Board = (props: Props) => {
+const TableRow = (props: Props) => {
     const { children, idx, title, studentName, category, author, date, studentInfo, view, studentLimit } = props;
 
     return (
         <div className={style.board_list}>
             <div className={style.board_item_wrapper}>
-                {idx ? (
+                {idx && (
                     <div className={style.idx_item}>
                         <Typo type="TEXT" size="small" content={idx.toString()} />
                     </div>
-                ) : (
-                    <></>
                 )}
-                {title ? (
+                {title && (
                     <div className={style.title_item}>
                         <Typo type="TEXT" size="medium" content={title.toString()} />
                     </div>
-                ) : (
-                    <></>
                 )}
-                <div className={style.board_item}>
-                    {studentName ? <Typo type="TEXT" size="medium" content={studentName.toString()} /> : <></>}
-                </div>
+                {studentName && (
+                    <div className={style.board_item}>
+                        <Typo type="TEXT" size="medium" content={studentName.toString()} />
+                    </div>
+                )}
             </div>
             <div className={style.board_item_wrapper}>
-                {studentInfo === false ? (
-                    <></>
-                ) : (
+                {studentInfo && (
                     <>
                         <div className={style.student_info_item}>
                             <Typo
@@ -89,37 +68,27 @@ const Board = (props: Props) => {
                         </div>
                     </>
                 )}
-                {category ? (
+                {category && (
                     <div className={style.board_item}>
                         <Typo type="TEXT" size="small" content={category.toString()} color={"red_accent"} />
                     </div>
-                ) : (
-                    <></>
                 )}
-                {author ? (
+                {author && (
                     <div className={style.board_item}>
                         <Typo type="TEXT" size="small" content={author.toString()} color={"gray_accent"} />
                     </div>
-                ) : (
-                    <></>
                 )}
-                {date ? (
+                {date && (
                     <div className={style.board_item}>
                         <Typo type="TEXT" size="small" content={date.toString()} color={"gray_accent"} />
                     </div>
-                ) : (
-                    <></>
                 )}
-                {view ? (
+                {view && (
                     <div className={style.board_item}>
                         <Typo type="TEXT" size="small" content={view.toString()} color={"gray_accent"} />
                     </div>
-                ) : (
-                    <></>
                 )}
-                {studentLimit === false ? (
-                    <></>
-                ) : (
+                {studentLimit && (
                     <div className={style.board_item}>
                         <Typo
                             type="TEXT"
@@ -131,8 +100,8 @@ const Board = (props: Props) => {
                     </div>
                 )}
             </div>
-            <> {children ? <div>{children}</div> : <></>}</>
+            <> {children && <div>{children}</div>}</>
         </div>
     );
 };
-export default Board;
+export default TableRow;
