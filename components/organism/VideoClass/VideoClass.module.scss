@@ -2,8 +2,8 @@
 @import "styles/meta.scss";
 
 .container {
-    width: 800px;
-    height: 500px;
+    // width: 800px;
+    height: 700px;
     display: flex;
     flex-direction: column;
 }
@@ -14,4 +14,20 @@
 
 .progress_container {
     margin-top: 30px;
+}
+
+.sub_breadcrumbs_container {
+    display: flex;
+    margin-bottom: 20px;
+    .breadcrumb_item {
+        cursor: pointer;
+    }
+}
+
+.table {
+    margin-bottom: 20px;
+}
+
+.introduce_container {
+    margin-top: 20px;
 }
