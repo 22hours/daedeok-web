@@ -3,6 +3,7 @@ import { api_config_type } from "@api_config_type";
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import { meta_types } from "@global_types";
 import StorageController from "lib/client/storageController";
+import { AxiosResponse } from "axios";
 
 // ELEMENT TYPES
 type api_params = api_config_type.api_params;
@@ -24,16 +25,7 @@ type Store = {
         ep: api_params["ep"],
         url_query?: api_params["url_query"],
         data?: api_params["data"]
-    ) => Promise<
-        | {
-              result: "SUCCESS";
-              data: any;
-          }
-        | {
-              result: "ERROR";
-              msg: any;
-          }
-    >;
+    ) => Promise<api_config_type.api_response | AxiosResponse<any>>;
     login: (user_data: meta_types.user) => void;
     logout: () => void;
 };

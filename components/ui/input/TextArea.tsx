@@ -23,7 +23,7 @@ const TextArea = (props: Props) => {
             <textarea
                 className={`${style.container}`}
                 // @ts-ignore
-                ref={props.ref || undefined}
+                ref={props.refs || undefined}
                 value={props.value}
                 onChange={props.onChange}
                 maxLength={props.maxLength || undefined}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import { meta_types, req_types, res_types } from "@global_types";
+import { useAuthStore } from "./AuthStore";
 
 // STATE TYPES
 type State = req_types.classNewItem;
@@ -44,11 +45,16 @@ type Action =
     | { type: "SET_PLAN_DATE"; data: { idx: number; date: string } }
     | { type: "SET_PLAN_TIME"; data: { idx: number; time: string } };
 
+// STORE TYPE
+type Store = {
+    saveClass: Function;
+} & State;
+
 // DISPATCH TYPES
 type ContextDispatch = Dispatch<Action>;
 
 // CONTEXT
-const ClassNewStoreContext = React.createContext<State | null>(null);
+const ClassNewStoreContext = React.createContext<Store | null>(null);
 const ClassNewStoreDispatchContext = createContext<ContextDispatch | null>(null);
 
 // REDUCER
@@ -305,10 +311,53 @@ const reducer = (state: State, action: Action): State => {
 };
 
 export const ClassNewStoreProvider = ({ children }: { children: JSX.Element }) => {
+    const { clientSideApi } = useAuthStore();
     const [state, dispatch] = useReducer(reducer, initState);
 
+    const makeDivisionList = () => {
+        var reqDivisionList: { first_division: string; second_division: string[] }[] = [];
+        state.division_list.forEach((item) => {
+            const firstDivisionIdx = reqDivisionList.findIndex((it) => it.first_division === item.first_division);
+            if (firstDivisionIdx === -1) {
+                // NO REMAIN
+                reqDivisionList.push({
+                    first_division: item.first_division,
+                    second_division: [item.second_division],
+                });
+            } else {
+                // REMIAN
+                const newSecondDivisionList = reqDivisionList[firstDivisionIdx].second_division.slice();
+                newSecondDivisionList.push(item.second_division);
+
+                reqDivisionList[firstDivisionIdx] = {
+                    first_division: reqDivisionList[firstDivisionIdx].first_division,
+                    second_division: newSecondDivisionList,
+                };
+            }
+        });
+        return reqDivisionList;
+    };
+
+    const saveClass = async (valueList: { title: string; content: string; reference: string }) => {
+        const { title, content, reference } = valueList;
+        const reqDivionList = makeDivisionList();
+        const reqObj = {
+            title: title,
+            content: content,
+            category: state.category,
+            division_list: reqDivionList,
+            student_limit: state.student_limit,
+            reference: state.reference,
+            handout_list: state.handout_list,
+            plan_list: state.plan_list,
+        };
+
+        const res = await clientSideApi("GET", "MAIN", "LECTURE_NEW", undefined, reqObj);
+    };
+
+    const store = { ...state, saveClass };
     return (
-        <ClassNewStoreContext.Provider value={state}>
+        <ClassNewStoreContext.Provider value={store}>
             <ClassNewStoreDispatchContext.Provider value={dispatch}>{children}</ClassNewStoreDispatchContext.Provider>
         </ClassNewStoreContext.Provider>
     );

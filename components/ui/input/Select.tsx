@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import style from "./Select.module.scss";
 import CSS from "csstype";
 import useFormStyle from "lib/hooks/useFormStyle";

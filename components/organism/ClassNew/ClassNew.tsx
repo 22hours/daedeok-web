@@ -30,6 +30,7 @@ const ClassLabel = ({ text }) => {
     );
 };
 
+// PLAN LIST ITEM
 type PlanItemType = {
     type: "ZOOM" | "ONLINE" | "OFFLINE";
     itemData: req_types.classPlanListItem;
@@ -415,12 +416,11 @@ const DivisionInput = () => {
     );
 };
 
-const ClassNew = () => {
-    const titleRef = useRef<HTMLInputElement | null>(null);
-    const introRef = useRef<HTMLTextAreaElement | null>(null);
-    const categoryRef = useRef<HTMLInputElement | null>(null);
-    const referenceRef = useRef<HTMLInputElement | null>(null);
-
+// CATEGORY
+const CategoryInput = () => {
+    const { category } = useClassNewStore();
+    const dispatch = useClassNewDispatch();
+    const onChange = useCallback((e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }), [category]);
     const option_list = [
         {
             value: "교육부",
@@ -431,6 +431,37 @@ const ClassNew = () => {
             name: "유아부",
         },
     ];
+    return (
+        <div className={style.input_form}>
+            <ClassLabel text={"수업 카테고리"} />
+            <Select
+                value={category}
+                onChange={onChange}
+                form="box"
+                //@ts-ignore
+                option_list={option_list}
+                className={style.input}
+                placeholder={"수업 카테고리 선택"}
+            />
+        </div>
+    );
+};
+
+const ClassNew = () => {
+    const { saveClass } = useClassNewStore();
+    const titleRef = useRef<HTMLInputElement | null>(null);
+    const contentRef = useRef<HTMLTextAreaElement | null>(null);
+    const referenceRef = useRef<HTMLInputElement | null>(null);
+
+    const handleSaveClass = useCallback(
+        () =>
+            saveClass({
+                title: titleRef.current?.value,
+                content: contentRef.current?.value,
+                reference: referenceRef.current?.value,
+            }),
+        []
+    );
 
     return (
         <div className={style.container}>
@@ -449,22 +480,12 @@ const ClassNew = () => {
                     <ClassLabel text={"강의소개"} />
                     <TextArea
                         //@ts-ignore
-                        refs={introRef}
+                        refs={contentRef}
                         className={style.input}
                         placeholder={"강의 소개"}
                     />
                 </div>
-                <div className={style.input_form}>
-                    <ClassLabel text={"수업 카테고리"} />
-                    <Select
-                        form="box"
-                        //@ts-ignore
-                        refs={categoryRef}
-                        option_list={option_list}
-                        className={style.input}
-                        placeholder={"수업 카테고리 선택"}
-                    />
-                </div>
+                <CategoryInput />
                 <DivisionInput />
 
                 <StudentLimitInput />
@@ -492,6 +513,7 @@ const ClassNew = () => {
                     color="white"
                     content="개설"
                     alignment="center"
+                    onClick={handleSaveClass}
                 />
             </div>
         </div>
