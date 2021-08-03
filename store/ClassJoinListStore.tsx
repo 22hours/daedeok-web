@@ -30,8 +30,8 @@ type Action = { type: "SET_CLASS_LIST"; data: State };
 type ContextDispatch = Dispatch<Action>;
 
 // CONTEXT
-const ClassJoinStoreContext = React.createContext<State | null>(null);
-const ClassJoinStoreDispatchContext = createContext<ContextDispatch | null>(null);
+const ClassJoinListStoreContext = React.createContext<State | null>(null);
+const ClassJoinListStoreDispatchContext = createContext<ContextDispatch | null>(null);
 
 // REDUCER
 const reducer = (state: State, action: Action): State => {
@@ -45,7 +45,7 @@ const reducer = (state: State, action: Action): State => {
     }
 };
 
-export const ClassJoinStoreProvider = ({ children }: { children: JSX.Element }) => {
+export const ClassJoinListStoreProvider = ({ children }: { children: JSX.Element }) => {
     const { clientSideApi } = useAuthStore();
     const [state, dispatch] = useReducer(reducer, initState);
 
@@ -66,20 +66,22 @@ export const ClassJoinStoreProvider = ({ children }: { children: JSX.Element }) 
     }, []);
 
     return (
-        <ClassJoinStoreContext.Provider value={state}>
-            <ClassJoinStoreDispatchContext.Provider value={dispatch}>{children}</ClassJoinStoreDispatchContext.Provider>
-        </ClassJoinStoreContext.Provider>
+        <ClassJoinListStoreContext.Provider value={state}>
+            <ClassJoinListStoreDispatchContext.Provider value={dispatch}>
+                {children}
+            </ClassJoinListStoreDispatchContext.Provider>
+        </ClassJoinListStoreContext.Provider>
     );
 };
 
 export const useStoreState = () => {
-    const state = useContext(ClassJoinStoreContext);
-    if (!state) throw new Error("Cannot find ClassJoinStoreProvider");
+    const state = useContext(ClassJoinListStoreContext);
+    if (!state) throw new Error("Cannot find ClassJoinListStoreProvider");
     return state;
 };
 
 export const useStoreDispatch = () => {
-    const dispatch = useContext(ClassJoinStoreDispatchContext);
-    if (!dispatch) throw new Error("Cannot find ClassJoinStoreProvider");
+    const dispatch = useContext(ClassJoinListStoreDispatchContext);
+    if (!dispatch) throw new Error("Cannot find ClassJoinListStoreProvider");
     return dispatch;
 };

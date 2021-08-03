@@ -7,7 +7,7 @@ import style from "./ClassJoin.module.scss";
 
 //store
 import { useAuthStore } from "store/AuthStore";
-import { useStoreState } from "store/ClassJoinStore";
+import { useStoreState } from "store/ClassJoinListStore";
 
 const JoinButton = ({ state, idx, handleClassJoin }) => {
     switch (state) {

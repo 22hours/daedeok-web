@@ -117,7 +117,7 @@ const TableRow = (props: Props) => {
                                     </>
                                 )}
                                 {category && (
-                                    <div className={style.board_item}>
+                                    <div className={style.category_item}>
                                         <Typo
                                             type="TEXT"
                                             size="small"
