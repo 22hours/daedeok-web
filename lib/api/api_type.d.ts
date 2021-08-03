@@ -80,6 +80,8 @@ declare module "@api_config_type" {
                 | "LECTURE_EDIT"
                 | "LECTURE_DELETE"
                 | "LECTURE_CLOSE"
+                // >>>  PLAN
+                | "LECTUER_PLAN_LIST"
                 // >>>  JOIN
                 | "LECTURE_JOIN";
             url_query?: string | { lecture_id: string; board_id: string } | any;
