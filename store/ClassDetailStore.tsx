@@ -1,7 +1,9 @@
 import { meta_types } from "@global_types";
+import BreadCrumbs from "@ui/BreadCrumbs";
 import ClassDetailTopTab from "components/molecule/ClassDetailTopTab";
 import { useRouter } from "next/router";
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
+import { useClassStore } from "./ClassStore";
 
 // STATE TYPES
 type State = {
@@ -21,15 +23,15 @@ const ClassDetailContext = React.createContext<State | null>(null);
 const ClassDetailDispatchContext = createContext<ContextDispatch | null>(null);
 
 // REDUCER
-const reducer = (state: State, action: Action): State => {
-    return state;
+type ProviderType = {
+    children: JSX.Element;
+    BreadCrumbsComponent: JSX.Element;
 };
-
-export const ClassDetailProvider = ({ children }) => {
+export const ClassDetailProvider = (props: ProviderType) => {
     const router = useRouter();
     const [classInfo, setClassInfo] = useState<State>(null);
-
-    useEffect(() => {
+    const getClassInfo = async () => {
+        console.log(router.query);
         // @ts-ignore
         const { class_id, status }: { class_id: string; status: meta_types.classStatus } = router.query;
         setClassInfo({
@@ -37,6 +39,12 @@ export const ClassDetailProvider = ({ children }) => {
             class_title: "요햔계시록-1",
             class_status: status,
         });
+    };
+
+    useEffect(() => {
+        if (router) {
+            getClassInfo();
+        }
     }, [router]);
 
     return (
@@ -44,8 +52,9 @@ export const ClassDetailProvider = ({ children }) => {
             <div>
                 {classInfo && (
                     <>
+                        {props.BreadCrumbsComponent}
                         <ClassDetailTopTab status={classInfo.class_status} class_id={classInfo.class_id} />
-                        {children}
+                        {props.children}
                     </>
                 )}
             </div>

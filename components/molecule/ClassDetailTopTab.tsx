@@ -19,7 +19,7 @@ const ClassDetailTopTab = (props: Props) => {
     useEffect(() => {
         if (props.status && props.class_id) {
             var tempList: State = [];
-            for (const [key, value] of Object.entries(RouteController.class.childPage[props.status].childPage)) {
+            for (const [_, value] of Object.entries(RouteController.class.childPage[props.status].childPage)) {
                 //@ts-ignore
                 const pageValue: {
                     name: string;
