@@ -3,6 +3,7 @@ import CollapseButton from "@ui/buttons/CollapseButton";
 import Typo from "@ui/Typo";
 import { RouteController } from "lib/RouteController";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
 import style from "./ClassSideBar.module.scss";
@@ -14,6 +15,9 @@ const SidebarMenuList = () => {
     // SERVER 에서 DATA FETCH 필요!
     // DUMMIES
     const { auth } = useAuthStore();
+    const router = useRouter();
+    const { class_id } = router.query;
+
     const myRole = auth?.role;
     const nowOpenLecture = [
         { id: 1, name: "요한계시록-1", class_id: 1 },
@@ -66,14 +70,15 @@ const SidebarMenuList = () => {
                                             class_id: 1,
                                             content_id: 1,
                                         });
-
+                                        const isNow = lectureItem.class_id.toString() === class_id;
                                         return (
                                             <Link key={`classlistbtn::${idx}`} href={link}>
                                                 <Button
                                                     type={"SQUARE"}
                                                     size={"small"}
-                                                    backgroundColor={"white"}
+                                                    backgroundColor={isNow ? "mint_accent" : "white"}
                                                     fontSize={"smaller"}
+                                                    color={isNow ? "white" : "brown_base"}
                                                     content={lectureItem.name}
                                                     className={style.collapse_inner_button}
                                                 />
