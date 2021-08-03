@@ -31,8 +31,8 @@ h22_axios.interceptors.response.use(
         return res;
     },
     async (error: any) => {
-        // const customErrorCode = error.response?.data?.status;
-        const customErrorCode: number = 701;
+        const customErrorCode = error.response?.data?.status;
+        // const customErrorCode: number = 701;
         const error_msg: string = error.response?.data?.message;
         var res: api_config_type.api_response;
         console.debug(error);

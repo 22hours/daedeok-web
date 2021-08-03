@@ -1,7 +1,6 @@
 import React from "react";
-import Board from "@ui/board/Board";
-import Button from "@ui/buttons/Button";
-import UseDate from "lib/hooks/useDate";
+import ClassJoin from "components/organism/ClassJoin/ClassJoin";
+import { ClassJoinStoreProvider } from "store/ClassJoinStore";
 
 type Props = {};
 
@@ -62,72 +61,14 @@ const dummy = [
     },
 ];
 
-const JoinButton = ({ state }) => {
-    console.log(state);
-    switch (state) {
-        case "POSSIBLE":
-            return (
-                <Button
-                    content={"수강신청"}
-                    backgroundColor="brown_base"
-                    fontSize="small"
-                    color="white"
-                    alignment="center"
-                    size="small"
-                    line="inline"
-                    type="SQUARE"
-                />
-            );
-        case "IMPOSSIBLE":
-            return (
-                <Button
-                    content={"신청마감"}
-                    backgroundColor="gray_accent"
-                    fontSize="small"
-                    color="white"
-                    alignment="center"
-                    size="small"
-                    type="SQUARE"
-                />
-            );
-        case "ING":
-            return (
-                <Button
-                    content={"수강중"}
-                    backgroundColor="yellow_accent"
-                    fontSize="small"
-                    color="white"
-                    alignment="center"
-                    size="small"
-                    type="SQUARE"
-                />
-            );
-        default:
-            return <div></div>;
-    }
-};
-
-const ClassJoin = () => {
+const ClassJoinPage = () => {
     return (
         <div>
-            <div className=""></div>
-            {dummy.map((it, idx) => (
-                <div key={idx}>
-                    <Board
-                        title={it.title}
-                        category={it.category}
-                        date={UseDate("YYYY-MM-DD", it.start_date) + "~" + UseDate("YYYY-MM-DD", it.end_date)}
-                        studentLimit={{
-                            student_limit: it.student_limit === -1 ? "무제한" : it.student_limit,
-                            student_num: it.student_num,
-                        }}
-                    >
-                        <JoinButton state={it.status} />
-                    </Board>
-                </div>
-            ))}
+            <ClassJoinStoreProvider>
+                <ClassJoin dummy={dummy} />
+            </ClassJoinStoreProvider>
         </div>
     );
 };
 
-export default ClassJoin;
+export default ClassJoinPage;

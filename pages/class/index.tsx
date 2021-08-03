@@ -7,8 +7,8 @@ const Index = () => {
 };
 
 export async function getServerSideProps(ctx) {
-    const accessAbleRole = "ROLE_ADMIN";
-    const flag = isAccessAble(ctx, "ROLE_ADMIN");
+    const accessAbleRole = "ROLE_ALL";
+    const flag = isAccessAble(ctx, accessAbleRole);
     if (!flag) {
         return {
             redirect: {

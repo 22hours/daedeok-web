@@ -89,6 +89,10 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         // LECTURE
         case `LECTURE_FIND`:
             return `lecture/`;
+        case `LECTURE_FIND_POSSIBLE`:
+            return `lecture/possible`;
+        case `LECTURE_FIND_COMPLETE`:
+            return `lecture/complete`;
         // >>>  BOARD
         case `LECTURE_BOARD_FIND`:
             return `lecture/${url_query.lecture_id}/board`;
@@ -113,6 +117,9 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `lecture/${url_query}`;
         case `LECTURE_CLOSE`:
             return `lecture/${url_query}`;
+        // >>>  JOIN
+        case `LECTURE_JOIN`:
+            return `lecture/join/${url_query.lecture_id}`;
 
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);

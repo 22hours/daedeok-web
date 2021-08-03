@@ -1,0 +1,78 @@
+@import "styles/meta.scss";
+
+.board_list {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 0.5px $gray_accent solid;
+}
+.icon_item {
+    color: $gray_accent;
+}
+.tutor_item {
+    margin-left: 20px;
+}
+.board_item_wrapper {
+    display: flex;
+    align-items: center;
+}
+.right_item_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+.link {
+    cursor: pointer;
+}
+.board_item {
+    margin-right: 20px;
+    text-align: center;
+}
+.limit_item {
+    margin-right: 15px;
+    width: 70px;
+}
+.idx_item {
+    margin-right: 50px;
+}
+
+.title_item {
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.student_info_item {
+    margin-right: 10px;
+}
+
+.child_wrapper {
+    display: grid;
+}
+
+.color_gray {
+    color: $gray_accent !important;
+}
+
+.table_row_wrapper {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.5px $gray_accent solid;
+}
+.link_board_list {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
