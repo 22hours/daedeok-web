@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import TableRow from "@ui/board/TableRow";
 import Button from "@ui/buttons/Button";
 import UseDate from "lib/hooks/useDate";
 import TableWrapper from "@ui/board/TableWrapper";
 import style from "./ClassJoin.module.scss";
 import Pagination from "@ui/pagination/Pagination";
+import SearchBar from "@ui/input/SearchBar";
+import Select from "@ui/input/Select";
+
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useStoreState, useStoreDispatch } from "store/ClassJoinListStore";
@@ -62,6 +65,9 @@ const ClassJoin = () => {
     const { clientSideApi } = useAuthStore();
     const data = useStoreState();
     const dispatch = useStoreDispatch();
+    const searchRef = useRef<HTMLInputElement | null>(null);
+
+    const cateogryList = [];
 
     const handleClassJoin = async ({ idx }) => {
         const res_data = await clientSideApi(
@@ -82,6 +88,18 @@ const ClassJoin = () => {
 
     return (
         <div>
+            <div className={style.top_form}>
+                <Select
+                    form="box"
+                    placeholder={"카테고리별 보기"}
+                    onChange={({ target: { value } }) => {
+                        alert("TODO");
+                    }}
+                    option_list={cateogryList}
+                    className={style.select}
+                />
+                <SearchBar className={style.search} form="box" placeholder={"검색어를 입력하세요"} refs={searchRef} />
+            </div>
             <TableWrapper>
                 {data.lecture_list_item.lecture_list.map((it, idx) => (
                     <div key={idx}>
