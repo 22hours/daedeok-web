@@ -4,6 +4,7 @@ import style from "./PcHeader.module.scss";
 import { RouteController } from "lib/RouteController";
 import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
+import { nanoid } from "nanoid";
 
 type Props = {};
 
@@ -37,6 +38,7 @@ const PcHeader = () => {
                         });
                         return (
                             <DropdownButton
+                                key={`pcheaderdrbtn${nanoid()}`}
                                 className={extraClassName || undefined}
                                 mainText={fisrtItem.name}
                                 childButtonItem={curDropdownItem}
@@ -51,8 +53,11 @@ const PcHeader = () => {
                         );
                     } else {
                         return (
-                            <div className={`${style.header_wrapper} ${extraClassName}`}>
-                                <Link href={fisrtItem.pathname}>
+                            <div
+                                key={`pcheaderndrbtn${nanoid()}`}
+                                className={`${style.header_wrapper} ${extraClassName}`}
+                            >
+                                <Link href={fisrtItem.pathname} passHref>
                                     <div className={`${style.square} ${style.small} ${style.white}`}>
                                         <Typo
                                             type={"BUTTON"}
