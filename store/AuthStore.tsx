@@ -25,7 +25,7 @@ type Store = {
         ep: api_params["ep"],
         url_query?: api_params["url_query"],
         data?: api_params["data"]
-    ) => Promise<api_config_type.api_response | AxiosResponse<any>>;
+    ) => Promise<api_config_type.api_response>;
     login: (user_data: meta_types.user) => void;
     logout: () => void;
 };
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
         var extraHeader = {};
         if (auth) {
             extraHeader = {
-                Authorization: `Bearer ${CookieController.getTokenInCookie()?.access_token}`,
+                // Authorization: `Bearer ${CookieController.getTokenInCookie()?.access_token}`,
             };
         }
         const res_data = await apiClient.API_CALL(method, domain, ep, url_query, data, extraHeader);
@@ -153,6 +153,7 @@ export const AuthProvider = ({ children }) => {
 
     const store: Store = {
         auth,
+        // @ts-ignore
         clientSideApi,
         login,
         logout,

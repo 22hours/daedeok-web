@@ -3,7 +3,6 @@ import { class_types } from "@global_types";
 import TextInput from "@ui/input/TextInput";
 import React, { useState } from "react";
 import ClassRow from "./items/ClassRow";
-import { nanoid } from "nanoid";
 import AddIcon from "@material-ui/icons/Add";
 
 type PlanListInputProps = {
@@ -18,12 +17,10 @@ type PlanListInputProps = {
 };
 
 const PlanListInput = (props: PlanListInputProps) => {
-    const [number, setNumber] = useState(0);
     return (
-        <div>
+        <div className={style.PlanListInput}>
             <ClassRow labelName={"강의 계획"} />
             <PlanItemList {...props} />
-            <button onClick={() => setNumber(number + 1)}>{number}</button>
             <div>
                 <div className={style.button_group}>
                     <div className={style.class_type_button} onClick={() => props.addPlanItem("OFFLINE")}>
@@ -46,11 +43,11 @@ const PlanItemList = (props) => {
         <div>
             {props.value.map((it, idx) => (
                 <PlanItemInput
-                    key={`planinputitem${nanoid()}`}
+                    key={`planinputitem${idx}`}
                     planItem={it}
                     setPlanItem={props.setPlanItem}
                     removePlanItem={props.removePlanItem}
-                    idx={idx}
+                    keyidx={idx}
                 />
             ))}
         </div>
@@ -65,7 +62,7 @@ type PlanItemProps = {
         idx: number
     ) => void;
     removePlanItem: (idx: number) => void;
-    idx: number;
+    keyidx: number;
 };
 const PlanItemInput = (props: PlanItemProps) => {
     const { planItem } = props;
@@ -156,8 +153,9 @@ const PlanItemInput = (props: PlanItemProps) => {
             {RenderList.map((it, idx) => {
                 return (
                     <PlanTextInput
-                        key={`commmontextfiled:${nanoid()}`}
+                        key={`planinput:${it.id}`}
                         item={it}
+                        keyidx={props.keyidx}
                         idx={idx}
                         setPlanItem={props.setPlanItem}
                     />
@@ -167,14 +165,15 @@ const PlanItemInput = (props: PlanItemProps) => {
                 {CommonLastInputList.map((it, idx) => {
                     return (
                         <PlanTextInput
-                            key={`specialtextfiled:${nanoid()}`}
+                            key={`planinput:${it.id}`}
                             item={it}
+                            keyidx={props.keyidx}
                             idx={idx}
                             setPlanItem={props.setPlanItem}
                         />
                     );
                 })}
-                <div onClick={() => props.removePlanItem(props.idx)} className={style.plan_item_delete_btn}>
+                <div onClick={() => props.removePlanItem(props.keyidx)} className={style.plan_item_delete_btn}>
                     삭제
                 </div>
             </div>
@@ -183,17 +182,16 @@ const PlanItemInput = (props: PlanItemProps) => {
 };
 
 const PlanTextInput = (props) => {
-    const { item, idx, setPlanItem } = props;
+    const { item, idx, keyidx, setPlanItem } = props;
     return (
         <TextInput
-            key={`classItemInput::${nanoid()}`}
             // @ts-ignore
-            type={item.class_type_button}
+            type={item.type}
             form="box"
             placeholder={item.placeholder}
             // @ts-ignore
             value={item.value}
-            onChange={(e) => props.setPlanItem(item.name, e.target.value, idx)}
+            onChange={(e) => props.setPlanItem(item.name, e.target.value, props.keyidx)}
             className={style.plan_list_input}
         />
     );

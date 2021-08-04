@@ -61,6 +61,7 @@
 
 .HandoutInput {
     display: flex;
+
     .file_input_button {
         width: 130px;
     }
@@ -74,6 +75,18 @@
             .item_text {
                 display: flex;
                 margin-right: 5px;
+                @include mobile {
+                    max-width: 50px;
+                }
+                @include desktop {
+                    max-width: 300px;
+                }
+
+                span {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    width: 100%;
+                }
                 p {
                     margin-right: 5px;
                 }
@@ -82,5 +95,57 @@
                 cursor: pointer;
             }
         }
+    }
+}
+
+.PlanListInput {
+    .PlanItemInput {
+        margin-bottom: 20px;
+        .plan_list_input {
+            margin-bottom: 5px;
+        }
+        .plan_item_date_input {
+            @include desktop {
+                display: flex;
+                .plan_list_input {
+                    width: 180px;
+                    margin-right: 5px;
+                }
+                .plan_item_delete_btn {
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+        }
+    }
+    .button_group {
+        display: flex;
+        justify-content: left;
+        margin-top: 20px;
+
+        .class_type_button {
+            @include font_small_text;
+            cursor: pointer;
+            background-color: $mint_accent;
+            color: white;
+            border-radius: 30px;
+            width: 100px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+        }
+    }
+}
+
+.submit_row {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    .submit_btn {
+        width: 80px;
+        height: 30px;
     }
 }

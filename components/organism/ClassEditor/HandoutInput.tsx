@@ -9,6 +9,7 @@ import FileInput from "@ui/input/FileInput";
 import useFileInput from "lib/hooks/useFileInput";
 import Button from "@ui/buttons/Button";
 import ClassRow from "./items/ClassRow";
+import { useAuthStore } from "store/AuthStore";
 
 type HandoutProps = {
     value: class_types.ClassInfo["handout_list"];
@@ -17,11 +18,30 @@ type HandoutProps = {
 };
 const HandoutInput = (props: HandoutProps) => {
     const localHandout = useFileInput();
+    const { clientSideApi } = useAuthStore();
+
+    const uploadDummy = async (file: File) => {
+        var bodyFormData = new FormData();
+        bodyFormData.append("file_list", file);
+        const res = await clientSideApi("POST", "MAIN", "UPLOAD_DUMMY", undefined, bodyFormData);
+        return res;
+    };
+
+    const setNewHandout = async (file: File) => {
+        const fileName: string = file.name;
+        const url_res = await uploadDummy(file);
+        if (url_res?.result === "SUCCESS") {
+            const res_rul = url_res.data[0];
+            props.addHandoutItem({ name: fileName, url: res_rul });
+        } else {
+            alert(url_res.msg);
+        }
+    };
 
     useEffect(() => {
         if (localHandout.value) {
-            const fileName: string = localHandout.value.name;
-            props.addHandoutItem({ name: fileName, url: "123" });
+            const curSelectedFile: File = localHandout.value;
+            setNewHandout(curSelectedFile);
         }
     }, [localHandout.value]);
     return (

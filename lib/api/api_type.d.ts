@@ -70,7 +70,9 @@ declare module "@api_config_type" {
                 | "LECTURE_NEW"
                 | "LECTURE_EDIT"
                 | "LECTURE_DELETE"
-                | "LECTURE_CLOSE";
+                | "LECTURE_CLOSE"
+                // FILE
+                | "UPLOAD_DUMMY";
             url_query?: string | { lecture_id: string; board_id: string } | any;
             data?: any;
             extraHeader?: any;

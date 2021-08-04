@@ -1,14 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useReducer } from "react";
 import style from "./ClassEditor.module.scss";
 import { class_types } from "@global_types";
 import ClassTextInput from "./items/ClassTextInput";
 import ClassTextareaInput from "./items/ClassTextareaInput";
-import ClassSelectInput from "./items/ClassSelectInput";
 import CategoryInput from "./CategoryInput";
 import DivisionInput from "./DivisionListInput";
 import StudentLimitInput from "./StudentLimitInput";
 import HandoutInput from "./HandoutInput";
 import PlanListInput from "./PlanListInput";
+import Button from "@ui/buttons/Button";
+import { useAuthStore } from "store/AuthStore";
 
 type Props = {
     data?: class_types.ClassInfo;
@@ -52,7 +54,6 @@ const initState: State = {
     plan_list: [],
 };
 const reducer = (state: State, action: Action) => {
-    console.log(action);
     switch (action.type) {
         case "SET_INIT_STATE": {
             return {
@@ -309,6 +310,7 @@ const reducer = (state: State, action: Action) => {
 };
 
 const ClassEditor = (props: Props) => {
+    const { clientSideApi } = useAuthStore();
     const [state, dispatch] = useReducer(reducer, initState);
     useEffect(() => {
         if (props.type === "EDIT" && props.data) {
@@ -376,6 +378,53 @@ const ClassEditor = (props: Props) => {
         state.plan_list,
     ]);
 
+    const handleSumbit = async () => {
+        const makeDivisionList = () => {
+            var reqDivisionList: { first_division: string; second_division: string[] }[] = [];
+            state.division_list.forEach((item) => {
+                const firstDivisionIdx = reqDivisionList.findIndex((it) => it.first_division === item.first_division);
+                if (firstDivisionIdx === -1) {
+                    // NO REMAIN
+                    reqDivisionList.push({
+                        first_division: item.first_division,
+                        second_division: [item.second_division],
+                    });
+                } else {
+                    // REMIAN
+                    const newSecondDivisionList = reqDivisionList[firstDivisionIdx].second_division.slice();
+                    newSecondDivisionList.push(item.second_division);
+
+                    reqDivisionList[firstDivisionIdx] = {
+                        first_division: reqDivisionList[firstDivisionIdx].first_division,
+                        second_division: newSecondDivisionList,
+                    };
+                }
+            });
+            return reqDivisionList;
+        };
+        if (props.type === "NEW") {
+            // NEW
+            const res = await clientSideApi("POST", "MAIN", "LECTURE_NEW", undefined, {
+                title: state.title,
+                content: state.content,
+                category: state.category,
+                division_list: makeDivisionList(),
+                student_limit: state.student_limit,
+                reference: state.reference,
+                handout_list: state.handout_list,
+                plan_list: state.plan_list,
+            });
+            if (res.result === "SUCCESS") {
+                console.log(res.data);
+            } else {
+                alert(res.msg);
+            }
+        } else {
+            // EDIT
+            // TODO
+        }
+    };
+
     const childCompRef = React.useRef(null);
 
     useEffect(() => {
@@ -430,6 +479,21 @@ const ClassEditor = (props: Props) => {
                 setPlanItem={setPlanItem}
                 removePlanItem={removePlanItem}
             />
+
+            <div className={style.submit_row}>
+                <Button
+                    className={style.submit_btn}
+                    type="SQUARE"
+                    size="small"
+                    fontSize="smaller"
+                    line="inline"
+                    backgroundColor="yellow_accent"
+                    color="white"
+                    content="개설"
+                    alignment="center"
+                    onClick={handleSumbit}
+                />
+            </div>
         </div>
     );
 };

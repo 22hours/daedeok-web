@@ -113,7 +113,9 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `lecture/${url_query}`;
         case `LECTURE_CLOSE`:
             return `lecture/${url_query}`;
-
+        // FILE
+        case "UPLOAD_DUMMY":
+            return `file`;
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);
     }
