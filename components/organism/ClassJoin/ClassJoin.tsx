@@ -4,7 +4,7 @@ import Button from "@ui/buttons/Button";
 import UseDate from "lib/hooks/useDate";
 import TableWrapper from "@ui/board/TableWrapper";
 import style from "./ClassJoin.module.scss";
-
+import Pagination from "@ui/pagination/Pagination";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useStoreState } from "store/ClassJoinListStore";
@@ -101,6 +101,9 @@ const ClassJoin = () => {
                     </div>
                 ))}
             </TableWrapper>
+            <div>
+                <Pagination />
+            </div>
         </div>
     );
 };

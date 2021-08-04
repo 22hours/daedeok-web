@@ -1,3 +1,5 @@
+@import "./meta.scss";
+
 //FONTS
 @font-face {
     font-family: "SCDream1";
@@ -43,4 +45,20 @@ body {
     p {
         margin: 0px;
     }
+}
+
+.MuiPaginationItem-page.Mui-selected {
+    background-color: $yellow_accent !important;
+    color: white;
+}
+.MuiPaginationItem-root {
+    font-size: 1rem !important;
+}
+.MuiPaginationItem-page:hover {
+    background-color: #ffbb0049 !important;
+}
+.pagination_wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
 }
