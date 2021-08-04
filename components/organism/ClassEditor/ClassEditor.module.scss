@@ -1,0 +1,151 @@
+// ClassEditor.module
+@import "styles/meta.scss";
+
+.RowContainer {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    .label_container {
+        @include desktop {
+            width: 120px;
+            min-height: 41px;
+        }
+        @include mobile {
+            width: 100px;
+            min-height: 38px;
+        }
+        border: 1px solid $gray_form;
+        margin-right: 5px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .inputBox {
+        flex-grow: 1;
+    }
+    .form__box {
+        width: 100%;
+    }
+}
+
+.DivisionListInput {
+    margin-bottom: 20px;
+    .division_item_list {
+        .division_item {
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            .item_text {
+                display: flex;
+                margin-right: 5px;
+                p {
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}
+
+.StudentLimitInput {
+    .InputColumn {
+        flex-grow: 1;
+        display: flex;
+
+        .text {
+            flex-grow: 1;
+            margin-right: 5px;
+        }
+    }
+}
+
+.HandoutInput {
+    display: flex;
+
+    .file_input_button {
+        width: 130px;
+    }
+
+    .handout_item_list {
+        margin-left: 5px;
+        .HandoutItem {
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            .item_text {
+                display: flex;
+                margin-right: 5px;
+                @include mobile {
+                    max-width: 50px;
+                }
+                @include desktop {
+                    max-width: 300px;
+                }
+
+                span {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    width: 100%;
+                }
+                p {
+                    margin-right: 5px;
+                }
+            }
+            svg {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.PlanListInput {
+    .PlanItemInput {
+        margin-bottom: 20px;
+        .plan_list_input {
+            margin-bottom: 5px;
+        }
+        .plan_item_date_input {
+            @include desktop {
+                display: flex;
+                .plan_list_input {
+                    width: 180px;
+                    margin-right: 5px;
+                }
+                .plan_item_delete_btn {
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+        }
+    }
+    .button_group {
+        display: flex;
+        justify-content: left;
+        margin-top: 20px;
+
+        .class_type_button {
+            @include font_small_text;
+            cursor: pointer;
+            background-color: $mint_accent;
+            color: white;
+            border-radius: 30px;
+            width: 100px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+        }
+    }
+}
+
+.submit_row {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    .submit_btn {
+        width: 80px;
+        height: 30px;
+    }
+}

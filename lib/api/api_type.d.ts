@@ -80,6 +80,8 @@ declare module "@api_config_type" {
                 | "LECTURE_EDIT"
                 | "LECTURE_DELETE"
                 | "LECTURE_CLOSE"
+                // FILE
+                | "UPLOAD_DUMMY";
                 // >>>  PLAN
                 | "LECTUER_PLAN_LIST"
                 // >>>  JOIN

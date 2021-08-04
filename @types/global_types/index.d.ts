@@ -29,6 +29,44 @@ declare module "@global_types" {
         };
         type classType = "ONLINE" | "ZOOM" | "OFFLINE";
     }
+    export namespace class_types {
+        type Division = {
+            first_division: string;
+            second_division: string;
+        };
+        type Handout = {
+            name: string;
+            url: string;
+        };
+        type CommonPlan = {
+            type: meta_types.classType;
+            week: string;
+            title: string;
+            tutor: string;
+            location: string;
+            date: string;
+            time: string;
+        };
+        type OnlinePlan = {
+            video_link: string;
+            introduce: string;
+        };
+        type ZoomPlan = {
+            zoom_link: string;
+        };
+        type PlanType = "OFFLINE" | "ZOOM" | "ONLINE";
+        type PlanItem = CommonPlan | (CommonPlan & OnlinePlan) | (CommonPlan & ZoomPlan);
+        type ClassInfo = {
+            title: string;
+            content: string;
+            category: string;
+            division_list: division[];
+            student_limit: number;
+            reference: string;
+            handout_list: handout[];
+            plan_list: PlanItem[];
+        };
+    }
     export namespace req_types {
         type classCommonItem = {
             type: meta_types.classType;
