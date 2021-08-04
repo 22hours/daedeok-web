@@ -7,14 +7,14 @@ import { RefObject } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 
 type Props = {
-    ref?: RefObject<HTMLInputElement>;
+    refs?: RefObject<HTMLInputElement>;
     form: "box" | "underline";
-    value: string;
-    onChange: (e) => void;
+    value?: string;
+    onChange?: (e) => void;
     onEnterKeyDown?: (e) => void;
     placeholder?: string;
     maxLength?: number;
-    style?: CSS.Properties;
+    className?: string;
 };
 
 const SearchBar = (props: Props) => {
@@ -28,9 +28,9 @@ const SearchBar = (props: Props) => {
         }
     };
     return (
-        <div className={Object.values(classNames).concat(style.container).join(" ")}>
+        <div className={Object.values(classNames).concat(props.className).concat(style.container).join(" ")}>
             <input
-                ref={props.ref || undefined}
+                ref={props.refs || undefined}
                 type={"text"}
                 value={props.value}
                 onKeyDown={onKeyDown}
