@@ -1,5 +1,3 @@
-/* eslint-disable react/display-name */
-import Layout from "components/Layout";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 type Props = {};

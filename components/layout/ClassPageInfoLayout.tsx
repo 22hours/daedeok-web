@@ -349,6 +349,7 @@ const ClassPlainPageLayout = ({ children, setState }) => {
                     pageTitle:
                         status === "open" ? "현재 진행중인 강의" : status === "close" ? "종료된 강의" : "수료한 강의",
                 });
+                break;
             }
             default:
                 return;
