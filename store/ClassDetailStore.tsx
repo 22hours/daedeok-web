@@ -3,6 +3,7 @@ import BreadCrumbs from "@ui/BreadCrumbs";
 import ClassDetailTopTab from "components/molecule/ClassDetailTopTab";
 import { useRouter } from "next/router";
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
+import { useAuthStore } from "./AuthStore";
 import { useClassStore } from "./ClassStore";
 
 // STATE TYPES
@@ -31,19 +32,24 @@ type ProviderType = {
 export const ClassDetailProvider = (props: ProviderType) => {
     const router = useRouter();
     const [classInfo, setClassInfo] = useState<State>(null);
+    const { auth, clientSideApi } = useAuthStore();
     const getClassInfo = async () => {
-        console.log(router.query);
         // @ts-ignore
         const { class_id, status }: { class_id: string; status: meta_types.classStatus } = router.query;
-        setClassInfo({
-            class_id: class_id,
-            class_title: "요햔계시록-1",
-            class_status: status,
-        });
+        const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_CLASS_TITLE", { lecture_id: class_id });
+        if (res.result === "SUCCESS") {
+            setClassInfo({
+                class_id: class_id,
+                class_title: res.data.title,
+                class_status: status,
+            });
+        } else {
+            alert(res.msg);
+        }
     };
 
     useEffect(() => {
-        if (router) {
+        if (router && auth?.user_id) {
             getClassInfo();
         }
     }, [router]);

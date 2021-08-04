@@ -14,14 +14,25 @@ import PcSideBar from "./PcSideBar";
 const SidebarMenuList = () => {
     // SERVER 에서 DATA FETCH 필요!
     // DUMMIES
-    const { auth } = useAuthStore();
+
+    const { auth, clientSideApi } = useAuthStore();
     const router = useRouter();
     const { class_id } = router.query;
 
     const myRole = auth?.role;
-    const nowOpenLecture = [{ id: 1, name: "요한계시록-1", class_id: 1 }];
 
-    const nowCloseLecture = [];
+    const [openList, setOpenList] = useState<{ title: string; lecture_id: number }[]>([]);
+    const getNowOpenLecturList = async () => {
+        const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_SIDEBAR", undefined, undefined);
+        if (res.result === "SUCCESS") {
+            setOpenList(res.data);
+        } else {
+            alert(res.msg);
+        }
+    };
+    useEffect(() => {
+        getNowOpenLecturList();
+    }, []);
 
     const SidebarButtonList: any = [];
     Object.entries(RouteController.class.childPage).forEach(([key, value]) => {
@@ -37,7 +48,6 @@ const SidebarMenuList = () => {
                 if (it.isDropdown) {
                     // 서버에서 데이터 받아와야함
                     const status = it.pathname.split("/")[2];
-                    const curLectureList = status === "open" ? nowOpenLecture : nowCloseLecture;
                     return (
                         <div className={style.section_menu}>
                             <CollapseButton
@@ -49,23 +59,20 @@ const SidebarMenuList = () => {
                                 icon={true}
                             >
                                 <div className={style.collapse_outter}>
-                                    {curLectureList.map((lectureItem, idx) => {
-                                        const link = RouteController.class.childPage[
-                                            status
-                                        ].childPage.board.childPage.detail.as({
-                                            class_id: 1,
-                                            content_id: 1,
+                                    {openList.map((lectureItem, idx) => {
+                                        const link = RouteController.class.childPage[status].childPage.board.as({
+                                            class_id: lectureItem.lecture_id,
                                         });
-                                        const isNow = lectureItem.class_id.toString() === class_id;
+                                        const isNow = lectureItem.lecture_id?.toString() === class_id;
                                         return (
-                                            <Link key={`classlistbtn::${idx}`} href={link}>
+                                            <Link key={`classlistbtn::${idx}`} href={link} passHref>
                                                 <Button
                                                     type={"SQUARE"}
                                                     size={"small"}
                                                     backgroundColor={isNow ? "mint_accent" : "white"}
                                                     fontSize={"smaller"}
                                                     color={isNow ? "white" : "brown_base"}
-                                                    content={lectureItem.name}
+                                                    content={lectureItem.title}
                                                     className={style.collapse_inner_button}
                                                 />
                                             </Link>

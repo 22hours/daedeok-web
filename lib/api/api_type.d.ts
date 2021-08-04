@@ -59,6 +59,9 @@ declare module "@api_config_type" {
                 | "LECTURE_FIND"
                 | "LECTURE_FIND_POSSIBLE"
                 | "LECTURE_FIND_COMPLETE"
+                // >>> SIDEBAR
+                | "LECTURE_FIND_SIDEBAR"
+                | "LECTURE_FIND_CLASS_TITLE"
                 // >>>  BOARD
                 | "LECTURE_BOARD_FIND"
                 | "LECTURE_BOARD_DETAIL"

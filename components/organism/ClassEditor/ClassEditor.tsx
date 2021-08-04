@@ -11,6 +11,7 @@ import HandoutInput from "./HandoutInput";
 import PlanListInput from "./PlanListInput";
 import Button from "@ui/buttons/Button";
 import { useAuthStore } from "store/AuthStore";
+import { Router } from "express";
 
 type Props = {
     data?: class_types.ClassInfo;
@@ -416,6 +417,7 @@ const ClassEditor = (props: Props) => {
             });
             if (res.result === "SUCCESS") {
                 console.log(res.data);
+                alert("강의 개설에 성공하였습니다");
             } else {
                 alert(res.msg);
             }
