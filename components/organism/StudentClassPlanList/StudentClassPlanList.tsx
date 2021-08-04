@@ -8,23 +8,24 @@ import Link from "next/link";
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
 
-const ClassTypeBtn = ({ type, idx, classId }) => {
+const ClassTypeBtn = ({ type, idx, classId, link }) => {
     switch (type) {
         case "ZOOM":
             return (
-                <Button
-                    content={"ZOOM"}
-                    backgroundColor="red_accent"
-                    fontSize="smaller"
-                    color="white"
-                    alignment="center"
-                    size="small"
-                    line="inline"
-                    type="SQUARE"
-                    onClick={() => {
-                        console.log("줌링크 넣어야함");
-                    }}
-                />
+                <Link href={link} passHref>
+                    <a target="_blank">
+                        <Button
+                            content={"ZOOM"}
+                            backgroundColor="red_accent"
+                            fontSize="smaller"
+                            color="white"
+                            alignment="center"
+                            size="small"
+                            line="inline"
+                            type="SQUARE"
+                        />
+                    </a>
+                </Link>
             );
         case "ONLINE":
             return (
@@ -59,7 +60,9 @@ const ClassTypeBtn = ({ type, idx, classId }) => {
 };
 
 const StudentClassPlanList = () => {
-    const [planList, setPlanList] = useState<Array<{ id: number; week: number; title: string; type: string }>>([]);
+    const [planList, setPlanList] = useState<
+        Array<{ id: number; week: number; title: string; type: string; link: string }>
+    >([]);
     const { clientSideApi } = useAuthStore();
     const lectureId = useClassDetailStore();
 
@@ -90,7 +93,12 @@ const StudentClassPlanList = () => {
                     <div key={idx}>
                         <TableRow week={it.week + "주차"} weekTitle={it.title}>
                             <div style={{ width: "90px", marginRight: "20px" }}>
-                                <ClassTypeBtn type={it.type} idx={it.id} classId={lectureId.class_id}></ClassTypeBtn>
+                                <ClassTypeBtn
+                                    type={it.type}
+                                    idx={it.id}
+                                    classId={lectureId.class_id}
+                                    link={it.link}
+                                ></ClassTypeBtn>
                             </div>
                         </TableRow>
                     </div>
