@@ -87,6 +87,7 @@ const TutorClassPlanDetailList = () => {
             }
         );
         if (res.result === "SUCCESS") {
+            alert("출석 완료 되었습니다");
             getData();
         } else {
             alert(res.msg);
