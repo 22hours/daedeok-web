@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
         var extraHeader = {};
         if (auth?.user_id) {
             extraHeader = {
-                // Authorization: `Bearer ${CookieController.getTokenInCookie()?.access_token}`,
+                Authorization: `Bearer ${CookieController.getTokenInCookie()?.access_token}`,
             };
         }
         const res_data = await apiClient.API_CALL(method, domain, ep, url_query, data, extraHeader);

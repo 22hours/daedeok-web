@@ -130,7 +130,7 @@ const makeClassChildPage = () => {
                 isDynamic: true,
                 as: (class_id) => `/class/${[status]}/${class_id}`,
                 isVisible: true,
-                isDropdown: true,
+                isDropdown: status === "open" ? true : false,
                 accessRole: getAccessRole(status),
                 childPage: {
                     ...getCommonChildPage(status),
