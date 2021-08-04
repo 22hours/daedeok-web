@@ -18,6 +18,8 @@ type Props = {
     tutor?: string;
     type?: string;
     classInfo?: boolean;
+    week?: string;
+    weekTitle?: string;
     href?: string;
     studentInfo?: { duty: string; first_division: string; second_division: string; phone_number: string };
 };
@@ -37,6 +39,8 @@ const TableRow = (props: Props) => {
         studentInfo,
         view,
         studentLimit,
+        week,
+        weekTitle,
         classInfo,
         href,
     } = props;
@@ -58,6 +62,11 @@ const TableRow = (props: Props) => {
                                         />
                                     </div>
                                 )}
+                                {week && (
+                                    <div className={style.idx_item}>
+                                        <Typo type="TEXT" size="normal" content={week} color={"gray_accent"} />
+                                    </div>
+                                )}
                                 {icon && (
                                     <div className={style.idx_item}>
                                         {idx === 1 ? (
@@ -65,6 +74,11 @@ const TableRow = (props: Props) => {
                                         ) : (
                                             <ExpandMoreIcon className={style.icon_item} />
                                         )}
+                                    </div>
+                                )}
+                                {weekTitle && (
+                                    <div className={style.title_item}>
+                                        <Typo type="TEXT" size="normal" content={weekTitle} color={"gray_accent"} />
                                     </div>
                                 )}
                                 {title && (
@@ -77,7 +91,6 @@ const TableRow = (props: Props) => {
                                         />
                                     </div>
                                 )}
-
                                 {studentName && (
                                     <div className={style.board_item}>
                                         <Typo type="TEXT" size="medium" content={studentName.toString()} />
@@ -205,6 +218,11 @@ const TableRow = (props: Props) => {
                                 />
                             </div>
                         )}
+                        {week && (
+                            <div className={style.idx_item}>
+                                <Typo type="TEXT" size="normal" content={week} color={"gray_accent"} />
+                            </div>
+                        )}
                         {icon && (
                             <div className={style.idx_item}>
                                 {idx === 1 ? (
@@ -212,6 +230,11 @@ const TableRow = (props: Props) => {
                                 ) : (
                                     <ExpandMoreIcon className={style.icon_item} />
                                 )}
+                            </div>
+                        )}
+                        {weekTitle && (
+                            <div className={style.title_item}>
+                                <Typo type="TEXT" size="normal" content={weekTitle} color={"gray_accent"} />
                             </div>
                         )}
                         {title && (

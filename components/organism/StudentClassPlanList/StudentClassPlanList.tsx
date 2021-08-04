@@ -88,7 +88,7 @@ const StudentClassPlanList = () => {
             <TableWrapper>
                 {planList.map((it, idx) => (
                     <div key={idx}>
-                        <TableRow idx={it.week + "주차"} title={it.title}>
+                        <TableRow week={it.week + "주차"} weekTitle={it.title}>
                             <div style={{ width: "90px", marginRight: "20px" }}>
                                 <ClassTypeBtn type={it.type} idx={it.id} classId={lectureId.class_id}></ClassTypeBtn>
                             </div>

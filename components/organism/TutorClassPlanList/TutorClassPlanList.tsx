@@ -40,7 +40,7 @@ const TutorClassPlanList = () => {
             <TableWrapper>
                 {planList.map((it, idx) => {
                     return (
-                        <TableRow key={`planlistitem:${idx}`} idx={`${it.week.toString()}주차`} title={it.title}>
+                        <TableRow key={`planlistitem:${idx}`} week={`${it.week.toString()}주차`} weekTitle={it.title}>
                             <Link href={`${router.asPath}/detail/${it.id}`} passHref>
                                 <Button
                                     type={"SQUARE"}
