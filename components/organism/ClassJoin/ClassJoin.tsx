@@ -7,7 +7,7 @@ import style from "./ClassJoin.module.scss";
 import Pagination from "@ui/pagination/Pagination";
 //store
 import { useAuthStore } from "store/AuthStore";
-import { useStoreState } from "store/ClassJoinListStore";
+import { useStoreState, useStoreDispatch } from "store/ClassJoinListStore";
 
 const JoinButton = ({ state, idx, handleClassJoin }) => {
     switch (state) {
@@ -61,6 +61,7 @@ const JoinButton = ({ state, idx, handleClassJoin }) => {
 const ClassJoin = () => {
     const { clientSideApi } = useAuthStore();
     const data = useStoreState();
+    const dispatch = useStoreDispatch();
 
     const handleClassJoin = async ({ idx }) => {
         const res_data = await clientSideApi(
@@ -82,7 +83,7 @@ const ClassJoin = () => {
     return (
         <div>
             <TableWrapper>
-                {data.lecture_list.map((it, idx) => (
+                {data.lecture_list_item.lecture_list.map((it, idx) => (
                     <div key={idx}>
                         <TableRow
                             title={it.title}
@@ -102,7 +103,12 @@ const ClassJoin = () => {
                 ))}
             </TableWrapper>
             <div>
-                <Pagination />
+                <Pagination
+                    totalCount={data.lecture_list_item.total_count}
+                    handleChange={(page: number) => dispatch({ type: "SET_NOW_PAGE", data: page })}
+                    pageNum={data.now_page}
+                    requiredCount={7}
+                />
             </div>
         </div>
     );
