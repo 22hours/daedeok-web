@@ -4,6 +4,7 @@ import Button from "@ui/buttons/Button";
 import TableWrapper from "@ui/board/TableWrapper";
 import style from "./StudentClassPlanList.module.scss";
 import Link from "next/link";
+import { nanoid } from "nanoid";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
@@ -90,7 +91,7 @@ const StudentClassPlanList = () => {
         <div className={style.class_plan_list_wrapper}>
             <TableWrapper>
                 {planList.map((it, idx) => (
-                    <div key={idx}>
+                    <div key={`studentclassplanlist${nanoid()}`}>
                         <TableRow week={it.week + "주차"} weekTitle={it.title}>
                             <div style={{ width: "90px", marginRight: "20px" }}>
                                 <ClassTypeBtn
