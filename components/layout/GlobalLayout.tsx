@@ -5,9 +5,6 @@ import Banner from "public/assets/banner.jpg";
 import HeaderLogo from "public/assets/headerlogo.png";
 import { useRouter } from "next/dist/client/router";
 
-// LAYOUTS
-import ClassLayout from "components/layout/ClassLayout";
-
 //ORGANIMS
 import Header from "components/organism/Header/Header";
 
@@ -27,11 +24,7 @@ const PageDetailLayout = ({ children }: DetailPageProps) => {
 
     switch (rootPath) {
         case "class": {
-            return (
-                <ClassStoreProvider>
-                    <ClassLayout>{children}</ClassLayout>
-                </ClassStoreProvider>
-            );
+            return <ClassStoreProvider>{children}</ClassStoreProvider>;
         }
         case "admin": {
             return <AdminStoreProvider>{children}</AdminStoreProvider>;

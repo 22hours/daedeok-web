@@ -89,6 +89,10 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         // LECTURE
         case `LECTURE_FIND`:
             return `lecture/`;
+        case `LECTURE_FIND_POSSIBLE`:
+            return `lecture/possible`;
+        case `LECTURE_FIND_COMPLETE`:
+            return `lecture/complete`;
         // >>>  BOARD
         case `LECTURE_BOARD_FIND`:
             return `lecture/${url_query.lecture_id}/board`;
@@ -104,6 +108,18 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `lecture/${url_query.lecture_id}/board/${url_query.board_id}`;
         case `LECTURE_BOARD_DELETE_COMMENT`:
             return `lecture/${url_query.lecture_id}/board/${url_query.board_id}`;
+        // >>> PLAN
+        case 'LECTURE_FIND_PLAN':
+            return  `lecture/${url_query.lecture_id}/plan`;
+        case 'LECTURE_FIND_PLAN_DETAIL':
+            return `lecture/plan/${url_query.episode_id}/user`;
+        case 'LECTURE_PLAN_USER_ATTENDANCE':
+            return `lecture/plan${url_query.episode_id}/user`
+        // >>> ONLINE
+        case "LECTURE_ONLINE_DETAIL":
+            return `lecture/plan/${url_query.episode_id}/online`;
+        case "LECTURE_ONLINE_DURATION":
+            return `lecture/plan/${url_query.episode_id}/online`
         // >>>  NEW
         case `LECTURE_NEW`:
             return `lecture/`;
@@ -116,6 +132,13 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         // FILE
         case "UPLOAD_DUMMY":
             return `file`;
+        // >>>  PLAN
+        case `LECTUER_PLAN_LIST`:
+            return `lecture/${url_query.lecture_id}/plan`;
+        // >>>  JOIN
+        case `LECTURE_JOIN`:
+            return `lecture/join/${url_query.lecture_id}`;
+
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);
     }

@@ -1,0 +1,27 @@
+@import "styles/meta.scss";
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    .sub_breadcrumbs_container {
+        display: flex;
+        margin-bottom: 20px;
+        .breadcrumb_item {
+            cursor: pointer;
+        }
+    }
+    .info {
+        span {
+            display: block;
+        }
+    }
+}
+
+.footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
+    .all_button {
+        width: 100px;
+    }
+}

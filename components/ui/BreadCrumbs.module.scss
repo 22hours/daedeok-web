@@ -4,13 +4,16 @@
 .container {
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
     a {
         text-decoration: none;
     }
-    p:hover {
+
+    .breadcrumb:hover {
         color: $brown_base;
     }
-    p {
+    .sep {
+        margin-left: 5px;
         margin-right: 5px;
     }
 }

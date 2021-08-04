@@ -18,6 +18,7 @@ const Login = () => {
         // @ts-ignore
         const require_role: meta_types.accessRole | undefined = router.query.require_role;
         if (require_role) {
+            console.log(require_role);
             switch (require_role) {
                 case "ROLE_ADMIN": {
                     alert("관리자만 접근 가능합니다\n관리자 계정으로 로그인 해 주세요");

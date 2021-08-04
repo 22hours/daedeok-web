@@ -1,4 +1,6 @@
+import { meta_types } from "@global_types";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import style from "./BreadCrumbs.module.scss";
 import Typo from "./Typo";
 type ItemProps = {
@@ -15,7 +17,13 @@ const BreadItem = (props: ItemProps) => {
             ) : (
                 <Link href={props.link}>
                     <a>
-                        <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={props.name} />
+                        <Typo
+                            className={style.breadcrumb}
+                            type={"TEXT"}
+                            size={"small"}
+                            color={"gray_accent"}
+                            content={props.name}
+                        />
                     </a>
                 </Link>
             )}
@@ -24,11 +32,11 @@ const BreadItem = (props: ItemProps) => {
 };
 
 const Sep = () => {
-    return <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={">"} />;
+    return <Typo className={style.sep} type={"TEXT"} size={"small"} color={"gray_accent"} content={">"} />;
 };
 
 type Props = {
-    item_list: { name: string; link: string }[];
+    item_list: meta_types.BreadCrumbItem[];
 };
 
 const BreadCrumbs = (props: Props) => {

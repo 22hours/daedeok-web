@@ -57,6 +57,8 @@ declare module "@api_config_type" {
                 | "CATEGORY_DELETE"
                 // LECTURE
                 | "LECTURE_FIND"
+                | "LECTURE_FIND_POSSIBLE"
+                | "LECTURE_FIND_COMPLETE"
                 // >>>  BOARD
                 | "LECTURE_BOARD_FIND"
                 | "LECTURE_BOARD_DETAIL"
@@ -66,6 +68,13 @@ declare module "@api_config_type" {
                 | "LECTURE_BOARD_NEW_COMMENT"
                 | "LECTURE_BOARD_EDIT_COMMENT"
                 | "LECTURE_BOARD_DELETE_COMMENT"
+                // >>> PLAN
+                | "LECTURE_FIND_PLAN"
+                | 'LECTURE_FIND_PLAN_DETAIL'
+                | 'LECTURE_PLAN_USER_ATTENDANCE'
+                // >>> ONLINE
+                | "LECTURE_ONLINE_DETAIL"
+                | 'LECTURE_ONLINE_DURATION'
                 // >>>  NEW
                 | "LECTURE_NEW"
                 | "LECTURE_EDIT"
@@ -73,6 +82,10 @@ declare module "@api_config_type" {
                 | "LECTURE_CLOSE"
                 // FILE
                 | "UPLOAD_DUMMY";
+                // >>>  PLAN
+                | "LECTUER_PLAN_LIST"
+                // >>>  JOIN
+                | "LECTURE_JOIN";
             url_query?: string | { lecture_id: string; board_id: string } | any;
             data?: any;
             extraHeader?: any;
