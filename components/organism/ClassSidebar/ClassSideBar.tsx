@@ -19,23 +19,9 @@ const SidebarMenuList = () => {
     const { class_id } = router.query;
 
     const myRole = auth?.role;
-    const nowOpenLecture = [
-        { id: 1, name: "요한계시록-1", class_id: 1 },
-        { id: 2, name: "요한계시록-2", class_id: 2 },
-        { id: 3, name: "요한계시록-3", class_id: 3 },
-    ];
+    const nowOpenLecture = [{ id: 1, name: "요한계시록-1", class_id: 1 }];
 
-    const nowCloseLecture = [
-        { id: 1, name: "무야호계시록-1", class_id: 1 },
-        { id: 2, name: "무야호계시록-2", class_id: 2 },
-        { id: 3, name: "무야호계시록-3", class_id: 3 },
-        { id: 1, name: "무야호계시록-1", class_id: 1 },
-        { id: 2, name: "무야호계시록-2", class_id: 2 },
-        { id: 3, name: "무야호계시록-3", class_id: 3 },
-        { id: 1, name: "무야호계시록-1", class_id: 1 },
-        { id: 2, name: "무야호계시록-2", class_id: 2 },
-        { id: 3, name: "무야호계시록-3", class_id: 3 },
-    ];
+    const nowCloseLecture = [];
 
     const SidebarButtonList: any = [];
     Object.entries(RouteController.class.childPage).forEach(([key, value]) => {
