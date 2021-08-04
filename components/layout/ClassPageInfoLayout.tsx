@@ -233,6 +233,8 @@ const ClassDetailPageLayout = ({ children, setState }) => {
 type PlainPagePathname =
     | "/class"
     | "/class/new"
+    | "/class/join"
+    | "/class/join/detail/[...class_id]"
     | "/class/notice"
     | "/class/notice/new"
     | "/class/notice/detail/[...notice_id]"
@@ -251,7 +253,6 @@ const ClassPlainPageLayout = ({ children, setState }) => {
                 });
                 break;
             }
-
             case "/class/new": {
                 setState({
                     breadCrumbList: [
@@ -259,6 +260,27 @@ const ClassPlainPageLayout = ({ children, setState }) => {
                         { name: "강의개설", link: "" },
                     ],
                     pageTitle: "강의 개설",
+                });
+                break;
+            }
+            case "/class/join": {
+                setState({
+                    breadCrumbList: [
+                        { name: "강의실 메인", link: "/class" },
+                        { name: "수강신청", link: "" },
+                    ],
+                    pageTitle: "수강신청이 가능한 강의",
+                });
+                break;
+            }
+            case "/class/join/detail/[...class_id]": {
+                setState({
+                    breadCrumbList: [
+                        { name: "강의실 메인", link: "/class" },
+                        { name: "수강신청", link: "/class/join" },
+                        { name: "강의상세", link: "" },
+                    ],
+                    pageTitle: "강의 상세",
                 });
                 break;
             }
@@ -331,7 +353,7 @@ const ClassPlainPageLayout = ({ children, setState }) => {
             default:
                 return;
         }
-    }, []);
+    }, [router.asPath]);
     return <>{children}</>;
 };
 
