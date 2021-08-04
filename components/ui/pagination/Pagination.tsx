@@ -9,24 +9,22 @@ type Props = {
 };
 
 const PaginationRounded = (props: Props) => {
-    // const { totalCount, handleChange, pageNum, requiredCount } = props;
-
-    // var pageCount = 0;
-    // if (totalCount % requiredCount === 0) {
-    //     pageCount = totalCount / requiredCount;
-    // } else {
-    //     pageCount = Math.floor(totalCount / requiredCount) + 1;
-    // }
+    const { totalCount, handleChange, pageNum, requiredCount } = props;
+    var nowPageNum = pageNum + 1;
+    var pageCount = 0;
+    if (totalCount % requiredCount === 0) {
+        pageCount = totalCount / requiredCount;
+    } else {
+        pageCount = Math.floor(totalCount / requiredCount) + 1;
+    }
 
     return (
         <div className="pagination_wrapper">
             <Pagination
-                // count={pageCount}
-                // shape="rounded"
-                // page={parseInt(pageNum.toString())}
-                // onChange={(_, page) => handleChange(page)}
-                count={10}
+                count={pageCount}
                 shape="rounded"
+                page={parseInt(nowPageNum.toString())}
+                onChange={(_, page) => handleChange(page - 1)}
             />
         </div>
     );
