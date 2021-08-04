@@ -3,7 +3,6 @@ import { api_config_type } from "@api_config_type";
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import { meta_types } from "@global_types";
 import CookieController from "lib/client/cookieController";
-import { AxiosResponse } from "axios";
 
 // ELEMENT TYPES
 type api_params = api_config_type.api_params;
