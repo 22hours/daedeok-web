@@ -1,6 +1,8 @@
+import { useEffect } from "react";
+
 type Props = {};
 
-const student = () => {
+const Student = () => {
     return (
         <div>
             <h2>student</h2>
@@ -8,4 +10,4 @@ const student = () => {
     );
 };
 
-export default student;
+export default Student;
