@@ -65,14 +65,15 @@ const TutorClassPlanDetailList = () => {
     const { episode_id } = router.query;
 
     const getData = async () => {
-        // const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_PLAN_DETAIL", { episode_id: episode_id });
-        // if (res.result === "SUCCESS") {
-        //     setState(res.data);
-        // } else {
-        //     alert(res.msg);
-        // }
-        // @ts-ignore
-        setState(dummyData);
+        const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_PLAN_DETAIL", { episode_id: episode_id });
+        if (res.result === "SUCCESS") {
+            setState(res.data);
+        } else {
+            // alert(res.msg);
+
+            //@ts-ignore
+            setState(dummyData);
+        }
     };
 
     const postAttendance = async (user_id: number) => {
