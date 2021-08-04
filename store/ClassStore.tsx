@@ -6,6 +6,7 @@ import ClassLayout from "components/layout/ClassLayout";
 import { useRouter } from "next/dist/client/router";
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import { ClassDetailProvider } from "./ClassDetailStore";
+import ClassPageInfoLayout from "components/layout/ClassPageInfoLayout";
 
 // ELEMENT TYPES
 
@@ -34,6 +35,7 @@ const ClassStoreContext = React.createContext<Store | null>(null);
 
 export const ClassStoreProvider = ({ children }) => {
     const reducer = (state: State, action: Action) => {
+        console.log(action);
         switch (action.type) {
             case "SET_INIT": {
                 return {
@@ -88,15 +90,17 @@ const RenderChildren = ({ state, children }) => {
                 BreadCrumbsComponent={<BreadCrumbs item_list={state.breadCrumbList} />}
                 PageTitle={<Typo type={"HEADER"} size={"h3"} content={state.pageTitle} />}
             >
-                <div>{children}</div>
+                <ClassPageInfoLayout isDetailPage={true}>{children}</ClassPageInfoLayout>
             </ClassDetailProvider>
         );
     } else {
         return (
             <div>
-                <BreadCrumbs item_list={state.breadCrumbList} />
-                <Typo type={"HEADER"} size={"h3"} content={state.pageTitle} />
-                {children}
+                <ClassPageInfoLayout>
+                    <BreadCrumbs item_list={state.breadCrumbList} />
+                    <Typo type={"HEADER"} size={"h3"} content={state.pageTitle} />
+                    {children}
+                </ClassPageInfoLayout>
             </div>
         );
     }

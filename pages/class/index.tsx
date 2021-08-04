@@ -1,9 +1,11 @@
+import { useEffect } from "react";
+import { useClassStore } from "store/ClassStore";
 import { isAccessAble } from "lib/server/accessController";
 
 type Props = {};
 
 const Index = () => {
-    return <div></div>;
+    return <div>INDEX</div>;
 };
 
 export async function getServerSideProps(ctx) {
