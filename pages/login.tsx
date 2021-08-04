@@ -75,9 +75,9 @@ const Login = () => {
             <>
                 {!auth && (
                     <>
-                        <button onClick={() => doLogin("ROLE_TUTOR")}>강사로그인</button>
+                        {/* <button onClick={() => doLogin("ROLE_TUTOR")}>강사로그인</button>
                         <button onClick={() => doLogin("ROLE_MEMBER")}>멤버로그인</button>
-                        <button onClick={() => doLogin("ROLE_ADMIN")}>관리자로그인</button>
+                        <button onClick={() => doLogin("ROLE_ADMIN")}>관리자로그인</button> */}
 
                         <div style={{ marginTop: "20px", marginBottom: "20px" }}>
                             <Typo type={"TEXT"} size={"small"} content={"아이디"} />
