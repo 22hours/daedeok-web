@@ -75,9 +75,7 @@ export const ClassJoinListStoreProvider = ({ children }: { children: JSX.Element
     };
 
     useEffect(() => {
-        if (state.now_page >= 0) {
-            getClassListData();
-        }
+        getClassListData();
     }, [state.now_page]);
 
     return (
