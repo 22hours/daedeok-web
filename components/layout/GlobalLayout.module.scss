@@ -91,7 +91,6 @@ $mobile_footer_height: 139px;
 }
 
 .banner {
-    background-color: cadetblue;
     @include mobile {
         height: $mobile_banner_height;
     }
@@ -123,7 +122,6 @@ $mobile_footer_height: 139px;
     }
 
     .main_article {
-        background-color: rgb(0, 255, 115);
         height: 100%;
     }
 }

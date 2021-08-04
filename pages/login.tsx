@@ -5,6 +5,9 @@ import { useAuthStore } from "store/AuthStore";
 import { meta_types } from "@global_types";
 import { useRouter } from "next/router";
 import Typo from "@ui/Typo";
+import TextInput from "@ui/input/TextInput";
+import useInput from "lib/hooks/useInput";
+import Button from "@ui/buttons/Button";
 type Props = {};
 
 const GlobalLayout = dynamic(import("components/layout/GlobalLayout"));
@@ -54,16 +57,47 @@ const Login = () => {
         });
     };
 
+    const idInput = useInput();
+    const pwInput = useInput();
+    const inputLogin = async () => {
+        const res = await clientSideApi("POST", "MAIN", "USER_LOGIN", undefined, {
+            id: idInput.value,
+            password: pwInput.value,
+        });
+        if (res.result === "SUCCESS") {
+            login(res.data);
+        } else {
+            alert(res.msg);
+        }
+    };
     return (
         <GlobalLayout isBannerHide={true} isMenuHide={agent === "mobile"}>
             <>
-                <h2>Login</h2>
-
                 {!auth && (
                     <>
                         <button onClick={() => doLogin("ROLE_TUTOR")}>강사로그인</button>
                         <button onClick={() => doLogin("ROLE_MEMBER")}>멤버로그인</button>
                         <button onClick={() => doLogin("ROLE_ADMIN")}>관리자로그인</button>
+
+                        <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+                            <Typo type={"TEXT"} size={"small"} content={"아이디"} />
+                            <TextInput {...idInput} type={"text"} form={"box"} placeholder={"아이디 (전화번호)"} />
+                        </div>
+                        <div style={{ marginBottom: "20px" }}>
+                            <Typo type={"TEXT"} size={"small"} content={"비밀번호"} />
+                            <TextInput {...pwInput} type={"password"} form={"box"} placeholder={"비밀번호"} />
+                        </div>
+                        <div style={{ marginBottom: "20px" }}>
+                            <Button
+                                onClick={inputLogin}
+                                type={"SQUARE"}
+                                size={"medium"}
+                                fontSize={"small"}
+                                content={"로그인"}
+                                backgroundColor={"brown_base"}
+                                color={"white"}
+                            />
+                        </div>
                     </>
                 )}
                 {auth && (

@@ -1,6 +1,6 @@
 import AxiosClient from "lib/api/api";
 import { api_config_type } from "@api_config_type";
-import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
+import React, { useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import { meta_types } from "@global_types";
 import CookieController from "lib/client/cookieController";
 
@@ -124,7 +124,7 @@ export const AuthProvider = ({ children }) => {
                 name: userData.name,
                 role: userData.role,
                 duty: userData.duty,
-                lecture_num: userData.lecture_num,
+                lecture_num: userData.lecture_num || 0,
             },
         });
         CookieController.setUserWithCookie(userData);
@@ -145,7 +145,7 @@ export const AuthProvider = ({ children }) => {
                     name: userData.name,
                     role: userData.role,
                     duty: userData.duty,
-                    lecture_num: userData.lecture_num,
+                    lecture_num: userData.lecture_num || 0,
                 },
             });
         }
