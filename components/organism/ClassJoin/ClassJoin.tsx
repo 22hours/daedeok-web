@@ -7,6 +7,7 @@ import style from "./ClassJoin.module.scss";
 import Pagination from "@ui/pagination/Pagination";
 import SearchBar from "@ui/input/SearchBar";
 import Select from "@ui/input/Select";
+import Router from "next/router";
 
 //store
 import { useAuthStore } from "store/AuthStore";
@@ -67,7 +68,33 @@ const ClassJoin = () => {
     const dispatch = useStoreDispatch();
     const searchRef = useRef<HTMLInputElement | null>(null);
 
-    const cateogryList = [];
+    // const getSearchClassListData = async () => {
+    //     const req =
+    //         state.now_category === "ALL"
+    //             ? { keyword: "dd", page: state.now_page, required_count: 7 }
+    //             : { keyword: "dd", category: state.now_category, page: state.now_page, required_count: 7 };
+
+    //     const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_POSSIBLE", undefined, req);
+    //     if (res.result === "SUCCESS") {
+    //         var data = res.data;
+    //         dispatch({ type: "SET_CLASS_LIST", data: data });
+    //     }
+    // };
+
+    const cateogryList = [
+        {
+            value: "ALL",
+            name: "전체",
+        },
+        {
+            value: "교육부",
+            name: "교육부",
+        },
+        {
+            value: "유아부",
+            name: "유아부",
+        },
+    ];
 
     const handleClassJoin = async ({ idx }) => {
         const res_data = await clientSideApi(
@@ -93,7 +120,9 @@ const ClassJoin = () => {
                     form="box"
                     placeholder={"카테고리별 보기"}
                     onChange={({ target: { value } }) => {
-                        alert("TODO");
+                        console.log(value);
+                        const uri = `?page=${data.now_page + 1}&category=${value}`;
+                        Router.push(uri);
                     }}
                     option_list={cateogryList}
                     className={style.select}
@@ -123,7 +152,10 @@ const ClassJoin = () => {
             <div>
                 <Pagination
                     totalCount={data.lecture_list_item.total_count}
-                    handleChange={(page: number) => dispatch({ type: "SET_NOW_PAGE", data: page })}
+                    handleChange={(page: number) => {
+                        const uri = `?page=${page + 1}&category=${data.now_category}`;
+                        Router.push(uri);
+                    }}
                     pageNum={data.now_page}
                     requiredCount={7}
                 />
