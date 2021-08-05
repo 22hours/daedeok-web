@@ -68,7 +68,6 @@ export const ClassJoinListStoreProvider = ({ children }: { children: JSX.Element
     const router = useRouter();
 
     const getClassListData = async () => {
-        console.log(state.now_page);
         const req =
             state.now_category === "ALL"
                 ? { page: state.now_page, required_count: 7 }
@@ -84,8 +83,7 @@ export const ClassJoinListStoreProvider = ({ children }: { children: JSX.Element
     useEffect(() => {
         var category = router.query.category ? router.query.category : "ALL";
         var page = router.query.page ? router.query.page : 1;
-        console.log(page);
-        console.log(category);
+
         dispatch({
             type: "SET_NOW_STATE",
             //@ts-ignore
