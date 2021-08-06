@@ -1,0 +1,50 @@
+// RegisterFormGroup
+@import "styles/meta.scss";
+
+.container {
+    .register_form {
+    }
+    .register_button {
+        margin-left: 5px;
+        border: 1px solid $gray_form;
+    }
+    .phone_num_row {
+        display: flex;
+        width: 100%;
+        margin-bottom: 5px;
+        .register_form {
+            flex-grow: 1;
+        }
+    }
+
+    .password_row {
+        .register_form {
+            margin-bottom: 5px;
+        }
+    }
+    .select_row {
+        .register_form {
+            margin-bottom: 5px;
+        }
+    }
+    .agree_row {
+        .register_form {
+            margin-bottom: 10px;
+        }
+    }
+    .call_row {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 50px;
+    }
+    .submit_row {
+        margin-bottom: 100px;
+    }
+}
+
+.InputSection {
+    margin-bottom: 40px;
+    .section_body {
+        margin-bottom: 5px;
+    }
+}

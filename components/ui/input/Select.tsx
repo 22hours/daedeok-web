@@ -6,11 +6,11 @@ import useFormStyle from "lib/hooks/useFormStyle";
 // icons
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 type Props = {
-    refs?: HTMLInputElement | null;
+    refs?: HTMLSelectElement | null;
     form: "box" | "underline";
     value?: string | number;
     option_list: { value: string; name: string }[];
-    onChange: (e) => void;
+    onChange?: (e) => void;
     placeholder?: string;
     disable?: boolean;
     error?: boolean;
@@ -19,22 +19,13 @@ type Props = {
 };
 
 const Select = (props: Props) => {
-    const localRef = useRef<HTMLSelectElement | null>(null);
     const classNames = useFormStyle({ ...props, type: "select" });
     return (
-        <div
-            onClick={(e) => {
-                if (localRef.current) {
-                    const event = new MouseEvent("mousedown");
-                    localRef.current.dispatchEvent(event);
-                }
-            }}
-            className={Object.values(classNames).concat(props.className).concat(style.wrapper).join(" ")}
-        >
+        <div className={Object.values(classNames).concat(props.className).concat(style.wrapper).join(" ")}>
             <select
                 className={style.container}
                 // @ts-ignore
-                refs={localRef || undefined}
+                refs={props.refs || undefined}
                 onChange={props.onChange}
                 value={props.value}
                 disabled={props.disable}

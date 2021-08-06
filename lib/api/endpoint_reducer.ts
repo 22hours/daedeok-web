@@ -16,7 +16,7 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `USER_LOGIN`:
             return `user/login`;
         case `USER_CHECK`:
-            return `user/`;
+            return `user/check`;
         case `USER_REGISTER`:
             return `user/`;
         case `USER_UPDATE_INFO`:
@@ -142,7 +142,9 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         // >>>  JOIN
         case `LECTURE_JOIN`:
             return `lecture/join/${url_query.lecture_id}`;
-
+        // DIVISION
+        case "FIND_DIVISION":
+            return `division/`;
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);
     }

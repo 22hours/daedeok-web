@@ -8,6 +8,6 @@ const useInput = (initialValue?: any, cb?: any) => {
             cb(e.target.value);
         }
     };
-    return { value, onChange };
+    return { value, onChange, setValue };
 };
 export default useInput;
