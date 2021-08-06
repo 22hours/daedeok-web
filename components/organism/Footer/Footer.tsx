@@ -13,13 +13,13 @@ const Footer = () => {
             <div className={style.footer_main}>
                 <Image src={FooterLogo} alt={FooterLogo.src}></Image>
                 <div className={style.footer_info}>
-                    <Typo type={"TEXT"} size={"small"} color={"white"} content={footerAddress} />
+                    <Typo type={"TEXT"} size={"smaller"} color={"white"} content={footerAddress} />
                     <div className={style.space}></div>
                     <Typo type={"TEXT"} size={"smaller"} color={"white"} content={footerCopyRight} />
                     <div className={style.button_wrapper}>
                         <Link href={"/docs/terms"} passHref>
                             <div className={style.button_box}>
-                                <Typo type="TEXT" size="small" color="white" content="개인정보보호정책" />
+                                <Typo type="TEXT" size="smaller" color="white" content="개인정보보호정책" />
                             </div>
                         </Link>
                     </div>

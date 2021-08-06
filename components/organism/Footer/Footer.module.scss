@@ -14,7 +14,7 @@
                 height: 40px;
             }
             @include desktop {
-                height: 75px;
+                height: 70px;
             }
         }
         .footer_info {
@@ -30,7 +30,6 @@
 .button_wrapper {
     margin-top: 10px;
     width: max-content;
-
     width: 100%;
     display: flex;
     justify-content: flex-end;
