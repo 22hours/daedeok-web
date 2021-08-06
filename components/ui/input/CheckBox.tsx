@@ -2,10 +2,10 @@ import { RefObject } from "react";
 import Typo from "@ui/Typo";
 import style from "./CheckBox.module.scss";
 type Props = {
-    ref?: RefObject<HTMLInputElement>;
+    refs?: HTMLInputElement;
     labelContent: string;
-    value: boolean;
-    onChange: (e) => void;
+    value?: boolean;
+    onChange?: (e) => void;
     isLabelRight?: boolean;
     className?: string;
 };
@@ -16,7 +16,8 @@ const CheckBox = (props: Props) => {
             {props.isLabelRight ? (
                 <>
                     <input
-                        ref={props.ref || undefined}
+                        // @ts-ignore
+                        ref={props.refs || undefined}
                         type="checkbox"
                         checked={props.value}
                         onChange={props.onChange}

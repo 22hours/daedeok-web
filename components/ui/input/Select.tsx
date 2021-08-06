@@ -10,7 +10,7 @@ type Props = {
     form: "box" | "underline";
     value?: string | number;
     option_list: { value: string; name: string }[];
-    onChange: (e) => void;
+    onChange?: (e) => void;
     placeholder?: string;
     disable?: boolean;
     error?: boolean;
