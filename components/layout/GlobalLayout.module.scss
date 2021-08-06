@@ -127,7 +127,7 @@ $mobile_footer_height: 139px;
 }
 
 .footer {
-    background-color: salmon;
+    background-color: $brown_base;
     @include mobile {
         height: $mobile_footer_height;
     }
