@@ -7,6 +7,7 @@ import { useRouter } from "next/dist/client/router";
 
 //ORGANIMS
 import Header from "components/organism/Header/Header";
+import Footer from "components/organism/Footer/Footer";
 
 // PAGE STROES
 import { ClassStoreProvider } from "store/ClassStore";
@@ -78,7 +79,9 @@ const GlobalLayout = ({ children, isBannerHide, isMenuHide }: Props) => {
             </div>
 
             {/* FOOTER */}
-            <div className={style.footer}></div>
+            <div className={style.footer}>
+                <Footer />
+            </div>
         </div>
     );
 };
