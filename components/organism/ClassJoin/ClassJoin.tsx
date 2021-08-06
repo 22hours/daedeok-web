@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useReducer } from "react";
 import Router from "next/router";
 import { useRouter } from "next/router";
+import { res_types } from "@global_types";
 //component
 import TableRow from "@ui/board/TableRow";
 import Button from "@ui/buttons/Button";
@@ -15,22 +16,10 @@ import Select from "@ui/input/Select";
 import { useAuthStore } from "store/AuthStore";
 
 type State = {
-    lecture_list_item: {
-        lecture_list: Array<{
-            id: number;
-            title: string;
-            category: string;
-            start_date: string;
-            end_date: string;
-            student_limit: number;
-            student_num: number;
-            status: "IMPOSSIBLE" | "POSSIBLE" | "ING";
-        }>;
-        total_count: number;
-        total_page: number;
-    };
+    lecture_list_item: res_types.classJoinItem;
     now_page: number;
     now_category: string;
+    now_keyword: string;
 };
 
 // ELEMENT TYPES
@@ -38,11 +27,12 @@ const initState: State = {
     lecture_list_item: { lecture_list: [], total_count: 0, total_page: 0 },
     now_page: 0,
     now_category: "ALL",
+    now_keyword: "",
 };
 // ACTION TYPES
 type Action =
     | { type: "SET_CLASS_LIST"; data: State["lecture_list_item"] }
-    | { type: "SET_NOW_STATE"; data: { now_page: number; now_category: string } };
+    | { type: "SET_NOW_STATE"; data: { now_page: number; now_category: string; now_keyword: string } };
 
 // REDUCER
 const reducer = (state: State, action: Action): State => {
@@ -54,11 +44,12 @@ const reducer = (state: State, action: Action): State => {
             };
         }
         case "SET_NOW_STATE": {
-            const { now_page, now_category } = action.data;
+            const { now_page, now_category, now_keyword } = action.data;
             return {
                 ...state,
                 now_category: now_category,
                 now_page: now_page,
+                now_keyword: now_keyword,
             };
         }
         default:
@@ -126,9 +117,17 @@ const ClassJoin = () => {
     const getClassListData = async () => {
         const req =
             classJoinData.now_category === "ALL"
-                ? { page: classJoinData.now_page, required_count: 7 }
-                : { category: classJoinData.now_category, page: classJoinData.now_page, required_count: 7 };
-
+                ? classJoinData.now_keyword === ""
+                    ? { page: classJoinData.now_page, required_count: 7 }
+                    : { keyword: classJoinData.now_keyword, page: classJoinData.now_page, required_count: 7 }
+                : classJoinData.now_keyword === ""
+                ? { category: classJoinData.now_category, page: classJoinData.now_page, required_count: 7 }
+                : {
+                      keyword: classJoinData.now_keyword,
+                      category: classJoinData.now_category,
+                      page: classJoinData.now_page,
+                      required_count: 7,
+                  };
         const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_POSSIBLE", undefined, req);
         if (res.result === "SUCCESS") {
             var data = res.data;
@@ -136,49 +135,35 @@ const ClassJoin = () => {
         }
     };
 
-    //검색 결과 리스트
-    const getSearchClassListData = async () => {
-        //@ts-ignore
-        const now_keyword = searchRef.current.value;
-        const req =
-            classJoinData.now_category === "ALL"
-                ? {
-                      keyword: now_keyword,
-                      page: classJoinData.now_page,
-                      required_count: 7,
-                  }
-                : {
-                      keyword: now_keyword,
-                      category: classJoinData.now_category,
-                      page: classJoinData.now_page,
-                      required_count: 7,
-                  };
-
-        const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_POSSIBLE", undefined, req);
-        if (res.result === "SUCCESS") {
-            var data = res.data;
+    const handleSearchClass = () => {
+        const categoryUri = `&category=${classJoinData.now_category}`;
+        const keywordUri =
             //@ts-ignore
-            searchRef.current.value = "";
-            dispatch({ type: "SET_CLASS_LIST", data: data });
-        }
+            searchRef.current.value;
+        const uri = `?page=1${categoryUri}&keyword=${keywordUri}`;
+        Router.push(uri);
+        //@ts-ignore
+        searchRef.current.value = "";
     };
 
     //라우팅 변경 시 category, page 변경
     useEffect(() => {
         var category = router.query.category ? router.query.category : "ALL";
         var page = router.query.page ? router.query.page : 1;
+        var keyword = router.query.keyword ? router.query.keyword : "";
+
         dispatch({
             type: "SET_NOW_STATE",
             //@ts-ignore
-            data: { now_page: page - 1, now_category: category },
+            data: { now_page: page - 1, now_category: category, now_keyword: keyword },
         });
     }, [router.query]);
 
     useEffect(() => {
         getClassListData();
-    }, [classJoinData.now_page, classJoinData.now_category]);
+    }, [classJoinData.now_page, classJoinData.now_category, classJoinData.now_keyword]);
 
-    const cateogryList = [
+    const categoryiList = [
         {
             value: "ALL",
             name: "전체",
@@ -219,11 +204,10 @@ const ClassJoin = () => {
                     form="box"
                     placeholder={"카테고리별 보기"}
                     onChange={({ target: { value } }) => {
-                        console.log(value);
                         const uri = `?page=${classJoinData.now_page + 1}&category=${value}`;
                         Router.push(uri);
                     }}
-                    option_list={cateogryList}
+                    option_list={categoryiList}
                     className={style.select}
                 />
                 <SearchBar
@@ -231,7 +215,7 @@ const ClassJoin = () => {
                     form="box"
                     placeholder={"검색어를 입력하세요"}
                     refs={searchRef}
-                    onEnterKeyDown={getSearchClassListData}
+                    onEnterKeyDown={handleSearchClass}
                 />
             </div>
             <TableWrapper>
@@ -258,7 +242,10 @@ const ClassJoin = () => {
                 <Pagination
                     totalCount={classJoinData.lecture_list_item.total_count}
                     handleChange={(page: number) => {
-                        const uri = `?page=${page + 1}&category=${classJoinData.now_category}`;
+                        const categoryUri = `&category=${classJoinData.now_category}`;
+                        const keywordUri =
+                            classJoinData.now_keyword === "" ? "" : `&keyword=${classJoinData.now_keyword}`;
+                        const uri = `?page=${page + 1}${categoryUri}${keywordUri}`;
                         Router.push(uri);
                     }}
                     pageNum={classJoinData.now_page}
