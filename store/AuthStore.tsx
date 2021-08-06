@@ -8,13 +8,7 @@ import CookieController from "lib/client/cookieController";
 type api_params = api_config_type.api_params;
 
 // STATE TYPES
-type State = {
-    user_id: meta_types.user["user_id"];
-    name: meta_types.user["name"];
-    role: meta_types.user["role"];
-    duty: meta_types.user["duty"];
-    lecture_num: meta_types.user["lecture_num"];
-} | null;
+type State = meta_types.user | null;
 
 type Store = {
     auth: State;

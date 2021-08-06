@@ -1,0 +1,39 @@
+// MypageGroup.module
+@import "styles/meta.scss";
+
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+    .hello_text {
+        display: inline;
+    }
+    .division_row {
+        margin-top: 20px;
+        text-align: center;
+    }
+}
+
+.InputRow {
+    margin-bottom: 20px;
+}
+
+.input_division_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.btn_row {
+    margin-top: 50px;
+    .btn {
+        margin-bottom: 15px;
+    }
+}
+
+.danger_btn_row {
+    margin-top: 150px;
+    margin-bottom: 100px;
+    .btn {
+        margin-bottom: 15px;
+    }
+}

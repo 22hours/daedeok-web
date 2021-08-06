@@ -10,6 +10,9 @@ declare module "@global_types" {
             role: "ROLE_MEMBER" | "ROLE_TUTOR" | "ROLE_ADMIN";
             duty: string;
             lecture_num: 3;
+            phone_num: string;
+            first_division: string;
+            second_division: string;
             access_token: string;
             refresh_token: string;
         };
