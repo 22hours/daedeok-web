@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import { useAuthStore } from "./AuthStore";
+import { useRouter } from "next/router";
 
 // STATE TYPES
 type State = {
@@ -17,19 +18,20 @@ type State = {
         total_count: number;
         total_page: number;
     };
-
     now_page: number;
+    now_category: string;
 };
 
 // ELEMENT TYPES
 const initState: State = {
     lecture_list_item: { lecture_list: [], total_count: 0, total_page: 0 },
     now_page: 0,
+    now_category: "ALL",
 };
 // ACTION TYPES
 type Action =
     | { type: "SET_CLASS_LIST"; data: State["lecture_list_item"] }
-    | { type: "SET_NOW_PAGE"; data: State["now_page"] };
+    | { type: "SET_NOW_STATE"; data: { now_page: number; now_category: string } };
 
 // DISPATCH TYPES
 type ContextDispatch = Dispatch<Action>;
@@ -47,10 +49,12 @@ const reducer = (state: State, action: Action): State => {
                 lecture_list_item: action.data,
             };
         }
-        case "SET_NOW_PAGE": {
+        case "SET_NOW_STATE": {
+            const { now_page, now_category } = action.data;
             return {
                 ...state,
-                now_page: action.data,
+                now_category: now_category,
+                now_page: now_page,
             };
         }
         default:
@@ -61,22 +65,35 @@ const reducer = (state: State, action: Action): State => {
 export const ClassJoinListStoreProvider = ({ children }: { children: JSX.Element }) => {
     const { clientSideApi } = useAuthStore();
     const [state, dispatch] = useReducer(reducer, initState);
+    const router = useRouter();
 
     const getClassListData = async () => {
-        const res_data = await clientSideApi("GET", "MAIN", "LECTURE_FIND_POSSIBLE", undefined, {
-            page: state.now_page,
-            required_count: 7,
-        });
-        console.log(res_data);
-        if (res_data.result === "SUCCESS") {
-            var data = res_data.data;
+        const req =
+            state.now_category === "ALL"
+                ? { page: state.now_page, required_count: 7 }
+                : { category: state.now_category, page: state.now_page, required_count: 7 };
+
+        const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_POSSIBLE", undefined, req);
+        if (res.result === "SUCCESS") {
+            var data = res.data;
             dispatch({ type: "SET_CLASS_LIST", data: data });
         }
     };
 
     useEffect(() => {
+        var category = router.query.category ? router.query.category : "ALL";
+        var page = router.query.page ? router.query.page : 1;
+
+        dispatch({
+            type: "SET_NOW_STATE",
+            //@ts-ignore
+            data: { now_page: page - 1, now_category: category },
+        });
+    }, [router.query]);
+
+    useEffect(() => {
         getClassListData();
-    }, [state.now_page]);
+    }, [state.now_page, state.now_category]);
 
     return (
         <ClassJoinListStoreContext.Provider value={state}>

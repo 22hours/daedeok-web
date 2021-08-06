@@ -151,7 +151,18 @@ declare module "@global_types" {
         };
         //(학생) 수강신청 가능한 강의 리스트
         type classJoinItem = {
-            res: Array<{ id: number; week: number; title: string; status: string }>;
+            lecture_list: Array<{
+                id: number;
+                title: string;
+                category: string;
+                start_date: string;
+                end_date: string;
+                student_limit: number;
+                student_num: number;
+                status: "IMPOSSIBLE" | "POSSIBLE" | "ING";
+            }>;
+            total_count: number;
+            total_page: number;
         };
         //(학생) 강의 정보
         type classInfoItem = {
