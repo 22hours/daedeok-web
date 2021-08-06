@@ -1,6 +1,9 @@
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
+
+const TEST = true;
+
 const firebaseConfig = {
     apiKey: "AIzaSyCh6HqY3ecTgHP3UcwXnx_rO8WCKBlanIg",
     authDomain: "system-monitor-6737e.firebaseapp.com",
@@ -46,6 +49,10 @@ export const FirebaseProvider = ({ children }) => {
     const firebaseError = (error) => {
         console.log(error);
         switch (error) {
+            case "auth/missing-verification-code": {
+                alert("인증번호를 입력해주세요");
+                break;
+            }
             case "auth/invalid-verification-code": {
                 alert("인증번호가 유효하지 않습니다");
                 break;
@@ -63,21 +70,19 @@ export const FirebaseProvider = ({ children }) => {
                 break;
             }
             default: {
-                console.log(error);
+                alert("인증번호를 정확히 입력해주세요");
             }
         }
     };
 
-    const phoneNumberAuth = async (callBack: Function) => {
-        const phoneInput = "01042501551";
+    const phoneNumberAuth = async (phoneNumber: string, callBack: Function) => {
         firebase.auth().languageCode = "ko";
-        // const phoneNumber = "+16505553434";
-        const phoneNumber = `+82${phoneInput}`;
+        const requestPhoneNumber = TEST ? "+16505553434" : `+82${phoneNumber}`;
         // @ts-ignore
         const appVerifier = window.recaptchaVerifier;
         return await firebase
             .auth()
-            .signInWithPhoneNumber(phoneNumber, appVerifier)
+            .signInWithPhoneNumber(requestPhoneNumber, appVerifier)
             .then((confirmationResult) => {
                 // SMS sent. Prompt user to type the code from the message, then sign the
                 // user in with confirmationResult.confirm(code).

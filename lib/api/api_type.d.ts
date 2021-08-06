@@ -88,7 +88,9 @@ declare module "@api_config_type" {
                 // >>>  PLAN
                 | "LECTUER_PLAN_LIST"
                 // >>>  JOIN
-                | "LECTURE_JOIN";
+                | "LECTURE_JOIN"
+                // DIVISION
+                | "FIND_DIVISION";
             url_query?: string | { lecture_id: string; board_id: string } | any;
             data?: any;
             extraHeader?: any;
