@@ -56,6 +56,7 @@ declare module "@api_config_type" {
                 | "CATEGORY_NEW"
                 | "CATEGORY_DELETE"
                 // LECTURE
+                | "LECTURE_DETAIL"
                 | "LECTURE_FIND"
                 | "LECTURE_FIND_POSSIBLE"
                 | "LECTURE_FIND_COMPLETE"
