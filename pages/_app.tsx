@@ -8,7 +8,7 @@ import "styles/nprogress.css";
 import NProgress from "nprogress";
 import { useRouter } from "next/router";
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }) => {
     useEffect(() => {
         // Remove the server-side injected CSS.
         const jssStyles = document.querySelector("#jss-server-side");
@@ -47,6 +47,13 @@ function MyApp({ Component, pageProps }) {
             <AuthProvider>{Layout(<Component {...pageProps} />)}</AuthProvider>
         </>
     );
+};
+
+export async function getServerSideProps(ctx) {
+    console.log("APP");
+    return {
+        props: {},
+    };
 }
 
 export default MyApp;

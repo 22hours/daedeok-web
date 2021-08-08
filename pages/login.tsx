@@ -8,6 +8,7 @@ import Typo from "@ui/Typo";
 import TextInput from "@ui/input/TextInput";
 import useInput from "lib/hooks/useInput";
 import Button from "@ui/buttons/Button";
+import Link from "next/link";
 type Props = {};
 
 const GlobalLayout = dynamic(import("components/layout/GlobalLayout"));

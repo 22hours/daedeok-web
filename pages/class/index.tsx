@@ -1,28 +1,13 @@
-import { useEffect } from "react";
-import { useClassStore } from "store/ClassStore";
-import { isAccessAble } from "lib/server/accessController";
+import { SecureRoute } from "lib/server/accessController";
 
 type Props = {};
 
 const Index = () => {
-    return <div>INDEX</div>;
+    return <div>INDEX !</div>;
 };
 
 export async function getServerSideProps(ctx) {
-    const accessAbleRole = "ROLE_ALL";
-    const flag = isAccessAble(ctx, accessAbleRole);
-    if (!flag) {
-        return {
-            redirect: {
-                destination: `/login?require_role=${accessAbleRole}`,
-                permanent: false,
-            },
-        };
-    } else {
-        return {
-            props: {},
-        };
-    }
+    return SecureRoute(ctx, "ROLE_ALL");
 }
 
 export default Index;
