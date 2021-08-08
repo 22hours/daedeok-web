@@ -63,9 +63,21 @@ $mobile_font_resize_size: 3px;
         font-size: $size - $mobile_font_resize_size;
     }
 }
+@mixin font_button_normal {
+    font-family: "SCDream5";
+
+    $size: 20px;
+
+    @include desktop {
+        font-size: $size;
+    }
+    @include mobile {
+        font-size: $size - $mobile_font_resize_size;
+    }
+}
 @mixin font_button_small {
     font-family: "SCDream5";
-    $size: 20px;
+    $size: 18px;
 
     @include desktop {
         font-size: $size;

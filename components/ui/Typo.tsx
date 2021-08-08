@@ -16,7 +16,7 @@ type CommonProps = {
 
 type ButtonProps = {
     type: "BUTTON";
-    size: "huge" | "large" | "medium" | "small" | "smaller";
+    size: "huge" | "large" | "medium" | "normal" | "small" | "smaller";
 };
 
 type HeaderProps = {

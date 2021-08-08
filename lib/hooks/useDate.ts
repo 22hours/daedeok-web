@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-type Type = "YYYY-MM-DD" | "YYYY.MM.DD";
+type Type = "YYYY-MM-DD" | "YYYY/MM/DD";
 const UseDate = (type: Type, time: string) => {
     const cur_date = new Date(time);
 
@@ -18,8 +18,8 @@ const UseDate = (type: Type, time: string) => {
         case "YYYY-MM-DD": {
             return `${year}-${month}-${date}`;
         }
-        case "YYYY.MM.DD": {
-            return `${year}.${month}.${date}`;
+        case "YYYY/MM/DD": {
+            return `${year}/${month}/${date}`;
         }
         default:
             throw new Error("use Time REDUCER ERROR");

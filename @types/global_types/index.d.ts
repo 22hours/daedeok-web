@@ -130,7 +130,7 @@ declare module "@global_types" {
             tutor: string;
             type: Array<string>;
             division_list: Array<{ first_division: string; second_division: string }>;
-            refeerence: string;
+            reference: string;
             lecture_plan: Array<{ week: number; title: string; tutor: string; location: string }>;
         };
         //(공통) 강의 게시판 상세
