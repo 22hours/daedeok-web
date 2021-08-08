@@ -5,7 +5,7 @@ type Props = {
     children?: JSX.Element | JSX.Element[];
     type: "SQUARE" | "ROUND" | "UNDERLINE" | "TEXT";
     size: "free" | "smaller" | "small" | "medium" | "large" | "full";
-    fontSize: "huge" | "large" | "medium" | "small" | "smaller";
+    fontSize: "huge" | "large" | "medium" | "normal" | "small" | "smaller";
     content: string;
     line?: "inline" | "outline";
     backgroundColor?:

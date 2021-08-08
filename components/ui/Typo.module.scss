@@ -10,6 +10,9 @@
 .medium {
     @include font_button_medium;
 }
+.normal {
+    @include font_button_normal;
+}
 .small {
     @include font_button_small;
 }

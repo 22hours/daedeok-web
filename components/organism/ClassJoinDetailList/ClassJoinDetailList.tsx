@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import style from "./ClassJoinDetailList.module.scss";
 import { res_types } from "@global_types";
+import Link from "next/link";
+
+//ui
 import Typo from "@ui/Typo";
+import Button from "@ui/buttons/Button";
 //hooks
 import UseDate from "lib/hooks/useDate";
 import { nanoid } from "nanoid";
@@ -174,6 +178,37 @@ const ClassJoinDetailList = ({ classId }) => {
                     //@ts-ignore
                     content={detailData?.reference}
                 />
+            </div>
+            <div className={style.plan_list}>
+                {detailData?.lecture_plan?.map((it, idx) => (
+                    <div key={nanoid()} className={style.list_item}>
+                        <div className={style.week_item}>
+                            <Typo size="normal" content={it.week + "주"} type="TEXT" />
+                        </div>
+                        <div className={style.other_item}>
+                            <Typo size="normal" content={it.title} type="TEXT" />
+                            <Typo size="normal" content={it.tutor} type="TEXT" />
+                            <Typo size="normal" content={it.location} type="TEXT" />
+                        </div>
+                    </div>
+                ))}
+                <div className={style.list_item}>
+                    <div className={style.week_item}></div>
+                    <div className={style.other_item}></div>
+                </div>
+            </div>
+            <div className={style.go_back_btn_wrapper}>
+                <Link href="/class/join" passHref>
+                    <Button
+                        type="SQUARE"
+                        content={"목록보기"}
+                        backgroundColor="yellow_accent"
+                        color="white"
+                        size="small"
+                        fontSize="small"
+                        className={style.go_back_btn}
+                    />
+                </Link>
             </div>
         </div>
     );
