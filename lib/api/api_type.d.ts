@@ -9,7 +9,7 @@ declare module "@api_config_type" {
             statusCode?: number;
         };
         type api_params = {
-            method: "GET" | "POST" | "UPDATE" | "DELETE";
+            method: "GET" | "POST" | "PUT" | "DELETE";
             domain: "MAIN" | "MAIN_NOBASE";
             ep:
                 | "TEST"

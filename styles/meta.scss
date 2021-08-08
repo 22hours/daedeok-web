@@ -121,7 +121,17 @@ $mobile_font_resize_size: 3px;
         font-size: $size - $mobile_font_resize_size;
     }
 }
+@mixin font_h4_header {
+    font-family: "SCDream4";
+    $size: 20px;
 
+    @include desktop {
+        font-size: $size;
+    }
+    @include mobile {
+        font-size: $size - $mobile_font_resize_size;
+    }
+}
 //TEXT
 @mixin font_large_text {
     font-family: "SCDream5";

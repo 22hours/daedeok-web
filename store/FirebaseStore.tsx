@@ -2,7 +2,7 @@ import React, { useState, useEffect, Dispatch, createContext, useReducer, useCon
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const TEST = true;
+const TEST = false;
 
 const firebaseConfig = {
     apiKey: "AIzaSyCh6HqY3ecTgHP3UcwXnx_rO8WCKBlanIg",
@@ -77,7 +77,7 @@ export const FirebaseProvider = ({ children }) => {
 
     const phoneNumberAuth = async (phoneNumber: string, callBack: Function) => {
         firebase.auth().languageCode = "ko";
-        const requestPhoneNumber = TEST ? "+16505553434" : `+82${phoneNumber}`;
+        const requestPhoneNumber = `+82${phoneNumber}`;
         // @ts-ignore
         const appVerifier = window.recaptchaVerifier;
         return await firebase
