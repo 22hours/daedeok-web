@@ -16,7 +16,7 @@ const InputRow = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
 };
 
 const MypageGroup = () => {
-    const { auth } = useAuthStore();
+    const { auth, clientSideApi } = useAuthStore();
 
     const name = useInput(auth?.name);
     const duty = useInput(auth?.duty);
@@ -34,6 +34,22 @@ const MypageGroup = () => {
             secondDivsion.setValue(auth.second_division);
         }
     }, [auth]);
+
+    const updateMyPage = async () => {
+        const res = await clientSideApi("PUT", "MAIN", "USER_UPDATE_INFO", undefined, {
+            name: name.value,
+            duty: duty.value,
+            first_division: firstDivision.value,
+            second_division: secondDivsion.value,
+        });
+        if (res.result === "SUCCESS") {
+            alert("성공적으로 변경되었습니다");
+
+            alert("유저 정보 갱신 TODO");
+        } else {
+            alert(res.msg);
+        }
+    };
 
     if (auth) {
         return (
@@ -93,6 +109,7 @@ const MypageGroup = () => {
                             className={style.btn}
                         />
                         <Button
+                            onClick={updateMyPage}
                             type={"ROUND"}
                             size={"medium"}
                             fontSize={"small"}
