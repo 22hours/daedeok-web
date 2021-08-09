@@ -179,6 +179,17 @@ declare module "@global_types" {
             total_count: number;
             total_page?: number;
         };
+        type lectureFindList = {
+            lecture_list: Array<{
+                id: number;
+                title: string;
+                category: string;
+                start_date: string;
+                end_date: string;
+            }>;
+            total_count: number;
+            total_page?: number;
+        };
         //(학생) 강의 정보
         type classInfoItem = {
             handout_list: Array<{ id: number; name: string; url: string }>;

@@ -90,7 +90,7 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `LECTURE_DETAIL`:
             return `lecture/${url_query.lecture_id}`;
         case `LECTURE_FIND`:
-            return `lecture/`;
+            return `lecture`;
         case "LECTURE_FIND_SIDEBAR":
             return `lecture/sidebar`;
         case `LECTURE_FIND_POSSIBLE`:
