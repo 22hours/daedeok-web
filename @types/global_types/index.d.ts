@@ -152,8 +152,8 @@ declare module "@global_types" {
             after: board_preview;
             before: board_preview;
         };
-        //(학생) 수강신청 가능한 강의 리스트
-        type classJoinItem = {
+        // 현재 진행중인 강의 리스트
+        type classPossibleList = {
             lecture_list: Array<{
                 id: number;
                 title: string;
@@ -163,6 +163,18 @@ declare module "@global_types" {
                 student_limit: number;
                 student_num: number;
                 status: "IMPOSSIBLE" | "POSSIBLE" | "ING";
+            }>;
+            total_count: number;
+            total_page?: number;
+        };
+        // 종료된 강의 리스트
+        type classCompleteList = {
+            lecture_list: Array<{
+                id: number;
+                title: string;
+                category: string;
+                start_date: string;
+                end_date: string;
             }>;
             total_count: number;
             total_page?: number;

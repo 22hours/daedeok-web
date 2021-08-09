@@ -1,18 +1,30 @@
-import Typo from "@ui/Typo";
-import React, { useState, useEffect } from "react";
-type Props = {};
+import LectureClose from "components/organism/LectureClose/LectureClose";
+import { ListCommonProvider } from "store/ListCommonStore";
 
-const index = (props) => {
-    return (
-        <div>
-            <Typo type={"HEADER"} size={"h1"} content={"STATUS"} />
-            <Typo type={"HEADER"} size={"h2"} content={"STATUS"} />
-            <Typo type={"HEADER"} size={"h3"} content={"STATUS"} />
-        </div>
-    );
+const StatusLectureList = (props) => {
+    console.log(props);
+    const { status } = props.data;
+
+    switch (status) {
+        //종료된 강의
+        case "close": {
+            return (
+                <div>
+                    <ListCommonProvider>
+                        <LectureClose />
+                    </ListCommonProvider>
+                </div>
+            );
+        }
+        case "open": {
+        }
+        default:
+            return <div>{"ERROR"}</div>;
+    }
 };
 
 export async function getStaticProps({ params }) {
+    console.log(params);
     return {
         props: {
             data: params,
@@ -25,4 +37,4 @@ export async function getStaticPaths() {
     return { paths, fallback: false };
 }
 
-export default index;
+export default StatusLectureList;
