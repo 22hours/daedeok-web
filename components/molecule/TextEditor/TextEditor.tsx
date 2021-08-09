@@ -6,6 +6,7 @@ import { RefObject } from "react";
 
 type Props = {
     editorRef: RefObject<Editor>;
+    initialValue: string;
 };
 
 const TextEditor = (props: Props) => {
@@ -25,8 +26,9 @@ const TextEditor = (props: Props) => {
         <>
             <Editor
                 ref={props.editorRef}
-                initialValue={``}
+                initialValue={props.initialValue}
                 previewStyle="vertical"
+                height={"600px"}
                 initialEditType={"wysiwyg"}
                 hideModeSwitch={true}
                 useCommandShortcut={true}

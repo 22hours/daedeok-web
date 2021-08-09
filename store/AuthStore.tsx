@@ -56,6 +56,7 @@ export const AuthProvider = ({ children }) => {
         const token = CookieController.getTokenInCookie();
         const res_data = await apiClient.API_CALL("POST", "MAIN", "REFRESH", undefined, { ...token });
         if (res_data.result === "SUCCESS") {
+            CookieController.setAccessTokenInCokkie(res_data.data.access_token);
             return res_data.data.access_token;
         } else {
             alert("다시 로그인하십시오");

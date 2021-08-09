@@ -10,6 +10,21 @@ type token = {
     refresh_token: string;
 } | null;
 
+const getExpiredDate = () => {
+    const expires = new Date();
+    expires.setDate(Date.now() + 1000 * 60 * 60 * 24);
+    return expires;
+};
+
+const setAccessTokenInCokkie = (access_token: string) => {
+    const expires = getExpiredDate();
+    cookie.save("access_token", access_token.toString(), {
+        path: "/",
+        expires,
+        httpOnly: HTTP_ONLY,
+    });
+};
+
 const getTokenInCookie = (): token => {
     return {
         access_token: cookie.load("access_token"),
@@ -25,14 +40,17 @@ const getUserWithCookie = (): user => {
         role: cookieData.role,
         duty: cookieData.duty,
         lecture_num: cookieData.lecture_num,
+        phone_num: cookieData.phone_num,
+        first_division: cookieData.first_division,
+        second_division: cookieData.second_division,
         access_token: cookieData.access_token,
         refresh_token: cookieData.refresh_token,
     };
 };
 
 const setUserWithCookie = (user: user) => {
-    const expires = new Date();
-    expires.setDate(Date.now() + 1000 * 60 * 60 * 24);
+    const expires = getExpiredDate();
+
     for (const [key, value] of Object.entries(user)) {
         cookie.save(key, value.toString(), {
             path: "/",
@@ -49,6 +67,9 @@ const removeUserInCookie = () => {
         role: "ROLE_MEMBER",
         duty: "string",
         lecture_num: 3,
+        phone_num: "",
+        first_division: "",
+        second_division: "",
         access_token: "",
         refresh_token: "string",
     };
@@ -62,6 +83,7 @@ const CookieController = {
     removeUserInCookie,
     getUserWithCookie,
     getTokenInCookie,
+    setAccessTokenInCokkie,
 };
 
 export default CookieController;
