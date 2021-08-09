@@ -27,7 +27,7 @@ const SidebarMenuList = () => {
         if (res.result === "SUCCESS") {
             setOpenList(res.data);
         } else {
-            alert(res.msg);
+            // alert(res.msg);
         }
     };
     useEffect(() => {

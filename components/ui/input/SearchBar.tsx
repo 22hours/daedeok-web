@@ -38,7 +38,9 @@ const SearchBar = (props: Props) => {
                 maxLength={props.maxLength || undefined}
                 placeholder={props.placeholder || undefined}
             />
-            <SearchIcon />
+            <div className={style.search_btn_wrapper}>
+                <SearchIcon />
+            </div>
         </div>
     );
 };

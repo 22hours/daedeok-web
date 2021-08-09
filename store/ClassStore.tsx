@@ -35,7 +35,6 @@ const ClassStoreContext = React.createContext<Store | null>(null);
 
 export const ClassStoreProvider = ({ children }) => {
     const reducer = (state: State, action: Action) => {
-        console.log(action);
         switch (action.type) {
             case "SET_INIT": {
                 return {

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useReducer } from "react";
+import React, { useRef, useEffect, useReducer, useState } from "react";
 import Router from "next/router";
 import { useRouter } from "next/router";
 import { res_types } from "@global_types";
@@ -14,47 +14,15 @@ import Select from "@ui/input/Select";
 
 //store
 import { useAuthStore } from "store/AuthStore";
+import { useListCommonStore } from "store/ListCommonStore";
+import { stringify } from "querystring";
 
-type State = {
-    lecture_list_item: res_types.classJoinItem;
-    now_page: number;
-    now_category: string;
-    now_keyword: string;
-};
+type State = res_types.classJoinItem;
 
 // ELEMENT TYPES
 const initState: State = {
-    lecture_list_item: { lecture_list: [], total_count: 0, total_page: 0 },
-    now_page: 0,
-    now_category: "ALL",
-    now_keyword: "",
-};
-// ACTION TYPES
-type Action =
-    | { type: "SET_CLASS_LIST"; data: State["lecture_list_item"] }
-    | { type: "SET_NOW_STATE"; data: { now_page: number; now_category: string; now_keyword: string } };
-
-// REDUCER
-const reducer = (state: State, action: Action): State => {
-    switch (action.type) {
-        case "SET_CLASS_LIST": {
-            return {
-                ...state,
-                lecture_list_item: action.data,
-            };
-        }
-        case "SET_NOW_STATE": {
-            const { now_page, now_category, now_keyword } = action.data;
-            return {
-                ...state,
-                now_category: now_category,
-                now_page: now_page,
-                now_keyword: now_keyword,
-            };
-        }
-        default:
-            throw new Error("CLASS JOIN REDUCER ERROR");
-    }
+    lecture_list: [],
+    total_count: 0,
 };
 
 const JoinButton = ({ state, idx, handleClassJoin }) => {
@@ -106,79 +74,106 @@ const JoinButton = ({ state, idx, handleClassJoin }) => {
     }
 };
 
-const ClassJoin = () => {
+const ClassJoinSelect = () => {
+    const [optionList, setOptionList] = useState<{ name: string; value: string }[]>([]);
     const { clientSideApi } = useAuthStore();
-    const [classJoinData, dispatch] = useReducer(reducer, initState);
+    const { state, changeCategory } = useListCommonStore();
 
-    const searchRef = useRef<HTMLInputElement | null>(null);
-    const router = useRouter();
-
-    //카테고리필터 가능 & 페이지 이동
-    const getClassListData = async () => {
-        const req =
-            classJoinData.now_category === "ALL"
-                ? classJoinData.now_keyword === ""
-                    ? { page: classJoinData.now_page, required_count: 7 }
-                    : { keyword: classJoinData.now_keyword, page: classJoinData.now_page, required_count: 7 }
-                : classJoinData.now_keyword === ""
-                ? { category: classJoinData.now_category, page: classJoinData.now_page, required_count: 7 }
-                : {
-                      keyword: classJoinData.now_keyword,
-                      category: classJoinData.now_category,
-                      page: classJoinData.now_page,
-                      required_count: 7,
-                  };
-        const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_POSSIBLE", undefined, req);
+    const getOptionListData = async () => {
+        const res = await clientSideApi("GET", "MAIN", "CATEGORY_FIND", undefined, {
+            page: 0,
+            required_count: 100000,
+        });
         if (res.result === "SUCCESS") {
-            var data = res.data;
-            dispatch({ type: "SET_CLASS_LIST", data: data });
+            // setOptionList(res.data.category_list);
+            setOptionList([
+                { name: "유아부", value: "유아부" },
+                { name: "교육부", value: "교육부" },
+            ]);
+        } else {
+            alert(res.msg);
         }
     };
 
-    const handleSearchClass = () => {
-        const categoryUri = `&category=${classJoinData.now_category}`;
-        const keywordUri =
-            //@ts-ignore
-            searchRef.current.value;
-        const uri = `?page=1${categoryUri}&keyword=${keywordUri}`;
-        Router.push(uri);
-        //@ts-ignore
-        searchRef.current.value = "";
+    useEffect(() => {
+        getOptionListData();
+    }, []);
+
+    return (
+        <Select
+            value={state.category || "ALL"}
+            onChange={(e) => {
+                changeCategory(e.target.value);
+            }}
+            form="box"
+            placeholder={"카테고리별 보기"}
+            option_list={[{ name: "전체", value: "ALL" }].concat(optionList)}
+            className={style.select}
+        />
+    );
+};
+
+const ClassList = (props: { lecture_list: any; handleClassJoin: any }) => {
+    return (
+        <TableWrapper>
+            {props.lecture_list.map((it, idx) => (
+                <div key={idx}>
+                    <TableRow
+                        title={it.title}
+                        category={it.category}
+                        date={UseDate("YYYY-MM-DD", it.start_date) + "~" + UseDate("YYYY-MM-DD", it.end_date)}
+                        studentLimit={{
+                            student_limit: it.student_limit === -1 ? "무제한" : it.student_limit,
+                            student_num: it.student_num,
+                        }}
+                        href={`/class/join/detail/${it.id}`}
+                    >
+                        <div style={{ width: "90px", marginRight: "20px" }}>
+                            <JoinButton state={it.status} idx={it.id} handleClassJoin={props.handleClassJoin} />
+                        </div>
+                    </TableRow>
+                </div>
+            ))}
+        </TableWrapper>
+    );
+};
+
+const ClassJoin = () => {
+    const { clientSideApi } = useAuthStore();
+    const { state, changePage, changeKeyword } = useListCommonStore();
+
+    const [listState, setListState] = useState<State>(initState);
+
+    const searchRef = useRef<HTMLInputElement | null>(null);
+
+    // 카테고리필터 가능 & 페이지 이동
+    const getClassListData = async () => {
+        if (state.isLoadEnd) {
+            const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_POSSIBLE", undefined, {
+                category: state.category === "ALL" ? undefined : state.category,
+                keyword: state.keyword,
+                page: parseInt(state.page) - 1,
+                required_count: 7,
+            });
+            if (res.result === "SUCCESS") {
+                var data = res.data;
+                setListState({ ...res.data });
+            }
+        }
     };
 
-    //라우팅 변경 시 category, page 변경
     useEffect(() => {
-        var category = router.query.category ? router.query.category : "ALL";
-        var page = router.query.page ? router.query.page : 1;
-        var keyword = router.query.keyword ? router.query.keyword : "";
+        if (state.isLoadEnd) {
+            getClassListData();
+            if (searchRef.current) {
+                if (state.keyword !== searchRef.current.value) {
+                    searchRef.current.value = "";
+                }
+            }
+        }
+    }, [state]);
 
-        dispatch({
-            type: "SET_NOW_STATE",
-            //@ts-ignore
-            data: { now_page: page - 1, now_category: category, now_keyword: keyword },
-        });
-    }, [router.query]);
-
-    useEffect(() => {
-        getClassListData();
-    }, [classJoinData.now_page, classJoinData.now_category, classJoinData.now_keyword]);
-
-    const categoryiList = [
-        {
-            value: "ALL",
-            name: "전체",
-        },
-        {
-            value: "교육부",
-            name: "교육부",
-        },
-        {
-            value: "유아부",
-            name: "유아부",
-        },
-    ];
-
-    //수강신청
+    // 수강신청
     const handleClassJoin = async ({ idx }) => {
         const res_data = await clientSideApi(
             "POST",
@@ -200,55 +195,21 @@ const ClassJoin = () => {
     return (
         <div>
             <div className={style.top_form}>
-                <Select
-                    form="box"
-                    placeholder={"카테고리별 보기"}
-                    onChange={({ target: { value } }) => {
-                        const uri = `?page=${classJoinData.now_page + 1}&category=${value}`;
-                        Router.push(uri);
-                    }}
-                    option_list={categoryiList}
-                    className={style.select}
-                />
+                <ClassJoinSelect />
                 <SearchBar
                     className={style.search}
                     form="box"
                     placeholder={"검색어를 입력하세요"}
                     refs={searchRef}
-                    onEnterKeyDown={handleSearchClass}
+                    onEnterKeyDown={(e) => changeKeyword(e.target.value)}
                 />
             </div>
-            <TableWrapper>
-                {classJoinData.lecture_list_item.lecture_list.map((it, idx) => (
-                    <div key={idx}>
-                        <TableRow
-                            title={it.title}
-                            category={it.category}
-                            date={UseDate("YYYY-MM-DD", it.start_date) + "~" + UseDate("YYYY-MM-DD", it.end_date)}
-                            studentLimit={{
-                                student_limit: it.student_limit === -1 ? "무제한" : it.student_limit,
-                                student_num: it.student_num,
-                            }}
-                            href={`/class/join/detail/${it.id}`}
-                        >
-                            <div style={{ width: "90px", marginRight: "20px" }}>
-                                <JoinButton state={it.status} idx={it.id} handleClassJoin={handleClassJoin} />
-                            </div>
-                        </TableRow>
-                    </div>
-                ))}
-            </TableWrapper>
+            <ClassList lecture_list={listState.lecture_list} handleClassJoin={handleClassJoin} />
             <div>
                 <Pagination
-                    totalCount={classJoinData.lecture_list_item.total_count}
-                    handleChange={(page: number) => {
-                        const categoryUri = `&category=${classJoinData.now_category}`;
-                        const keywordUri =
-                            classJoinData.now_keyword === "" ? "" : `&keyword=${classJoinData.now_keyword}`;
-                        const uri = `?page=${page + 1}${categoryUri}${keywordUri}`;
-                        Router.push(uri);
-                    }}
-                    pageNum={classJoinData.now_page}
+                    totalCount={listState.total_count}
+                    handleChange={(page: number) => changePage((page + 1).toString())}
+                    pageNum={state.page ? parseInt(state.page) - 1 : 0}
                     requiredCount={7}
                 />
             </div>

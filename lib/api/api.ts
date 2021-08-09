@@ -17,8 +17,6 @@ h22_axios.interceptors.response.use(
             }
             case 201: {
                 var location = response.headers.location;
-                console.log(response);
-                console.log(response.headers.location);
 
                 res = { result: "SUCCESS", data: location || "SUCCESS" };
                 break;
@@ -38,11 +36,6 @@ h22_axios.interceptors.response.use(
         const customErrorCode = error.response?.data?.status;
         const error_msg: string = error.response?.data?.message;
         var res: api_config_type.api_response;
-        console.debug(error);
-        console.log({
-            customErrorCode,
-            error_msg,
-        });
 
         switch (customErrorCode) {
             // BAD REQUESTS

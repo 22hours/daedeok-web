@@ -9,4 +9,11 @@
         margin-right: 10px;
         color: $gray_accent;
     }
+
+    .search_btn_wrapper {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

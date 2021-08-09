@@ -165,7 +165,7 @@ declare module "@global_types" {
                 status: "IMPOSSIBLE" | "POSSIBLE" | "ING";
             }>;
             total_count: number;
-            total_page: number;
+            total_page?: number;
         };
         //(학생) 강의 정보
         type classInfoItem = {
