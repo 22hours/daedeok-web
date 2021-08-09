@@ -1,10 +1,14 @@
+import { ListCommonProvider } from "store/ListCommonStore";
+
 type Props = {};
 
 const ClassNotice = () => {
     return (
-        <div>
-            <h2>ClassNotice</h2>
-        </div>
+        <ListCommonProvider>
+            <div>
+                <h2>ClassNotice</h2>
+            </div>
+        </ListCommonProvider>
     );
 };
 

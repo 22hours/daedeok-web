@@ -80,7 +80,6 @@ export const AuthProvider = ({ children }) => {
         if (res_data.result === "SUCCESS") {
             return res_data;
         } else {
-            console.log(res_data.statusCode);
             switch (res_data.statusCode) {
                 case 701: {
                     // 토큰 만료
