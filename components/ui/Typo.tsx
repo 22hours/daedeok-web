@@ -21,7 +21,7 @@ type ButtonProps = {
 
 type HeaderProps = {
     type: "HEADER";
-    size: "h1" | "h2" | "h3" | "h4";
+    size: "h1" | "h2" | "h3";
 };
 
 type TextProps = {
@@ -47,8 +47,6 @@ const Typo = ({ type, size, content, color, className }: Props) => {
                     return <h2 className={headerStyle}>{content}</h2>;
                 case "h3":
                     return <h3 className={headerStyle}>{content}</h3>;
-                case "h4":
-                    return <h4 className={headerStyle}>{content}</h4>;
 
                 default:
                     return <h5>{content}</h5>;
