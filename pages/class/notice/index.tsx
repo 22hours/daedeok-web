@@ -1,4 +1,5 @@
 import { ListCommonProvider } from "store/ListCommonStore";
+import TutorNoticeList from "components/organism/TutorNoticeList/TutorNoticeList";
 
 type Props = {};
 
@@ -6,7 +7,7 @@ const ClassNotice = () => {
     return (
         <ListCommonProvider>
             <div>
-                <h2>ClassNotice</h2>
+                <TutorNoticeList />
             </div>
         </ListCommonProvider>
     );
