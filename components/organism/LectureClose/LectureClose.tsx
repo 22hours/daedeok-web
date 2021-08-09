@@ -90,8 +90,9 @@ const LectureClose = () => {
 
     const getClassListData = async () => {
         if (state.isLoadEnd) {
-            const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_COMPLETE", undefined, {
+            const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND", undefined, {
                 category: state.category === "ALL" ? undefined : state.category,
+                status: "FINISH",
                 keyword: state.keyword,
                 page: parseInt(state.page) - 1,
                 required_count: 7,
