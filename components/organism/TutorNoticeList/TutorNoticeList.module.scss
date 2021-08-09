@@ -1,0 +1,12 @@
+.top_form {
+    display: flex;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    justify-content: flex-end;
+    .select {
+        min-height: 40px;
+    }
+    .search {
+        flex-grow: 0.5;
+    }
+}

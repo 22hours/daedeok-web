@@ -206,5 +206,11 @@ declare module "@global_types" {
                 status: string;
             }>;
         };
+        //(목사) 공지사항리스트
+        type tutorNoticeListItem = {
+            notice_list: Array<{ id: number; user_id: number; title: string; create_date: string }>;
+            total_count: number;
+            total_page?: number;
+        };
     }
 }

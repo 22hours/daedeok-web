@@ -1,6 +1,4 @@
-import React, { useRef, useEffect, useReducer, useState } from "react";
-import Router from "next/router";
-import { useRouter } from "next/router";
+import React, { useRef, useEffect, useState } from "react";
 import { res_types } from "@global_types";
 //component
 import TableRow from "@ui/board/TableRow";
@@ -15,7 +13,6 @@ import Select from "@ui/input/Select";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
-import { stringify } from "querystring";
 
 type State = res_types.classJoinItem;
 
