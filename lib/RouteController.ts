@@ -160,9 +160,9 @@ export const RouteController = {
                 name: "회원가입",
                 pathname: "/register",
             },
-            passwordchange: {
+            pwchange: {
                 name: "비밀번호변경",
-                pathname: "/passwordchange",
+                pathname: "/pwchange",
             },
             mypage: {
                 name: "마이페이지",
