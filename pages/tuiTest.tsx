@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+type Props = {};
 import dynamic from "next/dynamic";
 
 const TextEditor = dynamic(() => import("components/molecule/TextEditor/TextEditor"), { ssr: false });
 
-type Props = {};
-
-const ClassNoticeNew = () => {
+const tuiTest = () => {
     return (
         <div>
-            <h2>new</h2>
+            <h2>tuiTest</h2>
             <TextEditor />
         </div>
     );
 };
 
-export default ClassNoticeNew;
+export default tuiTest;
