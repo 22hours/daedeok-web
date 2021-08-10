@@ -1,6 +1,6 @@
 import style from "./TextEditor.module.scss";
-import { Editor, Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import { Editor, Viewer } from "@toast-ui/react-editor";
 import { useAuthStore } from "store/AuthStore";
 import { RefObject } from "react";
 
