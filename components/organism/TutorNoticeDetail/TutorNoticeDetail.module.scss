@@ -17,13 +17,29 @@
     }
     .comment_list {
         .first_comment {
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-top: 20px;
         }
-        .comment_header {
+
+        .second_comment {
+            padding-left: 70px;
+            margin-top: 10px;
+        }
+    }
+    .new_comment {
+        margin-top: 40px;
+        .new_comment_btn {
+            margin-top: 20px;
             display: flex;
-            justify-content: space-between;
-            .margin {
-                margin-right: 10px;
-            }
+            justify-content: flex-end;
         }
+        .btn_style {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    }
+    .commen_box_style {
+        min-height: 70px;
     }
 }

@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import style from "./TutorNoticeDetail.module.scss";
 import { res_types } from "@global_types";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 //component
 import Typo from "@ui/Typo";
+import Button from "@ui/buttons/Button";
 import { nanoid } from "nanoid";
+import CommentList from "@ui/commentList/CommentList";
+import TextArea from "@ui/input/TextArea";
 //store
 import { useAuthStore } from "store/AuthStore";
 import DateController from "lib/client/dateController";
@@ -17,7 +20,8 @@ type State = res_types.tutorNoticeDetail;
 const TutorNoticeDetail = ({ noticeId }) => {
     const { auth, clientSideApi } = useAuthStore();
     const [noticeDetailData, setNoticeDetailData] = useState<State | null>(null);
-    console.log(auth);
+    const newCommentRef = useRef<HTMLInputElement | null>(null);
+
     const commentDummy = {
         comment_list: [
             {
@@ -26,7 +30,16 @@ const TutorNoticeDetail = ({ noticeId }) => {
                 author: "이정환",
                 content: "댓글테스트입니다댓글테스트입니다댓글테스트입니다댓글테스트입니다",
                 create_date: "2021-08-06T16:23:58.025",
-                children: null,
+                children: [
+                    {
+                        id: 2,
+                        user_id: 2,
+                        author: "김효빈",
+                        content: "댓글테스트입니다댓글테스트입니다댓글테스트입니다댓글테스트입니다",
+                        create_date: "2021-08-06T16:23:58.025",
+                        children: null,
+                    },
+                ],
             },
             {
                 id: 2,
@@ -35,6 +48,14 @@ const TutorNoticeDetail = ({ noticeId }) => {
                 content: "댓글테스트입니다댓글테스트입니다댓글테스트입니다댓글테스트입니다",
                 create_date: "2021-08-06T16:23:58.025",
                 children: [
+                    {
+                        id: 2,
+                        user_id: 2,
+                        author: "김효빈",
+                        content: "댓글테스트입니다댓글테스트입니다댓글테스트입니다댓글테스트입니다",
+                        create_date: "2021-08-06T16:23:58.025",
+                        children: null,
+                    },
                     {
                         id: 2,
                         user_id: 2,
@@ -97,29 +118,38 @@ const TutorNoticeDetail = ({ noticeId }) => {
                 </div>
                 <div className={style.comment_list}>
                     {commentDummy?.comment_list?.map((it, idx) => (
-                        <div key={nanoid()} className={style.first_comment}>
-                            <div className={style.comment_header}>
-                                <div>
-                                    <Typo
-                                        type={"TEXT"}
-                                        content={it.author}
-                                        size={"small"}
-                                        color={"brown_font"}
-                                        className={style.margin}
-                                    />
-                                    <Typo
-                                        type={"TEXT"}
-                                        content={DateController.getFormatedDate("YYYY/MM/DD", it?.create_date)}
-                                        size={"smaller"}
-                                        color={"gray_accent"}
-                                    />
+                        <div className={style.first_comment} key={nanoid()}>
+                            <CommentList commentList={it} auth={auth} type={"first"} />
+                            {it.children?.map((sub_it, idx) => (
+                                <div className={style.second_comment} key={nanoid()}>
+                                    <CommentList commentList={sub_it} auth={auth} type={"second"} />
                                 </div>
-                                <div>
-                                    <Typo type={"TEXT"} content={"댓글"} size={"smaller"} color={"gray_accent"} />
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     ))}
+                </div>
+
+                <div className={style.new_comment}>
+                    <div>
+                        <TextArea
+                            placeholder={"댓글을 입력해주세요."}
+                            maxLength={120}
+                            className={style.commen_box_style}
+                            //@ts-ignore
+                            refs={newCommentRef}
+                        />
+                    </div>
+                    <div className={style.new_comment_btn}>
+                        <Button
+                            type="SQUARE"
+                            size="smaller"
+                            fontSize="smaller"
+                            backgroundColor="yellow_accent"
+                            content="댓글작성"
+                            color="white"
+                            className={style.btn_style}
+                        />
+                    </div>
                 </div>
             </div>
         );
