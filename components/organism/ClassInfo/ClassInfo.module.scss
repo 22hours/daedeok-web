@@ -1,0 +1,56 @@
+@import "styles/meta.scss";
+
+.container {
+    .head_block_text {
+        background-color: $brown_base;
+        display: block;
+        width: 120px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+    }
+    .handout_row {
+        margin-top: 30px;
+        @include desktop {
+            display: flex;
+            .handout_list_col {
+                margin-left: 20px;
+                flex-grow: 1;
+            }
+        }
+
+        @include mobile {
+            .handout_list_col {
+                margin-top: 20px;
+                flex-grow: 1;
+            }
+        }
+
+        .handout_list_col {
+            .handout_item_container {
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid $gray_form;
+                height: 30px;
+                margin-bottom: 15px;
+                .handout_item_download_btn {
+                    height: 20px;
+                    span {
+                        font-size: 10px;
+                    }
+                }
+            }
+        }
+    }
+    .lecture_plan_row {
+        margin-top: 30px;
+
+        .lecture_plan_list_container {
+            margin-top: 30px;
+            .lecture_plan_children {
+                display: block;
+                text-align: right;
+            }
+        }
+    }
+}
