@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import style from "./StudentAttendanceList.module.scss";
 import { res_types } from "@global_types";
+import { useRouter } from "next/router";
 //component
 import TableRow from "@ui/board/TableRow";
 import Button from "@ui/buttons/Button";
@@ -49,10 +50,12 @@ const StatusButton = ({ state }) => {
 
 const StudentAttendanceList = () => {
     const { clientSideApi } = useAuthStore();
-
     const [attendanceList, setAttendanceList] = useState<State["studentAttendanceList"]>(
         initState["studentAttendanceList"]
     );
+    const router = useRouter();
+
+    const lectureId = router.asPath.split("/")[3];
 
     useEffect(() => {
         getStudentAttendanceList();
@@ -64,10 +67,10 @@ const StudentAttendanceList = () => {
             "MAIN",
             "LECTURE_FIND_USER_ATTENDANCE",
             {
-                lecture_id: "6",
+                lecture_id: lectureId,
             },
             {
-                lecture_id: "6",
+                lecture_id: lectureId,
             }
         );
         if (res.result === "SUCCESS") {
@@ -75,8 +78,6 @@ const StudentAttendanceList = () => {
             setAttendanceList(data);
         }
     };
-
-    console.log(attendanceList);
 
     return (
         <div className={style.class_attendance_wrapper}>
