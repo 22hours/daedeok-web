@@ -1,9 +1,9 @@
-type Props = {};
+import StudentAttendanceList from "components/organism/StudentAttendanceList/StudentAttendanceList";
 
 const attendance = () => {
     return (
         <div>
-            <h2>attendance</h2>
+            <StudentAttendanceList />
         </div>
     );
 };

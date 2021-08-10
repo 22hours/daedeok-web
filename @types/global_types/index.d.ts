@@ -203,6 +203,15 @@ declare module "@global_types" {
                 date: string;
             }>;
         };
+        type studentAttendanceList = {
+            studentAttendanceList: Array<{
+                id: number;
+                week: number;
+                title: string;
+                status: string;
+            }>;
+        };
+
         //(학생) 온라인 강의 상세
         type classJoinDetailItem = {
             id: number;

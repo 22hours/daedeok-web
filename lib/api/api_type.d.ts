@@ -60,6 +60,7 @@ declare module "@api_config_type" {
                 | "LECTURE_FIND"
                 | "LECTURE_FIND_POSSIBLE"
                 | "LECTURE_FIND_COMPLETE"
+                | "LECTURE_FIND_USER_ATTENDANCE"
                 // >>> SIDEBAR
                 | "LECTURE_FIND_SIDEBAR"
                 | "LECTURE_FIND_CLASS_TITLE"
