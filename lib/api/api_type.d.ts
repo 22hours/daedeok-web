@@ -73,6 +73,8 @@ declare module "@api_config_type" {
                 | "LECTURE_BOARD_NEW_COMMENT"
                 | "LECTURE_BOARD_EDIT_COMMENT"
                 | "LECTURE_BOARD_DELETE_COMMENT"
+                // >>> HANDOUT
+                | 'LECTURE_DETAIL_HANDOUT'
                 // >>> PLAN
                 | "LECTURE_FIND_PLAN"
                 | "LECTURE_FIND_PLAN_DETAIL"
