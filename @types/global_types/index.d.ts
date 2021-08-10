@@ -18,9 +18,11 @@ declare module "@global_types" {
         };
         type commentItem = {
             id: number;
+            user_id: number;
             author: string;
             content: string;
             create_date: string;
+            children?: Array<commentItem>;
         };
         type boardPreviewItem = {
             id: number;
@@ -243,6 +245,15 @@ declare module "@global_types" {
             notice_list: Array<{ id: number; user_id: number; title: string; create_date: string }>;
             total_count: number;
             total_page?: number;
+        };
+
+        type tutorNoticeDetail = {
+            id: number;
+            user_id: number;
+            title: string;
+            content: string;
+            create_date: string;
+            comment_list?: Array<commentItem>;
         };
     }
 }

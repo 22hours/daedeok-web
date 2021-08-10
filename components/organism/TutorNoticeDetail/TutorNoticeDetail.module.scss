@@ -1,0 +1,29 @@
+@import "styles/meta.scss";
+
+.tutor_notice_detail {
+    margin-top: 50px;
+    .header_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding-bottom: 15px;
+        border-bottom: 1px solid $gray_accent;
+    }
+    .content {
+        margin-top: 25px;
+        padding-bottom: 50px;
+        border-bottom: 1px solid $gray_accent;
+        margin-bottom: 30px;
+    }
+    .comment_list {
+        .first_comment {
+        }
+        .comment_header {
+            display: flex;
+            justify-content: space-between;
+            .margin {
+                margin-right: 10px;
+            }
+        }
+    }
+}

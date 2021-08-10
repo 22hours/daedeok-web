@@ -5,7 +5,7 @@ type Props = {
     content: string;
 };
 
-const TextViwer = (props: Props) => {
+const TextViewer = (props: Props) => {
     const viewerRef = useRef(null);
     useEffect(() => {
         if (props.content) {
@@ -18,4 +18,4 @@ const TextViwer = (props: Props) => {
     return <Viewer ref={viewerRef} />;
 };
 
-export default TextViwer;
+export default TextViewer;
