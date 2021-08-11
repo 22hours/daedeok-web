@@ -1,0 +1,25 @@
+.cursor_none {
+    cursor: default;
+}
+
+.top_form {
+    display: flex;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    justify-content: space-between;
+    .select {
+        min-height: 40px;
+    }
+    .search {
+        flex-grow: 0.5;
+    }
+}
+.btn_wrapper {
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-end;
+    .new_btn {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}
