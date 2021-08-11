@@ -16,14 +16,7 @@ declare module "@global_types" {
             access_token: string;
             refresh_token: string;
         };
-        type commentItem = {
-            id: number;
-            user_id: number;
-            author: string;
-            content: string;
-            create_date: string;
-            children?: Array<commentItem>;
-        };
+
         type boardPreviewItem = {
             id: number;
             title: string;
@@ -246,14 +239,22 @@ declare module "@global_types" {
             total_count: number;
             total_page?: number;
         };
-
+        type CommentItem = {
+            id: string;
+            user_id: string;
+            author: string;
+            content: string;
+            create_date: string;
+            parent_id?: string;
+            children: CommentItem[];
+        };
         type tutorNoticeDetail = {
             id: number;
             user_id: number;
             title: string;
             content: string;
             create_date: string;
-            comment_list?: Array<commentItem>;
+            comment_list: CommentItem[];
             after: { id: number; user_id: number; title: string; create_date: string };
             before: { id: number; user_id: number; title: string; create_date: string };
         };

@@ -7,7 +7,6 @@ import Link from "next/link";
 import Typo from "@ui/Typo";
 import Button from "@ui/buttons/Button";
 import { nanoid } from "nanoid";
-import CommentList from "@ui/commentList/CommentList";
 import TextArea from "@ui/input/TextArea";
 import TableRow from "@ui/board/TableRow";
 import TableWrapper from "@ui/board/TableWrapper";
@@ -16,7 +15,60 @@ import DateController from "lib/client/dateController";
 
 //store
 import { useAuthStore } from "store/AuthStore";
+import CommentList from "../CommentList/CommentList";
 
+const comment_list_dummy = [
+    {
+        id: 1,
+        user_id: 1,
+        author: "author",
+        content: "content",
+        create_date: "2021-08-06T16:23:58.025",
+        children: [
+            {
+                id: 2,
+                user_id: 1,
+                author: "author",
+                content: "content",
+                create_date: "2021-08-06T16:23:58.025",
+                children: null,
+            },
+            {
+                id: 3,
+                user_id: 1,
+                author: "author",
+                content: "content",
+                create_date: "2021-08-06T16:23:58.025",
+                children: null,
+            },
+        ],
+    },
+    {
+        id: 4,
+        user_id: 1,
+        author: "author",
+        content: "content",
+        create_date: "2021-08-06T16:23:58.025",
+        children: [
+            {
+                id: 5,
+                user_id: 1,
+                author: "author",
+                content: "content",
+                create_date: "2021-08-06T16:23:58.025",
+                children: null,
+            },
+            {
+                id: 6,
+                user_id: 1,
+                author: "author",
+                content: "content",
+                create_date: "2021-08-06T16:23:58.025",
+                children: null,
+            },
+        ],
+    },
+];
 const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
 type State = res_types.tutorNoticeDetail;
@@ -24,27 +76,82 @@ type State = res_types.tutorNoticeDetail;
 const TutorNoticeDetail = ({ noticeId }) => {
     const { auth, clientSideApi } = useAuthStore();
     const [noticeDetailData, setNoticeDetailData] = useState<State | null>(null);
-    const [copyCommentList, setCopyCommentList] = useState<State["comment_list"] | null>(null);
-    const newCommentRef = useRef<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+        getTutorNotieDetail();
+    }, [noticeId]);
+
+    //공지사항 상세 data
+    const getTutorNotieDetail = async () => {
+        const res = await clientSideApi("GET", "MAIN", "TUTOR_NOTICE_FIND_DETAIL", {
+            notice_id: noticeId,
+        });
+        if (res.result === "SUCCESS") {
+            const data: State = res.data;
+            setNoticeDetailData(data);
+        }
+    };
 
     //댓글 작성
-    const handleNewComment = async () => {
-        const commentContent = newCommentRef?.current?.value;
-        if (commentContent) {
+    const newComment = async (content: string, parent_id?: string) => {
+        if (content) {
             const res = await clientSideApi(
                 "POST",
                 "MAIN",
                 "TUTOR_NOTICE_NEW_COMMENT",
                 { notice_id: noticeId },
                 {
-                    content: commentContent,
+                    content: content,
+                    parent_id: parent_id,
                 }
             );
             if (res.result === "SUCCESS") {
-                console.log(res.result);
+                console.log(res.data);
+                const new_comment_id = res.data;
+
+                if (parent_id) {
+                    // 대댓일때
+                    if (noticeDetailData) {
+                        var newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                        const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
+                        newCommentList[matchIdx].children.push({
+                            id: new_comment_id,
+                            // @ts-ignore
+                            user_id: auth?.user_id,
+                            // @ts-ignore
+                            author: auth?.name,
+                            content: content,
+                            create_date: new Date().toString(),
+                            children: [],
+                        });
+                        setNoticeDetailData({
+                            ...noticeDetailData,
+                            //@ts-ignore
+                            comment_list: newCommentList,
+                        });
+                    }
+                } else {
+                    // 댓일때
+                    if (noticeDetailData) {
+                        const newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                        newCommentList.push({
+                            id: new_comment_id,
+                            // @ts-ignore
+                            user_id: auth?.user_id,
+                            // @ts-ignore
+                            author: auth?.name,
+                            content: content,
+                            create_date: new Date().toString(),
+                            children: [],
+                        });
+                        setNoticeDetailData({
+                            ...noticeDetailData,
+                            //@ts-ignore
+                            comment_list: newCommentList,
+                        });
+                    }
+                }
                 alert("댓글이 추가되었습니다.");
-                //@ts-ignore
-                newCommentRef.current.value = "";
             } else {
                 alert("다시 시도해주세요.");
             }
@@ -53,22 +160,19 @@ const TutorNoticeDetail = ({ noticeId }) => {
         }
     };
 
-    useEffect(() => {
-        getTutorNotieDetail();
-    }, [noticeId]);
-
-    useEffect(() => {
-        setCopyCommentList(noticeDetailData?.comment_list?.slice());
-    }, [noticeDetailData]);
-
-    //공지사항 상세 data
-    const getTutorNotieDetail = async () => {
-        const res = await clientSideApi("GET", "MAIN", "TUTOR_NOTICE_FIND_DETAIL", {
-            notice_id: noticeId,
-        });
+    const editComment = async (content: string, comment_id: string, parent_id?: string) => {
+        const res = await clientSideApi(
+            "PUT",
+            "MAIN",
+            "TUTOR_NOTICE_EDIT_COMMENT",
+            { comment_id: comment_id },
+            {
+                content: content,
+                parent_id: parent_id,
+            }
+        );
         if (res.result === "SUCCESS") {
-            const data = res.data;
-            setNoticeDetailData(data);
+        } else {
         }
     };
 
@@ -97,41 +201,13 @@ const TutorNoticeDetail = ({ noticeId }) => {
                         content={noticeDetailData?.content}
                     />
                 </div>
-                <div className={style.comment_list}>
-                    {copyCommentList?.map((it, idx) => (
-                        <div className={style.first_comment} key={nanoid()}>
-                            <CommentList commentList={it} auth={auth} type={"first"} noticeId={noticeId} />
-                            {it.children?.map((sub_it, idx) => (
-                                <div className={style.second_comment} key={nanoid()}>
-                                    <CommentList commentList={sub_it} auth={auth} type={"second"} noticeId={noticeId} />
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                </div>
-                <div className={style.new_comment}>
-                    <div>
-                        <TextArea
-                            placeholder={"댓글을 입력해주세요."}
-                            maxLength={120}
-                            className={style.commen_box_style}
-                            //@ts-ignore
-                            refs={newCommentRef}
-                        />
-                    </div>
-                    <div className={style.new_comment_btn}>
-                        <Button
-                            type="SQUARE"
-                            size="smaller"
-                            fontSize="smaller"
-                            backgroundColor="yellow_accent"
-                            content="댓글작성"
-                            color="white"
-                            onClick={handleNewComment}
-                            className={style.btn_style}
-                        />
-                    </div>
-                </div>
+                <CommentList
+                    //@ts-ignore
+                    commentList={noticeDetailData.comment_list}
+                    newComment={newComment}
+                    editComment={editComment}
+                />
+
                 <div className={style.before_after_wrapper}>
                     <TableWrapper>
                         {noticeDetailData.after && (
