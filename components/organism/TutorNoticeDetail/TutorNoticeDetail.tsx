@@ -11,10 +11,11 @@ import CommentList from "@ui/commentList/CommentList";
 import TextArea from "@ui/input/TextArea";
 import TableRow from "@ui/board/TableRow";
 import TableWrapper from "@ui/board/TableWrapper";
+//controller
+import DateController from "lib/client/dateController";
 
 //store
 import { useAuthStore } from "store/AuthStore";
-import DateController from "lib/client/dateController";
 
 const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
@@ -23,67 +24,44 @@ type State = res_types.tutorNoticeDetail;
 const TutorNoticeDetail = ({ noticeId }) => {
     const { auth, clientSideApi } = useAuthStore();
     const [noticeDetailData, setNoticeDetailData] = useState<State | null>(null);
+    const [copyCommentList, setCopyCommentList] = useState<State["comment_list"] | null>(null);
     const newCommentRef = useRef<HTMLInputElement | null>(null);
 
-    const commentDummy = {
-        comment_list: [
-            {
-                id: 1,
-                user_id: 1,
-                author: "이정환",
-                content: "댓글테스트입니다댓글테스트입니다댓글테스트입니다댓글테스트입니다",
-                create_date: "2021-08-06T16:23:58.025",
-                children: [
-                    {
-                        id: 2,
-                        user_id: 2,
-                        author: "김효빈",
-                        content: "댓글테스트입니다댓글테스트입니다댓글테스트입니다댓글테스트입니다",
-                        create_date: "2021-08-06T16:23:58.025",
-                        children: null,
-                    },
-                ],
-            },
-            {
-                id: 2,
-                user_id: 2,
-                author: "신다민",
-                content: "댓글테스트입니다댓글테스트입니다댓글테스트입니다댓글테스트입니다",
-                create_date: "2021-08-06T16:23:58.025",
-                children: [
-                    {
-                        id: 2,
-                        user_id: 2,
-                        author: "김효빈",
-                        content: "댓글테스트입니다댓글테스트입니다댓글테스트입니다댓글테스트입니다",
-                        create_date: "2021-08-06T16:23:58.025",
-                        children: null,
-                    },
-                    {
-                        id: 2,
-                        user_id: 2,
-                        author: "김효빈",
-                        content: "댓글테스트입니다댓글테스트입니다댓글테스트입니다댓글테스트입니다",
-                        create_date: "2021-08-06T16:23:58.025",
-                        children: null,
-                    },
-                ],
-            },
-            {
-                id: 3,
-                user_id: 1,
-                author: "이종원",
-                content: "댓글테스트입니다댓글테스트입니다댓글테스트입니다댓글테스트입니다",
-                create_date: "2021-08-06T16:23:58.025",
-                children: null,
-            },
-        ],
+    //댓글 작성
+    const handleNewComment = async () => {
+        const commentContent = newCommentRef?.current?.value;
+        if (commentContent) {
+            const res = await clientSideApi(
+                "POST",
+                "MAIN",
+                "TUTOR_NOTICE_NEW_COMMENT",
+                { notice_id: noticeId },
+                {
+                    content: commentContent,
+                }
+            );
+            if (res.result === "SUCCESS") {
+                console.log(res.result);
+                alert("댓글이 추가되었습니다.");
+                //@ts-ignore
+                newCommentRef.current.value = "";
+            } else {
+                alert("다시 시도해주세요.");
+            }
+        } else {
+            alert("댓글을 작성해주세요.");
+        }
     };
 
     useEffect(() => {
         getTutorNotieDetail();
     }, [noticeId]);
 
+    useEffect(() => {
+        setCopyCommentList(noticeDetailData?.comment_list?.slice());
+    }, [noticeDetailData]);
+
+    //공지사항 상세 data
     const getTutorNotieDetail = async () => {
         const res = await clientSideApi("GET", "MAIN", "TUTOR_NOTICE_FIND_DETAIL", {
             notice_id: noticeId,
@@ -120,18 +98,17 @@ const TutorNoticeDetail = ({ noticeId }) => {
                     />
                 </div>
                 <div className={style.comment_list}>
-                    {commentDummy?.comment_list?.map((it, idx) => (
+                    {copyCommentList?.map((it, idx) => (
                         <div className={style.first_comment} key={nanoid()}>
-                            <CommentList commentList={it} auth={auth} type={"first"} />
+                            <CommentList commentList={it} auth={auth} type={"first"} noticeId={noticeId} />
                             {it.children?.map((sub_it, idx) => (
                                 <div className={style.second_comment} key={nanoid()}>
-                                    <CommentList commentList={sub_it} auth={auth} type={"second"} />
+                                    <CommentList commentList={sub_it} auth={auth} type={"second"} noticeId={noticeId} />
                                 </div>
                             ))}
                         </div>
                     ))}
                 </div>
-
                 <div className={style.new_comment}>
                     <div>
                         <TextArea
@@ -150,6 +127,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
                             backgroundColor="yellow_accent"
                             content="댓글작성"
                             color="white"
+                            onClick={handleNewComment}
                             className={style.btn_style}
                         />
                     </div>

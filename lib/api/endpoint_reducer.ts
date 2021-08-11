@@ -74,11 +74,11 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `TUTOR_NOTICE_DELETE`:
             return `notice/tutor/`;
         case `TUTOR_NOTICE_NEW_COMMENT`:
-            return `notice/tutor/`;
+            return `notice/tutor/${url_query.notice_id}/comment`;
         case `TUTOR_NOTICE_EDIT_COMMENT`:
-            return `notice/tutor/`;
+            return `notice/tutor/${url_query.notice_id}/comment`;
         case `TUTOR_NOTICE_DELETE_COMMENT`:
-            return `notice/tutor/`;
+            return `notice/tutor/${url_query.notice_id}/comment`;
         // CATEGORY
         case `CATEGORY_FIND`:
             return `category`;
@@ -116,9 +116,9 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `lecture/${url_query.lecture_id}/board/${url_query.board_id}`;
         case `LECTURE_BOARD_DELETE_COMMENT`:
             return `lecture/${url_query.lecture_id}/board/${url_query.board_id}`;
-        // >>> 
+        // >>>
         case `LECTURE_DETAIL_HANDOUT`:
-            return `lecture/${url_query.lecture_id}/info`
+            return `lecture/${url_query.lecture_id}/info`;
         // >>> PLAN
         case "LECTURE_FIND_PLAN":
             return `lecture/${url_query.lecture_id}/plan`;
