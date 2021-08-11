@@ -1,9 +1,12 @@
-type Props = {};
+import TutorClassBoardList from "components/organism/TutorClassBoardList/TutorClassBoardList";
+import { ListCommonProvider } from "store/ListCommonStore";
 
 const index = () => {
     return (
         <div>
-            <h2>Board</h2>
+            <ListCommonProvider>
+                <TutorClassBoardList />
+            </ListCommonProvider>
         </div>
     );
 };
