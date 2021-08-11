@@ -1,3 +1,4 @@
+import ClassStudentManageList from "components/organism/ClassStudentManageList/ClassStudentManageList";
 import { useEffect } from "react";
 
 type Props = {};
@@ -5,7 +6,7 @@ type Props = {};
 const Student = () => {
     return (
         <div>
-            <h2>student</h2>
+            <ClassStudentManageList />
         </div>
     );
 };
