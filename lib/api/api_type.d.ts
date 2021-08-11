@@ -74,7 +74,7 @@ declare module "@api_config_type" {
                 | "LECTURE_BOARD_EDIT_COMMENT"
                 | "LECTURE_BOARD_DELETE_COMMENT"
                 // >>> HANDOUT
-                | 'LECTURE_DETAIL_HANDOUT'
+                | "LECTURE_DETAIL_HANDOUT"
                 // >>> PLAN
                 | "LECTURE_FIND_PLAN"
                 | "LECTURE_FIND_PLAN_DETAIL"
@@ -87,6 +87,7 @@ declare module "@api_config_type" {
                 | "LECTURE_EDIT"
                 | "LECTURE_DELETE"
                 | "LECTURE_CLOSE"
+                | "LECTURE_MANAGE_STUDENT"
                 // FILE
                 | "UPLOAD_DUMMY"
                 // >>>  PLAN

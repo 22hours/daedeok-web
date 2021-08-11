@@ -33,7 +33,7 @@ export default class RootDocument extends Document {
 
     render() {
         return (
-            <Html lang="pt">
+            <Html lang="ko">
                 <Head>
                     <meta charSet="utf-8" />
                     <meta name="description" content="My First Static Website" />
