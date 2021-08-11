@@ -52,11 +52,13 @@ const setUserWithCookie = (user: user) => {
     const expires = getExpiredDate();
 
     for (const [key, value] of Object.entries(user)) {
-        cookie.save(key, value?.toString(), {
-            path: "/",
-            expires,
-            httpOnly: HTTP_ONLY,
-        });
+        if (value !== null) {
+            cookie.save(key, value.toString(), {
+                path: "/",
+                expires,
+                httpOnly: HTTP_ONLY,
+            });
+        }
     }
 };
 

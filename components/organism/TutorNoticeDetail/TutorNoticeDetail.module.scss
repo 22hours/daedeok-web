@@ -27,18 +27,7 @@
             margin-top: 10px;
         }
     }
-    .new_comment {
-        margin-top: 40px;
-        .new_comment_btn {
-            margin-top: 20px;
-            display: flex;
-            justify-content: flex-end;
-        }
-        .btn_style {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-    }
+
     .commen_box_style {
         min-height: 70px;
     }
@@ -55,5 +44,17 @@
         padding-right: 10px;
         margin-left: 15px;
         width: 80px;
+    }
+}
+.new_comment {
+    margin-top: 40px;
+    .new_comment_btn {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .btn_style {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }

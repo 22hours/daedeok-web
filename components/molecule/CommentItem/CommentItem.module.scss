@@ -1,0 +1,61 @@
+// CommentItem.module
+@import "styles/meta.scss";
+.container {
+    display: flex;
+    .second_left_padding_div {
+        border-left: 0.5px solid $gray_accent;
+        border-bottom: 0.5px solid $gray_accent;
+        width: 25px;
+        height: 20px;
+        margin-right: 15px;
+    }
+}
+.view_container {
+    flex-grow: 1;
+    margin-bottom: 25px;
+    .head {
+        display: flex;
+        justify-content: space-between;
+
+        .head_left {
+            .text__date {
+                margin-left: 10px;
+            }
+        }
+        .head_right {
+            display: flex;
+            align-items: center;
+            .text_btn {
+                cursor: pointer;
+            }
+            .sep {
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+        }
+    }
+    .body {
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    // EDIT FORM
+    .edit_footer {
+        margin-top: 10px;
+        display: flex;
+        justify-content: flex-end;
+        .edit_footer_btn {
+            width: 90px;
+            margin-left: 10px;
+        }
+
+        .cancle_btn {
+            border: 1px solid $gray_form;
+            span {
+                color: $gray_form;
+            }
+        }
+        .success_btn {
+        }
+    }
+}

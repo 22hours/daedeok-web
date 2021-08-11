@@ -1,0 +1,31 @@
+// CommentList.module
+@import "styles/meta.scss";
+
+.container {
+    .first_comment {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-top: 20px;
+    }
+
+    .second_comment {
+        padding-left: 70px;
+        margin-top: 10px;
+    }
+
+    .section_new_comment {
+        margin-top: 40px;
+        .new_comment_input {
+            min-height: 70px;
+        }
+        .new_comment_btn_wrapper {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            .new_comment_btn {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+    }
+}
