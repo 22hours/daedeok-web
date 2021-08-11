@@ -9,6 +9,9 @@ import Button from "@ui/buttons/Button";
 import { nanoid } from "nanoid";
 import CommentList from "@ui/commentList/CommentList";
 import TextArea from "@ui/input/TextArea";
+import TableRow from "@ui/board/TableRow";
+import TableWrapper from "@ui/board/TableWrapper";
+
 //store
 import { useAuthStore } from "store/AuthStore";
 import DateController from "lib/client/dateController";
@@ -79,7 +82,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
 
     useEffect(() => {
         getTutorNotieDetail();
-    }, []);
+    }, [noticeId]);
 
     const getTutorNotieDetail = async () => {
         const res = await clientSideApi("GET", "MAIN", "TUTOR_NOTICE_FIND_DETAIL", {
@@ -150,6 +153,73 @@ const TutorNoticeDetail = ({ noticeId }) => {
                             className={style.btn_style}
                         />
                     </div>
+                </div>
+                <div className={style.before_after_wrapper}>
+                    <TableWrapper>
+                        {noticeDetailData.after && (
+                            <Link href={`/class/notice/detail/${noticeDetailData.after.id}`} passHref>
+                                <TableRow
+                                    icon={true}
+                                    iconType={"after"}
+                                    title={noticeDetailData.after?.title}
+                                    date={DateController.getFormatedDate(
+                                        "YYYY-MM-DD",
+                                        noticeDetailData.after?.create_date
+                                    )}
+                                />
+                            </Link>
+                        )}
+                        {noticeDetailData.before && (
+                            <Link href={`/class/notice/detail/${noticeDetailData.before.id}`} passHref>
+                                <TableRow
+                                    icon={true}
+                                    iconType={"before"}
+                                    title={noticeDetailData.before?.title}
+                                    date={DateController.getFormatedDate(
+                                        "YYYY-MM-DD",
+                                        noticeDetailData.before?.create_date
+                                    )}
+                                />
+                            </Link>
+                        )}
+                    </TableWrapper>
+                </div>
+                <div className={style.bottom_btn_wrapper}>
+                    {noticeDetailData?.user_id.toString() === auth?.user_id.toString() && (
+                        <>
+                            <Button
+                                type="SQUARE"
+                                size="smaller"
+                                fontSize="smaller"
+                                backgroundColor="gray_accent"
+                                content="글삭제"
+                                color="white"
+                                className={style.bottom_btn_style}
+                            />
+                            <Link href={`/class/notice/edit/${noticeDetailData.id}`} passHref>
+                                <Button
+                                    type="SQUARE"
+                                    size="smaller"
+                                    fontSize="smaller"
+                                    backgroundColor="yellow_accent"
+                                    content="수정"
+                                    color="white"
+                                    className={style.bottom_btn_style}
+                                />
+                            </Link>
+                        </>
+                    )}
+                    <Link href={"/class/notice"} passHref>
+                        <Button
+                            type="SQUARE"
+                            size="smaller"
+                            fontSize="smaller"
+                            backgroundColor="yellow_accent"
+                            content="목록보기"
+                            color="white"
+                            className={style.bottom_btn_style}
+                        />
+                    </Link>
                 </div>
             </div>
         );

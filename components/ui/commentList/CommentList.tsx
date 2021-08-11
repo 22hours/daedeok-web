@@ -24,13 +24,16 @@ const CommentList = ({ auth, commentList, type }) => {
                         />
                     </div>
                     <div className={style.comment_edit_del}>
-                        <Typo
-                            type={"TEXT"}
-                            content={"댓글"}
-                            size={"smaller"}
-                            color={"gray_accent"}
-                            className={style.cursor_pointer}
-                        />
+                        {type === "first" && (
+                            <Typo
+                                type={"TEXT"}
+                                content={"댓글"}
+                                size={"smaller"}
+                                color={"gray_accent"}
+                                className={style.cursor_pointer}
+                            />
+                        )}
+
                         {auth?.user_id?.toString() === (commentList?.user_id).toString() && (
                             <>
                                 <div className={style.slash}>/</div>

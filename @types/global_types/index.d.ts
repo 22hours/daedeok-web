@@ -254,6 +254,8 @@ declare module "@global_types" {
             content: string;
             create_date: string;
             comment_list?: Array<commentItem>;
+            after: { id: number; user_id: number; title: string; create_date: string };
+            before: { id: number; user_id: number; title: string; create_date: string };
         };
     }
 }

@@ -21,6 +21,7 @@ type Props = {
     week?: string;
     weekTitle?: string;
     href?: string;
+    iconType?: string;
     studentInfo?: { duty: string; first_division: string; second_division: string; phone_number: string };
 };
 
@@ -43,6 +44,7 @@ const TableRow = (props: Props) => {
         weekTitle,
         classInfo,
         href,
+        iconType,
     } = props;
 
     return (
@@ -69,7 +71,7 @@ const TableRow = (props: Props) => {
                                 )}
                                 {icon && (
                                     <div className={style.idx_item}>
-                                        {idx === 1 ? (
+                                        {iconType === "after" ? (
                                             <ExpandLessIcon className={style.icon_item} />
                                         ) : (
                                             <ExpandMoreIcon className={style.icon_item} />
@@ -225,7 +227,7 @@ const TableRow = (props: Props) => {
                         )}
                         {icon && (
                             <div className={style.idx_item}>
-                                {idx === 1 ? (
+                                {iconType === "after" ? (
                                     <ExpandLessIcon className={style.icon_item} />
                                 ) : (
                                     <ExpandMoreIcon className={style.icon_item} />
