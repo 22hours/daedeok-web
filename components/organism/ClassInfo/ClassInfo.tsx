@@ -7,7 +7,8 @@ import React, { useState, useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
 import style from "./ClassInfo.module.scss";
-type Props = {};
+//controller
+import DateController from "lib/client/dateController";
 
 type HandoutItem = { id: string; name: string; url: string };
 
@@ -85,7 +86,11 @@ type LecturePlanItem = {
 
 const LecturePlanItem = (props: LecturePlanItem) => {
     return (
-        <TableRow week={props.week} weekTitle={props.title} date={props.date}>
+        <TableRow
+            week={props.week + "주차"}
+            weekTitle={props.title}
+            date={DateController.getFormatedDate("YYYY-MM-DD", props.date)}
+        >
             <div>
                 <Typo
                     className={style.lecture_plan_children}

@@ -1,0 +1,52 @@
+// ClassStudentManageList.module
+@import "styles/meta.scss";
+
+.container {
+    .head {
+        margin-bottom: 20px;
+    }
+    .body {
+        .btn_col {
+            display: flex;
+            align-items: center;
+            .btn {
+                width: 70px;
+                span {
+                    white-space: nowrap;
+                }
+            }
+            .left_btn_wrapper {
+                display: flex;
+                align-items: center;
+                .delete_file_icon {
+                    width: 40px;
+                    display: flex;
+                    justify-content: center;
+
+                    svg {
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .ing_btn {
+                background-color: $gray_back;
+                span {
+                    color: white;
+                }
+            }
+            .finish_btn {
+                background-color: $brown_base;
+                span {
+                    color: white;
+                }
+            }
+            .cancle_btn {
+                border: 1px solid $gray_form;
+                span {
+                    color: $gray_form;
+                }
+            }
+        }
+    }
+}

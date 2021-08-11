@@ -140,6 +140,8 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `lecture/${url_query}`;
         case `LECTURE_CLOSE`:
             return `lecture/${url_query}`;
+        case "LECTURE_MANAGE_STUDENT":
+            return `lecture/${url_query.lecture_id}/user`;
         // FILE
         case "UPLOAD_DUMMY":
             return `file`;

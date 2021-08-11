@@ -4,6 +4,7 @@ import TextInput from "@ui/input/TextInput";
 import React, { useState } from "react";
 import ClassRow from "./items/ClassRow";
 import AddIcon from "@material-ui/icons/Add";
+import { useRouter } from "next/router";
 
 type PlanListInputProps = {
     value: class_types.ClassInfo["plan_list"];
@@ -17,22 +18,27 @@ type PlanListInputProps = {
 };
 
 const PlanListInput = (props: PlanListInputProps) => {
+    const router = useRouter();
+    const { status } = router.query;
+
     return (
         <div className={style.PlanListInput}>
             <ClassRow labelName={"강의 계획"} />
             <PlanItemList {...props} />
             <div>
-                <div className={style.button_group}>
-                    <div className={style.class_type_button} onClick={() => props.addPlanItem("OFFLINE")}>
-                        오프라인 <AddIcon style={{ fontSize: "18px" }} />
+                {status !== "close" && (
+                    <div className={style.button_group}>
+                        <div className={style.class_type_button} onClick={() => props.addPlanItem("OFFLINE")}>
+                            오프라인 <AddIcon style={{ fontSize: "18px" }} />
+                        </div>
+                        <div className={style.class_type_button} onClick={() => props.addPlanItem("ZOOM")}>
+                            ZOOM <AddIcon style={{ fontSize: "18px" }} />
+                        </div>
+                        <div className={style.class_type_button} onClick={() => props.addPlanItem("ONLINE")}>
+                            영상 <AddIcon style={{ fontSize: "18px" }} />
+                        </div>
                     </div>
-                    <div className={style.class_type_button} onClick={() => props.addPlanItem("ZOOM")}>
-                        ZOOM <AddIcon style={{ fontSize: "18px" }} />
-                    </div>
-                    <div className={style.class_type_button} onClick={() => props.addPlanItem("ONLINE")}>
-                        영상 <AddIcon style={{ fontSize: "18px" }} />
-                    </div>
-                </div>
+                )}
             </div>
         </div>
     );
@@ -65,6 +71,9 @@ type PlanItemProps = {
     keyidx: number;
 };
 const PlanItemInput = (props: PlanItemProps) => {
+    const router = useRouter();
+    const { status } = router.query;
+
     const { planItem } = props;
     const CommonFirstInputList = [
         {
@@ -173,9 +182,11 @@ const PlanItemInput = (props: PlanItemProps) => {
                         />
                     );
                 })}
-                <div onClick={() => props.removePlanItem(props.keyidx)} className={style.plan_item_delete_btn}>
-                    삭제
-                </div>
+                {status !== "close" && (
+                    <div onClick={() => props.removePlanItem(props.keyidx)} className={style.plan_item_delete_btn}>
+                        삭제
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -183,6 +194,9 @@ const PlanItemInput = (props: PlanItemProps) => {
 
 const PlanTextInput = (props) => {
     const { item, idx, keyidx, setPlanItem } = props;
+    const router = useRouter();
+    const { status } = router.query;
+
     return (
         <TextInput
             // @ts-ignore
@@ -193,6 +207,7 @@ const PlanTextInput = (props) => {
             value={item.value}
             onChange={(e) => props.setPlanItem(item.name, e.target.value, props.keyidx)}
             className={style.plan_list_input}
+            disable={status === "close"}
         />
     );
 };
