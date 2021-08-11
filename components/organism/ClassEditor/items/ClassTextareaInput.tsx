@@ -1,6 +1,7 @@
 import React from "react";
 import ClassRow from "components/organism/ClassEditor/items/ClassRow";
 import TextArea from "@ui/input/TextArea";
+import { useRouter } from "next/router";
 type titleProps = {
     labelName: string;
     placeholder: string;
@@ -9,6 +10,9 @@ type titleProps = {
     onChange: (e) => void;
 };
 const ClassTextareaInput = (props: titleProps) => {
+    const router = useRouter();
+    const { status } = router.query;
+
     return (
         <ClassRow labelName={props.labelName}>
             <TextArea
@@ -16,6 +20,7 @@ const ClassTextareaInput = (props: titleProps) => {
                 onChange={props.onChange}
                 placeholder={props.placeholder}
                 maxLength={props.maxLength}
+                disable={status === "close"}
             />
         </ClassRow>
     );

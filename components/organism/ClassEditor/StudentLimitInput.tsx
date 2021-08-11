@@ -3,6 +3,7 @@ import style from "./ClassEditor.module.scss";
 import TextInput from "@ui/input/TextInput";
 import ClassRow from "components/organism/ClassEditor/items/ClassRow";
 import CheckBox from "@ui/input/CheckBox";
+import { useRouter } from "next/router";
 type titleProps = {
     value: number;
     onChange: (value: number) => void;
@@ -32,6 +33,9 @@ type InputProps = {
     toggleCheck: () => void;
 } & titleProps;
 const InputColumn = (props: InputProps) => {
+    const router = useRouter();
+    const { status } = router.query;
+
     return (
         <div className={style.InputColumn}>
             {props.value === -1 ? (
@@ -50,6 +54,7 @@ const InputColumn = (props: InputProps) => {
                     form={"box"}
                     value={props.value}
                     onChange={props.onChange}
+                    disable={status === "close"}
                 />
             )}
 
@@ -61,6 +66,7 @@ const InputColumn = (props: InputProps) => {
                     props.toggleCheck();
                 }}
                 isLabelRight={true}
+                disable={status === "close"}
             />
         </div>
     );

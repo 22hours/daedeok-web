@@ -10,6 +10,7 @@ import useFileInput from "lib/hooks/useFileInput";
 import Button from "@ui/buttons/Button";
 import ClassRow from "./items/ClassRow";
 import { useAuthStore } from "store/AuthStore";
+import { useRouter } from "next/router";
 
 type HandoutProps = {
     value: class_types.ClassInfo["handout_list"];
@@ -44,6 +45,10 @@ const HandoutInput = (props: HandoutProps) => {
             setNewHandout(curSelectedFile);
         }
     }, [localHandout.value]);
+
+    const router = useRouter();
+    const { status } = router.query;
+
     return (
         <div className={style.HandoutInput}>
             <ClassRow labelName={"수업 자료"}>
@@ -54,16 +59,20 @@ const HandoutInput = (props: HandoutProps) => {
                         accept={"image/*,.hwp,.word,.docx,.pptx,.show"}
                         className={style.file_input_button}
                     >
-                        <Button
-                            type={"SQUARE"}
-                            size={"smaller"}
-                            fontSize={"smaller"}
-                            line={"inline"}
-                            backgroundColor={"brown_base"}
-                            color={"white"}
-                            alignment={"center"}
-                            content={"찾아보기"}
-                        />
+                        {status !== "close" ? (
+                            <Button
+                                type={"SQUARE"}
+                                size={"smaller"}
+                                fontSize={"smaller"}
+                                line={"inline"}
+                                backgroundColor={"brown_base"}
+                                color={"white"}
+                                alignment={"center"}
+                                content={"찾아보기"}
+                            />
+                        ) : (
+                            <></>
+                        )}
                     </FileInput>
                     <div className={style.handout_item_list}>
                         {props.value.map((it, idx) => (
@@ -87,14 +96,19 @@ const HandoutItem = (
         idx: number;
     }
 ) => {
+    const router = useRouter();
+    const { status } = router.query;
+
     return (
         <div className={style.HandoutItem}>
             <div className={style.item_text}>
                 <Typo type={"TEXT"} size={"small"} color={"brown_base"} content={props.name} />
             </div>
-            <div onClick={() => props.removeHandoutItem(props.idx)}>
-                <Icon type={"delete"} />
-            </div>
+            {status !== "close" && (
+                <div onClick={() => props.removeHandoutItem(props.idx)}>
+                    <Icon type={"delete"} />
+                </div>
+            )}
         </div>
     );
 };

@@ -8,6 +8,7 @@ type Props = {
     onChange?: (e) => void;
     isLabelRight?: boolean;
     className?: string;
+    disable?: boolean;
 };
 
 const CheckBox = (props: Props) => {
@@ -21,7 +22,9 @@ const CheckBox = (props: Props) => {
                         type="checkbox"
                         checked={props.value}
                         onChange={props.onChange}
+                        disabled={props.disable}
                     />
+
                     <div className={style.padding_bar}></div>
                     <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={props.labelContent} />
                 </>
@@ -29,7 +32,14 @@ const CheckBox = (props: Props) => {
                 <>
                     <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={props.labelContent} />
                     <div className={style.padding_bar}></div>
-                    <input type="checkbox" checked={props.value} onChange={props.onChange} />
+                    <input
+                        // @ts-ignore
+                        ref={props.refs || undefined}
+                        type="checkbox"
+                        checked={props.value}
+                        onChange={props.onChange}
+                        disabled={props.disable}
+                    />
                 </>
             )}
         </div>
