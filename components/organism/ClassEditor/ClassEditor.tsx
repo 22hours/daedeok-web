@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import style from "./ClassEditor.module.scss";
 import { class_types } from "@global_types";
 import ClassTextInput from "./items/ClassTextInput";
@@ -12,6 +12,8 @@ import PlanListInput from "./PlanListInput";
 import Button from "@ui/buttons/Button";
 import { useAuthStore } from "store/AuthStore";
 import { Router } from "express";
+import ListController from "lib/client/listController";
+import { useRouter } from "next/router";
 
 type Props = {
     data?: class_types.ClassInfo;
@@ -312,10 +314,13 @@ const reducer = (state: State, action: Action) => {
 
 const ClassEditor = (props: Props) => {
     const { clientSideApi } = useAuthStore();
+
+    const [originHandoutList, setOriginHandoutList] = useState<class_types.Handout[]>([]);
     const [state, dispatch] = useReducer(reducer, initState);
     useEffect(() => {
         if (props.type === "EDIT" && props.data) {
             dispatch({ type: "SET_INIT_STATE", data: props.data });
+            setOriginHandoutList(props.data.handout_list.slice());
         }
     }, [props]);
 
@@ -423,15 +428,17 @@ const ClassEditor = (props: Props) => {
             }
         } else {
             // EDIT
-            // TODO
+
+            const { deleted_item_list, new_item_list } = ListController.getUpdateInList(
+                originHandoutList,
+                state.handout_list
+            );
         }
     };
 
     const childCompRef = React.useRef(null);
-
-    useEffect(() => {
-        console.log(childCompRef);
-    }, [childCompRef]);
+    const router = useRouter();
+    const { status } = router.query;
 
     return (
         <div>
@@ -483,18 +490,20 @@ const ClassEditor = (props: Props) => {
             />
 
             <div className={style.submit_row}>
-                <Button
-                    className={style.submit_btn}
-                    type="SQUARE"
-                    size="small"
-                    fontSize="smaller"
-                    line="inline"
-                    backgroundColor="yellow_accent"
-                    color="white"
-                    content="개설"
-                    alignment="center"
-                    onClick={handleSumbit}
-                />
+                {status !== "close" && (
+                    <Button
+                        className={style.submit_btn}
+                        type="SQUARE"
+                        size="small"
+                        fontSize="smaller"
+                        line="inline"
+                        backgroundColor="yellow_accent"
+                        color="white"
+                        content={props.type === "NEW" ? "개설" : "수정"}
+                        alignment="center"
+                        onClick={handleSumbit}
+                    />
+                )}
             </div>
         </div>
     );
