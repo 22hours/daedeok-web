@@ -91,6 +91,7 @@ declare module "@api_config_type" {
                 | "LECTURE_CLOSE"
                 | "LECTURE_MANAGE_STUDENT"
                 // FILE
+                | "UPDATE_FILE"
                 | "UPLOAD_DUMMY"
                 | "UPLOAD_CERTIFICATE"
                 | "DELETE_CERTIFICATE"

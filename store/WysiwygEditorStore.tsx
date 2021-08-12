@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, RefObject, useContext, useRef } from "react";
+import React, { useState, useEffect, createContext, RefObject, useContext, useRef, useCallback } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import { useAuthStore } from "./AuthStore";
 import ListController from "lib/client/listController";
@@ -14,6 +14,7 @@ type Store = {
         deleted_item_list: any[];
     };
     setMarkdownContent: (md: string) => void;
+    onLoadEditor: () => void;
 };
 // ACTION TYPES
 type Action = {};
@@ -67,6 +68,7 @@ export const WysiwygEditorProvider = ({ children }) => {
 
     const saveOriginImgList = () => {
         const cur_origin_img_list = getImageSourceList();
+        console.log(cur_origin_img_list);
         setOriginImgList(cur_origin_img_list);
     };
 
@@ -97,16 +99,29 @@ export const WysiwygEditorProvider = ({ children }) => {
         };
     };
 
-    const firstEffectRef = useRef(true);
-    useEffect(() => {
-        if (editorRef.current) {
-            if (firstEffectRef.current) {
-                console.log("TUI EDITOR ATTACHED!");
+    const onLoadEditor = () => {
+        setTimeout(() => {
+            const rootElmList: HTMLCollection = document.getElementsByClassName("toastui-editor-contents");
+            const rootElm = rootElmList.item(1);
+            if (rootElm) {
+                //@ts-ignore
+                const htmlImgList: HTMLImageElement[] = rootElm.getElementsByTagName("img");
+                var imgList: HTMLImageElement[] = [].slice.call(htmlImgList);
+
+                const res_list: string[] = [];
+
+                imgList.forEach((imgElm) => {
+                    const curSrc = imgElm.getAttribute("src");
+                    if (curSrc) {
+                        if (res_list.indexOf(curSrc) === -1) {
+                            res_list.push(curSrc);
+                        }
+                    }
+                });
                 saveOriginImgList();
-                firstEffectRef.current = false;
             }
-        }
-    }, [editorRef]);
+        }, 1000);
+    };
 
     const store: Store = {
         editorRef: editorRef,
@@ -115,6 +130,7 @@ export const WysiwygEditorProvider = ({ children }) => {
         getMarkdownContent: getMarkdownContent,
         getUpdatedImgList: getUpdatedImgList,
         setMarkdownContent: setMarkdownContent,
+        onLoadEditor: onLoadEditor,
     };
 
     return <WysiwygEditorContext.Provider value={store}>{children}</WysiwygEditorContext.Provider>;
