@@ -40,6 +40,20 @@ const TutorNoticeDetail = ({ noticeId }) => {
         }
     };
 
+    //공지사항 삭제
+    const handleDelete = async () => {
+        const flag = confirm("삭제하시겠습니까?");
+        if (flag) {
+            const res = await clientSideApi("DELETE", "MAIN", "TUTOR_NOTICE_DELETE", noticeId);
+            if (res.result === "SUCCESS") {
+                alert("삭제되었습니다.");
+                location.replace("/class/notice");
+            } else {
+                alert("다시 시도해주세요");
+            }
+        }
+    };
+
     //댓글 작성
     const newComment = async (content: string, parent_id?: string) => {
         if (content) {
@@ -275,6 +289,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
                                 content="글삭제"
                                 color="white"
                                 className={style.bottom_btn_style}
+                                onClick={handleDelete}
                             />
                             <Link href={`/class/notice/edit/${noticeDetailData.id}`} passHref>
                                 <Button

@@ -1,12 +1,14 @@
 import React, { useRef, useState, useEffect } from "react";
 import { res_types } from "@global_types";
 import style from "./TutorNoticeList.module.scss";
+import Link from "next/link";
 //ui
 import TableRow from "@ui/board/TableRow";
 import UseDate from "lib/hooks/useDate";
 import TableWrapper from "@ui/board/TableWrapper";
 import Pagination from "@ui/pagination/Pagination";
 import SearchBar from "@ui/input/SearchBar";
+import Button from "@ui/buttons/Button";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
@@ -78,6 +80,19 @@ const TutorNoticeList = () => {
                 />
             </div>
             <NoticeList notice_list={listState.notice_list} />
+            <div className={style.btn_wrapper}>
+                <Link href={`/class/notice/new`} passHref>
+                    <Button
+                        type="SQUARE"
+                        content="글쓰기"
+                        backgroundColor="yellow_accent"
+                        fontSize="smaller"
+                        size="smaller"
+                        color="white"
+                        className={style.new_btn}
+                    />
+                </Link>
+            </div>
             <div>
                 <Pagination
                     totalCount={listState.total_count}
