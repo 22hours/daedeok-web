@@ -17,58 +17,6 @@ import DateController from "lib/client/dateController";
 import { useAuthStore } from "store/AuthStore";
 import CommentList from "../CommentList/CommentList";
 
-const comment_list_dummy = [
-    {
-        id: 1,
-        user_id: 1,
-        author: "author",
-        content: "content",
-        create_date: "2021-08-06T16:23:58.025",
-        children: [
-            {
-                id: 2,
-                user_id: 1,
-                author: "author",
-                content: "content",
-                create_date: "2021-08-06T16:23:58.025",
-                children: null,
-            },
-            {
-                id: 3,
-                user_id: 1,
-                author: "author",
-                content: "content",
-                create_date: "2021-08-06T16:23:58.025",
-                children: null,
-            },
-        ],
-    },
-    {
-        id: 4,
-        user_id: 1,
-        author: "author",
-        content: "content",
-        create_date: "2021-08-06T16:23:58.025",
-        children: [
-            {
-                id: 5,
-                user_id: 1,
-                author: "author",
-                content: "content",
-                create_date: "2021-08-06T16:23:58.025",
-                children: null,
-            },
-            {
-                id: 6,
-                user_id: 1,
-                author: "author",
-                content: "content",
-                create_date: "2021-08-06T16:23:58.025",
-                children: null,
-            },
-        ],
-    },
-];
 const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
 type State = res_types.tutorNoticeDetail;
@@ -112,7 +60,8 @@ const TutorNoticeDetail = ({ noticeId }) => {
                 if (parent_id) {
                     // 대댓일때
                     if (noticeDetailData) {
-                        var newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                        var newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                            noticeDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         newCommentList[matchIdx].children.push({
                             id: new_comment_id,
@@ -133,7 +82,8 @@ const TutorNoticeDetail = ({ noticeId }) => {
                 } else {
                     // 댓일때
                     if (noticeDetailData) {
-                        const newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                        const newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                            noticeDetailData?.comment_list.slice();
                         newCommentList.push({
                             id: new_comment_id,
                             // @ts-ignore
@@ -172,7 +122,82 @@ const TutorNoticeDetail = ({ noticeId }) => {
             }
         );
         if (res.result === "SUCCESS") {
+            if (parent_id) {
+                // 대댓일때
+                if (noticeDetailData) {
+                    var newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                        noticeDetailData?.comment_list.slice();
+                    const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
+                    const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
+                    newCommentList[matchIdx].children[childMatchIdx].content = content;
+                    newCommentList[matchIdx].children[childMatchIdx].create_date = new Date().toString();
+
+                    setNoticeDetailData({
+                        ...noticeDetailData,
+                        //@ts-ignore
+                        comment_list: newCommentList,
+                    });
+                }
+            } else {
+                // 댓일때
+                if (noticeDetailData) {
+                    const newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                        noticeDetailData?.comment_list.slice();
+                    const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
+                    newCommentList[matchIdx].content = content;
+                    newCommentList[matchIdx].create_date = new Date().toString();
+                    setNoticeDetailData({
+                        ...noticeDetailData,
+                        //@ts-ignore
+                        comment_list: newCommentList,
+                    });
+                }
+            }
+            alert("수정되었습니다.");
         } else {
+            alert("다시 시도해주세요.");
+        }
+    };
+
+    const deleteComment = async (comment_id: string, parent_id?: string) => {
+        const flag = confirm("삭제하시겠습니까?");
+        if (flag) {
+            const res = await clientSideApi("DELETE", "MAIN", "TUTOR_NOTICE_DELETE_COMMENT", comment_id, undefined);
+            console.log(comment_id);
+            if (res.result === "SUCCESS") {
+                if (parent_id) {
+                    // 대댓일때
+                    if (noticeDetailData) {
+                        var newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                            noticeDetailData?.comment_list.slice();
+                        const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
+                        const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
+                        newCommentList[matchIdx].children.splice(childMatchIdx, 1);
+
+                        setNoticeDetailData({
+                            ...noticeDetailData,
+                            //@ts-ignore
+                            comment_list: newCommentList,
+                        });
+                    }
+                } else {
+                    // 댓일때
+                    if (noticeDetailData) {
+                        const newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                            noticeDetailData?.comment_list.slice();
+                        const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
+                        newCommentList.splice(matchIdx, 1);
+                        setNoticeDetailData({
+                            ...noticeDetailData,
+                            //@ts-ignore
+                            comment_list: newCommentList,
+                        });
+                    }
+                }
+                alert("삭제되었습니다.");
+            } else {
+                alert("다시 시도해주세요.");
+            }
         }
     };
 
@@ -206,6 +231,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
                     commentList={noticeDetailData.comment_list}
                     newComment={newComment}
                     editComment={editComment}
+                    deleteComment={deleteComment}
                 />
 
                 <div className={style.before_after_wrapper}>
