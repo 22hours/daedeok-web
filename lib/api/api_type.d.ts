@@ -82,6 +82,8 @@ declare module "@api_config_type" {
                 // >>> ONLINE
                 | "LECTURE_ONLINE_DETAIL"
                 | "LECTURE_ONLINE_DURATION"
+                // >>> MANAGE USER
+                | "CANCEL_STUDENT"
                 // >>>  NEW
                 | "LECTURE_NEW"
                 | "LECTURE_EDIT"

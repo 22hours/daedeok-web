@@ -130,9 +130,11 @@ const CertificateBtn = ({ data }: { data: UserListItem }) => {
 type ClassStudentListItemProps = {
     idx: number;
     data: UserListItem;
+    cancleStudent: (user_id: string) => void;
 };
 const ClassStudentListItem = (props: ClassStudentListItemProps) => {
     const { idx, data } = props;
+
     return (
         <TableRow
             idx={idx + 1}
@@ -153,6 +155,7 @@ const ClassStudentListItem = (props: ClassStudentListItemProps) => {
                     size={"small"}
                     fontSize={"smaller"}
                     content={"철회"}
+                    onClick={() => props.cancleStudent(data.user_id)}
                 />
             </div>
         </TableRow>
@@ -174,6 +177,29 @@ const ClassStudentManageList = () => {
         });
         if (res.result === "SUCCESS") {
             setData({ ...res.data });
+        } else {
+            alert(res.msg);
+        }
+    };
+
+    const cancleStudent = async (user_id: string) => {
+        const res = await clientSideApi("DELETE", "MAIN", "CANCEL_STUDENT", {
+            user_id: user_id,
+            lecture_id: classDetailState.class_id,
+        });
+        if (res.result === "SUCCESS") {
+            if (data) {
+                var new_user_list: UserListItem[] = data?.user_list.slice();
+                var delete_target_idx = new_user_list?.findIndex((it) => it.user_id === user_id);
+                console.log(delete_target_idx);
+                if (typeof delete_target_idx === "number") {
+                    new_user_list?.splice(delete_target_idx, 1);
+                }
+                setData({
+                    student_num: (parseInt(data.student_num) - 1).toString(),
+                    user_list: new_user_list,
+                });
+            }
         } else {
             alert(res.msg);
         }
@@ -201,7 +227,14 @@ const ClassStudentManageList = () => {
                 <div className={style.body}>
                     <TableWrapper>
                         {data.user_list.map((it, idx) => {
-                            return <ClassStudentListItem key={`usermanageitem:${idx}`} idx={idx} data={it} />;
+                            return (
+                                <ClassStudentListItem
+                                    key={`usermanageitem:${idx}`}
+                                    idx={idx}
+                                    data={it}
+                                    cancleStudent={cancleStudent}
+                                />
+                            );
                         })}
                     </TableWrapper>
                 </div>
