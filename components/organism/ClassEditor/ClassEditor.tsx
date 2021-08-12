@@ -11,7 +11,6 @@ import HandoutInput from "./HandoutInput";
 import PlanListInput from "./PlanListInput";
 import Button from "@ui/buttons/Button";
 import { useAuthStore } from "store/AuthStore";
-import { Router } from "express";
 import ListController from "lib/client/listController";
 import { useRouter } from "next/router";
 
@@ -316,6 +315,7 @@ const ClassEditor = (props: Props) => {
     const { clientSideApi } = useAuthStore();
 
     const [originHandoutList, setOriginHandoutList] = useState<class_types.Handout[]>([]);
+    const [originPlanList, setOriginPlanList] = useState<class_types.PlanItem[]>([]);
     const [state, dispatch] = useReducer(reducer, initState);
 
     const childCompRef = React.useRef(null);
@@ -327,8 +327,11 @@ const ClassEditor = (props: Props) => {
         if (props.type === "EDIT" && props.data) {
             dispatch({ type: "SET_INIT_STATE", data: props.data });
             setOriginHandoutList(props.data.handout_list.slice());
+            setOriginPlanList(props.data.plan_list.slice());
         }
     }, [props]);
+    console.log(originHandoutList);
+    console.log(originPlanList);
 
     const titleChange = useCallback((e) => dispatch({ type: "SET_TITLE", data: e.target.value }), [state.title]);
     const contentChange = useCallback((e) => dispatch({ type: "SET_CONTENT", data: e.target.value }), [state.content]);
@@ -439,9 +442,12 @@ const ClassEditor = (props: Props) => {
                 const firstDivisionIdx = reqDivisionList.findIndex((it) => it.first_division === item.first_division);
                 if (firstDivisionIdx === -1) {
                     // NO REMAIN
+                    const second_division_list: any[] = [];
+                    second_division_list.push(item.second_division);
+                    console.log(second_division_list);
                     reqDivisionList.push({
                         first_division: item.first_division,
-                        second_division: [item.second_division],
+                        second_division: second_division_list,
                     });
                 } else {
                     // REMIAN
@@ -469,7 +475,6 @@ const ClassEditor = (props: Props) => {
                 plan_list: state.plan_list,
             });
             if (res.result === "SUCCESS") {
-                console.log(res.data);
                 alert("강의 개설에 성공하였습니다");
                 location.replace("/class");
             } else {
@@ -477,11 +482,26 @@ const ClassEditor = (props: Props) => {
             }
         } else {
             // EDIT
+            const diffItemList = ListController.getUpdateInList(originHandoutList, state.handout_list);
 
-            const { deleted_item_list, new_item_list } = ListController.getUpdateInList(
-                originHandoutList,
-                state.handout_list
-            );
+            const res = await clientSideApi("PUT", "MAIN", "LECTURE_UPDATE", lectureId, {
+                title: state.title,
+                content: state.content,
+                category: state.category,
+                division_list: makeDivisionList(),
+                student_limit: state.student_limit,
+                reference: state.reference,
+                handout_list: {
+                    new_file_list: diffItemList.new_item_list,
+                    delete_file_list: diffItemList.deleted_item_list,
+                },
+                plan_list: state.plan_list,
+            });
+            if (res.result === "SUCCESS") {
+                alert("수정되었습니다.");
+            } else {
+                alert("다시 시도해주세요.");
+            }
         }
     };
 

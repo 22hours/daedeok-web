@@ -89,6 +89,10 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         // LECTURE
         case `LECTURE_DETAIL`:
             return `lecture/${url_query.lecture_id}`;
+        case `LECTURE_DETAIL_UPDATE`:
+            return `lecture/${url_query}/update`;
+        case `LECTURE_UPDATE`:
+            return `lecture/${url_query}`;
         case `LECTURE_FIND`:
             return `lecture`;
         case "LECTURE_FIND_SIDEBAR":
@@ -152,6 +156,10 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `file/certificate/${url_query.user_id}/${url_query.lecture_id}`;
         case "DELETE_CERTIFICATE":
             return `file/certificate/${url_query.user_id}/${url_query.lecture_id}`;
+        case "UPLOAD_REAL":
+            return `file/real`;
+        case "UPLOAD_UPDATE_FILE":
+            return `file`;
         // >>>  PLAN
         case `LECTUER_PLAN_LIST`:
             return `lecture/${url_query.lecture_id}/plan`;

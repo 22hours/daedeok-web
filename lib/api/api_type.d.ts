@@ -57,6 +57,8 @@ declare module "@api_config_type" {
                 | "CATEGORY_DELETE"
                 // LECTURE
                 | "LECTURE_DETAIL"
+                | "LECTURE_DETAIL_UPDATE"
+                | "LECTURE_UPDATE"
                 | "LECTURE_FIND"
                 | "LECTURE_FIND_POSSIBLE"
                 | "LECTURE_FIND_COMPLETE"
@@ -94,6 +96,8 @@ declare module "@api_config_type" {
                 | "UPLOAD_DUMMY"
                 | "UPLOAD_CERTIFICATE"
                 | "DELETE_CERTIFICATE"
+                | "UPLOAD_REAL"
+                | "UPLOAD_UPDATE_FILE"
                 // >>>  PLAN
                 | "LECTUER_PLAN_LIST"
                 // >>>  JOIN
