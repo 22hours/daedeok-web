@@ -90,6 +90,8 @@ declare module "@api_config_type" {
                 | "LECTURE_MANAGE_STUDENT"
                 // FILE
                 | "UPLOAD_DUMMY"
+                | "UPLOAD_CERTIFICATE"
+                | "DELETE_CERTIFICATE"
                 // >>>  PLAN
                 | "LECTUER_PLAN_LIST"
                 // >>>  JOIN
@@ -100,6 +102,7 @@ declare module "@api_config_type" {
                 | "LECTURE_DELETE"
                 // DIVISION
                 | "FIND_DIVISION";
+
             url_query?: string | { lecture_id: string; board_id: string } | any;
             data?: any;
             extraHeader?: any;
