@@ -11,6 +11,7 @@ import { useEditorController } from "store/WysiwygEditorStore";
 import style from "./ClassBoardEditor.module.scss";
 type Props = {
     type: "NEW" | "EDIT";
+    originData?: { title: string; category: string; content: string };
 };
 
 const ClassBoardEditor = (props: Props) => {
@@ -24,20 +25,10 @@ const ClassBoardEditor = (props: Props) => {
     const category = useInput();
     const title = useInput();
 
-    const getOriginData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "LECTURE_BOARD_DETAIL", { content_id: content_id });
-        if (res.result === "SUCCESS") {
-            title.setValue(res.data.title);
-            category.setValue(res.data.category);
-            editorController.setMarkdownContent(res.data.content);
-        } else {
-            alert(res.msg);
-        }
-    };
-
     useEffect(() => {
         if (props.type === "EDIT") {
-            getOriginData();
+            title.setValue(props.originData?.title);
+            category.setValue(props.originData?.category);
         }
     }, [props]);
 
@@ -64,12 +55,31 @@ const ClassBoardEditor = (props: Props) => {
             }
         } else {
             // EDIT
-            const { new_item_list, deleted_item_list } = editorController.getUpdatedImgList();
 
-            console.log({
-                new_item_list,
-                deleted_item_list,
-            });
+            const res = await clientSideApi(
+                "PUT",
+                "MAIN",
+                "LECTURE_BOARD_EDIT",
+                { content_id: content_id },
+                {
+                    title: title.value,
+                    category: category.value,
+                    content: editorController.getMarkdownContent(),
+                }
+            );
+            if (res.result === "SUCCESS") {
+                alert("게시글을 수정하였습니다");
+                const { new_item_list, deleted_item_list } = editorController.getUpdatedImgList();
+                clientSideApi("PUT", "MAIN", "UPDATE_FILE", undefined, {
+                    new_file_list: new_item_list,
+                    delete_file_list: deleted_item_list,
+                });
+                router.replace(
+                    `/class/${classDetailState.class_status}/${classDetailState.class_id}/board/detail/${content_id}`
+                );
+            } else {
+                alert(res.msg);
+            }
         }
     };
 
@@ -93,8 +103,9 @@ const ClassBoardEditor = (props: Props) => {
             <div className={style.body}>
                 <TextEditor
                     editorRef={editorController.editorRef}
-                    initialValue={""}
+                    initialValue={props.originData?.content || ""}
                     uploadDummyImage={editorController.uploadDummyImage}
+                    onLoad={editorController.onLoadEditor}
                 />
             </div>
             <div className={style.footer}>

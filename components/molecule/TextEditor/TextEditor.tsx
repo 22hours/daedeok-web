@@ -7,9 +7,15 @@ type Props = {
     editorRef: RefObject<Editor>;
     initialValue: string;
     uploadDummyImage: (blob: Blob | File) => Promise<any>;
+    onLoad?: any;
 };
 
 const TextEditor = (props: Props) => {
+    const handleOnLoad = () => {
+        if (props.onLoad) {
+            props.onLoad();
+        }
+    };
     return (
         <>
             <Editor
@@ -23,9 +29,12 @@ const TextEditor = (props: Props) => {
                 hooks={{
                     addImageBlobHook: async (blob, callback) => {
                         const upload = await props.uploadDummyImage(blob);
-                        callback(upload, "alt text");
+                        callback(upload, "toasteditorimagee");
                         return false;
                     },
+                }}
+                events={{
+                    load: handleOnLoad,
                 }}
             />
         </>

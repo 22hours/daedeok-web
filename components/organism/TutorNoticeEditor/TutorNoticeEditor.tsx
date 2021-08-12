@@ -74,10 +74,10 @@ const TutorNoticeEditorController = (props: Props) => {
             </div>
             <div className={style.body}>
                 <TextEditor
-                    //@ts-ignore
                     editorRef={editorController.editorRef}
                     initialValue={props.originData?.content || ""}
                     uploadDummyImage={editorController.uploadDummyImage}
+                    onLoad={editorController.onLoadEditor}
                 />
             </div>
             <div className={style.footer}>
