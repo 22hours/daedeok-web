@@ -1,6 +1,3 @@
-import { RefObject } from "react";
-import style from "./TextInput.module.scss";
-import CSS from "csstype";
 import useFormStyle from "lib/hooks/useFormStyle";
 
 type Props = {

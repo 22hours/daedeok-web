@@ -1,7 +1,5 @@
 import Select from "@ui/input/Select";
 import useClassCategory from "lib/hooks/useClassCategory";
-import { useState } from "react";
-import { useAuthStore } from "store/AuthStore";
 import style from "./ClassCategorySelect.module.scss";
 type Props = {
     category?: string;
