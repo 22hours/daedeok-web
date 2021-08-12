@@ -317,6 +317,12 @@ const ClassEditor = (props: Props) => {
 
     const [originHandoutList, setOriginHandoutList] = useState<class_types.Handout[]>([]);
     const [state, dispatch] = useReducer(reducer, initState);
+
+    const childCompRef = React.useRef(null);
+    const router = useRouter();
+    const { status } = router.query;
+    const lectureId = router.asPath.split("/")[3];
+
     useEffect(() => {
         if (props.type === "EDIT" && props.data) {
             dispatch({ type: "SET_INIT_STATE", data: props.data });
@@ -326,28 +332,34 @@ const ClassEditor = (props: Props) => {
 
     const titleChange = useCallback((e) => dispatch({ type: "SET_TITLE", data: e.target.value }), [state.title]);
     const contentChange = useCallback((e) => dispatch({ type: "SET_CONTENT", data: e.target.value }), [state.content]);
-    const referenceChange = useCallback((e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }), [
-        state.reference,
-    ]);
-    const categoryChange = useCallback((e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }), [
-        state.category,
-    ]);
+    const referenceChange = useCallback(
+        (e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }),
+        [state.reference]
+    );
+    const categoryChange = useCallback(
+        (e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }),
+        [state.category]
+    );
     const addDivisionItem = useCallback(
         (division: class_types.Division) => dispatch({ type: "ADD_DIVISION", data: division }),
         [state.division_list]
     );
-    const removeDivisionItem = useCallback((idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }), [
-        state.division_list,
-    ]);
-    const studentLimitChange = useCallback((value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }), [
-        state.student_limit,
-    ]);
-    const addHandoutItem = useCallback((item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }), [
-        state.handout_list,
-    ]);
-    const removeHandoutItem = useCallback((idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }), [
-        state.handout_list,
-    ]);
+    const removeDivisionItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }),
+        [state.division_list]
+    );
+    const studentLimitChange = useCallback(
+        (value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }),
+        [state.student_limit]
+    );
+    const addHandoutItem = useCallback(
+        (item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }),
+        [state.handout_list]
+    );
+    const removeHandoutItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }),
+        [state.handout_list]
+    );
 
     const addPlanItem = useCallback(
         (planType: class_types.PlanType) => dispatch({ type: "ADD_PLAN", data: planType }),
@@ -380,9 +392,45 @@ const ClassEditor = (props: Props) => {
         [state.plan_list]
     );
 
-    const removePlanItem = useCallback((idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }), [
-        state.plan_list,
-    ]);
+    const removePlanItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }),
+        [state.plan_list]
+    );
+
+    //강의종료
+    const handleFinish = async () => {
+        const flag = confirm("정말 종료하겠습니까?");
+        if (flag) {
+            const res = await clientSideApi(
+                "POST",
+                "MAIN",
+                "LECTURE_FINISH",
+                { lecture_id: lectureId },
+                { lecture_id: lectureId }
+            );
+            if (res.result === "SUCCESS") {
+                alert("강의가 종료되었습니다");
+                location.replace("/class");
+            } else {
+                alert("다시 시도해주세요");
+            }
+        }
+    };
+
+    //강의삭제
+    const handleDelete = async () => {
+        const flag = confirm("정말 삭제하시겠습니까?");
+        if (flag) {
+            const res = await clientSideApi("DELETE", "MAIN", "LECTURE_DELETE", lectureId, undefined);
+            console.log(res);
+            if (res.result === "SUCCESS") {
+                alert("삭제되었습니다.");
+                location.replace("/class");
+            } else {
+                alert("다시 시도해주세요");
+            }
+        }
+    };
 
     const handleSumbit = async () => {
         const makeDivisionList = () => {
@@ -423,6 +471,7 @@ const ClassEditor = (props: Props) => {
             if (res.result === "SUCCESS") {
                 console.log(res.data);
                 alert("강의 개설에 성공하였습니다");
+                location.replace("/class");
             } else {
                 alert(res.msg);
             }
@@ -435,10 +484,6 @@ const ClassEditor = (props: Props) => {
             );
         }
     };
-
-    const childCompRef = React.useRef(null);
-    const router = useRouter();
-    const { status } = router.query;
 
     return (
         <div>
@@ -490,20 +535,60 @@ const ClassEditor = (props: Props) => {
             />
 
             <div className={style.submit_row}>
-                {status !== "close" && (
-                    <Button
-                        className={style.submit_btn}
-                        type="SQUARE"
-                        size="small"
-                        fontSize="smaller"
-                        line="inline"
-                        backgroundColor="yellow_accent"
-                        color="white"
-                        content={props.type === "NEW" ? "개설" : "수정"}
-                        alignment="center"
-                        onClick={handleSumbit}
-                    />
-                )}
+                {status !== "close" &&
+                    (props.type === "NEW" ? (
+                        <Button
+                            className={style.submit_btn}
+                            type="SQUARE"
+                            size="small"
+                            fontSize="smaller"
+                            line="inline"
+                            backgroundColor="yellow_accent"
+                            color="white"
+                            content={"개설"}
+                            alignment="center"
+                            onClick={handleSumbit}
+                        />
+                    ) : (
+                        <>
+                            <Button
+                                className={style.submit_btn}
+                                type="SQUARE"
+                                size="small"
+                                fontSize="smaller"
+                                line="inline"
+                                backgroundColor="brown_base"
+                                color="white"
+                                content={"강의삭제"}
+                                alignment="center"
+                                onClick={handleDelete}
+                            />
+                            <Button
+                                className={style.submit_btn}
+                                type="SQUARE"
+                                size="small"
+                                fontSize="smaller"
+                                line="inline"
+                                backgroundColor="red_accent"
+                                color="white"
+                                content={"강의종료"}
+                                alignment="center"
+                                onClick={handleFinish}
+                            />
+                            <Button
+                                className={style.submit_btn}
+                                type="SQUARE"
+                                size="small"
+                                fontSize="smaller"
+                                line="inline"
+                                backgroundColor="yellow_accent"
+                                color="white"
+                                content={"수정"}
+                                alignment="center"
+                                onClick={handleSumbit}
+                            />
+                        </>
+                    ))}
             </div>
         </div>
     );

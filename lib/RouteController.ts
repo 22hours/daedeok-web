@@ -126,7 +126,7 @@ const makeClassChildPage = () => {
         return {
             [status]: {
                 name: getStatusName(status),
-                pathname: status === "close" ? `/class/${[status]}` : `/class/${[status]}/[...class_id]`,
+                pathname: status === "open" ? `/class/${[status]}/[...class_id]` : `/class/${[status]}`,
                 isDynamic: true,
                 as: (class_id) => `/class/${[status]}/${class_id}`,
                 isVisible: true,

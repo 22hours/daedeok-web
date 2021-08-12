@@ -151,6 +151,11 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         // >>>  JOIN
         case `LECTURE_JOIN`:
             return `lecture/join/${url_query.lecture_id}`;
+        // >>>  FINISH
+        case `LECTURE_FINISH`:
+            return `lecture/finish/${url_query.lecture_id}`;
+        case `LECTURE_DELETE`:
+            return `lecture/${url_query}`;
         // DIVISION
         case "FIND_DIVISION":
             return `division/`;
