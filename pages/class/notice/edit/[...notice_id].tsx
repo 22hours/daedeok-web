@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import TutorNoticeEditor from "components/organism/TutorNoticeEditor/TutorNoticeEditor";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 
 type Props = {};
 
@@ -9,6 +9,11 @@ type State = {
     title: string;
     content: string;
 };
+
+const TutorNoticeEditor = dynamic(() => import("components/organism/TutorNoticeEditor/TutorNoticeEditor"), {
+    ssr: false,
+});
+
 const NoticeEdit = () => {
     const router = useRouter();
     const { notice_id } = router.query;

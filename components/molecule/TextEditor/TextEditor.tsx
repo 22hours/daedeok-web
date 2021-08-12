@@ -1,27 +1,15 @@
 import style from "./TextEditor.module.scss";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { Editor, Viewer } from "@toast-ui/react-editor";
-import { useAuthStore } from "store/AuthStore";
+import { Editor } from "@toast-ui/react-editor";
 import { RefObject } from "react";
 
 type Props = {
     editorRef: RefObject<Editor>;
     initialValue: string;
+    uploadDummyImage: (blob: Blob | File) => Promise<any>;
 };
 
 const TextEditor = (props: Props) => {
-    const { clientSideApi } = useAuthStore();
-
-    const uploadDummy = async (blob: Blob | File) => {
-        var bodyFormData = new FormData();
-        bodyFormData.append("file_list", blob);
-        const res = await clientSideApi("POST", "MAIN", "UPLOAD_DUMMY", undefined, bodyFormData);
-        if (res.result === "SUCCESS") {
-            return res.data[0];
-        } else {
-            alert(res.msg);
-        }
-    };
     return (
         <>
             <Editor
@@ -34,7 +22,7 @@ const TextEditor = (props: Props) => {
                 useCommandShortcut={true}
                 hooks={{
                     addImageBlobHook: async (blob, callback) => {
-                        const upload = await uploadDummy(blob);
+                        const upload = await props.uploadDummyImage(blob);
                         callback(upload, "alt text");
                         return false;
                     },

@@ -6,6 +6,8 @@ import Button from "@ui/buttons/Button";
 import { useAuthStore } from "store/AuthStore";
 import useInput from "lib/hooks/useInput";
 import { useRouter } from "next/router";
+import TextEditor from "components/molecule/TextEditor/TextEditor";
+import { useEditorController, WysiwygEditorProvider } from "store/WysiwygEditorStore";
 type Props = {
     type: "NEW" | "EDIT";
     originData?: {
@@ -14,30 +16,19 @@ type Props = {
     };
 };
 
-const TextEditor = dynamic(() => import("components/molecule/TextEditor/TextEditor"), { ssr: false });
-
-const TutorNoticeEditor = (props: Props) => {
+const TutorNoticeEditorController = (props: Props) => {
     const router = useRouter();
-    const editorRef = useRef(null);
+
+    const editorController = useEditorController();
 
     const title = useInput();
     const { clientSideApi } = useAuthStore();
-
-    const getMarkdownContent = () => {
-        if (editorRef.current) {
-            //@ts-ignore
-            const md = editorRef.current.getInstance().getMarkdown();
-            return md;
-        } else {
-            return "";
-        }
-    };
 
     // NEW
     const handleSubmit = async () => {
         const res = await clientSideApi("POST", "MAIN", "TUTOR_NOTICE_NEW", undefined, {
             title: title.value,
-            content: getMarkdownContent(),
+            content: editorController.getMarkdownContent(),
         });
         if (res.result === "SUCCESS") {
             router.push(`/class/notice/detail/${res.data}`);
@@ -56,7 +47,7 @@ const TutorNoticeEditor = (props: Props) => {
             { notice_id: notice_id },
             {
                 title: title.value,
-                content: getMarkdownContent(),
+                content: editorController.getMarkdownContent(),
             }
         );
         if (res.result === "SUCCESS") {
@@ -64,6 +55,10 @@ const TutorNoticeEditor = (props: Props) => {
         } else {
             alert(res.msg);
         }
+    };
+
+    const getMd = () => {
+        console.log(editorController.getMarkdownContent());
     };
 
     useEffect(() => {
@@ -80,11 +75,13 @@ const TutorNoticeEditor = (props: Props) => {
             <div className={style.body}>
                 <TextEditor
                     //@ts-ignore
-                    editorRef={editorRef}
+                    editorRef={editorController.editorRef}
                     initialValue={props.originData?.content || ""}
+                    uploadDummyImage={editorController.uploadDummyImage}
                 />
             </div>
             <div className={style.footer}>
+                <button onClick={getMd}>get md</button>
                 <Button
                     type={"SQUARE"}
                     size={"free"}
@@ -105,6 +102,14 @@ const TutorNoticeEditor = (props: Props) => {
                 />
             </div>
         </div>
+    );
+};
+
+const TutorNoticeEditor = (props: Props) => {
+    return (
+        <WysiwygEditorProvider>
+            <TutorNoticeEditorController {...props} />
+        </WysiwygEditorProvider>
     );
 };
 

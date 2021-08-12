@@ -12,15 +12,22 @@ const areEqualShallow = (a, b) => {
     return true;
 };
 
-const getDeletedItemInList = (origin_list: any[], current_list: any[]) => {
+const getDeletedItemInList = (origin_list: any[], current_list: any[], isComputeImgDiff?: boolean) => {
     var deleted_list: any[] = [];
 
     origin_list.forEach((origin_list_item) => {
         var isEqualItemExist = false;
         current_list.forEach((current_list_item) => {
-            if (areEqualShallow(origin_list_item, current_list_item)) {
-                isEqualItemExist = true;
-                return false;
+            if (isComputeImgDiff) {
+                if (origin_list_item === current_list_item) {
+                    isEqualItemExist = true;
+                    return false;
+                }
+            } else {
+                if (areEqualShallow(origin_list_item, current_list_item)) {
+                    isEqualItemExist = true;
+                    return false;
+                }
             }
         });
         if (!isEqualItemExist) {
@@ -31,15 +38,22 @@ const getDeletedItemInList = (origin_list: any[], current_list: any[]) => {
     return deleted_list;
 };
 
-const getNewItemInList = (origin_list: any[], current_list: any[]) => {
+const getNewItemInList = (origin_list: any[], current_list: any[], isComputeImgDiff?: boolean) => {
     var new_list: any[] = [];
 
     current_list.forEach((current_list_item) => {
         var isEqualItemExist = false;
         origin_list.forEach((origin_list_item) => {
-            if (areEqualShallow(current_list_item, origin_list_item)) {
-                isEqualItemExist = true;
-                return false;
+            if (isComputeImgDiff) {
+                if (current_list_item === origin_list_item) {
+                    isEqualItemExist = true;
+                    return false;
+                }
+            } else {
+                if (areEqualShallow(current_list_item, origin_list_item)) {
+                    isEqualItemExist = true;
+                    return false;
+                }
             }
         });
 
@@ -51,10 +65,10 @@ const getNewItemInList = (origin_list: any[], current_list: any[]) => {
     return new_list;
 };
 
-const getUpdateInList = (origin_list: any[], current_list: any[]) => {
+const getUpdateInList = (origin_list: any[], current_list: any[], isComputeImgDiff?: boolean) => {
     return {
-        deleted_item_list: getDeletedItemInList(origin_list, current_list),
-        new_item_list: getNewItemInList(origin_list, current_list),
+        deleted_item_list: getDeletedItemInList(origin_list, current_list, isComputeImgDiff),
+        new_item_list: getNewItemInList(origin_list, current_list, isComputeImgDiff),
     };
 };
 
