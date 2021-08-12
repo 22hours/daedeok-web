@@ -81,7 +81,6 @@ const TutorNoticeEditorController = (props: Props) => {
                 />
             </div>
             <div className={style.footer}>
-                <button onClick={getMd}>get md</button>
                 <Button
                     type={"SQUARE"}
                     size={"free"}

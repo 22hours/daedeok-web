@@ -10,3 +10,12 @@
         flex-grow: 0.5;
     }
 }
+.btn_wrapper {
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-end;
+    .new_btn {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
