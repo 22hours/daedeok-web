@@ -146,9 +146,9 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case "UPLOAD_DUMMY":
             return `file`;
         case "UPLOAD_CERTIFICATE":
-            return ``;
+            return `file/certificate/${url_query.user_id}/${url_query.lecture_id}`;
         case "DELETE_CERTIFICATE":
-            return ``;
+            return `file/certificate/${url_query.user_id}/${url_query.lecture_id}`;
         // >>>  PLAN
         case `LECTUER_PLAN_LIST`:
             return `lecture/${url_query.lecture_id}/plan`;
