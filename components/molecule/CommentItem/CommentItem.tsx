@@ -16,7 +16,7 @@ type ViewFormProps = res_types.CommentItem & {
     isMine: boolean;
     newComment: (content: string, parent_id?: string) => void;
     handleEditButton: any;
-    handleDeleteButton: any;
+    deleteComment: (content: string, parent_id?: string) => void;
 };
 const CommentViewForm = (props: ViewFormProps) => {
     const comment = useInput();
@@ -68,7 +68,12 @@ const CommentViewForm = (props: ViewFormProps) => {
                                 content={"/"}
                                 color={"gray_accent"}
                             />
-                            <div onClick={props.handleDeleteButton} className={style.text_btn}>
+                            <div
+                                onClick={() => {
+                                    props.deleteComment(props.id, props?.parent_id);
+                                }}
+                                className={style.text_btn}
+                            >
                                 <Typo type={"TEXT"} size={"smaller"} content={"지우기"} color={"gray_accent"} />
                             </div>
                         </>
@@ -142,7 +147,10 @@ const CommentEditForm = (props: EditFormProps) => {
                     backgroundColor="yellow_accent"
                     content="수정"
                     color="white"
-                    onClick={() => props.editComment(comment.value, props.comment_id, props.parent_id)}
+                    onClick={() => {
+                        props.editComment(comment.value, props.comment_id, props.parent_id);
+                        props.handleEditButton(false);
+                    }}
                     className={`${style.success_btn} ${style.edit_footer_btn}`}
                 />
             </div>
@@ -155,7 +163,7 @@ type Props = res_types.CommentItem & {
     type: "FIRST" | "SECOND";
     newComment: (content: string, parent_id?: string) => void;
     editComment: (content: string, comment_id: string, parent_id?: string) => void;
-    deleteComment: any;
+    deleteComment: (comment_id: string, parent_id?: string) => void;
 };
 const CommentItem = (props: Props) => {
     const { auth } = useAuthStore();
@@ -185,7 +193,7 @@ const CommentItem = (props: Props) => {
                     {...props}
                     newComment={props.newComment}
                     handleEditButton={handleEditState}
-                    handleDeleteButton={props.deleteComment}
+                    deleteComment={props.deleteComment}
                 />
             );
         } else {

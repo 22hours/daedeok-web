@@ -78,7 +78,7 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `TUTOR_NOTICE_EDIT_COMMENT`:
             return `notice/tutor/comment/${url_query.comment_id}`;
         case `TUTOR_NOTICE_DELETE_COMMENT`:
-            return `notice/tutor/${url_query.notice_id}/comment`;
+            return `notice/tutor/comment/${url_query}`;
         // CATEGORY
         case `CATEGORY_FIND`:
             return `category`;

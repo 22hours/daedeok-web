@@ -52,6 +52,7 @@ type Props = {
     commentList: CommentItem[];
     newComment: (content: string, parent_id?: string) => void;
     editComment: (content: string, comment_id: string, parent_id?: string) => void;
+    deleteComment: (comment_id: string, parent_id?: string) => void;
 };
 const CommentList = (props: Props) => {
     const [flatCommentList, setFlatCommentList] = useState<CommentItem[]>([]);
@@ -86,7 +87,7 @@ const CommentList = (props: Props) => {
                             type={it.type}
                             newComment={props.newComment}
                             editComment={props.editComment}
-                            deleteComment={() => alert("TODO")}
+                            deleteComment={props.deleteComment}
                         />
                     );
                 })}
