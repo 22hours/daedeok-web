@@ -12,38 +12,6 @@ import useFileInput from "lib/hooks/useFileInput";
 import Link from "next/link";
 type Props = {};
 
-const dummy = [
-    {
-        user_id: 1,
-        name: "name1",
-        duty: "duty",
-        first_division: "123",
-        second_division: "123",
-        phone_num: "010-9011-7518",
-        status: "FINISH",
-        fileUrl: "http://naver.com",
-    },
-    {
-        user_id: 2,
-        name: "name2",
-        duty: "duty",
-        first_division: "123",
-        second_division: "123",
-        phone_num: "010-9011-7518",
-        status: "ING",
-        fileUrl: null,
-    },
-    {
-        user_id: 3,
-        name: "name3",
-        duty: "duty",
-        first_division: "123",
-        second_division: "123",
-        phone_num: "010-9011-7518",
-        status: "FINISH",
-        fileUrl: null,
-    },
-];
 type UserListItem = {
     user_id: string;
     name: string;
@@ -51,11 +19,12 @@ type UserListItem = {
     first_division: string;
     second_division: string;
     phone_num: string;
-    status: "ING" | "FINISH";
+    status: "ING" | "COMPLETE";
     fileUrl?: string;
 };
 
-const LeftBtn = ({ data }: { data: UserListItem }) => {
+const CertificateBtn = ({ data }: { data: UserListItem }) => {
+    const ClassDetailStore = useClassDetailStore();
     const { clientSideApi } = useAuthStore();
     const [fileState, setFileState] = useState<string | null>(null);
     useEffect(() => {
@@ -67,31 +36,44 @@ const LeftBtn = ({ data }: { data: UserListItem }) => {
     const file = useFileInput();
     const leftBtnClassName = `${style[`${data.status.toLowerCase()}_btn`]} ${style.btn}`;
 
-    const uploadDummy = async (file: File) => {
-        var bodyFormData = new FormData();
-        bodyFormData.append("file_list", file);
-        const res = await clientSideApi("POST", "MAIN", "UPLOAD_DUMMY", undefined, bodyFormData);
-        return res;
-    };
-    const setFile = async (file: File) => {
-        const fileName: string = file.name;
-        const url_res = await uploadDummy(file);
-        if (url_res?.result === "SUCCESS") {
-            const res = url_res.data[0];
-            setFileState(res);
+    const deleteCertificate = async () => {
+        const res = await clientSideApi("DELETE", "MAIN", "DELETE_CERTIFICATE", {
+            user_id: data.user_id,
+            lecture_id: ClassDetailStore.class_id,
+        });
+        if (res.result === "SUCCESS") {
+            setFileState(null);
         } else {
-            alert(url_res.msg);
+            alert(res.msg);
+        }
+    };
+
+    const uploadCertificate = async (file: File) => {
+        var bodyFormData = new FormData();
+        bodyFormData.append("file", file);
+        const res = await clientSideApi(
+            "POST",
+            "MAIN",
+            "UPLOAD_CERTIFICATE",
+            { user_id: data.user_id, lecture_id: ClassDetailStore.class_id },
+            bodyFormData
+        );
+        if (res.result === "SUCCESS") {
+            const resData = res.data;
+            setFileState(resData);
+        } else {
+            alert(res.msg);
         }
     };
 
     useEffect(() => {
         if (file.value) {
-            setFile(file.value);
+            uploadCertificate(file.value);
         }
     }, [file.value]);
 
     const getBtnText = () => {
-        if (data.status === "FINISH") {
+        if (data.status === "COMPLETE") {
             if (fileState !== null) {
                 return "다운로드";
             } else {
@@ -139,7 +121,7 @@ const LeftBtn = ({ data }: { data: UserListItem }) => {
             )}
 
             <div className={style.delete_file_icon}>
-                {btn_text === "다운로드" && <Icon onClick={() => alert("todo")} type={"delete"} />}
+                {btn_text === "다운로드" && <Icon onClick={deleteCertificate} type={"delete"} />}
             </div>
         </div>
     );
@@ -148,9 +130,11 @@ const LeftBtn = ({ data }: { data: UserListItem }) => {
 type ClassStudentListItemProps = {
     idx: number;
     data: UserListItem;
+    cancleStudent: (user_id: string) => void;
 };
 const ClassStudentListItem = (props: ClassStudentListItemProps) => {
     const { idx, data } = props;
+
     return (
         <TableRow
             idx={idx + 1}
@@ -164,13 +148,14 @@ const ClassStudentListItem = (props: ClassStudentListItemProps) => {
             key={`userlist${idx}`}
         >
             <div className={style.btn_col}>
-                <LeftBtn data={data} />
+                <CertificateBtn data={data} />
                 <Button
                     className={`${style.btn} ${style.cancle_btn}`}
                     type={"SQUARE"}
                     size={"small"}
                     fontSize={"smaller"}
                     content={"철회"}
+                    onClick={() => props.cancleStudent(data.user_id)}
                 />
             </div>
         </TableRow>
@@ -191,7 +176,30 @@ const ClassStudentManageList = () => {
             lecture_id: classDetailState.class_id,
         });
         if (res.result === "SUCCESS") {
-            setData({ ...res.data, user_list: dummy });
+            setData({ ...res.data });
+        } else {
+            alert(res.msg);
+        }
+    };
+
+    const cancleStudent = async (user_id: string) => {
+        const res = await clientSideApi("DELETE", "MAIN", "CANCEL_STUDENT", {
+            user_id: user_id,
+            lecture_id: classDetailState.class_id,
+        });
+        if (res.result === "SUCCESS") {
+            if (data) {
+                var new_user_list: UserListItem[] = data?.user_list.slice();
+                var delete_target_idx = new_user_list?.findIndex((it) => it.user_id === user_id);
+                console.log(delete_target_idx);
+                if (typeof delete_target_idx === "number") {
+                    new_user_list?.splice(delete_target_idx, 1);
+                }
+                setData({
+                    student_num: (parseInt(data.student_num) - 1).toString(),
+                    user_list: new_user_list,
+                });
+            }
         } else {
             alert(res.msg);
         }
@@ -219,7 +227,14 @@ const ClassStudentManageList = () => {
                 <div className={style.body}>
                     <TableWrapper>
                         {data.user_list.map((it, idx) => {
-                            return <ClassStudentListItem key={`usermanageitem:${idx}`} idx={idx} data={it} />;
+                            return (
+                                <ClassStudentListItem
+                                    key={`usermanageitem:${idx}`}
+                                    idx={idx}
+                                    data={it}
+                                    cancleStudent={cancleStudent}
+                                />
+                            );
                         })}
                     </TableWrapper>
                 </div>
