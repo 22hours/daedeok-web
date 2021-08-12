@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import TutorNoticeEditor from "components/organism/TutorNoticeEditor/TutorNoticeEditor";
+import dynamic from "next/dynamic";
+
+const TutorNoticeEditor = dynamic(() => import("components/organism/TutorNoticeEditor/TutorNoticeEditor"), {
+    ssr: false,
+});
 
 type Props = {};
 
