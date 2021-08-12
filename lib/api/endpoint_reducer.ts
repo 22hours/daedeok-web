@@ -92,7 +92,7 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `LECTURE_DETAIL_UPDATE`:
             return `lecture/${url_query}/update`;
         case `LECTURE_UPDATE`:
-            return `lecture/${url_query}`;
+            return `lecture/${url_query.lecture_id}`;
         case `LECTURE_FIND`:
             return `lecture`;
         case "LECTURE_FIND_SIDEBAR":
@@ -142,11 +142,11 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `LECTURE_NEW`:
             return `lecture/`;
         case `LECTURE_EDIT`:
-            return `lecture/${url_query}`;
+            return `lecture/${url_query.lecture_id}`;
         case `LECTURE_DELETE`:
-            return `lecture/${url_query}`;
+            return `lecture/${url_query.lecture_id}`;
         case `LECTURE_CLOSE`:
-            return `lecture/${url_query}`;
+            return `lecture/${url_query.lecture_id}`;
         case "LECTURE_MANAGE_STUDENT":
             return `lecture/${url_query.lecture_id}/user`;
         // FILE

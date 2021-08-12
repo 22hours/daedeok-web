@@ -74,5 +74,7 @@ const getUpdateInList = (origin_list: any[], current_list: any[], isComputeImgDi
 
 const ListController = {
     getUpdateInList,
+    getDeletedItemInList,
+    getNewItemInList,
 };
 export default ListController;
