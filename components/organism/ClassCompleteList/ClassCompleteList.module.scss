@@ -1,0 +1,38 @@
+// ClassCloseList.module
+@import "styles/meta.scss";
+
+.container {
+    .head {
+        @include mobile {
+            display: grid;
+            gap: 3px;
+        }
+        @include desktop {
+            display: grid;
+            grid-template-columns: 3fr 2fr 6fr;
+        }
+    }
+    .body {
+        margin-top: 30px;
+
+        .row_btn {
+            width: 100px;
+        }
+
+        .complete_btn {
+            background-color: $red_accent;
+            span {
+                color: white;
+            }
+        }
+        .ing_btn {
+            background-color: $brown_base;
+            span {
+                color: white;
+            }
+        }
+    }
+    .footer {
+        margin-top: 30px;
+    }
+}
