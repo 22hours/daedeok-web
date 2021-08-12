@@ -38,7 +38,7 @@ const BoardList = (props: { board_list: any; lectureId: string }) => {
                 <div key={idx}>
                     <Link href={`/class/open/${props.lectureId}/board/detail/${it.id}`} passHref>
                         <TableRow
-                            idx={idx}
+                            idx={idx + 1}
                             title={it.title}
                             category={it.category}
                             author={it.author}

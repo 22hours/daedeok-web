@@ -31,12 +31,15 @@ type ProviderType = {
 };
 export const ClassDetailProvider = (props: ProviderType) => {
     const router = useRouter();
+    const asPath = router.asPath;
     const [classInfo, setClassInfo] = useState<State>(null);
     const { auth, clientSideApi } = useAuthStore();
     const getClassInfo = async () => {
+        console.log("CALL");
         // @ts-ignore
         const { class_id, status }: { class_id: string; status: meta_types.classStatus } = router.query;
         const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_CLASS_TITLE", { lecture_id: class_id });
+        console.log(res);
         if (res.result === "SUCCESS") {
             setClassInfo({
                 class_id: class_id,
@@ -49,10 +52,11 @@ export const ClassDetailProvider = (props: ProviderType) => {
     };
 
     useEffect(() => {
-        if (router && auth?.user_id) {
+        console.log({ router, auth });
+        if (router.query.class_id && auth?.user_id) {
             getClassInfo();
         }
-    }, [router]);
+    }, [router, auth]);
 
     return (
         <ClassDetailContext.Provider value={classInfo}>

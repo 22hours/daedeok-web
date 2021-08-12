@@ -7,6 +7,7 @@ type Props = {
     category?: string;
     changeCategory: (string) => void;
     className?: string;
+    form?: "underline" | "box";
 };
 
 const ClassCategorySelect = (props: Props) => {
@@ -17,7 +18,7 @@ const ClassCategorySelect = (props: Props) => {
             onChange={(e) => {
                 props.changeCategory(e.target.value);
             }}
-            form="box"
+            form={props.form || "box"}
             placeholder={"카테고리별 보기"}
             option_list={[{ name: "전체", value: "ALL" }].concat(categoryOptionState.categoryOptionList)}
             className={`${props.className || ""} ${style.select}`}

@@ -9,7 +9,11 @@ type Store = {
     uploadDummyImage: (blob: Blob | File) => Promise<any>;
     saveOriginImgList: () => void;
     getMarkdownContent: () => void;
-    getUpdatedImgList: () => void;
+    getUpdatedImgList: () => {
+        new_item_list: any[];
+        deleted_item_list: any[];
+    };
+    setMarkdownContent: (md: string) => void;
 };
 // ACTION TYPES
 type Action = {};
@@ -66,6 +70,13 @@ export const WysiwygEditorProvider = ({ children }) => {
         setOriginImgList(cur_origin_img_list);
     };
 
+    const setMarkdownContent = (md: string) => {
+        if (editorRef.current) {
+            //@ts-ignore
+            editorRef.current.getInstance().setMarkdown(md);
+        }
+    };
+
     const getMarkdownContent = () => {
         if (editorRef.current) {
             //@ts-ignore
@@ -80,6 +91,10 @@ export const WysiwygEditorProvider = ({ children }) => {
         const curImgList = getImageSourceList();
         const { deleted_item_list, new_item_list } = ListController.getUpdateInList(originImgList, curImgList, true);
         console.log({ deleted_item_list, new_item_list });
+        return {
+            new_item_list: new_item_list,
+            deleted_item_list: deleted_item_list,
+        };
     };
 
     const firstEffectRef = useRef(true);
@@ -99,6 +114,7 @@ export const WysiwygEditorProvider = ({ children }) => {
         saveOriginImgList: saveOriginImgList,
         getMarkdownContent: getMarkdownContent,
         getUpdatedImgList: getUpdatedImgList,
+        setMarkdownContent: setMarkdownContent,
     };
 
     return <WysiwygEditorContext.Provider value={store}>{children}</WysiwygEditorContext.Provider>;
