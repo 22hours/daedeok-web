@@ -12,7 +12,7 @@ import Button from "@ui/buttons/Button";
 type Props = {};
 
 type UserItem = {
-    user_id: string;
+    id: string;
     name: string;
     duty: string;
     first_division: string;
@@ -29,68 +29,7 @@ const initState: State = {
     total_count: 0,
     total_pate: 0,
 };
-const dummyState: State = {
-    user_list: [
-        {
-            user_id: "1",
-            name: "name1",
-            duty: "duty",
-            first_division: "first_division",
-            second_division: "second_division",
-            phone_num: "010-9011-7518",
-        },
-        {
-            user_id: "2",
-            name: "name1",
-            duty: "duty",
-            first_division: "first_division",
-            second_division: "second_division",
-            phone_num: "010-9011-7518",
-        },
-        {
-            user_id: "3",
-            name: "name1",
-            duty: "duty",
-            first_division: "first_division",
-            second_division: "second_division",
-            phone_num: "010-9011-7518",
-        },
-        {
-            user_id: "4",
-            name: "name1",
-            duty: "duty",
-            first_division: "first_division",
-            second_division: "second_division",
-            phone_num: "010-9011-7518",
-        },
-        {
-            user_id: "5",
-            name: "name1",
-            duty: "duty",
-            first_division: "first_division",
-            second_division: "second_division",
-            phone_num: "010-9011-7518",
-        },
-        {
-            user_id: "6",
-            name: "name1",
-            duty: "duty",
-            first_division: "first_division",
-            second_division: "second_division",
-            phone_num: "010-9011-7518",
-        },
-        {
-            user_id: "7",
-            name: "name1",
-            duty: "duty",
-            first_division: "first_division",
-            second_division: "second_division",
-            phone_num: "010-9011-7518",
-        },
-    ],
-    total_count: 7,
-    total_pate: 0,
-};
+
 const MemberManageList = () => {
     const pageState = useListCommonStore();
     const { clientSideApi } = useAuthStore();
@@ -108,7 +47,6 @@ const MemberManageList = () => {
         } else {
             alert(res.msg);
         }
-        // setData(dummyState);
     };
 
     useEffect(() => {
@@ -123,19 +61,35 @@ const MemberManageList = () => {
                 "해당유저의 PW를 초기화 하시겠습니까?\n초기화된 비밀번호는 해당유저가 등록한 핸드폰번호로 발송됩니다."
             )
         ) {
-            alert("TODO");
+            console.log(user_id);
+            const res = await clientSideApi("PUT", "MAIN", "ADMIN_RESET_PW", {
+                user_id: user_id,
+            });
+            if (res.result === "SUCCESS") {
+                alert("성공적으로 비밀번호를 초기화하였습니다");
+            } else {
+                alert(res.msg);
+            }
         }
     };
     const callDeleteUser = async (user_id: string) => {
         if (
             window.confirm("해당 유저를 정말 삭제하시겠습니까?\n유저 삭제시 해당 유저의 모든 데이터는 즉시 소멸됩니다")
         ) {
-            alert("TODO");
-            setData({
-                ...data,
-                user_list: [],
+            const res = await clientSideApi("DELETE", "MAIN", "ADMIN_DELETE_USER", {
+                user_id: user_id,
             });
-            getData();
+            if (res.result === "SUCCESS") {
+                alert("해당 회원을 성공적으로 탈퇴시켰습니다");
+
+                setData({
+                    ...data,
+                    user_list: [],
+                });
+                getData();
+            } else {
+                alert(res.msg);
+            }
         }
     };
 
@@ -185,7 +139,7 @@ const MemberManageList = () => {
                                     fontSize={"smaller"}
                                     content={"PW전송"}
                                     color={"white"}
-                                    onClick={() => callPwSend(it.user_id)}
+                                    onClick={() => callPwSend(it.id)}
                                 />
                                 <Button
                                     className={`${style.control_btn}`}
@@ -194,7 +148,7 @@ const MemberManageList = () => {
                                     fontSize={"smaller"}
                                     content={"삭제"}
                                     color={"white"}
-                                    onClick={() => callDeleteUser(it.user_id)}
+                                    onClick={() => callDeleteUser(it.id)}
                                 />
                             </div>
                         </TableRow>
