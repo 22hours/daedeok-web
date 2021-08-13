@@ -38,7 +38,7 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `QNA_FIND`:
             return `qna/`;
         case `QNA_FIND_DETAIL`:
-            return `qna/`;
+            return `qna/${url_query.article_id}`;
         case `QNA_NEW`:
             return `qna/`;
         case `QNA_EDIT`:
