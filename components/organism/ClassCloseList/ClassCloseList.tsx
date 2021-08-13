@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
 import style from "./ClassCloseList.module.scss";
-
+import Select from "@ui/input/Select";
 import ClassCategorySelect from "components/molecule/ClassCategorySelect/ClassCategorySelect";
 import SearchBar from "@ui/input/SearchBar";
 import TableWrapper from "@ui/board/TableWrapper";
 import Pagination from "@ui/pagination/Pagination";
 import TableRow from "@ui/board/TableRow";
 import DateController from "lib/client/dateController";
+import useClassCategory from "lib/hooks/useClassCategory";
 type State = {
     total_count: number;
     total_page: number;
@@ -28,6 +29,24 @@ const initState: State = {
     total_count: 0,
     total_page: 0,
     lecture_list: [],
+};
+
+const BoardSelect = () => {
+    const { state, changeCategory } = useListCommonStore();
+    const { categoryOptionList } = useClassCategory();
+
+    return (
+        <Select
+            value={state.category || "ALL"}
+            onChange={(e) => {
+                changeCategory(e.target.value);
+            }}
+            form="box"
+            placeholder={"카테고리별 보기"}
+            option_list={[{ name: "전체", value: "ALL" }].concat(categoryOptionList || [])}
+            className={style.select}
+        />
+    );
 };
 
 const ClassCloseList = () => {
@@ -59,7 +78,7 @@ const ClassCloseList = () => {
     return (
         <div className={style.container}>
             <div className={style.head}>
-                <ClassCategorySelect category={pageState.state.category} changeCategory={pageState.changeCategory} />
+                <BoardSelect />
                 <div></div>
                 <SearchBar
                     className={style.search}

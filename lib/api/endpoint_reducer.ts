@@ -80,8 +80,10 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `TUTOR_NOTICE_DELETE_COMMENT`:
             return `notice/tutor/comment/${url_query}`;
         // CATEGORY
-        case `CATEGORY_FIND`:
-            return `category`;
+        case `CATEGORY_FIND_ALL`:
+            return `category/all`;
+        case `CATEGORY_DETAIL_FIND`:
+            return `category/${url_query.category_id}`;
         case `CATEGORY_NEW`:
             return `category/`;
         case `CATEGORY_DELETE`:
@@ -131,7 +133,7 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case "LECTURE_FIND_PLAN_DETAIL":
             return `lecture/plan/${url_query.episode_id}/user`;
         case "LECTURE_PLAN_USER_ATTENDANCE":
-            return `lecture/plan/${url_query.episode_id}/user`;
+            return `lecture/plan/${url_query.plan_id}/user`;
         // >>> ONLINE
         case "LECTURE_ONLINE_DETAIL":
             return `lecture/plan/${url_query.episode_id}/online`;

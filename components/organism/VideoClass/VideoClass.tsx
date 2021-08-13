@@ -68,8 +68,6 @@ const VideoClass = () => {
         // @ts-ignore
         const video_url: string = state.link.split("/").pop();
 
-        console.log();
-
         const goListLink = router.asPath.split("/").slice(0, -2).join("/");
         return (
             <div className={style.container}>
@@ -95,7 +93,7 @@ const VideoClass = () => {
 
                 <div className={style.table}>
                     <TableWrapper>
-                        <TableRow title={"4주차"} studentName={"4강, 5강"} />
+                        <TableRow week={"4주차"} weekTitle={state.title} />
                     </TableWrapper>
                 </div>
 

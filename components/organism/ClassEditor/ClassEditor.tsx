@@ -14,6 +14,7 @@ import { useAuthStore } from "store/AuthStore";
 import ListController from "lib/client/listController";
 import { useRouter } from "next/router";
 import { useClassDetailStore } from "store/ClassDetailStore";
+import useClassCategory from "lib/hooks/useClassCategory";
 
 type Props = {
     data?: class_types.ClassInfo;
@@ -323,6 +324,8 @@ const ClassEditor = (props: Props) => {
     const router = useRouter();
     const { status, class_id } = router.query;
 
+    const option_list = useClassCategory();
+
     useEffect(() => {
         if (props.type === "EDIT" && props.data) {
             dispatch({ type: "SET_INIT_STATE", data: props.data });
@@ -334,28 +337,34 @@ const ClassEditor = (props: Props) => {
 
     const titleChange = useCallback((e) => dispatch({ type: "SET_TITLE", data: e.target.value }), [state.title]);
     const contentChange = useCallback((e) => dispatch({ type: "SET_CONTENT", data: e.target.value }), [state.content]);
-    const referenceChange = useCallback((e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }), [
-        state.reference,
-    ]);
-    const categoryChange = useCallback((e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }), [
-        state.category,
-    ]);
+    const referenceChange = useCallback(
+        (e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }),
+        [state.reference]
+    );
+    const categoryChange = useCallback(
+        (e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }),
+        [state.category]
+    );
     const addDivisionItem = useCallback(
         (division: class_types.Division) => dispatch({ type: "ADD_DIVISION", data: division }),
         [state.division_list]
     );
-    const removeDivisionItem = useCallback((idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }), [
-        state.division_list,
-    ]);
-    const studentLimitChange = useCallback((value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }), [
-        state.student_limit,
-    ]);
-    const addHandoutItem = useCallback((item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }), [
-        state.handout_list,
-    ]);
-    const removeHandoutItem = useCallback((idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }), [
-        state.handout_list,
-    ]);
+    const removeDivisionItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }),
+        [state.division_list]
+    );
+    const studentLimitChange = useCallback(
+        (value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }),
+        [state.student_limit]
+    );
+    const addHandoutItem = useCallback(
+        (item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }),
+        [state.handout_list]
+    );
+    const removeHandoutItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }),
+        [state.handout_list]
+    );
 
     const addPlanItem = useCallback(
         (planType: class_types.PlanType) => dispatch({ type: "ADD_PLAN", data: planType }),
@@ -388,9 +397,10 @@ const ClassEditor = (props: Props) => {
         [state.plan_list]
     );
 
-    const removePlanItem = useCallback((idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }), [
-        state.plan_list,
-    ]);
+    const removePlanItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }),
+        [state.plan_list]
+    );
 
     //강의종료
     const handleFinish = async () => {
@@ -413,7 +423,7 @@ const ClassEditor = (props: Props) => {
         const flag = confirm("정말 삭제하시겠습니까?");
         if (flag) {
             const res = await clientSideApi("DELETE", "MAIN", "LECTURE_DELETE", { lecture_id: class_id }, undefined);
-            console.log(res);
+
             if (res.result === "SUCCESS") {
                 alert("삭제되었습니다.");
                 location.replace("/class");
@@ -432,7 +442,6 @@ const ClassEditor = (props: Props) => {
                     // NO REMAIN
                     const second_division_list: any[] = [];
                     second_division_list.push(item.second_division);
-                    console.log(second_division_list);
                     reqDivisionList.push({
                         first_division: item.first_division,
                         second_division: second_division_list,
@@ -528,7 +537,8 @@ const ClassEditor = (props: Props) => {
                 placeholder={"카테고리 입력"}
                 value={state.category}
                 onChange={categoryChange}
-                option_list={[]}
+                //@ts-ignore
+                option_list={option_list.categoryOptionList || []}
             />
             <DivisionInput
                 divisionList={state.division_list}

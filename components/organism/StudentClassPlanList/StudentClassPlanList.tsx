@@ -9,12 +9,47 @@ import { nanoid } from "nanoid";
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
 
-const ClassTypeBtn = ({ type, idx, classId, link }) => {
+const ClassTypeBtn = ({ type, idx, classId, link, isAttendance, setIsAttendance }) => {
+    const { clientSideApi, auth } = useAuthStore();
+
+    const planUserAttendance = async () => {
+        setIsAttendance(false);
+        const res = await clientSideApi(
+            "POST",
+            "MAIN",
+            "LECTURE_PLAN_USER_ATTENDANCE",
+            {
+                plan_id: idx,
+            },
+            { user_id: auth?.user_id }
+        );
+        if (res.result === "SUCCESS") {
+            setIsAttendance(true);
+        } else {
+            setIsAttendance(false);
+        }
+    };
+
     switch (type) {
         case "ZOOM":
             return (
-                <Link href={link} passHref>
-                    <a target="_blank">
+                <>
+                    {isAttendance ? (
+                        <Link href={link} passHref>
+                            <a target="_blank">
+                                <Button
+                                    content={"ZOOM"}
+                                    backgroundColor="red_accent"
+                                    fontSize="smaller"
+                                    color="white"
+                                    alignment="center"
+                                    size="small"
+                                    line="inline"
+                                    type="SQUARE"
+                                />
+                            </a>
+                        </Link>
+                    ) : (
                         <Button
                             content={"ZOOM"}
                             backgroundColor="red_accent"
@@ -24,9 +59,10 @@ const ClassTypeBtn = ({ type, idx, classId, link }) => {
                             size="small"
                             line="inline"
                             type="SQUARE"
+                            onClick={planUserAttendance}
                         />
-                    </a>
-                </Link>
+                    )}
+                </>
             );
         case "ONLINE":
             return (
@@ -66,6 +102,7 @@ const StudentClassPlanList = () => {
     >([]);
     const { clientSideApi } = useAuthStore();
     const lectureId = useClassDetailStore();
+    const [isAttendance, setIsAttendance] = useState<boolean>(false);
 
     useEffect(() => {
         if (lectureId.class_id) {
@@ -95,6 +132,8 @@ const StudentClassPlanList = () => {
                         <TableRow week={it.week + "주차"} weekTitle={it.title}>
                             <div style={{ width: "90px", marginRight: "20px" }}>
                                 <ClassTypeBtn
+                                    isAttendance={isAttendance}
+                                    setIsAttendance={setIsAttendance}
                                     type={it.type}
                                     idx={it.id}
                                     classId={lectureId.class_id}

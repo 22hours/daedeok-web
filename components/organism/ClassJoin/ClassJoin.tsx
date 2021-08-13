@@ -13,6 +13,7 @@ import Select from "@ui/input/Select";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
+import useClassCategory from "lib/hooks/useClassCategory";
 
 type State = res_types.classPossibleList;
 
@@ -73,28 +74,8 @@ const JoinButton = ({ state, idx, handleClassJoin }) => {
 
 const ClassJoinSelect = () => {
     const [optionList, setOptionList] = useState<{ name: string; value: string }[]>([]);
-    const { clientSideApi } = useAuthStore();
     const { state, changeCategory } = useListCommonStore();
-
-    const getOptionListData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "CATEGORY_FIND", undefined, {
-            page: 0,
-            required_count: 100000,
-        });
-        if (res.result === "SUCCESS") {
-            // setOptionList(res.data.category_list);
-            setOptionList([
-                { name: "유아부", value: "유아부" },
-                { name: "교육부", value: "교육부" },
-            ]);
-        } else {
-            alert(res.msg);
-        }
-    };
-
-    useEffect(() => {
-        getOptionListData();
-    }, []);
+    const { categoryOptionList } = useClassCategory();
 
     return (
         <Select
@@ -104,7 +85,7 @@ const ClassJoinSelect = () => {
             }}
             form="box"
             placeholder={"카테고리별 보기"}
-            option_list={[{ name: "전체", value: "ALL" }].concat(optionList)}
+            option_list={[{ name: "전체", value: "ALL" }].concat(categoryOptionList || [])}
             className={style.select}
         />
     );

@@ -83,6 +83,10 @@ const ClassBoardEditor = (props: Props) => {
         }
     };
 
+    const handleGoBack = () => {
+        router.push(`/class/open/${classDetailState.class_id}/board`);
+    };
+
     return (
         <div className={style.container}>
             <div className={style.head}>
@@ -115,6 +119,7 @@ const ClassBoardEditor = (props: Props) => {
                     size={"small"}
                     fontSize={"smaller"}
                     content={"취소"}
+                    onClick={handleGoBack}
                 />
                 <Button
                     className={`${style.submit_btn} ${style.footer_btn}`}

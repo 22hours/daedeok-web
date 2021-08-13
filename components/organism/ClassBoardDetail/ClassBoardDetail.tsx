@@ -182,7 +182,13 @@ const ClassBoardDetail = ({ contentId }) => {
     const deleteComment = async (comment_id: string, parent_id?: string) => {
         const flag = confirm("삭제하시겠습니까?");
         if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "TUTOR_NOTICE_DELETE_COMMENT", comment_id, undefined);
+            const res = await clientSideApi(
+                "DELETE",
+                "MAIN",
+                "LECTURE_BOARD_DELETE_COMMENT",
+                { comment_id: comment_id },
+                undefined
+            );
             if (res.result === "SUCCESS") {
                 if (parent_id) {
                     // 대댓일때
@@ -228,18 +234,38 @@ const ClassBoardDetail = ({ contentId }) => {
         return (
             <div className={style.tutor_notice_detail}>
                 <div className={style.header_title}>
-                    <Typo
-                        //@ts-ignore
-                        content={boardDetailData?.title}
-                        type="TEXT"
-                        size="large"
-                    />
-                    <Typo
-                        type="TEXT"
-                        color={"gray_accent"}
-                        size="small"
-                        content={DateController.getFormatedDate("YYYY/MM/DD", boardDetailData?.create_date)}
-                    />
+                    <div>
+                        <Typo
+                            //@ts-ignore
+                            content={boardDetailData?.title}
+                            type="TEXT"
+                            size="large"
+                            className={style.header_margin}
+                        />
+                        <Typo content={`/ ${boardDetailData?.category}`} type="TEXT" size="small" color="gray_accent" />
+                    </div>
+                    <div>
+                        <Typo
+                            type="TEXT"
+                            className={style.header_margin}
+                            color={"gray_accent"}
+                            size="small"
+                            content={boardDetailData.author}
+                        />
+                        <Typo
+                            type="TEXT"
+                            color={"gray_accent"}
+                            size="small"
+                            className={style.header_margin}
+                            content={DateController.getFormatedDate("YYYY/MM/DD", boardDetailData?.create_date)}
+                        />
+                        <Typo
+                            type="TEXT"
+                            color={"gray_accent"}
+                            size="small"
+                            content={`조회수 ${boardDetailData.view}`}
+                        />
+                    </div>
                 </div>
                 <div className={style.content}>
                     <TextViewer
@@ -263,6 +289,8 @@ const ClassBoardDetail = ({ contentId }) => {
                                     icon={true}
                                     iconType={"after"}
                                     title={boardDetailData.after?.title}
+                                    category={boardDetailData.after?.category}
+                                    author={boardDetailData.after?.author}
                                     date={DateController.getFormatedDate(
                                         "YYYY-MM-DD",
                                         boardDetailData.after?.create_date
@@ -276,6 +304,8 @@ const ClassBoardDetail = ({ contentId }) => {
                                     icon={true}
                                     iconType={"before"}
                                     title={boardDetailData.before?.title}
+                                    category={boardDetailData.after?.category}
+                                    author={boardDetailData.after?.author}
                                     date={DateController.getFormatedDate(
                                         "YYYY-MM-DD",
                                         boardDetailData.before?.create_date

@@ -52,29 +52,6 @@ const HandoutSection = ({ handout_list }: { handout_list: State["handout_list"] 
     );
 };
 
-const dummyHandout = [
-    {
-        id: 3,
-        name: "aaaa.png",
-        url: "https://daedeok.s3.ap-northeast-2.amazonaws.com/handout/J1yfes7Hwnyysi1eCqkv.png",
-    },
-    {
-        id: 3,
-        name: "aaaa.png",
-        url: "https://daedeok.s3.ap-northeast-2.amazonaws.com/handout/J1yfes7Hwnyysi1eCqkv.png",
-    },
-    {
-        id: 3,
-        name: "aaaa.png",
-        url: "https://daedeok.s3.ap-northeast-2.amazonaws.com/handout/J1yfes7Hwnyysi1eCqkv.png",
-    },
-    {
-        id: 3,
-        name: "aaaa.png",
-        url: "https://daedeok.s3.ap-northeast-2.amazonaws.com/handout/J1yfes7Hwnyysi1eCqkv.png",
-    },
-];
-
 type LecturePlanItem = {
     id: string;
     week: string;
@@ -85,6 +62,7 @@ type LecturePlanItem = {
 };
 
 const LecturePlanItem = (props: LecturePlanItem) => {
+    console.log(props);
     return (
         <TableRow
             week={props.week + "주차"}

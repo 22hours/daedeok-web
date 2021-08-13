@@ -18,7 +18,7 @@ const ClassCategorySelect = (props: Props) => {
             }}
             form={props.form || "box"}
             placeholder={"카테고리별 보기"}
-            option_list={[{ name: "전체", value: "ALL" }].concat(categoryOptionState.categoryOptionList)}
+            option_list={categoryOptionState.categoryOptionList}
             className={`${props.className || ""} ${style.select}`}
         />
     );
