@@ -1,4 +1,4 @@
-import LectureClose from "components/organism/LectureClose/LectureClose";
+import LectureList from "components/organism/LectureList/LectureList";
 import { ListCommonProvider } from "store/ListCommonStore";
 
 const StatusLectureList = (props) => {
@@ -11,12 +11,17 @@ const StatusLectureList = (props) => {
             return (
                 <div>
                     <ListCommonProvider>
-                        <LectureClose />
+                        <LectureList status={"FINISH"} />
                     </ListCommonProvider>
                 </div>
             );
         }
         case "open": {
+            return (
+                <ListCommonProvider>
+                    <LectureList status={"OPEN"} />
+                </ListCommonProvider>
+            );
         }
         default:
             return <div>{"ERROR"}</div>;

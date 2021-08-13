@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { res_types } from "@global_types";
-import style from "./LectureClose.module.scss";
+import style from "./LectureList.module.scss";
 
 //component
 import TableRow from "@ui/board/TableRow";
@@ -15,6 +15,7 @@ import Typo from "@ui/Typo";
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
 import useClassCategory from "lib/hooks/useClassCategory";
+import { useRouter } from "next/router";
 
 type State = res_types.classCompleteList;
 
@@ -45,6 +46,8 @@ const LectuerCloseCategory = () => {
 };
 
 const LectureCloseList = (props: { lecture_list: any }) => {
+    const router = useRouter();
+    const { status } = router.query;
     return (
         <TableWrapper>
             {props.lecture_list?.map((it, idx) => (
@@ -54,7 +57,7 @@ const LectureCloseList = (props: { lecture_list: any }) => {
                         title={it.title}
                         category={it.category}
                         date={UseDate("YYYY-MM-DD", it.start_date) + "~" + UseDate("YYYY-MM-DD", it.end_date)}
-                        href={`/lecture/close/detail/${it.id}`}
+                        href={`/lecture/${status}/detail/${it.id}`}
                     ></TableRow>
                 </div>
             ))}
@@ -62,7 +65,11 @@ const LectureCloseList = (props: { lecture_list: any }) => {
     );
 };
 
-const LectureClose = () => {
+type Props = {
+    status: "FINISH" | "OPEN";
+};
+
+const LectureList = ({ status }: Props) => {
     const { clientSideApi } = useAuthStore();
     const { state, changePage, changeKeyword } = useListCommonStore();
 
@@ -74,7 +81,7 @@ const LectureClose = () => {
         if (state.isLoadEnd) {
             const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND", undefined, {
                 category: state.category === "ALL" ? undefined : state.category,
-                status: "FINISH",
+                status: status,
                 keyword: state.keyword,
                 page: parseInt(state.page) - 1,
                 required_count: 7,
@@ -100,7 +107,7 @@ const LectureClose = () => {
     return (
         <div>
             <div className={style.header_title}>
-                <Typo type="HEADER" size="h3" content={"종료된 강의"} />
+                <Typo type="HEADER" size="h3" content={status === "OPEN" ? "현재 진행중인 강의" : "종료된 강의"} />
             </div>
             <div className={style.top_form}>
                 <LectuerCloseCategory />
@@ -125,4 +132,4 @@ const LectureClose = () => {
     );
 };
 
-export default LectureClose;
+export default LectureList;
