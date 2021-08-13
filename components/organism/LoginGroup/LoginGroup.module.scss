@@ -1,0 +1,27 @@
+// LoginGroup.module
+@import "styles/meta.scss";
+
+.container {
+    margin-bottom: 100px;
+    .form_container {
+        margin-bottom: 30px;
+        .form {
+            margin-bottom: 8px;
+        }
+    }
+    .control_row {
+        .btn {
+            margin-bottom: 10px;
+            height: 35px;
+        }
+    }
+    .divider {
+        border: 1px solid $gray_form;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    .label_row {
+        margin-top: 40px;
+        text-align: center;
+    }
+}

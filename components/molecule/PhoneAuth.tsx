@@ -9,7 +9,6 @@ import Button from "@ui/buttons/Button";
 import Typo from "@ui/Typo";
 import TextInput from "@ui/input/TextInput";
 import { CircularProgress } from "@material-ui/core";
-import useInput from "lib/hooks/useInput";
 import { useAuthStore } from "store/AuthStore";
 
 type Props = {
