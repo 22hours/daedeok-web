@@ -1,15 +1,28 @@
 @import "styles/meta.scss";
 
 .board_list {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-bottom: 0.5px $gray_accent solid;
+    @include desktop {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-bottom: 0.5px $gray_accent solid;
+    }
+    @include mobile {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-bottom: 0.5px $gray_accent solid;
+    }
 }
 .icon_item {
     color: $gray_accent;
@@ -30,13 +43,26 @@
     cursor: pointer;
 }
 .board_item {
-    margin-right: 20px;
-    text-align: center;
+    @include desktop {
+        margin-right: 20px;
+        text-align: center;
+    }
+    @include mobile {
+        margin-right: 10px;
+        text-align: center;
+    }
 }
 .category_item {
-    margin-right: 20px;
-    text-align: center;
-    min-width: 45px;
+    @include desktop {
+        margin-right: 20px;
+        text-align: center;
+        min-width: 45px;
+    }
+    @include mobile {
+        margin-right: 10px;
+        text-align: center;
+        min-width: 25px;
+    }
 
     span {
         width: 100%;
@@ -47,19 +73,64 @@
     width: 70px;
 }
 .idx_item {
-    margin-right: 50px;
+    @include desktop {
+        margin-right: 50px;
+    }
+    @include mobile {
+        margin-right: 10px;
+    }
 }
 
 .title_item {
-    width: 300px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    @include desktop {
+        width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    @include mobile {
+        width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
-.student_info_item {
-    margin-right: 10px;
+.week_item {
+    @include desktop {
+        margin-right: 50px;
+    }
+    @include mobile {
+        margin-right: 8px;
+    }
+}
+.week_title_item {
+    @include desktop {
+        width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    @include mobile {
+        width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
 
+.student_info_item {
+    @include desktop {
+        margin-right: 10px;
+    }
+    @include mobile {
+        margin-right: 5px;
+    }
+}
+@include mobile {
+    .mobile_text {
+        font-size: 12px;
+    }
+}
 .child_wrapper {
     display: grid;
 }
@@ -76,12 +147,23 @@
     border-bottom: 0.5px $gray_accent solid;
 }
 .link_board_list {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
+    @include desktop {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    @include mobile {
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 }
