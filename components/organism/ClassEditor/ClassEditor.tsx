@@ -464,7 +464,7 @@ const ClassEditor = (props: Props) => {
             });
             if (res.result === "SUCCESS") {
                 alert("강의 개설에 성공하였습니다");
-                location.replace("/class");
+                location.replace(`/class/open/${res.data}/board`);
             } else {
                 alert(res.msg);
             }
@@ -501,6 +501,7 @@ const ClassEditor = (props: Props) => {
             );
             if (res.result === "SUCCESS") {
                 alert("수정되었습니다.");
+                location.replace(`/class/${status}/${class_id}/board`);
             } else {
                 alert("다시 시도해주세요.");
             }
