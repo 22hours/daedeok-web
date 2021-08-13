@@ -27,13 +27,13 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `FAQ_FIND`:
             return `faq/`;
         case `FAQ_FIND_DETAIL`:
-            return `faq/`;
+            return `faq/${url_query.article_id}`;
         case `FAQ_NEW`:
             return `faq/`;
         case `FAQ_EDIT`:
-            return `faq/`;
+            return `faq/${url_query.article_id}`;
         case `FAQ_DELETE`:
-            return `faq/`;
+            return `faq/${url_query.article_id}`;
         // QNA
         case `QNA_FIND`:
             return `qna/`;
