@@ -12,6 +12,7 @@ import Footer from "components/organism/Footer/Footer";
 // PAGE STROES
 import { ClassStoreProvider } from "store/ClassStore";
 import { AdminStoreProvider } from "store/AdminStore";
+import MainCarousel from "components/molecule/MainCarousel/MainCarousel";
 
 type DetailPageProps = {
     children: JSX.Element | JSX.Element[];
@@ -39,8 +40,9 @@ type Props = {
     children: JSX.Element | JSX.Element[];
     isBannerHide?: boolean;
     isMenuHide?: boolean;
+    isIndex?: boolean;
 };
-const GlobalLayout = ({ children, isBannerHide, isMenuHide }: Props) => {
+const GlobalLayout = ({ children, isBannerHide, isMenuHide, isIndex }: Props) => {
     return (
         <div className={style.container}>
             {/* STRIPE */}
@@ -61,6 +63,12 @@ const GlobalLayout = ({ children, isBannerHide, isMenuHide }: Props) => {
                     </div>
                 )}
             </div>
+
+            {isIndex && (
+                <div className={style.carousel}>
+                    <MainCarousel />
+                </div>
+            )}
 
             {/* BANNER */}
             {!isBannerHide && (

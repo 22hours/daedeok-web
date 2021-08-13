@@ -2,11 +2,12 @@
 @import "styles/meta.scss";
 
 .container {
+    height: inherit;
     background-color: white;
     padding-top: 25px;
     padding-bottom: 25px;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
     .user {
         font-weight: bolder;
     }
@@ -19,5 +20,43 @@
     }
     .bottom {
         margin-top: 12px;
+    }
+}
+
+.not_login_container {
+    height: inherit;
+    background-color: white;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+
+    .head {
+        .login_text {
+            font-weight: bold;
+        }
+        margin-bottom: 10px;
+    }
+    .login_row {
+        display: flex;
+        justify-content: space-between;
+        .input_col {
+            margin-right: 5px;
+            flex-grow: 1;
+            display: grid;
+            gap: 5px;
+        }
+    }
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        .link_col {
+            display: flex;
+            .link_text {
+                margin-left: 10px;
+                cursor: pointer;
+            }
+        }
     }
 }
