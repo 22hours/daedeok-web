@@ -1,3 +1,5 @@
+import PageHeader from "@ui/PageHeader";
+import AdminManageDivision from "components/organism/AdminManageDivision/AdminManageDivision";
 import { SecureRoute } from "lib/server/accessController";
 
 type Props = {};
@@ -5,7 +7,8 @@ type Props = {};
 const Divsion = () => {
     return (
         <div>
-            <h2>global-notice</h2>
+            <PageHeader title={"소속관리"} />
+            <AdminManageDivision />
         </div>
     );
 };
