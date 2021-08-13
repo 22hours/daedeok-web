@@ -5,12 +5,36 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
 import style from "./AdminSidebar.module.scss";
+import Drawer from "@ui/drawer";
+import useBoolean from "lib/hooks/useBoolean";
+import MenuIcon from "@material-ui/icons/Menu";
 
 const PcSidebar = ({ children }) => {
     return <div>{children}</div>;
 };
+
 const MobileSidebar = ({ children }) => {
-    return <div>{children}</div>;
+    const drawer = useBoolean(true);
+    // @ts-ignore
+    const toggleDrawer = () => drawer.onChange();
+
+    const DrawerInner = () => {
+        return <div className={style.inner_container}>{children}</div>;
+    };
+    return (
+        <Drawer
+            isOpen={drawer.value}
+            toggleDrawer={toggleDrawer}
+            drawerAnchor={"left"}
+            drawerButtonChildren={
+                <div className={style.mobile_side_bar_container}>
+                    <MenuIcon />
+                    <Typo type={"TEXT"} size={"medium"} content={"관리자 상세 메뉴"} />
+                </div>
+            }
+            drawerInnerChildren={<DrawerInner />}
+        />
+    );
 };
 
 type MenuItemType = {
@@ -20,7 +44,7 @@ type MenuItemType = {
 const MenuItem = (props: MenuItemType) => {
     return (
         <div className={style.section_menu}>
-            <Link href={props.link}>
+            <Link href={props.link} passHref>
                 <Button
                     type={"UNDERLINE"}
                     size={"medium"}

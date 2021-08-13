@@ -1,3 +1,5 @@
+import { SecureRoute } from "lib/server/accessController";
+
 type Props = {};
 
 const TutorNotice = () => {
@@ -7,5 +9,7 @@ const TutorNotice = () => {
         </div>
     );
 };
-
+export async function getServerSideProps(ctx) {
+    return SecureRoute(ctx, "ROLE_ADMIN");
+}
 export default TutorNotice;

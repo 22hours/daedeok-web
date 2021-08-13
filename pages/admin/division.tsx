@@ -1,3 +1,5 @@
+import { SecureRoute } from "lib/server/accessController";
+
 type Props = {};
 
 const Divsion = () => {
@@ -7,5 +9,7 @@ const Divsion = () => {
         </div>
     );
 };
-
+export async function getServerSideProps(ctx) {
+    return SecureRoute(ctx, "ROLE_ADMIN");
+}
 export default Divsion;

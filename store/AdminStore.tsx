@@ -1,5 +1,7 @@
 import AdminLayout from "components/layout/AdminLayout";
+import { useRouter } from "next/router";
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
+import { useAuthStore } from "./AuthStore";
 
 // ELEMENT TYPES
 
@@ -18,12 +20,19 @@ const reducer = (state: State, action: Action): State => {
 };
 
 export const AdminStoreProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, {});
+    const router = useRouter();
+    const { auth } = useAuthStore();
+
     useEffect(() => {
-        console.log("REDNER");
-    });
+        if (auth) {
+            if (auth.role !== "ROLE_ADMIN") {
+                router.replace("/class");
+            }
+        }
+    }, [auth]);
+
     return (
-        <AdminStoreContext.Provider value={state}>
+        <AdminStoreContext.Provider value={null}>
             <AdminLayout>{children}</AdminLayout>
         </AdminStoreContext.Provider>
     );

@@ -1,3 +1,4 @@
+import { SecureRoute } from "lib/server/accessController";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
@@ -21,5 +22,7 @@ const Index = () => {
 
     return <div>유효성을 검증하고 있습니다...</div>;
 };
-
+export async function getServerSideProps(ctx) {
+    return SecureRoute(ctx, "ROLE_ADMIN");
+}
 export default Index;
