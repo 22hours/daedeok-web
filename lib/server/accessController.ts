@@ -9,7 +9,7 @@ const isAccess = (cookieRole, accessAbleRole) => {
             case "ROLE_MEMBER":
             case "ROLE_TUTOR":
             case "ROLE_ADMIN":
-                return cookieRole === accessAbleRole;
+                return cookieRole === accessAbleRole || cookieRole === "ROLE_ADMIN";
             default:
                 return true;
         }

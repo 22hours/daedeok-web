@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import cookies from "next-cookies";
+import { SecureRoute } from "lib/server/accessController";
 
 type Props = {};
 
@@ -17,7 +19,7 @@ const TutorNoticeEditor = dynamic(() => import("components/organism/TutorNoticeE
 const NoticeEdit = () => {
     const router = useRouter();
     const { notice_id } = router.query;
-    const { clientSideApi } = useAuthStore();
+    const { auth, clientSideApi } = useAuthStore();
     const [originData, setOriginData] = useState<State | null>(null);
 
     const getOriginData = async () => {
@@ -33,8 +35,10 @@ const NoticeEdit = () => {
     };
 
     useEffect(() => {
-        getOriginData();
-    }, []);
+        if (auth) {
+            getOriginData();
+        }
+    }, [auth]);
     if (!originData) {
         return <div>NOW LOADING</div>;
     } else {
@@ -47,8 +51,17 @@ const NoticeEdit = () => {
 };
 
 export async function getServerSideProps(ctx) {
-    return {
-        props: {},
-    };
+    const { notice_id } = ctx.query;
+    const { role } = cookies(ctx);
+    if (role === "ROLE_ADMIN") {
+        return {
+            redirect: {
+                destination: `/admin/tutor-notice/edit/${notice_id}`,
+                permanent: false,
+            },
+        };
+    }
+    return SecureRoute(ctx, "ROLE_TUTOR");
 }
+
 export default NoticeEdit;

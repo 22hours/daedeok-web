@@ -16,23 +16,28 @@ import DateController from "lib/client/dateController";
 //store
 import { useAuthStore } from "store/AuthStore";
 import CommentList from "../CommentList/CommentList";
+import { useRouter } from "next/router";
 
 const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
 type State = res_types.tutorNoticeDetail;
 
-const TutorNoticeDetail = ({ noticeId }) => {
+const TutorNoticeDetail = () => {
+    const router = useRouter();
+    const { notice_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
     const [noticeDetailData, setNoticeDetailData] = useState<State | null>(null);
 
     useEffect(() => {
-        getTutorNotieDetail();
-    }, [noticeId]);
+        if (notice_id) {
+            getTutorNotieDetail();
+        }
+    }, [notice_id]);
 
     //공지사항 상세 data
     const getTutorNotieDetail = async () => {
         const res = await clientSideApi("GET", "MAIN", "TUTOR_NOTICE_FIND_DETAIL", {
-            notice_id: noticeId,
+            notice_id: notice_id,
         });
         if (res.result === "SUCCESS") {
             const data: State = res.data;
@@ -44,7 +49,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
     const handleDelete = async () => {
         const flag = confirm("삭제하시겠습니까?");
         if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "TUTOR_NOTICE_DELETE", noticeId);
+            const res = await clientSideApi("DELETE", "MAIN", "TUTOR_NOTICE_DELETE", notice_id);
             if (res.result === "SUCCESS") {
                 alert("삭제되었습니다.");
                 location.replace("/class/notice");
@@ -61,7 +66,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
                 "POST",
                 "MAIN",
                 "TUTOR_NOTICE_NEW_COMMENT",
-                { notice_id: noticeId },
+                { notice_id: notice_id },
                 {
                     content: content,
                     parent_id: parent_id,
@@ -74,8 +79,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
                 if (parent_id) {
                     // 대댓일때
                     if (noticeDetailData) {
-                        var newCommentList: res_types.tutorNoticeDetail["comment_list"] =
-                            noticeDetailData?.comment_list.slice();
+                        var newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         newCommentList[matchIdx].children.push({
                             id: new_comment_id,
@@ -96,8 +100,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
                 } else {
                     // 댓일때
                     if (noticeDetailData) {
-                        const newCommentList: res_types.tutorNoticeDetail["comment_list"] =
-                            noticeDetailData?.comment_list.slice();
+                        const newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
                         newCommentList.push({
                             id: new_comment_id,
                             // @ts-ignore
@@ -139,8 +142,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
             if (parent_id) {
                 // 대댓일때
                 if (noticeDetailData) {
-                    var newCommentList: res_types.tutorNoticeDetail["comment_list"] =
-                        noticeDetailData?.comment_list.slice();
+                    var newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
                     const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                     const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
                     newCommentList[matchIdx].children[childMatchIdx].content = content;
@@ -155,8 +157,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
             } else {
                 // 댓일때
                 if (noticeDetailData) {
-                    const newCommentList: res_types.tutorNoticeDetail["comment_list"] =
-                        noticeDetailData?.comment_list.slice();
+                    const newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
                     const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
                     newCommentList[matchIdx].content = content;
                     newCommentList[matchIdx].create_date = new Date().toString();
@@ -182,8 +183,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
                 if (parent_id) {
                     // 대댓일때
                     if (noticeDetailData) {
-                        var newCommentList: res_types.tutorNoticeDetail["comment_list"] =
-                            noticeDetailData?.comment_list.slice();
+                        var newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
                         newCommentList[matchIdx].children.splice(childMatchIdx, 1);
@@ -197,8 +197,7 @@ const TutorNoticeDetail = ({ noticeId }) => {
                 } else {
                     // 댓일때
                     if (noticeDetailData) {
-                        const newCommentList: res_types.tutorNoticeDetail["comment_list"] =
-                            noticeDetailData?.comment_list.slice();
+                        const newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
                         newCommentList.splice(matchIdx, 1);
                         setNoticeDetailData({
