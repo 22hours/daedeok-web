@@ -115,13 +115,13 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `LECTURE_BOARD_EDIT`:
             return `lecture/board/${url_query.content_id}`;
         case `LECTURE_BOARD_DELETE`:
-            return `lecture/${url_query.lecture_id}/board/${url_query.board_id}`;
+            return `lecture/board/${url_query.content_id}`;
         case `LECTURE_BOARD_NEW_COMMENT`:
-            return `lecture/${url_query.lecture_id}/board/${url_query.board_id}`;
+            return `lecture/board/${url_query.content_id}/comment`;
         case `LECTURE_BOARD_EDIT_COMMENT`:
-            return `lecture/${url_query.lecture_id}/board/${url_query.board_id}`;
+            return `lecture/board/comment/${url_query.comment_id}`;
         case `LECTURE_BOARD_DELETE_COMMENT`:
-            return `lecture/${url_query.lecture_id}/board/${url_query.board_id}`;
+            return `lecture/board/comment/${url_query.comment_id}`;
         // >>>
         case `LECTURE_DETAIL_HANDOUT`:
             return `lecture/${url_query.lecture_id}/info`;
