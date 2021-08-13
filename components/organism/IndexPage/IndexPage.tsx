@@ -160,22 +160,6 @@ const IndexPage = (props: Props) => {
                                                 </div>
                                             </Link>
                                         ))}
-                                        <div className={style.notice_list_item}>
-                                            <Typo
-                                                className={style.notice_list_item_title}
-                                                type={"TEXT"}
-                                                size={"small"}
-                                                content={"123"}
-                                                color={"gray_accent"}
-                                            />
-                                            <Typo
-                                                className={style.notice_list_item_title}
-                                                type={"TEXT"}
-                                                size={"small"}
-                                                content={DateController.getFormatedDate("YYYY/MM/DD", "123")}
-                                                color={"gray_accent"}
-                                            />
-                                        </div>
                                     </div>
                                 </div>
                                 <div className={style.user_box}>
