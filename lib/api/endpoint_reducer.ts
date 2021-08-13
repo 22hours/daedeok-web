@@ -177,11 +177,11 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `lecture/${url_query}`;
         // DIVISION
         case "FIND_DIVISION":
-            return `division/`;
+            return `division`;
         case "ADD_DIVISION":
-            return `division/`;
+            return `division`;
         case "DELETE_DIVISION":
-            return `division/`;
+            return `division`;
         // ADMIN
         case "ADMIN_FIND_USER":
             return "user/admin";

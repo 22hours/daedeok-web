@@ -106,7 +106,7 @@ const API_CALL = async (
         headers: axios_header,
     };
     if (data !== undefined) {
-        method === "GET" ? (axios_option.params = data) : (axios_option.data = data);
+        method === "GET" || method === "DELETE" ? (axios_option.params = data) : (axios_option.data = data);
     }
     // @ts-ignore
     return h22_axios(axios_option);
