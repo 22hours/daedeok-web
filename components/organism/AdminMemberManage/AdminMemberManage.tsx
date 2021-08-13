@@ -106,10 +106,9 @@ const MemberManageList = () => {
         if (res.result === "SUCCESS") {
             setData(res.data);
         } else {
-            // 현재 API 없음
-            // alert(res.msg);
+            alert(res.msg);
         }
-        setData(dummyState);
+        // setData(dummyState);
     };
 
     useEffect(() => {
@@ -147,7 +146,7 @@ const MemberManageList = () => {
                     className={style.label}
                     type={"TEXT"}
                     size={"normal"}
-                    content={`총 가입 : ${1}명`}
+                    content={`총 가입 : ${data.total_count}명`}
                     color={"gray_accent"}
                 />
                 <SearchBar
@@ -204,7 +203,7 @@ const MemberManageList = () => {
             </div>
             <div className={style.footer}>
                 <Pagination
-                    totalCount={30}
+                    totalCount={data.total_count}
                     handleChange={(page: number) => pageState.changePage((page + 1).toString())}
                     pageNum={pageState.state.page ? parseInt(pageState.state.page) - 1 : 0}
                     requiredCount={7}

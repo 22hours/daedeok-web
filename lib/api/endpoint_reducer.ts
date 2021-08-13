@@ -180,7 +180,7 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `division/`;
         // ADMIN
         case "ADMIN_FIND_USER":
-            return "admin/user";
+            return "user/admin";
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);
     }
