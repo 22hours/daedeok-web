@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from "react";
+import PageHeader from "@ui/PageHeader";
+import dynamic from "next/dynamic";
+
 type Props = {};
+const QnaEditor = dynamic(() => import("components/organism/QnaEditor/QnaEditor"), { ssr: false });
 
 const QNADetail = () => {
     return (
-        <div>
-            <h2>[...article_id]</h2>
-        </div>
+        <>
+            <PageHeader title={"질문과 답변"} />
+            <QnaEditor type={"EDIT"} />
+        </>
     );
 };
-
-export async function getStaticProps({ params }) {
-    return {
-        props: {
-            data: {},
-        },
-    };
-}
-
-export async function getStaticPaths() {
-    const paths = [];
-    return { paths, fallback: true };
-}
 
 export default QNADetail;
