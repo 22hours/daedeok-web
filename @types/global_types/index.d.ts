@@ -37,6 +37,7 @@ declare module "@global_types" {
             url: string;
         };
         type CommonPlan = {
+            id?: string;
             type: meta_types.classType;
             week: string;
             title: string;

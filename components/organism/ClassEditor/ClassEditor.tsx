@@ -11,9 +11,9 @@ import HandoutInput from "./HandoutInput";
 import PlanListInput from "./PlanListInput";
 import Button from "@ui/buttons/Button";
 import { useAuthStore } from "store/AuthStore";
-import { Router } from "express";
 import ListController from "lib/client/listController";
 import { useRouter } from "next/router";
+import { useClassDetailStore } from "store/ClassDetailStore";
 
 type Props = {
     data?: class_types.ClassInfo;
@@ -316,50 +316,46 @@ const ClassEditor = (props: Props) => {
     const { clientSideApi } = useAuthStore();
 
     const [originHandoutList, setOriginHandoutList] = useState<class_types.Handout[]>([]);
+    const [originPlanList, setOriginPlanList] = useState<class_types.PlanItem[]>([]);
     const [state, dispatch] = useReducer(reducer, initState);
 
     const childCompRef = React.useRef(null);
     const router = useRouter();
-    const { status } = router.query;
-    const lectureId = router.asPath.split("/")[3];
+    const { status, class_id } = router.query;
 
     useEffect(() => {
         if (props.type === "EDIT" && props.data) {
             dispatch({ type: "SET_INIT_STATE", data: props.data });
             setOriginHandoutList(props.data.handout_list.slice());
+            // @ts-ignore
+            setOriginPlanList(props.data.plan_list.map((it) => it.id));
         }
     }, [props]);
 
     const titleChange = useCallback((e) => dispatch({ type: "SET_TITLE", data: e.target.value }), [state.title]);
     const contentChange = useCallback((e) => dispatch({ type: "SET_CONTENT", data: e.target.value }), [state.content]);
-    const referenceChange = useCallback(
-        (e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }),
-        [state.reference]
-    );
-    const categoryChange = useCallback(
-        (e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }),
-        [state.category]
-    );
+    const referenceChange = useCallback((e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }), [
+        state.reference,
+    ]);
+    const categoryChange = useCallback((e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }), [
+        state.category,
+    ]);
     const addDivisionItem = useCallback(
         (division: class_types.Division) => dispatch({ type: "ADD_DIVISION", data: division }),
         [state.division_list]
     );
-    const removeDivisionItem = useCallback(
-        (idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }),
-        [state.division_list]
-    );
-    const studentLimitChange = useCallback(
-        (value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }),
-        [state.student_limit]
-    );
-    const addHandoutItem = useCallback(
-        (item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }),
-        [state.handout_list]
-    );
-    const removeHandoutItem = useCallback(
-        (idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }),
-        [state.handout_list]
-    );
+    const removeDivisionItem = useCallback((idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }), [
+        state.division_list,
+    ]);
+    const studentLimitChange = useCallback((value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }), [
+        state.student_limit,
+    ]);
+    const addHandoutItem = useCallback((item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }), [
+        state.handout_list,
+    ]);
+    const removeHandoutItem = useCallback((idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }), [
+        state.handout_list,
+    ]);
 
     const addPlanItem = useCallback(
         (planType: class_types.PlanType) => dispatch({ type: "ADD_PLAN", data: planType }),
@@ -392,22 +388,17 @@ const ClassEditor = (props: Props) => {
         [state.plan_list]
     );
 
-    const removePlanItem = useCallback(
-        (idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }),
-        [state.plan_list]
-    );
+    const removePlanItem = useCallback((idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }), [
+        state.plan_list,
+    ]);
 
     //강의종료
     const handleFinish = async () => {
         const flag = confirm("정말 종료하겠습니까?");
         if (flag) {
-            const res = await clientSideApi(
-                "POST",
-                "MAIN",
-                "LECTURE_FINISH",
-                { lecture_id: lectureId },
-                { lecture_id: lectureId }
-            );
+            const res = await clientSideApi("POST", "MAIN", "LECTURE_FINISH", {
+                lecture_id: class_id,
+            });
             if (res.result === "SUCCESS") {
                 alert("강의가 종료되었습니다");
                 location.replace("/class");
@@ -421,7 +412,7 @@ const ClassEditor = (props: Props) => {
     const handleDelete = async () => {
         const flag = confirm("정말 삭제하시겠습니까?");
         if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "LECTURE_DELETE", lectureId, undefined);
+            const res = await clientSideApi("DELETE", "MAIN", "LECTURE_DELETE", { lecture_id: class_id }, undefined);
             console.log(res);
             if (res.result === "SUCCESS") {
                 alert("삭제되었습니다.");
@@ -439,9 +430,12 @@ const ClassEditor = (props: Props) => {
                 const firstDivisionIdx = reqDivisionList.findIndex((it) => it.first_division === item.first_division);
                 if (firstDivisionIdx === -1) {
                     // NO REMAIN
+                    const second_division_list: any[] = [];
+                    second_division_list.push(item.second_division);
+                    console.log(second_division_list);
                     reqDivisionList.push({
                         first_division: item.first_division,
-                        second_division: [item.second_division],
+                        second_division: second_division_list,
                     });
                 } else {
                     // REMIAN
@@ -469,19 +463,48 @@ const ClassEditor = (props: Props) => {
                 plan_list: state.plan_list,
             });
             if (res.result === "SUCCESS") {
-                console.log(res.data);
                 alert("강의 개설에 성공하였습니다");
-                location.replace("/class");
+                location.replace(`/class/open/${res.data}/board`);
             } else {
                 alert(res.msg);
             }
         } else {
             // EDIT
+            const current_plan_id_list: string[] = [];
+            state.plan_list.forEach((plan_item) => {
+                if (plan_item.id) {
+                    current_plan_id_list.push(plan_item.id);
+                }
+            });
+            const deletePlanList = ListController.getDeletedItemInList(originPlanList, current_plan_id_list, true);
+            const diffItemList = ListController.getUpdateInList(originHandoutList, state.handout_list);
 
-            const { deleted_item_list, new_item_list } = ListController.getUpdateInList(
-                originHandoutList,
-                state.handout_list
+            const res = await clientSideApi(
+                "PUT",
+                "MAIN",
+                "LECTURE_UPDATE",
+                { lecture_id: class_id },
+                {
+                    title: state.title,
+                    content: state.content,
+                    category: state.category,
+                    division_list: makeDivisionList(),
+                    student_limit: state.student_limit,
+                    reference: state.reference,
+                    handout_list: {
+                        new_file_list: diffItemList.new_item_list,
+                        delete_file_list: diffItemList.deleted_item_list,
+                    },
+                    delete_plan_list: deletePlanList,
+                    plan_list: state.plan_list,
+                }
             );
+            if (res.result === "SUCCESS") {
+                alert("수정되었습니다.");
+                location.replace(`/class/${status}/${class_id}/board`);
+            } else {
+                alert("다시 시도해주세요.");
+            }
         }
     };
 

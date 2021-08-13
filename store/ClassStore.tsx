@@ -83,6 +83,7 @@ export const ClassStoreProvider = ({ children }) => {
 };
 const RenderChildren = ({ state, children }) => {
     const router = useRouter();
+    console.log(router.pathname);
     if (router.pathname.includes("/class/[status]/[class_id]")) {
         return (
             <ClassDetailProvider
@@ -93,6 +94,7 @@ const RenderChildren = ({ state, children }) => {
             </ClassDetailProvider>
         );
     } else {
+        console.log("HAHA");
         return (
             <div>
                 <ClassPageInfoLayout>

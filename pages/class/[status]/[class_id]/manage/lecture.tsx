@@ -1,67 +1,36 @@
 import { useEffect, useState } from "react";
-import { class_types } from "@global_types";
+import { class_types, res_types } from "@global_types";
 import ClassEditor from "components/organism/ClassEditor/ClassEditor";
 import { useAuthStore } from "store/AuthStore";
-
-type Props = {};
-
-const dummyData: class_types.ClassInfo = {
-    title: "이것은 제목",
-    content: "string",
-    category: "카테고리",
-    division_list: [
-        { first_division: "땡땡부", second_division: "보보부" },
-        { first_division: "땡땡부", second_division: "보보부" },
-        { first_division: "땡땡부", second_division: "보보부" },
-    ],
-    student_limit: 0,
-    reference: "string",
-    handout_list: [{ name: "이정환.jpg", url: "https://www.naver.com" }],
-    plan_list: [
-        {
-            type: "OFFLINE",
-            week: "1",
-            title: "1주차 강의",
-            tutor: "이정환",
-            location: "찬양대 연습실 3층",
-            date: "2019-12-12",
-            time: "19:12",
-        },
-        {
-            type: "ONLINE",
-            week: "1",
-            title: "1주차 강의",
-            tutor: "이정환",
-            location: "찬양대 연습실 3층",
-            date: "2019-12-12",
-            time: "19:12",
-            video_link: "https://videolink",
-            introduce: "introduce",
-        },
-        {
-            type: "ZOOM",
-            week: "1",
-            title: "1주차 강의",
-            tutor: "이정환",
-            location: "찬양대 연습실 3층",
-            date: "2019-12-12",
-            time: "19:12",
-            zoom_link: "https://zoomlink",
-        },
-    ],
-};
+import { useRouter } from "next/router";
 
 const Lecture = () => {
     const [data, setData] = useState<class_types.ClassInfo | null>(null);
     const { clientSideApi } = useAuthStore();
+    const router = useRouter();
+    const lectureId = router.asPath.split("/")[3];
 
     const getData = async () => {
-        // const res = await clientSideApi('GET','MAIN','')
-        setData(dummyData);
+        const res = await clientSideApi("GET", "MAIN", "LECTURE_DETAIL_UPDATE", lectureId);
+        if (res.result === "SUCCESS") {
+            const division_list: res_types.classDetail["division_list"] = [];
+            res.data.division_list.forEach((division_raw_item) => {
+                const cur_second_division_list: string[] = division_raw_item.second_division;
+                cur_second_division_list.forEach((second_division_item) => {
+                    division_list.push({
+                        first_division: division_raw_item.first_division,
+                        second_division: second_division_item,
+                    });
+                });
+            });
+            console.log(res.data);
+            setData({ ...res.data, division_list: division_list });
+        }
     };
 
     useEffect(() => {
         getData();
+        console.log(data);
     }, []);
 
     if (data === null) {
