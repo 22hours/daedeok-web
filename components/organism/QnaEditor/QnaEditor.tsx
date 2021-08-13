@@ -14,10 +14,11 @@ import CheckBox from "@ui/input/CheckBox";
 
 type ControllerProps = {
     type: "NEW" | "EDIT";
-    originData?: { title: string; category: string; content: string };
+    originData?: { title: string; category: string; content: string; secret: boolean };
 };
 const QnaEditorContorller = (props: ControllerProps) => {
     const editorController = useEditorController();
+    const [categoryData, setCategoryData] = useState<Array<{ name: string; value: string }>>([]);
 
     const router = useRouter();
     const { article_id } = router.query;
@@ -29,69 +30,87 @@ const QnaEditorContorller = (props: ControllerProps) => {
 
     useEffect(() => {
         if (props.type === "EDIT") {
+            console.log(props);
             title.setValue(props.originData?.title);
             category.setValue(props.originData?.category);
+            secret.setValue(props.originData?.secret);
         }
     }, [props]);
 
-    const submit = async () => {
-        if (props.type === "NEW") {
-            const res = await clientSideApi("POST", "MAIN", "QNA_NEW", undefined, {
+    // NEW
+    const handleSubmit = async () => {
+        const res = await clientSideApi("POST", "MAIN", "QNA_NEW", undefined, {
+            title: title.value,
+            category: category.value,
+            secret: secret.value,
+            content: editorController.getMarkdownContent(),
+        });
+        if (res.result === "SUCCESS") {
+            router.push(`/acinfo/qna/detail/${res.data}`);
+        } else {
+            alert(res.msg);
+        }
+    };
+
+    // EDIT
+    const handleEdit = async () => {
+        const { article_id } = router.query;
+        const res = await clientSideApi(
+            "PUT",
+            "MAIN",
+            "QNA_EDIT",
+            { article_id: article_id },
+            {
                 title: title.value,
                 category: category.value,
                 secret: secret.value,
                 content: editorController.getMarkdownContent(),
-            });
-            if (res.result === "SUCCESS") {
-                alert("게시글을 작성하였습니다");
-                router.push(`/acinfo/qna/deatil/${res.data}`);
-            } else {
-                alert(res.msg);
             }
+        );
+        if (res.result === "SUCCESS") {
+            alert("수정되었습니다.");
+            router.push(`/acinfo/qna/detail/${article_id}`);
         } else {
-            // EDIT
-            const res = await clientSideApi(
-                "PUT",
-                "MAIN",
-                "QNA_EDIT",
-                { article_id: article_id },
-                {
-                    title: title.value,
-                    category: category.value,
-                    secret: secret.value,
-                    content: editorController.getMarkdownContent(),
-                }
-            );
-            if (res.result === "SUCCESS") {
-                alert("게시글을 수정하였습니다");
-                const { new_item_list, deleted_item_list } = editorController.getUpdatedImgList();
-                clientSideApi("PUT", "MAIN", "UPDATE_FILE", undefined, {
-                    new_file_list: new_item_list,
-                    delete_file_list: deleted_item_list,
-                });
-                router.push(`/acinfo/qna/deatil/${article_id}`);
-            } else {
-                alert(res.msg);
-            }
+            alert(res.msg);
         }
     };
 
-    const handleGoBack = () => {
-        // router.push(`/class/open/${classDetailState.class_id}/board`);
+    useEffect(() => {
+        if (props.type === "EDIT" && props.originData) {
+            title.setValue(props.originData.title);
+        }
+    }, [props]);
+
+    const getCategoryData = async () => {
+        const res = await clientSideApi("GET", "MAIN", "CATEGORY_QNA");
+        if (res.result === "SUCCESS") {
+            setCategoryData(
+                res.data.map((it) => {
+                    return {
+                        value: it.category,
+                        name: it.category,
+                    };
+                })
+            );
+        }
     };
+
+    useEffect(() => {
+        getCategoryData();
+    }, []);
 
     return (
         <div className={style.container}>
             <div className={style.head}>
                 <Select
                     className={style.category_select}
-                    value={category.value || "ALL"}
+                    value={category.value}
                     onChange={(e) => {
                         category.setValue(e.target.value);
                     }}
                     form="underline"
                     placeholder={"카테고리별"}
-                    option_list={[{ name: "전체", value: "ALL" }].concat([])}
+                    option_list={categoryData}
                 />
 
                 <TextInput
@@ -119,7 +138,7 @@ const QnaEditorContorller = (props: ControllerProps) => {
                     size={"small"}
                     fontSize={"smaller"}
                     content={"취소"}
-                    onClick={handleGoBack}
+                    onClick={() => router.back()}
                 />
                 <Button
                     className={`${style.submit_btn} ${style.footer_btn}`}
@@ -127,7 +146,7 @@ const QnaEditorContorller = (props: ControllerProps) => {
                     size={"small"}
                     fontSize={"smaller"}
                     content={props.type === "NEW" ? "작성완료" : "수정완료"}
-                    onClick={submit}
+                    onClick={props.type === "NEW" ? handleSubmit : handleEdit}
                 />
             </div>
         </div>
@@ -138,28 +157,9 @@ type Props = {
 };
 type State = { title: string; category: string; content: string };
 const QnaEditor = (props: Props) => {
-    const router = useRouter();
-    const { article_id } = router.query;
-    const { clientSideApi } = useAuthStore();
-
-    const [originData, setOriginData] = useState<State | null>(null);
-    const getData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "QNA_FIND_DETAIL", { article_id: article_id });
-        if (res.result === "SUCCESS") {
-            setOriginData({ title: res.data.title, category: res.data.category, content: res.data.content });
-        } else {
-            alert(res.msg);
-        }
-    };
-    useEffect(() => {
-        if (props.type === "EDIT") {
-            getData();
-        }
-    }, [props]);
-
     return (
         <WysiwygEditorProvider>
-            <QnaEditorContorller {...props} originData={originData !== null ? originData : undefined} />
+            <QnaEditorContorller {...props} />
         </WysiwygEditorProvider>
     );
 };

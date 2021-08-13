@@ -6,6 +6,6 @@ const useBoolean = (initialValue?: boolean) => {
         setValue(!value);
     };
     const toggle = () => setValue(!value);
-    return { value, onChange, toggle };
+    return { value, setValue, onChange, toggle };
 };
 export default useBoolean;

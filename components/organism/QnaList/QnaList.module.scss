@@ -1,21 +1,21 @@
-// QnaList.module
-@import "styles/meta.scss";
-
-.container {
-    .head {
-        @include mobile {
-            display: grid;
-            gap: 3px;
-        }
-        @include desktop {
-            display: grid;
-            grid-template-columns: 3fr 2fr 6fr;
-        }
+.top_form {
+    display: flex;
+    margin-top: 60px;
+    margin-bottom: 30px;
+    justify-content: space-between;
+    .select {
+        min-height: 40px;
     }
-    .body {
-        margin-top: 30px;
+    .search {
+        flex-grow: 0.5;
     }
-    .footer {
-        margin-top: 30px;
+}
+.btn_wrapper {
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-end;
+    .new_btn {
+        padding-right: 15px;
+        padding-left: 15px;
     }
 }

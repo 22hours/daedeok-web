@@ -36,15 +36,21 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `faq/`;
         // QNA
         case `QNA_FIND`:
-            return `qna/`;
+            return `qna`;
         case `QNA_FIND_DETAIL`:
             return `qna/${url_query.article_id}`;
         case `QNA_NEW`:
             return `qna/`;
         case `QNA_EDIT`:
-            return `qna/`;
+            return `qna/${url_query.article_id}`;
         case `QNA_DELETE`:
-            return `qna/`;
+            return `qna/${url_query.article_id}`;
+        case `QNA_COMMENT_SAVE`:
+            return `qna/${url_query.article_id}/comment`;
+        case `QNA_DELETE_COMMENT`:
+            return `qna/comment/${url_query.comment_id}`;
+        case `QNA_UPDATE_COMMENT`:
+            return `qna/comment/${url_query.comment_id}`;
         // TOTLA NOTICE
         case `TOTAL_NOTICE_FIND`:
             return `notice/`;
@@ -92,6 +98,8 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `category/`;
         case "CLASS_MAIN":
             return `lecture/main`;
+        case "CATEGORY_QNA":
+            return `category/all/qna`;
         // LECTURE
         case `LECTURE_DETAIL`:
             return `lecture/${url_query.lecture_id}`;
