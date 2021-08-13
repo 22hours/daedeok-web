@@ -1,0 +1,61 @@
+@import "styles/meta.scss";
+
+.tutor_notice_detail {
+    margin-top: 50px;
+    .header_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding-bottom: 15px;
+        border-bottom: 1px solid $gray_accent;
+    }
+    .content {
+        margin-top: 30px;
+        padding-bottom: 70px;
+        border-bottom: 1px solid $gray_accent;
+        margin-bottom: 30px;
+    }
+    .comment_list {
+        .first_comment {
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-top: 20px;
+        }
+
+        .second_comment {
+            padding-left: 70px;
+            margin-top: 10px;
+        }
+    }
+
+    .commen_box_style {
+        min-height: 70px;
+    }
+    .before_after_wrapper {
+        margin-top: 50px;
+    }
+    .bottom_btn_wrapper {
+        margin-top: 50px;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .bottom_btn_style {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-left: 15px;
+        width: 80px;
+        margin-bottom: 40px;
+    }
+}
+.new_comment {
+    margin-top: 40px;
+    .new_comment_btn {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .btn_style {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}

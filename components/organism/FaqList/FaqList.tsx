@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { res_types } from "@global_types";
-import style from "./NoticeList.module.scss";
+import style from "./FaqList.module.scss";
 import Link from "next/link";
 //ui
 import TableRow from "@ui/board/TableRow";
@@ -13,40 +13,35 @@ import Button from "@ui/buttons/Button";
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
 
-type State = res_types.noticeList;
+type State = res_types.faqList;
 
 // ELEMENT TYPES
 const initState: State = {
-    notice_list: [],
+    faq_list: [],
     total_count: 0,
 };
 
-const NoticeListItem = (props: { notice_list: any }) => {
+const FaqListItem = (props: { notice_list: any }) => {
     return (
         <TableWrapper>
             {props.notice_list.map((it, idx) => (
                 <div key={idx}>
-                    <TableRow
-                        idx={it.id}
-                        title={it.title}
-                        date={UseDate("YYYY-MM-DD", it.create_date)}
-                        href={`/acinfo/notice/detail/${it.id}`}
-                    ></TableRow>
+                    <TableRow idx={it.id} title={it.title} href={`/acinfo/faq/detail/${it.id}`}></TableRow>
                 </div>
             ))}
         </TableWrapper>
     );
 };
 
-const NoticeList = () => {
+const FaqList = () => {
     const { auth, clientSideApi } = useAuthStore();
     const { state, changePage, changeKeyword } = useListCommonStore();
     const [listState, setListState] = useState<State>(initState);
     const searchRef = useRef<HTMLInputElement | null>(null);
 
-    const getNoticeData = async () => {
+    const getFaqList = async () => {
         if (state.isLoadEnd) {
-            const res = await clientSideApi("GET", "MAIN", "TOTAL_NOTICE_FIND", undefined, {
+            const res = await clientSideApi("GET", "MAIN", "FAQ_FIND", undefined, {
                 keyword: state.keyword,
                 page: parseInt(state.page) - 1,
                 required_count: 7,
@@ -59,7 +54,7 @@ const NoticeList = () => {
 
     useEffect(() => {
         if (state.isLoadEnd) {
-            getNoticeData();
+            getFaqList();
             if (searchRef.current) {
                 if (state.keyword !== searchRef.current.value) {
                     searchRef.current.value = "";
@@ -79,10 +74,10 @@ const NoticeList = () => {
                     onEnterKeyDown={(e) => changeKeyword(e.target.value)}
                 />
             </div>
-            <NoticeListItem notice_list={listState.notice_list} />
+            <FaqListItem notice_list={listState.faq_list} />
             {auth?.role === "ROLE_ADMIN" && (
                 <div className={style.btn_wrapper}>
-                    <Link href={`/acinfo/notice/new`} passHref>
+                    <Link href={`/acinfo/faq/new`} passHref>
                         <Button
                             type="SQUARE"
                             content="글쓰기"
@@ -106,4 +101,4 @@ const NoticeList = () => {
         </div>
     );
 };
-export default NoticeList;
+export default FaqList;

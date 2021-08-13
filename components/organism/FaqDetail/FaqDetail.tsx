@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import style from "./NoticeDetail.module.scss";
+import style from "./FaqDetail.module.scss";
 import { res_types } from "@global_types";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -20,23 +20,22 @@ import { useRouter } from "next/router";
 
 const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
-type State = res_types.noticeDetail;
+type State = res_types.faqDetail;
 
-const NoticeDetail = ({ noticeId }) => {
+const FaqDetail = ({ articleId }) => {
     const router = useRouter();
     const { auth, clientSideApi } = useAuthStore();
     const [noticeDetailData, setNoticeDetailData] = useState<State | null>(null);
 
     useEffect(() => {
-        if (noticeId) {
-            getTutorNotieDetail();
+        if (articleId) {
+            getFaqDetail();
         }
-    }, [noticeId]);
+    }, [articleId]);
 
-    //공지사항 상세 data
-    const getTutorNotieDetail = async () => {
-        const res = await clientSideApi("GET", "MAIN", "TOTAL_NOTICE_FIND_DETAIL", {
-            article_id: noticeId,
+    const getFaqDetail = async () => {
+        const res = await clientSideApi("GET", "MAIN", "FAQ_FIND_DETAIL", {
+            article_id: articleId,
         });
         if (res.result === "SUCCESS") {
             const data: State = res.data;
@@ -48,12 +47,12 @@ const NoticeDetail = ({ noticeId }) => {
     const handleDelete = async () => {
         const flag = confirm("삭제하시겠습니까?");
         if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "TOTAL_NOTICE_DELETE", {
-                article_id: noticeId,
+            const res = await clientSideApi("DELETE", "MAIN", "FAQ_DELETE", {
+                article_id: articleId,
             });
             if (res.result === "SUCCESS") {
                 alert("삭제되었습니다.");
-                location.replace("/acinfo/notice");
+                location.replace("/acinfo/faq");
             } else {
                 alert("다시 시도해주세요");
             }
@@ -72,12 +71,6 @@ const NoticeDetail = ({ noticeId }) => {
                         type="TEXT"
                         size="large"
                     />
-                    <Typo
-                        type="TEXT"
-                        color={"gray_accent"}
-                        size="small"
-                        content={DateController.getFormatedDate("YYYY/MM/DD", noticeDetailData?.create_date)}
-                    />
                 </div>
                 <div className={style.content}>
                     <TextViewer
@@ -89,29 +82,13 @@ const NoticeDetail = ({ noticeId }) => {
                 <div className={style.before_after_wrapper}>
                     <TableWrapper>
                         {noticeDetailData.after && (
-                            <Link href={`/acinfo/notice/detail/${noticeDetailData.after.id}`} passHref>
-                                <TableRow
-                                    icon={true}
-                                    iconType={"after"}
-                                    title={noticeDetailData.after?.title}
-                                    date={DateController.getFormatedDate(
-                                        "YYYY-MM-DD",
-                                        noticeDetailData.after?.create_date
-                                    )}
-                                />
+                            <Link href={`/acinfo/faq/detail/${noticeDetailData.after.id}`} passHref>
+                                <TableRow icon={true} iconType={"after"} title={noticeDetailData.after?.title} />
                             </Link>
                         )}
                         {noticeDetailData.before && (
-                            <Link href={`/acinfo/notice/detail/${noticeDetailData.before.id}`} passHref>
-                                <TableRow
-                                    icon={true}
-                                    iconType={"before"}
-                                    title={noticeDetailData.before?.title}
-                                    date={DateController.getFormatedDate(
-                                        "YYYY-MM-DD",
-                                        noticeDetailData.before?.create_date
-                                    )}
-                                />
+                            <Link href={`/acinfo/faq/detail/${noticeDetailData.before.id}`} passHref>
+                                <TableRow icon={true} iconType={"before"} title={noticeDetailData.before?.title} />
                             </Link>
                         )}
                     </TableWrapper>
@@ -129,7 +106,7 @@ const NoticeDetail = ({ noticeId }) => {
                                 className={style.bottom_btn_style}
                                 onClick={handleDelete}
                             />
-                            <Link href={`/acinfo/notice/edit/${noticeDetailData.id}`} passHref>
+                            <Link href={`/acinfo/faq/edit/${noticeDetailData.id}`} passHref>
                                 <Button
                                     type="SQUARE"
                                     size="smaller"
@@ -142,7 +119,7 @@ const NoticeDetail = ({ noticeId }) => {
                             </Link>
                         </>
                     )}
-                    <Link href={"/acinfo/notice"} passHref>
+                    <Link href={"/acinfo/faq"} passHref>
                         <Button
                             type="SQUARE"
                             size="smaller"
@@ -158,4 +135,4 @@ const NoticeDetail = ({ noticeId }) => {
         );
     }
 };
-export default NoticeDetail;
+export default FaqDetail;
