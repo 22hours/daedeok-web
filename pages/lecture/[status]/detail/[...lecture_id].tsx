@@ -1,24 +1,22 @@
+import PageHeader from "@ui/PageHeader";
+import LectureDetailPage from "components/organism/LectureDetailPage/LectureDetailPage";
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
-type Props = {};
 
-const LectureDetail = (props) => {
-    console.log(props);
+const LectureDetail = () => {
+    // return <LectureDetail />;
+    const router = useRouter();
+    const { status } = router.query;
     return (
         <div>
-            <h2>[...lecture_id]</h2>
-            <h4>{props.status}</h4>
-            <h4>{props.lecture_id}</h4>
+            <PageHeader title={status === "open" ? "현재 진행중인 강의" : "종료된 강의"} />
+            <LectureDetailPage />
         </div>
     );
 };
 export async function getServerSideProps(ctx) {
-    console.log(ctx.query.status);
-    const { status, lecture_id } = ctx.query;
     return {
-        props: {
-            status: status,
-            lecture_id: lecture_id,
-        },
+        props: {},
     };
 }
 export default LectureDetail;

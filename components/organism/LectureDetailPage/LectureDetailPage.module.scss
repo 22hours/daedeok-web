@@ -1,0 +1,110 @@
+// LectureDetailPage.module
+@import "styles/meta.scss";
+
+.container {
+    .head {
+        @include desktop {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            .info_col {
+                .typo__info {
+                    margin-left: 10px;
+                }
+            }
+        }
+        @include mobile {
+            .info_col {
+                .typo__info {
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        padding-bottom: 15px;
+        border-bottom: 1px solid $brown_base;
+
+        .title_col {
+        }
+    }
+    .body {
+        margin-top: 20px;
+
+        .section_class_info {
+            margin-top: 50px;
+            .main_body_grid {
+                @include desktop {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 15px;
+                }
+                @include mobile {
+                }
+            }
+
+            .main_body_grid,
+            .main_body_grid_single {
+                .main_body_row {
+                    display: flex;
+                    justify-content: space-between;
+                    flex-grow: 1;
+                    $height: 30px;
+                    .label {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        @include desktop {
+                            width: 100px;
+                        }
+                        @include mobile {
+                            width: 80px;
+                        }
+                        height: $height;
+                        background-color: $brown_base;
+                        margin-right: 10px;
+                    }
+                    .value {
+                        flex-grow: 1;
+                        height: $height;
+                        background-color: transparent !important;
+                    }
+                }
+            }
+        }
+        .section_plan_list {
+            margin-top: 10px;
+            .plan_row {
+                display: flex;
+
+                .week_col,
+                .info_col,
+                .first_col_left,
+                .first_col_right {
+                    border-bottom: 1px solid $gray_form;
+                    padding-top: 15px;
+                    padding-bottom: 15px;
+                }
+                .week_col,
+                .first_col_left {
+                    width: 100px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-right: 15px;
+                }
+                .info_col,
+                .first_col_right {
+                    flex-grow: 1;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    .typo__plan_value {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+            }
+        }
+    }
+    padding-bottom: 50px;
+}
