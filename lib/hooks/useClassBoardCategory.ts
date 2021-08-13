@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
 
-type optionItem = { value: string; name: string };
-const useClassCategory = () => {
-    const [categoryOptionList, setCategoryOptionList] = useState<optionItem[]>([]);
-
+const useClassBoardCategory = () => {
+    const [categoryOptionList, setCategoryOptionList] = useState<{ name: string; value: string }[]>([]);
     const { clientSideApi } = useAuthStore();
-
-    const getCategoryData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "CATEGORY_FIND_ALL");
+    const getData = async () => {
+        const res = await clientSideApi("GET", "MAIN", "CATEGORY_FIND_CLASS_BOARD", undefined);
         if (res.result === "SUCCESS") {
             setCategoryOptionList(
                 res.data.map((it) => {
@@ -22,11 +19,9 @@ const useClassCategory = () => {
             alert(res.msg);
         }
     };
-
     useEffect(() => {
-        getCategoryData();
+        getData();
     }, []);
-
     return { categoryOptionList, setCategoryOptionList };
 };
-export default useClassCategory;
+export default useClassBoardCategory;

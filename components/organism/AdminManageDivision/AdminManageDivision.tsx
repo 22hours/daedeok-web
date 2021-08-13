@@ -138,7 +138,7 @@ const AdminManageDivision = () => {
     const { auth, clientSideApi } = useAuthStore();
     const addNewDivision = async (first_division, second_division_list): Promise<boolean> => {
         const res = await clientSideApi("POST", "MAIN", "ADD_DIVISION", undefined, {
-            fisrt_division: first_division,
+            first_division: first_division,
             second_division: second_division_list,
         });
         if (res.result === "SUCCESS") {
@@ -168,14 +168,17 @@ const AdminManageDivision = () => {
     }, [auth]);
 
     const deleteDivision = async (first_division: string) => {
-        const res = await clientSideApi("DELETE", "MAIN", "DELETE_DIVISION", undefined, {
-            name: first_division,
-        });
-        if (res.result === "SUCCESS") {
-            setData([]);
-            getData();
-        } else {
-            alert(res.msg);
+        if (window.confirm("해당 소속을 정말로 삭제하시겠습니까?")) {
+            const res = await clientSideApi("DELETE", "MAIN", "DELETE_DIVISION", undefined, {
+                name: first_division,
+            });
+            if (res.result === "SUCCESS") {
+                alert("성공적으로 삭제되었습니다");
+                setData([]);
+                getData();
+            } else {
+                alert(res.msg);
+            }
         }
     };
 

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import Button from "@ui/buttons/Button";
 import TextInput from "@ui/input/TextInput";
-import ClassCategorySelect from "components/molecule/ClassCategorySelect/ClassCategorySelect";
 import TextEditor from "components/molecule/TextEditor/TextEditor";
 import useInput from "lib/hooks/useInput";
 import { useRouter } from "next/router";
@@ -9,6 +8,7 @@ import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
 import { useEditorController } from "store/WysiwygEditorStore";
 import style from "./ClassBoardEditor.module.scss";
+import ClassBoardCategorySelect from "components/molecule/ClassBoardCategorySelect/ClassBoardCategorySelect";
 type Props = {
     type: "NEW" | "EDIT";
     originData?: { title: string; category: string; content: string };
@@ -73,6 +73,7 @@ const ClassBoardEditor = (props: Props) => {
                 clientSideApi("PUT", "MAIN", "UPDATE_FILE", undefined, {
                     new_file_list: new_item_list,
                     delete_file_list: deleted_item_list,
+                    to_path: "LECTURE_BOARD",
                 });
                 router.replace(
                     `/class/${classDetailState.class_status}/${classDetailState.class_id}/board/detail/${content_id}`
@@ -90,7 +91,7 @@ const ClassBoardEditor = (props: Props) => {
     return (
         <div className={style.container}>
             <div className={style.head}>
-                <ClassCategorySelect
+                <ClassBoardCategorySelect
                     className={style.category_select}
                     form={"underline"}
                     category={category.value}

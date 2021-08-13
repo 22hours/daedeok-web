@@ -13,7 +13,7 @@ import Button from "@ui/buttons/Button";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
-import useClassCategory from "lib/hooks/useClassCategory";
+import useClassBoardCategory from "lib/hooks/useClassBoardCategory";
 
 type State = {
     board_list: Array<{
@@ -54,7 +54,7 @@ const BoardList = (props: { board_list: any; lectureId: string }) => {
 const BoardSelect = () => {
     const { clientSideApi } = useAuthStore();
     const { state, changeCategory } = useListCommonStore();
-    const { categoryOptionList } = useClassCategory();
+    const { categoryOptionList } = useClassBoardCategory();
 
     return (
         <Select

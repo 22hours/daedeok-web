@@ -86,6 +86,12 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `category/all`;
         case `CATEGORY_DETAIL_FIND`:
             return `category/${url_query.category_id}`;
+        case `CATEGORY_FIND`:
+            return `category`;
+        case "CATEGORY_FIND_ALL":
+            return `category/all`;
+        case "CATEGORY_FIND_CLASS_BOARD":
+            return `category/all/lecture-board`;
         case `CATEGORY_NEW`:
             return `category/`;
         case `CATEGORY_DELETE`:
