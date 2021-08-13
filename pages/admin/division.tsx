@@ -1,6 +1,6 @@
 type Props = {};
 
-const GlobalNotice = () => {
+const Divsion = () => {
     return (
         <div>
             <h2>global-notice</h2>
@@ -8,4 +8,4 @@ const GlobalNotice = () => {
     );
 };
 
-export default GlobalNotice;
+export default Divsion;
