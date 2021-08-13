@@ -52,6 +52,7 @@ declare module "@api_config_type" {
                 | "TUTOR_NOTICE_EDIT_COMMENT"
                 | "TUTOR_NOTICE_DELETE_COMMENT"
                 // CATEGORY
+                | "CATEGORY_FIND"
                 | "CATEGORY_FIND_ALL"
                 | "CATEGORY_DETAIL_FIND"
                 | "CATEGORY_NEW"

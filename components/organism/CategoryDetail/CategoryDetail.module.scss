@@ -1,0 +1,27 @@
+// AdminCategoryDetail.module
+@import "styles/meta.scss";
+.container {
+    margin-top: 50px;
+    .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding-bottom: 15px;
+        border-bottom: 1px solid $gray_accent;
+    }
+    .body {
+        margin-top: 30px;
+        padding-bottom: 70px;
+        border-bottom: 1px solid $gray_accent;
+        margin-bottom: 30px;
+    }
+    .footer {
+        display: flex;
+        justify-content: flex-end;
+
+        .control_btn {
+            width: 80px;
+            margin-left: 10px;
+        }
+    }
+}
