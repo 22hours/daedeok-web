@@ -49,13 +49,13 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `TOTAL_NOTICE_FIND`:
             return `notice/`;
         case `TOTAL_NOTICE_FIND_DETAIL`:
-            return `notice/`;
+            return `notice/${url_query.article_id}`;
         case `TOTAL_NOTICE_NEW`:
             return `notice/`;
         case `TOTAL_NOTICE_EDIT`:
-            return `notice/`;
+            return `notice/${url_query.article_id}`;
         case `TOTAL_NOTICE_DELETE`:
-            return `notice/`;
+            return `notice/${url_query.article_id}`;
         case `TOTAL_NOTICE_NEW_COMMENT`:
             return `notice/`;
         case `TOTAL_NOTICE_EDIT_COMMENT`:

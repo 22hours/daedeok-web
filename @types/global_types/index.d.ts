@@ -140,6 +140,16 @@ declare module "@global_types" {
         };
     }
     export namespace res_types {
+        type noticeList = {
+            notice_list: Array<{
+                id: number;
+                user_id: number;
+                title: string;
+                create_date: string;
+            }>;
+            total_count: number;
+            total_page?: number;
+        };
         //(목사) 강의 상세
         type classDetail = {
             id: number;
