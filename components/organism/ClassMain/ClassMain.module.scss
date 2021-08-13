@@ -1,0 +1,19 @@
+// ClassMain.module
+@import "styles/meta.scss";
+
+.container {
+    .section {
+        margin-bottom: 50px;
+        .box_grid {
+            @include desktop {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10%;
+            }
+            @include mobile {
+                display: grid;
+                gap: 15px;
+            }
+        }
+    }
+}

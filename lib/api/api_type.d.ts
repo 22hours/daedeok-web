@@ -55,6 +55,8 @@ declare module "@api_config_type" {
                 | "CATEGORY_FIND"
                 | "CATEGORY_NEW"
                 | "CATEGORY_DELETE"
+                // CLASS
+                | "CLASS_MAIN"
                 // LECTURE
                 | "LECTURE_DETAIL"
                 | "LECTURE_DETAIL_UPDATE"

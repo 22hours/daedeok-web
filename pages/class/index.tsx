@@ -1,3 +1,4 @@
+import ClassMain from "components/organism/ClassMain/ClassMain";
 import { SecureRoute } from "lib/server/accessController";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -11,19 +12,17 @@ const Index = () => {
 
     useEffect(() => {
         if (auth) {
-            switch (auth.role) {
-                case "ROLE_TUTOR":
-                case "ROLE_MEMBER": {
-                    break;
-                }
-                case "ROLE_ADMIN": {
-                    router.replace("/admin");
-                }
+            if (auth.role === "ROLE_ADMIN") {
+                router.replace("/admin");
             }
         }
     }, [auth]);
 
-    return <div>INDEX !</div>;
+    if (auth === null) {
+        return <div>NOW LOAD</div>;
+    } else {
+        return <ClassMain />;
+    }
 };
 
 export async function getServerSideProps(ctx) {
