@@ -111,13 +111,7 @@ const StudentClassPlanList = () => {
     }, [lectureId]);
 
     const getClassPlanList = async () => {
-        const res_data = await clientSideApi(
-            "GET",
-            "MAIN",
-            "LECTUER_PLAN_LIST",
-            { lecture_id: lectureId.class_id },
-            { lecture_idx: lectureId.class_id }
-        );
+        const res_data = await clientSideApi("GET", "MAIN", "LECTUER_PLAN_LIST", { lecture_id: lectureId.class_id });
         if (res_data.result === "SUCCESS") {
             var data = res_data.data;
             setPlanList(data);
