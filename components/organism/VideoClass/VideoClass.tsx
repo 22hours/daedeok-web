@@ -17,6 +17,7 @@ type State = {
     link: string;
     introduce: string;
     duration: number;
+    week: number;
 } | null;
 
 const VideoClass = () => {
@@ -87,13 +88,13 @@ const VideoClass = () => {
                     <Typo type={"TEXT"} size={"normal"} content={">"} />
                     &nbsp;
                     <div>
-                        <Typo type={"TEXT"} size={"normal"} content={`${episode_id} 주차`} />
+                        <Typo type={"TEXT"} size={"normal"} content={`${state.week} 주차`} />
                     </div>
                 </div>
 
                 <div className={style.table}>
                     <TableWrapper>
-                        <TableRow week={"4주차"} weekTitle={state.title} />
+                        <TableRow week={`${state.week} 주차`} weekTitle={state.title} />
                     </TableWrapper>
                 </div>
 

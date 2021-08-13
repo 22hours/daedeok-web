@@ -7,6 +7,7 @@ import Button from "@ui/buttons/Button";
 import TableWrapper from "@ui/board/TableWrapper";
 //store
 import { useAuthStore } from "store/AuthStore";
+import { useClassDetailStore } from "store/ClassDetailStore";
 
 type State = res_types.studentAttendanceList;
 
@@ -49,6 +50,7 @@ const StatusButton = ({ state }) => {
 
 const StudentAttendanceList = () => {
     const { clientSideApi } = useAuthStore();
+    const { class_id } = useClassDetailStore();
 
     const [attendanceList, setAttendanceList] = useState<State["studentAttendanceList"]>(
         initState["studentAttendanceList"]
@@ -59,24 +61,14 @@ const StudentAttendanceList = () => {
     }, []);
 
     const getStudentAttendanceList = async () => {
-        const res = await clientSideApi(
-            "GET",
-            "MAIN",
-            "LECTURE_FIND_USER_ATTENDANCE",
-            {
-                lecture_id: "6",
-            },
-            {
-                lecture_id: "6",
-            }
-        );
+        const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_USER_ATTENDANCE", {
+            lecture_id: class_id,
+        });
         if (res.result === "SUCCESS") {
             var data = res.data;
             setAttendanceList(data);
         }
     };
-
-    console.log(attendanceList);
 
     return (
         <div className={style.class_attendance_wrapper}>
