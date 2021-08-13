@@ -16,7 +16,7 @@ const TutorNoticeEditor = dynamic(() => import("components/organism/TutorNoticeE
     ssr: false,
 });
 
-const NoticeEdit = () => {
+const TutorNoticeEdit = () => {
     const router = useRouter();
     const { notice_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
@@ -64,4 +64,4 @@ export async function getServerSideProps(ctx) {
     return SecureRoute(ctx, "ROLE_TUTOR");
 }
 
-export default NoticeEdit;
+export default TutorNoticeEdit;

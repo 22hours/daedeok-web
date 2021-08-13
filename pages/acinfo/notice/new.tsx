@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-type Props = {};
+import dynamic from "next/dynamic";
+import PageHeader from "@ui/PageHeader";
+
+const NoticeEditor = dynamic(() => import("components/organism/NoticeEditor/NoticeEditor"), { ssr: false });
 
 const NewNotice = () => {
     return (
-        <div>
-            <h2>new</h2>
-        </div>
+        <>
+            <PageHeader title={"공지사항"} />
+            <NoticeEditor type={"NEW"} />
+        </>
     );
 };
 
