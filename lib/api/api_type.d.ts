@@ -108,7 +108,9 @@ declare module "@api_config_type" {
                 //DELETE
                 | "LECTURE_DELETE"
                 // DIVISION
-                | "FIND_DIVISION";
+                | "FIND_DIVISION"
+                // ADMIN
+                | "ADMIN_FIND_USER";
 
             url_query?: string | { lecture_id: string; board_id: string } | any;
             data?: any;

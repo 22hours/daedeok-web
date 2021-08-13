@@ -1,0 +1,40 @@
+// AdminMemberManage.module
+@import "styles/meta.scss";
+.container {
+    .head {
+        @include desktop {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .label {
+                visibility: visible;
+            }
+        }
+        @include mobile {
+            .label {
+                visibility: hidden;
+            }
+        }
+    }
+    .body {
+        @include desktop {
+            .label {
+                visibility: hidden;
+            }
+        }
+        @include mobile {
+            .label {
+                visibility: visible;
+            }
+        }
+
+        .user_control_col {
+            display: flex;
+            .control_btn {
+                height: 30px;
+                margin-left: 10px;
+                background-color: $gray_form;
+            }
+        }
+    }
+}
