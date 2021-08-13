@@ -24,14 +24,13 @@
 .article {
     background-color: white;
     @include mobile {
-        padding-top: 60px;
+        padding-top: 30px;
         display: grid;
         grid-template-columns: 0fr 10fr 0fr;
     }
     @include desktop {
         display: grid;
         grid-template-columns: 0.5fr 9fr 0.5fr;
-        padding-top: 45px;
         padding-bottom: 45px;
         border-right: 1px solid $gray_accent;
     }

@@ -1,13 +1,10 @@
+import AdminMemberManage from "components/organism/AdminMemberManage/AdminMemberManage";
 import { SecureRoute } from "lib/server/accessController";
 
 type Props = {};
 
 const member = () => {
-    return (
-        <div>
-            <h2>member</h2>
-        </div>
-    );
+    return <AdminMemberManage />;
 };
 export async function getServerSideProps(ctx) {
     return SecureRoute(ctx, "ROLE_ADMIN");
