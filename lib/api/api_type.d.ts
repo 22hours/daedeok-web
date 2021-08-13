@@ -33,6 +33,9 @@ declare module "@api_config_type" {
                 | "QNA_NEW"
                 | "QNA_EDIT"
                 | "QNA_DELETE"
+                | "QNA_COMMENT_SAVE"
+                | "QNA_DELETE_COMMENT"
+                | "QNA_UPDATE_COMMENT"
                 // TOTAL_NOTICE
                 | "TOTAL_NOTICE_FIND"
                 | "TOTAL_NOTICE_FIND_DETAIL"
@@ -59,6 +62,7 @@ declare module "@api_config_type" {
                 | "CATEGORY_DETAIL_FIND"
                 | "CATEGORY_NEW"
                 | "CATEGORY_DELETE"
+                | "CATEGORY_QNA"
                 // CLASS
                 | "CLASS_MAIN"
                 // LECTURE

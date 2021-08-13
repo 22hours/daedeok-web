@@ -14,7 +14,7 @@ type Props = {
     author?: string;
     date?: string;
     studentLimit?: { student_limit: any; student_num: number };
-    view?: number;
+    view?: number | string;
     tutor?: string;
     type?: string;
     classInfo?: boolean;

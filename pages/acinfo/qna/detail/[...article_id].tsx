@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from "react";
-type Props = {};
+import QnaDetail from "components/organism/QnaDetail/QnaDetail";
+import PageHeader from "@ui/PageHeader";
 
-const QNADetail = () => {
+const QnaDetailPage = (props) => {
     return (
         <div>
-            <h2>[...article_id]</h2>
+            <PageHeader title={"질문과 답변"} />
+            <QnaDetail articleId={props.article_id} />
         </div>
     );
 };
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps(ctx) {
+    const { article_id } = ctx.query;
     return {
         props: {
-            data: {},
+            article_id: article_id,
         },
     };
 }
 
-export async function getStaticPaths() {
-    const paths = [];
-    return { paths, fallback: true };
-}
-
-export default QNADetail;
+export default QnaDetailPage;

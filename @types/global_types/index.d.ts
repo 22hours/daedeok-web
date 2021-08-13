@@ -314,6 +314,39 @@ declare module "@global_types" {
             after: { id: number; user_id: number; title: string; create_date: string };
             before: { id: number; user_id: number; title: string; create_date: string };
         };
+
+        type qnaDetailList = {
+            id: number;
+            user_id: number;
+            title: string;
+            category: string;
+            content: string;
+            author: string;
+            create_date: string;
+            secret: boolean;
+            view: number;
+            comment_list: CommentItem[];
+            after: {
+                id: number;
+                user_id: number;
+                title: string;
+                category: string;
+                author: string;
+                view: number;
+                secret: boolean;
+                create_date: string;
+            };
+            before: {
+                id: number;
+                user_id: number;
+                title: string;
+                category: string;
+                author: string;
+                create_date: string;
+                secret: boolean;
+                view: number;
+            };
+
         type noticeDetail = {
             id: number;
             user_id: number;
@@ -330,6 +363,7 @@ declare module "@global_types" {
             content: string;
             after: { id: number; user_id: number; title: string; create_date: string };
             before: { id: number; user_id: number; title: string; create_date: string };
+
         };
     }
 }
