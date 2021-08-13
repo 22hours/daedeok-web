@@ -33,7 +33,7 @@ const LecturePannel = (props: Props) => {
                                 className={style.typo__lecture_type}
                                 type={"TEXT"}
                                 size={"smaller"}
-                                content={it}
+                                content={it === "OFFLINE" ? "오프라인" : it === "ONLINE" ? "영상" : "ZOOM"}
                                 color={"mint_accent"}
                             />
                         ))}
