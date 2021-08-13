@@ -199,6 +199,10 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `category`;
         case "ADMIN_FIND_DETAIL_CATEGORY":
             return `category/${url_query.category_id}`;
+        case "ADMIN_FIND_IMAGE":
+            return `image`;
+        case "ADMIN_SAVE_IMAGE":
+            return `image`;
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);
     }
