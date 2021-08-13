@@ -1,3 +1,5 @@
+import PageHeader from "@ui/PageHeader";
+import AdminManageImage from "components/organism/AdminManageImage/AdminManageImage";
 import { SecureRoute } from "lib/server/accessController";
 
 type Props = {};
@@ -5,7 +7,8 @@ type Props = {};
 const Image = () => {
     return (
         <div>
-            <h2>image</h2>
+            <PageHeader title={"메인페이지 이미지 관리"} />
+            <AdminManageImage />
         </div>
     );
 };
