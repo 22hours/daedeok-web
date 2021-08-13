@@ -1,3 +1,5 @@
+import { SecureRoute } from "lib/server/accessController";
+
 type Props = {};
 
 const index = () => {
@@ -8,9 +10,11 @@ const index = () => {
     );
 };
 export async function getServerSideProps(ctx) {
-    console.log(ctx.query);
+    const { status, class_id } = ctx.query;
     return {
-        props: {},
+        redirect: {
+            destination: `/class/${status}/${class_id}/board`,
+        },
     };
 }
 

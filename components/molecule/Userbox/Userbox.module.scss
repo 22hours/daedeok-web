@@ -4,10 +4,10 @@
 .container {
     height: inherit;
     background-color: white;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
     .user {
         font-weight: bolder;
     }
@@ -21,15 +21,23 @@
     .bottom {
         margin-top: 12px;
     }
+    .control_row {
+        margin-top: 10px;
+        display: flex;
+        .control_btn {
+            cursor: pointer;
+            margin-right: 10px;
+        }
+    }
 }
 
 .not_login_container {
     height: inherit;
     background-color: white;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    padding-left: 25px;
-    padding-right: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 
     .head {
         .login_text {

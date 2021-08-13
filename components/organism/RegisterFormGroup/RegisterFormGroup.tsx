@@ -12,6 +12,7 @@ import useInput from "lib/hooks/useInput";
 import useBoolean from "lib/hooks/useBoolean";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
+import useDivision from "lib/hooks/useDivision";
 
 const PhoneAuth = dynamic(import("components/molecule/PhoneAuth"));
 
@@ -31,77 +32,9 @@ const InputSection = (props: SectionProps) => {
 const DivisionInput = ({ firstDivision, secondDivision }) => {
     const { clientSideApi } = useAuthStore();
     type DivisionItem = { first_division: string; second_division: string[] };
-    const [optionList, setOptionList] = useState<DivisionItem[] | null>(null);
-    const getOptionData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "FIND_DIVISION");
-        if (res.result === "SUCCESS") {
-            setOptionList([
-                {
-                    first_division: "고등부",
-                    second_division: ["1학년", "2학년", "3학년"],
-                },
-                {
-                    first_division: "소년부",
-                    second_division: ["1학년", "2학년", "3학년"],
-                },
-            ]);
-            // setOptionList(res.data);
-        } else {
-            alert(res.msg);
-        }
-    };
-    useEffect(() => {
-        getOptionData();
-    }, []);
 
-    useEffect(() => {
-        if (optionList) {
-            console.log(
-                optionList.map((it) => {
-                    const first_division = it.first_division;
-                    return {
-                        name: first_division,
-                        value: first_division,
-                    };
-                })
-            );
-            console.log();
-        }
-    }, [optionList]);
+    const { firstDivisionOptionList, secondDivisionOptionList } = useDivision(firstDivision, secondDivision);
 
-    const firstDivisionOptionList = optionList
-        ? optionList.map((it) => {
-              const first_division = it.first_division;
-              return {
-                  name: first_division,
-                  value: first_division,
-              };
-          })
-        : [];
-
-    const secondDivisionOptionList = () => {
-        if (optionList) {
-            const matchItem = optionList.find((it) => it.first_division === firstDivision.value)?.second_division;
-            if (matchItem) {
-                return matchItem.map((cur_item) => {
-                    return {
-                        name: cur_item,
-                        value: cur_item,
-                    };
-                });
-            } else {
-                return [];
-            }
-        } else {
-            return [];
-        }
-    };
-
-    useEffect(() => {
-        if (secondDivision) {
-            secondDivision.setValue("");
-        }
-    }, [firstDivision.value]);
     return (
         <InputSection>
             <div className={style.select_row}>
@@ -109,7 +42,7 @@ const DivisionInput = ({ firstDivision, secondDivision }) => {
                     {...firstDivision}
                     className={style.register_form}
                     form={"box"}
-                    option_list={firstDivisionOptionList}
+                    option_list={firstDivisionOptionList()}
                     placeholder={"상위 소속 선택"}
                 />
                 <Select

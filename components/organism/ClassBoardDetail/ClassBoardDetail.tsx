@@ -18,23 +18,26 @@ import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
 
 import CommentList from "../CommentList/CommentList";
+import { useRouter } from "next/router";
 
 const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
 type State = res_types.classBoardDetail;
 
-const ClassBoardDetail = ({ contentId }) => {
+const ClassBoardDetail = () => {
+    const router = useRouter();
+    const { content_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
     const { class_id } = useClassDetailStore();
     const [boardDetailData, setBoardDetailData] = useState<State | null>(null);
     useEffect(() => {
         getClassBoardDetail();
-    }, [contentId]);
+    }, [content_id]);
 
     //공지사항 상세 data
     const getClassBoardDetail = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_BOARD_DETAIL", {
-            content_id: contentId,
+            content_id: content_id,
         });
         if (res.result === "SUCCESS") {
             const data: State = res.data;
@@ -46,7 +49,7 @@ const ClassBoardDetail = ({ contentId }) => {
     const handleDelete = async () => {
         const flag = confirm("삭제하시겠습니까?");
         if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "LECTURE_BOARD_DELETE", { content_id: contentId });
+            const res = await clientSideApi("DELETE", "MAIN", "LECTURE_BOARD_DELETE", { content_id: content_id });
             if (res.result === "SUCCESS") {
                 alert("삭제되었습니다.");
                 location.replace(`/class/open/${class_id}/board`);
@@ -63,7 +66,7 @@ const ClassBoardDetail = ({ contentId }) => {
                 "POST",
                 "MAIN",
                 "LECTURE_BOARD_NEW_COMMENT",
-                { content_id: contentId },
+                { content_id: content_id },
                 {
                     content: content,
                     parent_id: parent_id,
@@ -76,8 +79,7 @@ const ClassBoardDetail = ({ contentId }) => {
                 if (parent_id) {
                     // 대댓일때
                     if (boardDetailData) {
-                        var newCommentList: res_types.classBoardDetail["comment_list"] =
-                            boardDetailData?.comment_list?.slice();
+                        var newCommentList: res_types.classBoardDetail["comment_list"] = boardDetailData?.comment_list?.slice();
                         const matchIdx = newCommentList?.findIndex((it) => it.id === parent_id);
                         //@ts-ignore
                         newCommentList[matchIdx]?.children.push({
@@ -143,8 +145,7 @@ const ClassBoardDetail = ({ contentId }) => {
             if (parent_id) {
                 // 대댓일때
                 if (boardDetailData) {
-                    var newCommentList: res_types.classBoardDetail["comment_list"] =
-                        boardDetailData?.comment_list?.slice();
+                    var newCommentList: res_types.classBoardDetail["comment_list"] = boardDetailData?.comment_list?.slice();
                     const matchIdx = newCommentList?.findIndex((it) => it.id === parent_id);
                     const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
                     newCommentList[matchIdx].children[childMatchIdx].content = content;
@@ -159,8 +160,7 @@ const ClassBoardDetail = ({ contentId }) => {
             } else {
                 // 댓일때
                 if (boardDetailData) {
-                    const newCommentList: res_types.classBoardDetail["comment_list"] =
-                        boardDetailData?.comment_list?.slice();
+                    const newCommentList: res_types.classBoardDetail["comment_list"] = boardDetailData?.comment_list?.slice();
                     const matchIdx = newCommentList?.findIndex((it) => it.id === comment_id);
                     //@ts-ignore
                     newCommentList[matchIdx].content = content;
@@ -193,8 +193,7 @@ const ClassBoardDetail = ({ contentId }) => {
                 if (parent_id) {
                     // 대댓일때
                     if (boardDetailData) {
-                        var newCommentList: res_types.classBoardDetail["comment_list"] =
-                            boardDetailData?.comment_list?.slice();
+                        var newCommentList: res_types.classBoardDetail["comment_list"] = boardDetailData?.comment_list?.slice();
                         const matchIdx = newCommentList?.findIndex((it) => it.id === parent_id);
                         //@ts-ignore
                         const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
@@ -210,8 +209,7 @@ const ClassBoardDetail = ({ contentId }) => {
                 } else {
                     // 댓일때
                     if (boardDetailData) {
-                        const newCommentList: res_types.classBoardDetail["comment_list"] =
-                            boardDetailData?.comment_list.slice();
+                        const newCommentList: res_types.classBoardDetail["comment_list"] = boardDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
                         newCommentList.splice(matchIdx, 1);
                         setBoardDetailData({

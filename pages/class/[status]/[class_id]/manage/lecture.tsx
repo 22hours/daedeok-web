@@ -3,6 +3,7 @@ import { class_types, res_types } from "@global_types";
 import ClassEditor from "components/organism/ClassEditor/ClassEditor";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
+import { SecureRoute } from "lib/server/accessController";
 
 const Lecture = () => {
     const [data, setData] = useState<class_types.ClassInfo | null>(null);
@@ -47,5 +48,7 @@ const Lecture = () => {
         );
     }
 };
-
+export async function getServerSideProps(ctx) {
+    return SecureRoute(ctx, "ROLE_TUTOR");
+}
 export default Lecture;

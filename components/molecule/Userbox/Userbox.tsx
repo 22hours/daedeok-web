@@ -1,7 +1,9 @@
+import { Style } from "@material-ui/icons";
 import Button from "@ui/buttons/Button";
 import CheckBox from "@ui/input/CheckBox";
 import TextInput from "@ui/input/TextInput";
 import Typo from "@ui/Typo";
+import useBoolean from "lib/hooks/useBoolean";
 import useInput from "lib/hooks/useInput";
 import Link from "next/link";
 import React from "react";
@@ -12,11 +14,11 @@ type Props = {
 };
 
 const Userbox = (props: Props) => {
-    const { auth, login, clientSideApi } = useAuthStore();
+    const { auth, login, logout, clientSideApi } = useAuthStore();
 
     const phone_num = useInput();
     const pw = useInput();
-    const rememberUser = useInput();
+    const rememberUser = useBoolean();
 
     const handleLogin = async () => {
         const res = await clientSideApi("POST", "MAIN", "USER_LOGIN", undefined, {
@@ -24,10 +26,13 @@ const Userbox = (props: Props) => {
             password: pw.value,
         });
         if (res.result === "SUCCESS") {
+            phone_num.setValue("");
+            pw.setValue("");
             login(res.data);
         } else {
             alert(res.msg);
         }
+        pw.setValue("");
     };
 
     if (auth === null) {
@@ -119,6 +124,23 @@ const Userbox = (props: Props) => {
                             <Typo type={"TEXT"} size={"small"} color={"mint_accent"} content={"3"} />
                         </>
                     )}
+                </div>
+
+                <div className={style.control_row}>
+                    <Link href={"/mypage"}>
+                        <div className={style.control_btn}>
+                            <Typo
+                                className={style.control_typo}
+                                type={"TEXT"}
+                                size={"small"}
+                                content={`마이페이지 > `}
+                            />
+                        </div>
+                    </Link>
+
+                    <div className={style.control_btn} onClick={logout}>
+                        <Typo className={style.control_typo} type={"TEXT"} size={"small"} content={`로그아웃 > `} />
+                    </div>
                 </div>
             </div>
         );

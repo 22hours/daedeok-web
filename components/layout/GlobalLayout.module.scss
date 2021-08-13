@@ -46,6 +46,7 @@ $mobile_footer_height: 139px;
 .header {
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid #8c8c8b;
 
     .head {
         @include mobile {

@@ -71,12 +71,6 @@ const ImageItem = (props: ImageItemProps) => {
     );
 };
 
-const dummyImgList = [
-    "https://daedeok.s3.ap-northeast-2.amazonaws.com/1",
-    "https://daedeok.s3.ap-northeast-2.amazonaws.com/2",
-    "https://daedeok.s3.ap-northeast-2.amazonaws.com/3",
-    "https://www.naver.com",
-];
 type State = ImageItemType[];
 const AdminManageImage = () => {
     const { auth, clientSideApi } = useAuthStore();
@@ -118,7 +112,7 @@ const AdminManageImage = () => {
     );
 
     const addImageItem = useCallback(() => {
-        if (data.length >= 4) {
+        if (data.length > 4) {
             alert("4개 이상으로는 추가할 수 없습니다");
             return;
         }

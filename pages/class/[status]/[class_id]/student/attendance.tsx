@@ -1,4 +1,5 @@
 import StudentAttendanceList from "components/organism/StudentAttendanceList/StudentAttendanceList";
+import { SecureRoute } from "lib/server/accessController";
 
 const attendance = () => {
     return (
@@ -7,5 +8,7 @@ const attendance = () => {
         </div>
     );
 };
-
+export async function getServerSideProps(ctx) {
+    return SecureRoute(ctx, "ROLE_MEMBER");
+}
 export default attendance;

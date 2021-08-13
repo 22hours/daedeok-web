@@ -94,7 +94,7 @@ const FaqDetail = ({ articleId }) => {
                     </TableWrapper>
                 </div>
                 <div className={style.bottom_btn_wrapper}>
-                    {noticeDetailData?.user_id.toString() === auth?.user_id.toString() && (
+                    {auth?.role === "ROLE_ADMIN" && (
                         <>
                             <Button
                                 type="SQUARE"

@@ -41,7 +41,7 @@ const LoginGroup = (props: Props) => {
                     return;
             }
         }
-    }, []);
+    }, [router.query]);
 
     const idInput = useInput();
     const pwInput = useInput();
@@ -129,6 +129,7 @@ const LoginGroup = (props: Props) => {
             </div>
         );
     } else {
+        router.replace("/");
         return (
             <div>
                 <div>

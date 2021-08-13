@@ -1,6 +1,7 @@
 import Button from "@ui/buttons/Button";
 import CollapseButton from "@ui/buttons/CollapseButton";
 import Typo from "@ui/Typo";
+import Userbox from "components/molecule/Userbox/Userbox";
 import { RouteController } from "lib/RouteController";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -120,29 +121,9 @@ const CommonSideBar = () => {
         return (
             <div className={style.common_container}>
                 <section className={style.section_user}>
-                    <div className={style.head}>
-                        <Typo type={"TEXT"} size={"large"} content={auth.name} className={style.user} />
-                        &nbsp; &nbsp;
-                        <Typo
-                            type={"TEXT"}
-                            size={"normal"}
-                            content={`${auth?.duty}님 반갑습니다`}
-                            className={style.wellcome}
-                        />
-                    </div>
-                    <div>
-                        <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={role} />
-                    </div>
-                    <div className={style.bottom}>
-                        <Typo
-                            type={"TEXT"}
-                            size={"small"}
-                            content={`${role === "강사" ? "진행중인" : "수강중인"} 강의`}
-                        />
-                        &nbsp;
-                        <Typo type={"TEXT"} size={"small"} color={"mint_accent"} content={"3"} />
-                    </div>
+                    <Userbox />
                 </section>
+
                 <section className={style.section_button}>
                     <Link href={newClassLink}>
                         <Button

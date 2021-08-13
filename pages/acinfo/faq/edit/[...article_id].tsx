@@ -54,16 +54,6 @@ const NoticeEdit = () => {
 };
 
 export async function getServerSideProps(ctx) {
-    const { article_id } = ctx.query;
-    const { role } = cookies(ctx);
-    if (role === "ROLE_ADMIN" || role === "ROLE_MEMBER") {
-        return {
-            redirect: {
-                destination: `/acinfo/faq`,
-                permanent: false,
-            },
-        };
-    }
-    return SecureRoute(ctx, "ROLE_TUTOR");
+    return SecureRoute(ctx, "ROLE_ADMIN");
 }
 export default NoticeEdit;
