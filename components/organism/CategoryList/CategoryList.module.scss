@@ -1,0 +1,25 @@
+// CategoryList.module
+@import "styles/meta.scss";
+.head {
+    @include mobile {
+    }
+    @include desktop {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.body {
+    margin-top: 20px;
+    .control_col {
+        display: flex;
+        .control_btn {
+            width: 80px;
+            margin-left: 10px;
+        }
+        .edit_btn {
+        }
+        .delete_btn {
+        }
+    }
+}
