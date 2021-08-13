@@ -22,40 +22,7 @@ type State = {
     total_student: number;
     type: meta_types.classType;
     student_list: Student[];
-};
-
-const dummyData = {
-    total_student: 11,
-    type: "ZOOM",
-    student_list: [
-        {
-            user_id: 1,
-            name: "name1",
-            duty: "duty",
-            first_division: "first_division",
-            second_division: "second_division",
-            phone_num: "010-9011-7518",
-            status: "COMPLETE",
-        },
-        {
-            user_id: 2,
-            name: "name2",
-            duty: "duty",
-            first_division: "first_division",
-            second_division: "second_division",
-            phone_num: "010-9011-7518",
-            status: null,
-        },
-        {
-            user_id: 3,
-            name: "name3",
-            duty: "duty",
-            first_division: "first_division",
-            second_division: "second_division",
-            phone_num: "010-9011-7518",
-            status: null,
-        },
-    ],
+    week: number;
 };
 
 const TutorClassPlanDetailList = () => {
@@ -117,7 +84,7 @@ const TutorClassPlanDetailList = () => {
                         <Typo type={"TEXT"} size={"normal"} content={">"} />
                         &nbsp;
                         <div>
-                            <Typo type={"TEXT"} size={"normal"} content={`${episode_id} 주차`} />
+                            <Typo type={"TEXT"} size={"normal"} content={`${state.week}주차`} />
                         </div>
                     </div>
                     <div className={style.info}>
@@ -131,7 +98,13 @@ const TutorClassPlanDetailList = () => {
                             type={"TEXT"}
                             size={"smaller"}
                             color={"gray_accent"}
-                            content={`강의 형태 : ${state.type}`}
+                            content={
+                                state.type === "OFFLINE"
+                                    ? "강의 형태 : 오프라인"
+                                    : state.type === "ONLINE"
+                                    ? "강의 형태 : 영상 강의"
+                                    : "강의 형태 : ZOOM"
+                            }
                         />
                     </div>
                 </div>

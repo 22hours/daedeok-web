@@ -164,9 +164,9 @@ const ClassJoin = () => {
         );
         if (res_data.result === "SUCCESS") {
             alert("수강신청이 완료되었습니다.");
-            getClassListData();
+            location.reload();
         } else {
-            alert("실패했습니다. 다시 시도해주세요.");
+            alert(res_data.msg);
         }
     };
 

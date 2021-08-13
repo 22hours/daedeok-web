@@ -59,10 +59,10 @@ type LecturePlanItem = {
     location: string;
     type: meta_types.classType;
     date: string;
+    tutor: string;
 };
 
 const LecturePlanItem = (props: LecturePlanItem) => {
-    console.log(props);
     return (
         <TableRow
             week={props.week + "주차"}
@@ -74,14 +74,16 @@ const LecturePlanItem = (props: LecturePlanItem) => {
                     className={style.lecture_plan_children}
                     type={"TEXT"}
                     size={"small"}
-                    content={"강사 TODO"}
+                    content={props.tutor}
                     color={"gray_accent"}
                 />
                 <Typo
                     className={style.lecture_plan_children}
                     type={"TEXT"}
                     size={"small"}
-                    content={props.location}
+                    content={
+                        props.location === "ZOOM" ? "ZOOM" : props.location === "ONLINE" ? "영상강의" : props.location
+                    }
                     color={"gray_accent"}
                 />
             </div>

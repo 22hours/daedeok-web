@@ -12,12 +12,12 @@ const ClassCategorySelect = (props: Props) => {
     const categoryOptionState = useClassCategory();
     return (
         <Select
-            value={props.category || "ALL"}
+            value={props.category}
             onChange={(e) => {
                 props.changeCategory(e.target.value);
             }}
             form={props.form || "box"}
-            placeholder={"카테고리별 보기"}
+            placeholder={"선택"}
             option_list={categoryOptionState.categoryOptionList}
             className={`${props.className || ""} ${style.select}`}
         />
