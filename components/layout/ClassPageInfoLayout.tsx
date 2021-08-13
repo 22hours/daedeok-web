@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
 import { useClassStore } from "store/ClassStore";
+
+import Head from "next/head";
 type State = {
     breadCrumbList: { name: string; link: string }[];
     pageTitle: string;
@@ -375,7 +377,14 @@ const ClassPageInfoLayout: React.FC<Props> = ({ children, isDetailPage }: Props)
     }, [state]);
 
     if (isDetailPage) {
-        return <ClassDetailPageLayout setState={setState}>{children}</ClassDetailPageLayout>;
+        return (
+            <ClassDetailPageLayout setState={setState}>
+                <Head>
+                    <title>{classState.state.pageTitle}</title>
+                </Head>
+                {children}
+            </ClassDetailPageLayout>
+        );
     } else {
         return <ClassPlainPageLayout setState={setState}>{children}</ClassPlainPageLayout>;
     }

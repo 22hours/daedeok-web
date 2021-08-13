@@ -65,8 +65,14 @@ const TableRow = (props: Props) => {
                                     </div>
                                 )}
                                 {week && (
-                                    <div className={style.idx_item}>
-                                        <Typo type="TEXT" size="normal" content={week} color={"gray_accent"} />
+                                    <div className={style.week_item}>
+                                        <Typo
+                                            type="TEXT"
+                                            size="normal"
+                                            content={week}
+                                            color={"gray_accent"}
+                                            className={style.mobile_text}
+                                        />
                                     </div>
                                 )}
                                 {icon && (
@@ -79,7 +85,7 @@ const TableRow = (props: Props) => {
                                     </div>
                                 )}
                                 {weekTitle && (
-                                    <div className={style.title_item}>
+                                    <div className={style.week_title_item}>
                                         <Typo type="TEXT" size="normal" content={weekTitle} color={"gray_accent"} />
                                     </div>
                                 )}
@@ -95,7 +101,12 @@ const TableRow = (props: Props) => {
                                 )}
                                 {studentName && (
                                     <div className={style.board_item}>
-                                        <Typo type="TEXT" size="medium" content={studentName.toString()} />
+                                        <Typo
+                                            type="TEXT"
+                                            size="medium"
+                                            content={studentName.toString()}
+                                            className={style.mobile_text}
+                                        />
                                     </div>
                                 )}
                             </div>
@@ -221,8 +232,14 @@ const TableRow = (props: Props) => {
                             </div>
                         )}
                         {week && (
-                            <div className={style.idx_item}>
-                                <Typo type="TEXT" size="normal" content={week} color={"gray_accent"} />
+                            <div className={style.week_item}>
+                                <Typo
+                                    type="TEXT"
+                                    size="normal"
+                                    content={week}
+                                    color={"gray_accent"}
+                                    className={style.mobile_text}
+                                />
                             </div>
                         )}
                         {icon && (
@@ -235,7 +252,7 @@ const TableRow = (props: Props) => {
                             </div>
                         )}
                         {weekTitle && (
-                            <div className={style.title_item}>
+                            <div className={style.week_title_item}>
                                 <Typo type="TEXT" size="normal" content={weekTitle} color={"gray_accent"} />
                             </div>
                         )}
@@ -251,7 +268,12 @@ const TableRow = (props: Props) => {
                         )}
                         {studentName && (
                             <div className={style.board_item}>
-                                <Typo type="TEXT" size="medium" content={studentName.toString()} />
+                                <Typo
+                                    type="TEXT"
+                                    size="medium"
+                                    content={studentName.toString()}
+                                    className={style.mobile_text}
+                                />
                             </div>
                         )}
                     </div>
@@ -339,7 +361,7 @@ const TableRow = (props: Props) => {
                             </div>
                         )}
                     </div>
-                    <> {children && <div>{children}</div>}</>
+                    <> {children && <div className={style.child}>{children}</div>}</>
                 </div>
             )}
         </>

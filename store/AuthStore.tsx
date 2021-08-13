@@ -114,10 +114,7 @@ export const AuthProvider = ({ children }) => {
         dispatch({
             type: "LOGIN",
             data: {
-                user_id: userData.user_id,
-                name: userData.name,
-                role: userData.role,
-                duty: userData.duty,
+                ...userData,
                 lecture_num: userData.lecture_num || 0,
             },
         });
@@ -135,10 +132,7 @@ export const AuthProvider = ({ children }) => {
             dispatch({
                 type: "LOGIN",
                 data: {
-                    user_id: userData.user_id,
-                    name: userData.name,
-                    role: userData.role,
-                    duty: userData.duty,
+                    ...userData,
                     lecture_num: userData.lecture_num || 0,
                 },
             });

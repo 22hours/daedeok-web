@@ -15,9 +15,6 @@ const Index = () => {
 
     if (auth !== null) {
         switch (status) {
-            case "open": {
-                // router.replace("/class/open/board");
-            }
             case "close": {
                 return (
                     <ListCommonProvider>
@@ -32,6 +29,8 @@ const Index = () => {
                     </ListCommonProvider>
                 );
             }
+            default:
+                return;
         }
     }
 
@@ -49,7 +48,7 @@ export async function getServerSideProps(ctx) {
         case "open": {
             return {
                 redirect: {
-                    destination: "/class/open/board",
+                    destination: "/class",
                 },
             };
         }
@@ -64,19 +63,6 @@ export async function getServerSideProps(ctx) {
     return {
         props: {},
     };
-    // return SecureRoute(ctx,'')
 }
 
-// export async function getStaticProps({ params }) {
-//     return {
-//         props: {
-//             data: params,
-//         },
-//     };
-// }
-
-// export async function getStaticPaths(e) {
-//     const paths = [{ params: { status: "open" } }, { params: { status: "complete" } }, { params: { status: "close" } }];
-//     return { paths, fallback: false };
-// }
 export default Index;

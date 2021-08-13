@@ -1,4 +1,5 @@
 import ClassJoinDetailList from "components/organism/ClassJoinDetailList/ClassJoinDetailList";
+import { SecureRoute } from "lib/server/accessController";
 
 type Props = {};
 
@@ -7,12 +8,6 @@ const ClassJoinDetail = (props) => {
 };
 
 export async function getServerSideProps(ctx) {
-    const { class_id } = ctx.query;
-    return {
-        props: {
-            class_id: class_id,
-        },
-    };
+    return SecureRoute(ctx, "ROLE_MEMBER");
 }
-
 export default ClassJoinDetail;

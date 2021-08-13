@@ -60,6 +60,7 @@ export const ClassStoreProvider = ({ children }) => {
                 throw new Error("REDUCER ERROR IN CLASS STORE");
         }
     };
+
     const [state, dispatch] = useReducer(reducer, {
         breadCrumbList: [],
         pageTitle: "",

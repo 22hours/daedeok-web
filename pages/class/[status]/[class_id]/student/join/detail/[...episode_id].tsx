@@ -1,4 +1,5 @@
 import VideoClass from "components/organism/VideoClass/VideoClass";
+import { SecureRoute } from "lib/server/accessController";
 import cookies from "next-cookies";
 import { useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
@@ -33,12 +34,7 @@ const JoinDetail = () => {
     return <VideoClass />;
 };
 export async function getServerSideProps(ctx) {
-    const { role } = cookies(ctx);
-
-    return {
-        props: {},
-    };
+    return SecureRoute(ctx, "ROLE_MEMBER");
 }
-
 // http://localhost:3000/class/open/1/student/join/detail/1
 export default JoinDetail;

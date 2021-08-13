@@ -46,6 +46,7 @@ $mobile_footer_height: 139px;
 .header {
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid #8c8c8b;
 
     .head {
         @include mobile {
@@ -90,6 +91,14 @@ $mobile_footer_height: 139px;
     }
 }
 
+.carousel {
+    @include mobile {
+        height: $mobile_carousel_height;
+    }
+    @include desktop {
+        height: $pc_carousel_height;
+    }
+}
 .banner {
     @include mobile {
         height: $mobile_banner_height;

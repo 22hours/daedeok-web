@@ -140,6 +140,25 @@ declare module "@global_types" {
         };
     }
     export namespace res_types {
+        type noticeList = {
+            notice_list: Array<{
+                id: number;
+                user_id: number;
+                title: string;
+                create_date: string;
+            }>;
+            total_count: number;
+            total_page?: number;
+        };
+        type faqList = {
+            faq_list: Array<{
+                id: number;
+                user_id: number;
+                title: string;
+            }>;
+            total_count: number;
+            total_page?: number;
+        };
         //(목사) 강의 상세
         type classDetail = {
             id: number;
@@ -295,6 +314,7 @@ declare module "@global_types" {
             after: { id: number; user_id: number; title: string; create_date: string };
             before: { id: number; user_id: number; title: string; create_date: string };
         };
+
         type qnaDetailList = {
             id: number;
             user_id: number;
@@ -326,6 +346,24 @@ declare module "@global_types" {
                 secret: boolean;
                 view: number;
             };
+
+        type noticeDetail = {
+            id: number;
+            user_id: number;
+            title: string;
+            content: string;
+            create_date: string;
+            after: { id: number; user_id: number; title: string; create_date: string };
+            before: { id: number; user_id: number; title: string; create_date: string };
+        };
+        type faqDetail = {
+            id: number;
+            user_id: number;
+            title: string;
+            content: string;
+            after: { id: number; user_id: number; title: string; create_date: string };
+            before: { id: number; user_id: number; title: string; create_date: string };
+
         };
     }
 }

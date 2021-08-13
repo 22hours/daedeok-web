@@ -5,49 +5,18 @@ import { class_types } from "@global_types";
 import { nanoid } from "nanoid";
 import Typo from "@ui/Typo";
 import Icon from "@ui/Icon";
+import useInput from "lib/hooks/useInput";
+import useDivision from "lib/hooks/useDivision";
 type DivisionProps = {
     divisionList: class_types.ClassInfo["division_list"];
     addDivisionItem: (division: class_types.Division) => void;
     removeDivisionItem: (idx: number) => void;
 };
 type DivisionSelectOption = { value: string; name: string };
-type OptionState = { first_division_list: DivisionSelectOption[]; second_division_list: DivisionSelectOption[] };
 const DivisionListInput = (props: DivisionProps) => {
-    // GET DIVISON LIST
-    const [optionList, setOptionList] = useState<OptionState | null>(null);
-    useEffect(() => {
-        setOptionList({
-            first_division_list: [
-                {
-                    value: "고등부",
-                    name: "고등부",
-                },
-                {
-                    value: "초등부",
-                    name: "초등부",
-                },
-            ],
-            second_division_list: [
-                {
-                    value: "1학년",
-                    name: "1학년",
-                },
-                {
-                    value: "2학년",
-                    name: "2학년",
-                },
-
-                {
-                    value: "3학년",
-                    name: "3학년",
-                },
-            ],
-        });
-    }, []);
-
     return (
         <div className={style.DivisionListInput}>
-            {optionList && <DivisionInputInner optionList={optionList} addDivisionList={props.addDivisionItem} />}
+            <DivisionInputInner addDivisionList={props.addDivisionItem} />
             <DivisionItemList divisionList={props.divisionList} removeDivisionItem={props.removeDivisionItem} />
         </div>
     );
@@ -95,46 +64,38 @@ const DivisionItemList = (props: DivisionItemListProps) => {
 
 // DIVISON INPUT INNER
 type InnerProps = {
-    optionList: OptionState;
     addDivisionList: (division: class_types.Division) => void;
 };
 const DivisionInputInner = React.memo((props: InnerProps) => {
-    const [localDivisionState, setLocalDivisionState] = useState<class_types.Division>({
-        first_division: "",
-        second_division: "",
-    });
+    const first_division = useInput();
+    const second_division = useInput();
+
+    const { firstDivisionOptionList, secondDivisionOptionList } = useDivision(first_division, second_division);
 
     useEffect(() => {
-        if (localDivisionState.first_division !== "" && localDivisionState.second_division !== "") {
-            props.addDivisionList(localDivisionState);
+        if (first_division.value !== "" && second_division.value !== "") {
+            props.addDivisionList({
+                first_division: first_division.value,
+                second_division: second_division.value,
+            });
         }
-    }, [localDivisionState.second_division]);
-
-    const setFirstDivision = useCallback(
-        (e) => setLocalDivisionState({ first_division: e.target.value, second_division: "" }),
-        [localDivisionState]
-    );
-
-    const setSecondDivision = useCallback(
-        (e) => setLocalDivisionState({ ...localDivisionState, second_division: e.target.value }),
-        [localDivisionState]
-    );
+    }, [second_division.value]);
 
     return (
         <div>
             <ClassSelectInput
                 labelName={"상위 소속"}
-                value={localDivisionState.first_division}
-                onChange={setFirstDivision}
+                value={first_division.value}
+                onChange={first_division.onChange}
                 placeholder={"상위소속"}
-                option_list={props.optionList.first_division_list}
+                option_list={firstDivisionOptionList()}
             />
             <ClassSelectInput
                 labelName={"하위 소속"}
-                value={localDivisionState.second_division}
-                onChange={setSecondDivision}
+                value={second_division.value}
+                onChange={second_division.onChange}
                 placeholder={"하위소속"}
-                option_list={localDivisionState.first_division !== "" ? props.optionList.second_division_list : []}
+                option_list={secondDivisionOptionList()}
             />
         </div>
     );

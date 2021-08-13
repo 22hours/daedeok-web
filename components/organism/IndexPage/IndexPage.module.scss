@@ -1,0 +1,171 @@
+// IndexPage.module
+@import "styles/meta.scss";
+
+.container {
+    .section_1 {
+        width: 100vw;
+        padding-bottom: 20px;
+
+        background-color: rgb(232, 235, 236);
+        display: grid;
+        @include mobile {
+            grid-template-columns: 0.2fr 7fr 0.2fr;
+        }
+
+        @include desktop {
+            grid-template-columns: 0.8fr 7fr 0.8fr;
+        }
+    }
+    .image_button_grid {
+        display: grid;
+        @include desktop {
+            grid-template-columns: 1fr 1fr 2fr;
+            gap: 10px;
+        }
+        @include mobile {
+            grid-template-columns: 1fr 3fr;
+        }
+
+        .img_btn {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            height: 140px;
+            @include desktop {
+                display: flex;
+                .img_wrapper {
+                    width: 40px;
+                    margin-right: 10px;
+                }
+                padding-left: 50px;
+                padding-right: 50px;
+            }
+            @include mobile {
+                display: grid;
+
+                .img_wrapper {
+                    width: 20px;
+                    margin-right: 10px;
+                }
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
+            overflow: hidden;
+
+            .btn_typo {
+                white-space: nowrap;
+            }
+
+            .class_btn_wrapper {
+                display: flex;
+                align-items: center;
+            }
+        }
+        .user {
+            background-color: $red_accent;
+        }
+        .faq {
+            background-color: $mint_accent;
+        }
+        .acinfo {
+            background-color: $mint_accent;
+        }
+        .class {
+            background-color: $yellow_accent;
+        }
+    }
+    .notice_user_grid {
+        margin-top: 10px;
+        @include desktop {
+            display: flex;
+            .notice_preview {
+                flex-grow: 1;
+                background-color: white;
+                height: 210px;
+            }
+            .user_box {
+                margin-left: 10px;
+                width: 350px;
+                height: 210px;
+            }
+        }
+        @include mobile {
+        }
+
+        .notice_preview {
+            padding: 25px;
+            .notice_head {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                svg {
+                    cursor: pointer;
+                }
+                .notice_head_typo {
+                    font-weight: bold;
+                }
+            }
+            .notice_body {
+                margin-top: 10px;
+                display: grid;
+                gap: 10px;
+                .notice_list_item {
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+        }
+    }
+
+    .footer {
+        @include desktop {
+            height: 200px;
+        }
+        @include mobile {
+            height: 130px;
+        }
+        width: 100vw;
+        margin-top: 20px;
+        background-position-y: center;
+        background-position: center;
+        background-size: cover;
+        position: relative;
+        .mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            .img_btn_row {
+                cursor: pointer;
+                margin-top: 10px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                @include desktop {
+                    .img_btn_wrapper {
+                        width: 220px;
+                    }
+                    gap: 40px;
+                }
+                @include mobile {
+                    .img_btn_wrapper {
+                        width: 150px;
+                    }
+                    gap: 20px;
+                }
+            }
+        }
+    }
+}

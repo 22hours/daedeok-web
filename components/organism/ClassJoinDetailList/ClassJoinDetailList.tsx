@@ -12,6 +12,7 @@ import { nanoid } from "nanoid";
 
 //store
 import { useAuthStore } from "store/AuthStore";
+import { SecureRoute } from "lib/server/accessController";
 
 const ClassJoinDetailList = ({ classId }) => {
     const { clientSideApi } = useAuthStore();
@@ -213,4 +214,5 @@ const ClassJoinDetailList = ({ classId }) => {
         </div>
     );
 };
+
 export default ClassJoinDetailList;

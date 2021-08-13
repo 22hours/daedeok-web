@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
-type Props = {};
+import NoticeDetail from "components/organism/NoticeDetail/NoticeDetail";
+import PageHeader from "@ui/PageHeader";
 
-const NoticeDetail = ({ notice_id }) => {
+const NoticeDetailPage = (props) => {
     return (
         <div>
-            <h2>[...article_id]</h2>
+            <PageHeader title={"공지사항"} />
+            <NoticeDetail noticeId={props.notice_id} />
         </div>
     );
 };
 
 export async function getServerSideProps(ctx) {
+    const { notice_id } = ctx.query;
     return {
-        props: {},
+        props: {
+            notice_id: notice_id,
+        },
     };
 }
 
-export default NoticeDetail;
+export default NoticeDetailPage;

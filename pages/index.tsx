@@ -1,13 +1,14 @@
 import GlobalLayout from "components/layout/GlobalLayout";
+import IndexPage from "components/organism/IndexPage/IndexPage";
 
 import React from "react";
 
 // HOME
 export default function Home() {
-    return (
-        <div className="container">
-            <div></div>
-        </div>
-    );
+    return <IndexPage />;
 }
-Home.Layout = (page: any) => <GlobalLayout>{page}</GlobalLayout>;
+Home.Layout = (page: any) => (
+    <GlobalLayout isBannerHide isIndex>
+        {page}
+    </GlobalLayout>
+);

@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
-type Props = {};
+import FaqDetail from "components/organism/FaqDetail/FaqDetail";
+import PageHeader from "@ui/PageHeader";
 
-const FAQDetail = () => {
+const FAQDetailPage = (props) => {
     return (
         <div>
-            <h2>[...article_id]</h2>
+            <PageHeader title={"자주묻는 질문"} />
+            <FaqDetail articleId={props.article_id} />
         </div>
     );
 };
 
 export async function getServerSideProps(ctx) {
-    console.log(ctx);
+    const { article_id } = ctx.query;
     return {
-        props: {},
+        props: {
+            article_id: article_id,
+        },
     };
 }
 
-export default FAQDetail;
+export default FAQDetailPage;

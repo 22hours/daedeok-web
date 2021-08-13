@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-type Props = {};
+import NoticeList from "components/organism/NoticeList/NoticeList";
+import { ListCommonProvider } from "store/ListCommonStore";
+import PageHeader from "@ui/PageHeader";
 
 const index = () => {
     return (
-        <div>
-            <h2>NOTICE</h2>
-        </div>
+        <>
+            <PageHeader title={"공지사항"} />
+            <ListCommonProvider>
+                <NoticeList />
+            </ListCommonProvider>
+        </>
     );
 };
 

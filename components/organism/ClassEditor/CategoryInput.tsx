@@ -1,3 +1,4 @@
+import ClassCategorySelect from "components/molecule/ClassCategorySelect/ClassCategorySelect";
 import React from "react";
 import ClassSelectInput from "./items/ClassSelectInput";
 type titleProps = {
@@ -8,7 +9,7 @@ type titleProps = {
     option_list: { value: string; name: string }[];
     onChange: (e) => void;
 };
-const ClassTextInput = (props: titleProps) => {
+const CategoryInput = (props: titleProps) => {
     return (
         <div>
             <ClassSelectInput
@@ -22,4 +23,4 @@ const ClassTextInput = (props: titleProps) => {
     );
 };
 
-export default React.memo(ClassTextInput);
+export default React.memo(CategoryInput);

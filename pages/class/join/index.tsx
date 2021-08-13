@@ -2,6 +2,7 @@ import React from "react";
 import ClassJoin from "components/organism/ClassJoin/ClassJoin";
 import { ClassJoinListStoreProvider } from "store/ClassJoinListStore";
 import { ListCommonProvider } from "store/ListCommonStore";
+import { SecureRoute } from "lib/server/accessController";
 
 type Props = {};
 
@@ -15,9 +16,6 @@ const ClassJoinPage = () => {
     );
 };
 export async function getServerSideProps(ctx) {
-    console.log("CLASS JOIN PAGE");
-    return {
-        props: {},
-    };
+    return SecureRoute(ctx, "ROLE_MEMBER");
 }
 export default ClassJoinPage;

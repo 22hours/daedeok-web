@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { WysiwygEditorProvider } from "store/WysiwygEditorStore";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
+import { SecureRoute } from "lib/server/accessController";
 type Props = {};
 
 const ClassBoardEditor = dynamic(() => import("components/organism/ClassBoardEditor/ClassBoardEditor"), { ssr: false });
@@ -42,8 +43,6 @@ const ClassBoardEdit = () => {
 };
 
 export async function getServerSideProps(ctx) {
-    return {
-        props: {},
-    };
+    return SecureRoute(ctx, "ROLE_ALL");
 }
 export default ClassBoardEdit;

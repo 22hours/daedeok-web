@@ -1,4 +1,5 @@
 import TutorClassPlanDetailList from "components/organism/TutorClassPlanDetailList/TutorClassPlanDetailList";
+import { SecureRoute } from "lib/server/accessController";
 import React from "react";
 
 type Props = {};
@@ -11,9 +12,6 @@ const ManageAttendanceDetail = () => {
     );
 };
 export async function getServerSideProps(ctx) {
-    console.log(ctx.query);
-    return {
-        props: {},
-    };
+    return SecureRoute(ctx, "ROLE_TUTOR");
 }
 export default ManageAttendanceDetail;

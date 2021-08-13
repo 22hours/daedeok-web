@@ -12,6 +12,7 @@
         img {
             @include mobile {
                 height: 40px;
+                width: 100%;
             }
             @include desktop {
                 height: 70px;

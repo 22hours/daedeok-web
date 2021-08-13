@@ -27,13 +27,13 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `FAQ_FIND`:
             return `faq/`;
         case `FAQ_FIND_DETAIL`:
-            return `faq/`;
+            return `faq/${url_query.article_id}`;
         case `FAQ_NEW`:
             return `faq/`;
         case `FAQ_EDIT`:
-            return `faq/`;
+            return `faq/${url_query.article_id}`;
         case `FAQ_DELETE`:
-            return `faq/`;
+            return `faq/${url_query.article_id}`;
         // QNA
         case `QNA_FIND`:
             return `qna`;
@@ -55,13 +55,13 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `TOTAL_NOTICE_FIND`:
             return `notice/`;
         case `TOTAL_NOTICE_FIND_DETAIL`:
-            return `notice/`;
+            return `notice/${url_query.article_id}`;
         case `TOTAL_NOTICE_NEW`:
             return `notice/`;
         case `TOTAL_NOTICE_EDIT`:
-            return `notice/`;
+            return `notice/${url_query.article_id}`;
         case `TOTAL_NOTICE_DELETE`:
-            return `notice/`;
+            return `notice/${url_query.article_id}`;
         case `TOTAL_NOTICE_NEW_COMMENT`:
             return `notice/`;
         case `TOTAL_NOTICE_EDIT_COMMENT`:
@@ -92,6 +92,12 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `category/all`;
         case `CATEGORY_DETAIL_FIND`:
             return `category/${url_query.category_id}`;
+        case `CATEGORY_FIND`:
+            return `category`;
+        case "CATEGORY_FIND_ALL":
+            return `category/all`;
+        case "CATEGORY_FIND_CLASS_BOARD":
+            return `category/all/lecture-board`;
         case `CATEGORY_NEW`:
             return `category/`;
         case `CATEGORY_DELETE`:

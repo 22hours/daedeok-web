@@ -10,7 +10,6 @@ const useClassCategory = () => {
     const getCategoryData = async () => {
         const res = await clientSideApi("GET", "MAIN", "CATEGORY_FIND_ALL");
         if (res.result === "SUCCESS") {
-            console.log(res.data);
             setCategoryOptionList(
                 res.data.map((it) => {
                     return {
