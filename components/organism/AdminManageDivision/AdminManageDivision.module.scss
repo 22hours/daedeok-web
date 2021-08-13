@@ -1,0 +1,65 @@
+// AdminManageDivision.module
+@import "styles/meta.scss";
+
+.container {
+    .new_division_container {
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            .label {
+                @include desktop {
+                    width: 100px;
+                }
+                @include mobile {
+                    width: 70px;
+                }
+                height: 40px;
+                border: 1px solid $gray_form;
+                margin-right: 10px;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+            }
+            .input {
+                flex-grow: 1;
+                height: 40px;
+            }
+            .button {
+                height: 40px;
+            }
+        }
+        .second_division_grid {
+            margin-top: -10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 5px;
+            .second_division_item {
+                display: flex;
+                align-items: center;
+                svg {
+                    margin-left: 8px;
+                    cursor: pointer;
+                }
+            }
+        }
+        .control_row {
+            margin-top: 20px;
+            span {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .body {
+        margin-top: 50px;
+        .control_col {
+            .button {
+                width: 80px;
+            }
+        }
+    }
+}
