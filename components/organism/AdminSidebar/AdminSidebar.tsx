@@ -10,7 +10,7 @@ import useBoolean from "lib/hooks/useBoolean";
 import MenuIcon from "@material-ui/icons/Menu";
 
 const PcSidebar = ({ children }) => {
-    return <div>{children}</div>;
+    return <div className={style.pc_side_bar_container}>{children}</div>;
 };
 
 const MobileSidebar = ({ children }) => {
