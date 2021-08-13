@@ -35,11 +35,9 @@ export const ClassDetailProvider = (props: ProviderType) => {
     const [classInfo, setClassInfo] = useState<State>(null);
     const { auth, clientSideApi } = useAuthStore();
     const getClassInfo = async () => {
-        console.log("CALL");
         // @ts-ignore
         const { class_id, status }: { class_id: string; status: meta_types.classStatus } = router.query;
         const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_CLASS_TITLE", { lecture_id: class_id });
-        console.log(res);
         if (res.result === "SUCCESS") {
             setClassInfo({
                 class_id: class_id,
@@ -52,7 +50,7 @@ export const ClassDetailProvider = (props: ProviderType) => {
     };
 
     useEffect(() => {
-        console.log({ router, auth });
+        setClassInfo(null);
         if (router.query.class_id && auth?.user_id) {
             getClassInfo();
         }

@@ -23,9 +23,6 @@ type Action =
     | { type: "SET_BREADCRUMBS_LIST"; data: meta_types.BreadCrumbItem[] }
     | { type: "SET_PAGE_TITLE"; data: string };
 
-// DISPATCH TYPES
-type ContextDispatch = Dispatch<Action>;
-
 // CONTEXT
 type Store = {
     state: State;
@@ -83,7 +80,6 @@ export const ClassStoreProvider = ({ children }) => {
 };
 const RenderChildren = ({ state, children }) => {
     const router = useRouter();
-    console.log(router.pathname);
     if (router.pathname.includes("/class/[status]/[class_id]")) {
         return (
             <ClassDetailProvider
@@ -94,7 +90,6 @@ const RenderChildren = ({ state, children }) => {
             </ClassDetailProvider>
         );
     } else {
-        console.log("HAHA");
         return (
             <div>
                 <ClassPageInfoLayout>

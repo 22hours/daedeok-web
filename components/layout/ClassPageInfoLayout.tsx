@@ -226,7 +226,7 @@ const ClassDetailPageLayout = ({ children, setState }) => {
                 }
             }
         }
-    }, [router.asPath]);
+    }, [class_title]);
     return <>{children}</>;
 };
 
