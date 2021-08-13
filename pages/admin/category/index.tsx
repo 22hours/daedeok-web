@@ -1,10 +1,13 @@
+import PageHeader from "@ui/PageHeader";
+import AdminCategoryList from "components/organism/AdminCategoryList/AdminCategoryList";
 import { SecureRoute } from "lib/server/accessController";
 type Props = {};
 
 const category = () => {
     return (
         <div>
-            <h2>category</h2>
+            <PageHeader title={"수업 카테고리 관리"} />
+            <AdminCategoryList />
         </div>
     );
 };

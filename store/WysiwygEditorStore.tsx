@@ -92,7 +92,6 @@ export const WysiwygEditorProvider = ({ children }) => {
     const getUpdatedImgList = () => {
         const curImgList = getImageSourceList();
         const { deleted_item_list, new_item_list } = ListController.getUpdateInList(originImgList, curImgList, true);
-        console.log({ deleted_item_list, new_item_list });
         return {
             new_item_list: new_item_list,
             deleted_item_list: deleted_item_list,

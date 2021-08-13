@@ -185,6 +185,16 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `user/admin/password/${url_query.user_id}`;
         case "ADMIN_DELETE_USER":
             return `user/admin/${url_query.user_id}`;
+        case "ADMIN_NEW_CATEGORY":
+            return `category`;
+        case "ADMIN_UPDATE_CATEGORY":
+            return `category/${url_query.category_id}`;
+        case "ADMIN_DELETE_CATEGORY":
+            return `category/${url_query.category_id}`;
+        case "ADMIN_FIND_CATEGORY":
+            return `category`;
+        case "ADMIN_FIND_DETAIL_CATEGORY":
+            return `category/${url_query.category_id}`;
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);
     }

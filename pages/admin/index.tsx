@@ -12,7 +12,7 @@ const Index = () => {
     useEffect(() => {
         if (auth) {
             if (auth.role === "ROLE_ADMIN") {
-                router.replace("/admin/member-category");
+                router.replace("/admin/member");
             } else {
                 alert("잘못된 접근입니다");
                 router.replace("/class");

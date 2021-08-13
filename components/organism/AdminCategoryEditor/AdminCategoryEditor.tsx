@@ -1,37 +1,37 @@
-import style from "./TutorNoticeEditor.module.scss";
-import dynamic from "next/dynamic";
-import { useEffect, useRef } from "react";
-import TextInput from "@ui/input/TextInput";
 import Button from "@ui/buttons/Button";
-import { useAuthStore } from "store/AuthStore";
+import TextInput from "@ui/input/TextInput";
+import TextEditor from "components/molecule/TextEditor/TextEditor";
+import ListController from "lib/client/listController";
 import useInput from "lib/hooks/useInput";
 import { useRouter } from "next/router";
-import TextEditor from "components/molecule/TextEditor/TextEditor";
+import { useEffect } from "react";
+import { useAuthStore } from "store/AuthStore";
 import { useEditorController, WysiwygEditorProvider } from "store/WysiwygEditorStore";
+import style from "./AdminCategoryEditor.module.scss";
 type Props = {
     type: "NEW" | "EDIT";
     originData?: {
-        title: string;
+        category: string;
         content: string;
     };
 };
 
-const TutorNoticeEditorController = (props: Props) => {
+const AdminCategoryController = (props: Props) => {
     const router = useRouter();
 
     const editorController = useEditorController();
 
-    const title = useInput();
+    const category = useInput();
     const { clientSideApi } = useAuthStore();
 
     // NEW
     const handleSubmit = async () => {
-        const res = await clientSideApi("POST", "MAIN", "TUTOR_NOTICE_NEW", undefined, {
-            title: title.value,
+        const res = await clientSideApi("POST", "MAIN", "ADMIN_NEW_CATEGORY", undefined, {
+            category: category.value,
             content: editorController.getMarkdownContent(),
         });
         if (res.result === "SUCCESS") {
-            router.push(`/class/notice/detail/${res.data}`);
+            router.push(`/admin/category/detail/${res.data}`);
         } else {
             alert(res.msg);
         }
@@ -39,19 +39,26 @@ const TutorNoticeEditorController = (props: Props) => {
 
     // EDIT
     const handleEdit = async () => {
-        const { notice_id } = router.query;
+        const { category_id } = router.query;
         const res = await clientSideApi(
             "PUT",
             "MAIN",
-            "TUTOR_NOTICE_EDIT",
-            { notice_id: notice_id },
+            "ADMIN_UPDATE_CATEGORY",
+            { category_id: category_id },
             {
-                title: title.value,
+                category: category.value,
                 content: editorController.getMarkdownContent(),
             }
         );
         if (res.result === "SUCCESS") {
-            router.push(`/class/notice/detail/${notice_id}`);
+            const { new_item_list, deleted_item_list } = editorController.getUpdatedImgList();
+
+            await clientSideApi("PUT", "MAIN", "UPDATE_FILE", undefined, {
+                new_file_list: new_item_list,
+                delete_file_list: deleted_item_list,
+                to_path: "LECTURE_CATEGORY",
+            });
+            router.push(`/admin/category/detail/${category_id}`);
         } else {
             alert(res.msg);
         }
@@ -59,14 +66,14 @@ const TutorNoticeEditorController = (props: Props) => {
 
     useEffect(() => {
         if (props.type === "EDIT" && props.originData) {
-            title.setValue(props.originData.title);
+            category.setValue(props.originData.category);
         }
     }, [props]);
 
     return (
         <div className={style.container}>
             <div className={style.head}>
-                <TextInput {...title} form={"underline"} type={"text"} placeholder={"제목을 적어주세요"} />
+                <TextInput {...category} form={"underline"} type={"text"} placeholder={"카테고리명 입력"} />
             </div>
             <div className={style.body}>
                 <TextEditor
@@ -100,12 +107,12 @@ const TutorNoticeEditorController = (props: Props) => {
     );
 };
 
-const TutorNoticeEditor = (props: Props) => {
+const AdminCategoryEditor = (props: Props) => {
     return (
         <WysiwygEditorProvider>
-            <TutorNoticeEditorController {...props} />
+            <AdminCategoryController {...props} />
         </WysiwygEditorProvider>
     );
 };
 
-export default TutorNoticeEditor;
+export default AdminCategoryEditor;

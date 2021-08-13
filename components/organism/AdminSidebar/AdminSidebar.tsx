@@ -67,7 +67,7 @@ const CommonSidebar = () => {
         const menu_list: MenuItemType[] = [
             { name: "회원관리", link: "/admin/member" },
             { name: "강사 공지 및 알림", link: "/admin/tutor-notice" },
-            { name: "수업 카테고리 관리", link: "/admin/member-category" },
+            { name: "수업 카테고리 관리", link: "/admin/category" },
             { name: "소속관리", link: "/admin/division" },
             { name: "메인페이지 이미지 관리", link: "/admin/image" },
         ];

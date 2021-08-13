@@ -112,8 +112,12 @@ declare module "@api_config_type" {
                 // ADMIN
                 | "ADMIN_RESET_PW"
                 | "ADMIN_DELETE_USER"
-                | "ADMIN_FIND_USER";
-
+                | "ADMIN_FIND_USER"
+                | "ADMIN_NEW_CATEGORY"
+                | "ADMIN_UPDATE_CATEGORY"
+                | "ADMIN_DELETE_CATEGORY"
+                | "ADMIN_FIND_CATEGORY"
+                | "ADMIN_FIND_DETAIL_CATEGORY";
             url_query?: string | { lecture_id: string; board_id: string } | any;
             data?: any;
             extraHeader?: any;
