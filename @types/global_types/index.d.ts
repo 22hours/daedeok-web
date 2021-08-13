@@ -67,6 +67,33 @@ declare module "@global_types" {
         };
     }
     export namespace req_types {
+        // FOR CLASS MAIN
+        type LectureItem = {
+            lecture_id: string;
+            title: string;
+            type: meta_types.classType[];
+            start_date: string;
+            end_date: string;
+            student_limit: string;
+            student_num: string;
+        };
+        type BoardSummary = {
+            board_id: string;
+            title: string;
+            category: string;
+            create_date: string;
+        };
+        type BoardItem = {
+            lecture_id: string;
+            lecture_title: string;
+            boardSummaryList: BoardSummary[];
+        };
+        type NoticeItem = {
+            notice_id: string;
+            title: string;
+            create_date: string;
+        };
+
         type classCommonItem = {
             type: meta_types.classType;
             week: number;

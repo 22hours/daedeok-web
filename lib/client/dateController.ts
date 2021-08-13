@@ -1,4 +1,4 @@
-type Type = "YYYY-MM-DD" | "YYYY/MM/DD";
+type Type = "MM/DD" | "YYYY-MM-DD" | "YYYY/MM/DD";
 const getFormatedDate = (type: Type, time: string): string => {
     const cur_date = new Date(time);
 
@@ -19,6 +19,9 @@ const getFormatedDate = (type: Type, time: string): string => {
         }
         case "YYYY/MM/DD": {
             return `${year}/${month}/${date}`;
+        }
+        case "MM/DD": {
+            return `${month}/${date}`;
         }
         default:
             throw new Error("use Time REDUCER ERROR");

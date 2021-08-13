@@ -1,0 +1,38 @@
+// BoardPreviewBox.module
+@import "styles/meta.scss";
+
+.container {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: rgb(240, 240, 240);
+
+    .head {
+        display: flex;
+        justify-content: space-between;
+        .typo__title {
+            font-weight: bold;
+        }
+        svg {
+            cursor: pointer;
+            font-size: 20px;
+        }
+    }
+    .body {
+        display: grid;
+        gap: 15px;
+        margin-top: 15px;
+        .item_row {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .typo_item {
+                font-weight: bold;
+            }
+            .typo_date {
+            }
+        }
+    }
+}

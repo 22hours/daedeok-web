@@ -1,0 +1,65 @@
+// LecturePannel.module
+@import "styles/meta.scss";
+
+.container {
+    cursor: pointer;
+    background-color: $mint_accent;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 10px;
+
+    .info_row {
+        display: flex;
+        justify-content: space-between;
+
+        .left {
+            .typo__lecture_id {
+                font-weight: bold;
+            }
+        }
+        .right {
+            display: flex;
+            .typo__lecture_type {
+                margin-left: 5px;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-top: 1px;
+                padding-bottom: 1px;
+                border-radius: 10px;
+
+                background-color: white;
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+    .main_row {
+        margin-top: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .left {
+            .typo__title {
+                font-weight: bolder;
+            }
+        }
+        .right {
+            display: flex;
+
+            .sub_col {
+                display: flex;
+                .typo__lecture_date_label,
+                .typo__lecture_limit_label {
+                    font-weight: bold;
+                    margin-left: 10px;
+                    margin-right: 5px;
+                }
+                .typo__lecture_date_value,
+                .typo__lecture_limit_value {
+                }
+            }
+        }
+    }
+}
