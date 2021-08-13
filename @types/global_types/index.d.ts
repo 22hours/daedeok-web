@@ -132,21 +132,30 @@ declare module "@global_types" {
         //(공통) 강의 게시판 상세
         type classBoardDetail = {
             id: number;
+            user_id: number;
             title: string;
             category: string;
             content: string;
             author: string;
-            creat_date: string;
+            create_date: string;
             view: number;
-            comment_list?: Array<{
+            comment_list: CommentItem[];
+            after: {
                 id: number;
+                user_id: number;
+                title: string;
+                category: string;
                 author: string;
-                content: string;
                 create_date: string;
-                children?: Array<commentItem>;
-            }>;
-            after: board_preview;
-            before: board_preview;
+            };
+            before: {
+                id: number;
+                user_id: number;
+                title: string;
+                category: string;
+                author: string;
+                create_date: string;
+            };
         };
         // 현재 진행중인 강의 리스트
         type classPossibleList = {

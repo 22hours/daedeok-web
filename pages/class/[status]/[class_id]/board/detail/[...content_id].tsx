@@ -1,22 +1,18 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-type Props = {};
+import ClassBoardDetail from "components/organism/ClassBoardDetail/ClassBoardDetail";
 
-const ClassBoardDetail = ({ article_id }) => {
-    return (
-        <div>
-            <h2>[...article_id]</h2>
-            <Link href={"/class/open"}>
-                <button>gogo</button>
-            </Link>
-        </div>
-    );
+const ClassBoardDetailPage = (props) => {
+    return <ClassBoardDetail contentId={props.content_id} />;
 };
 
 export async function getServerSideProps(ctx) {
+    const { content_id } = ctx.query;
     return {
-        props: {},
+        props: {
+            content_id: content_id,
+        },
     };
 }
 
-export default ClassBoardDetail;
+export default ClassBoardDetailPage;

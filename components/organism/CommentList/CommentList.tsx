@@ -32,7 +32,10 @@ const NewCommentSection = (props: NewCommentSectionProps) => {
                     backgroundColor="yellow_accent"
                     content="댓글작성"
                     color="white"
-                    onClick={() => props.newComment(comment.value)}
+                    onClick={() => {
+                        props.newComment(comment.value);
+                        comment.setValue("");
+                    }}
                 />
             </div>
         </div>
