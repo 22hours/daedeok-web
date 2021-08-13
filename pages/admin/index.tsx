@@ -2,7 +2,7 @@ import { SecureRoute } from "lib/server/accessController";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
-
+import style from "./index.module.scss";
 type Props = {};
 
 const Index = () => {
@@ -11,23 +11,18 @@ const Index = () => {
 
     useEffect(() => {
         if (auth) {
-            switch (auth.role) {
-                case "ROLE_TUTOR":
-                case "ROLE_MEMBER": {
-                    break;
-                }
-                case "ROLE_ADMIN": {
-                    router.replace("/admin");
-                }
+            if (auth.role === "ROLE_ADMIN") {
+                router.replace("/admin/member-category");
+            } else {
+                alert("잘못된 접근입니다");
+                router.replace("/class");
             }
         }
     }, [auth]);
 
-    return <div>INDEX !</div>;
+    return <div>유효성을 검증하고 있습니다...</div>;
 };
-
 export async function getServerSideProps(ctx) {
-    return SecureRoute(ctx, "ROLE_ALL");
+    return SecureRoute(ctx, "ROLE_ADMIN");
 }
-
 export default Index;

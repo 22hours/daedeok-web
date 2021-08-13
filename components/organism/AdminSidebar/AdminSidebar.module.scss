@@ -1,0 +1,68 @@
+@import "styles/meta.scss";
+.common_container {
+    padding: 20px;
+    height: 100%;
+    background-color: $light_accent;
+    section {
+        margin-bottom: 25px;
+    }
+}
+
+.section_user {
+    background-color: white;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 8px;
+    padding-right: 8px;
+    .user {
+        font-weight: bolder;
+    }
+    .wellcome {
+        margin-bottom: 2px;
+    }
+    .head {
+        display: flex;
+        align-items: flex-end;
+    }
+    .bottom {
+        margin-top: 12px;
+    }
+}
+
+.section_menulist {
+    margin-bottom: 10px;
+    .section_menu {
+        margin-bottom: 15px;
+    }
+    .collapse_outter {
+        margin-top: 10px;
+        .collapse_inner_button {
+            height: auto;
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.mobile_side_bar_container {
+    cursor: pointer;
+    overflow: hidden;
+    width: 100%;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    svg {
+        margin-right: 10px;
+        font-size: 35px;
+        font-weight: bolder;
+        color: $red_accent;
+    }
+
+    .inner_container {
+        width: 65vw;
+        height: 100%;
+    }
+}

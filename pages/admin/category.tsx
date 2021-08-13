@@ -1,3 +1,4 @@
+import { SecureRoute } from "lib/server/accessController";
 type Props = {};
 
 const category = () => {
@@ -8,4 +9,7 @@ const category = () => {
     );
 };
 
+export async function getServerSideProps(ctx) {
+    return SecureRoute(ctx, "ROLE_ADMIN");
+}
 export default category;

@@ -1,0 +1,38 @@
+// ClassLayout.module
+@import "styles/meta.scss";
+
+.container {
+    height: 100%;
+    @include mobile {
+    }
+    @include desktop {
+        display: grid;
+        grid-template-columns: 2.5fr 7.5fr;
+    }
+}
+.aside {
+    @include mobile {
+        background-color: white;
+        border-bottom: 1px solid $brown_base;
+        display: grid;
+        grid-template-columns: 0.2fr 7fr 0.2fr;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+    }
+}
+.article {
+    background-color: white;
+    @include mobile {
+        padding-top: 60px;
+        display: grid;
+        grid-template-columns: 0fr 10fr 0fr;
+    }
+    @include desktop {
+        display: grid;
+        grid-template-columns: 0.5fr 9fr 0.5fr;
+        padding-top: 45px;
+        padding-bottom: 45px;
+        border-right: 1px solid $gray_accent;
+    }
+}
