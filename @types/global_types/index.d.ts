@@ -268,5 +268,52 @@ declare module "@global_types" {
             after: { id: number; user_id: number; title: string; create_date: string };
             before: { id: number; user_id: number; title: string; create_date: string };
         };
+        type tutorMainList = {
+            lecture_list: Array<{
+                lecture_id: number;
+                title: string;
+                type: Array<string>;
+                start_date: string;
+                end_date: string;
+                student_limit: number;
+                student_num: number;
+            }>;
+            board_list: Array<{
+                lecture_id: number;
+                lecture_title: string;
+                boardSummaryList: Array<{
+                    board_id: number;
+                    title: string;
+                    category: string;
+                    create_date: string;
+                }>;
+            }>;
+            notice_list?: Array<{
+                notice_id: number;
+                title: string;
+                create_date: string;
+            }>;
+        };
+        type studentMainList = {
+            lecture_list: Array<{
+                lecture_id: number;
+                title: string;
+                type: Array<string>;
+                start_date: string;
+                end_date: string;
+                student_limit: number;
+                student_num: number;
+            }>;
+            board_list: Array<{
+                lecture_id: number;
+                lecture_title: string;
+                boardSummaryList: Array<{
+                    board_id: number;
+                    title: string;
+                    category: string;
+                    create_date: string;
+                }>;
+            }>;
+        };
     }
 }

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
 
-type Props = {};
+import ClassMain from "components/organism/ClassMain/ClassMain";
 
 const Index = () => {
     const { auth } = useAuthStore();
@@ -23,7 +23,11 @@ const Index = () => {
         }
     }, [auth]);
 
-    return <div>INDEX !</div>;
+    return (
+        <div>
+            <ClassMain />
+        </div>
+    );
 };
 
 export async function getServerSideProps(ctx) {

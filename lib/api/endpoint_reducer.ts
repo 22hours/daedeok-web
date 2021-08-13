@@ -87,6 +87,8 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case `CATEGORY_DELETE`:
             return `category/`;
         // LECTURE
+        case `LECTURE_MAIN`:
+            return `lecture/main`;
         case `LECTURE_DETAIL`:
             return `lecture/${url_query.lecture_id}`;
         case `LECTURE_DETAIL_UPDATE`:
