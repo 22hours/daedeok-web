@@ -346,7 +346,7 @@ declare module "@global_types" {
                 secret: boolean;
                 view: number;
             };
-
+        };
         type noticeDetail = {
             id: number;
             user_id: number;
@@ -363,7 +363,6 @@ declare module "@global_types" {
             content: string;
             after: { id: number; user_id: number; title: string; create_date: string };
             before: { id: number; user_id: number; title: string; create_date: string };
-
         };
     }
 }
