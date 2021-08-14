@@ -1,5 +1,6 @@
 import ClassMain from "components/organism/ClassMain/ClassMain";
 import { SecureRoute } from "lib/server/accessController";
+import cookies from "next-cookies";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
@@ -26,7 +27,18 @@ const Index = () => {
 };
 
 export async function getServerSideProps(ctx) {
-    return SecureRoute(ctx, "ROLE_ALL");
+    const { role } = cookies(ctx);
+
+    if (role === "ROLE_ADMIN") {
+        return {
+            redirect: {
+                destination: `/admin`,
+                permanent: false,
+            },
+        };
+    } else {
+        return SecureRoute(ctx, "ROLE_ALL");
+    }
 }
 
 export default Index;

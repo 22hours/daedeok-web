@@ -13,6 +13,8 @@ import useBoolean from "lib/hooks/useBoolean";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
 import useDivision from "lib/hooks/useDivision";
+import PasswordController from "lib/client/passwordController";
+import { useGlobalLoader } from "store/GlobalLoader";
 
 const PhoneAuth = dynamic(import("components/molecule/PhoneAuth"));
 
@@ -62,7 +64,7 @@ type Props = {};
 const RegisterFormGroup = () => {
     const router = useRouter();
     const { clientSideApi } = useAuthStore();
-
+    const globalLoader = useGlobalLoader();
     const [auth, setAuth] = useState<string | null>(null);
     const onAuthStateCallBack = (authState: string | null) => {
         setAuth(authState);
@@ -76,6 +78,8 @@ const RegisterFormGroup = () => {
     const secondDivision = useInput();
     const terms = useBoolean();
     const privacy = useBoolean();
+
+    const checkPw = () => {};
 
     const handleSumbit = async () => {
         if (auth === null) {
@@ -98,6 +102,9 @@ const RegisterFormGroup = () => {
             alert("비밀번호가 일치하지 않습니다");
             return;
         }
+        if (!PasswordController.checkPasswordValidate(password.value, auth)) {
+            return;
+        }
         if (duty.value === "") {
             alert("직분을 입력해주세요");
             return;
@@ -118,6 +125,8 @@ const RegisterFormGroup = () => {
             alert("개인정보 처리방침에 동의해주세요");
             return;
         }
+
+        globalLoader.toggle();
         const res = await clientSideApi("POST", "MAIN", "USER_REGISTER", undefined, {
             phone_num: auth,
             name: name.value,
@@ -127,9 +136,12 @@ const RegisterFormGroup = () => {
             second_division: secondDivision.value,
         });
         if (res.result === "SUCCESS") {
-            alert("회원가입 성공");
+            globalLoader.setValue(false);
+
+            alert("성공적으로 회원가입하였습니다\n확인을 누르시면 로그인페이지로 이동합니다");
             router.push("/login");
         } else {
+            globalLoader.setValue(false);
             alert(res.msg);
         }
     };
@@ -146,6 +158,7 @@ const RegisterFormGroup = () => {
                             inputClassName={style.register_form}
                             buttonClassName={style.register_button}
                             onAuthStateCallBack={onAuthStateCallBack}
+                            isRegister
                         />
                     </InputSection>
                     <InputSection>

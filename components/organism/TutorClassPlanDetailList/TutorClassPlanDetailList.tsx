@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
+
 import style from "./TutorClassPlanDetailList.module.scss";
 type Props = {};
 type Student = {
@@ -30,7 +31,6 @@ const TutorClassPlanDetailList = () => {
     const [state, setState] = useState<State | null>(null);
     const router = useRouter();
     const { episode_id } = router.query;
-    console.log(episode_id);
 
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_PLAN_DETAIL", { episode_id: episode_id });
@@ -42,19 +42,23 @@ const TutorClassPlanDetailList = () => {
     };
 
     const postAttendance = async (user_id: number) => {
-        const res = await clientSideApi(
-            "POST",
-            "MAIN",
-            "LECTURE_PLAN_USER_ATTENDANCE",
-            { plan_id: episode_id },
-            {
-                user_id: user_id,
+        if (state?.type === "OFFLINE") {
+            const res = await clientSideApi(
+                "POST",
+                "MAIN",
+                "LECTURE_PLAN_USER_ATTENDANCE",
+                { plan_id: episode_id },
+                {
+                    user_id: user_id,
+                }
+            );
+            if (res.result === "SUCCESS") {
+                getData();
+            } else {
+                alert(res.msg);
             }
-        );
-        if (res.result === "SUCCESS") {
-            getData();
         } else {
-            alert(res.msg);
+            alert("오프라인 강의만 출석할 수 있습니다");
         }
     };
 

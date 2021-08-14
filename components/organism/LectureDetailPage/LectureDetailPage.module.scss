@@ -106,5 +106,13 @@
             }
         }
     }
+    .footer {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+        .golist_btn {
+            height: 30px;
+        }
+    }
     padding-bottom: 50px;
 }

@@ -64,6 +64,8 @@ const QnaList = (props: Props) => {
             });
             if (res.result === "SUCCESS") {
                 setData({ ...res.data });
+            } else {
+                alert(res.msg);
             }
         }
     };
@@ -84,6 +86,10 @@ const QnaList = (props: Props) => {
 
     useEffect(() => {
         if (state.isLoadEnd) {
+            setData({
+                ...data,
+                qna_list: [],
+            });
             getData();
         }
     }, [state]);

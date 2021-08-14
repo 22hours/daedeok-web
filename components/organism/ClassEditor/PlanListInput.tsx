@@ -78,7 +78,7 @@ const PlanItemInput = (props: PlanItemProps) => {
     const CommonFirstInputList = [
         {
             id: 1,
-            type: "text",
+            type: "number",
             value: planItem.week,
             placeholder: "주차",
             name: "week",

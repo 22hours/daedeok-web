@@ -18,6 +18,7 @@ type ControllerProps = {
 };
 const QnaEditorContorller = (props: ControllerProps) => {
     const editorController = useEditorController();
+
     const [categoryData, setCategoryData] = useState<Array<{ name: string; value: string }>>([]);
 
     const router = useRouter();
@@ -55,6 +56,9 @@ const QnaEditorContorller = (props: ControllerProps) => {
     // EDIT
     const handleEdit = async () => {
         const { article_id } = router.query;
+
+        const { deleted_item_list, new_item_list } = editorController.getUpdatedImgList();
+
         const res = await clientSideApi(
             "PUT",
             "MAIN",
@@ -70,6 +74,11 @@ const QnaEditorContorller = (props: ControllerProps) => {
         if (res.result === "SUCCESS") {
             alert("수정되었습니다.");
             router.push(`/acinfo/qna/detail/${article_id}`);
+            clientSideApi("PUT", "MAIN", "UPDATE_FILE", undefined, {
+                new_file_list: new_item_list,
+                delete_file_list: deleted_item_list,
+                to_path: "QNA",
+            });
         } else {
             alert(res.msg);
         }

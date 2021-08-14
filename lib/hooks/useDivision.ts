@@ -18,21 +18,6 @@ const useDivision = (firstDivision, secondDivision) => {
     }, []);
 
     useEffect(() => {
-        if (optionList) {
-            console.log(
-                optionList.map((it) => {
-                    const first_division = it.first_division;
-                    return {
-                        name: first_division,
-                        value: first_division,
-                    };
-                })
-            );
-            console.log();
-        }
-    }, [optionList]);
-
-    useEffect(() => {
         if (secondDivision) {
             secondDivision.setValue("");
         }
@@ -51,8 +36,6 @@ const useDivision = (firstDivision, secondDivision) => {
 
     const secondDivisionOptionList = () => {
         if (optionList) {
-            console.log({ firstDivision });
-
             const matchItem = optionList.find((it) => it.first_division === firstDivision.value)?.second_division;
             if (matchItem) {
                 return matchItem.map((cur_item) => {

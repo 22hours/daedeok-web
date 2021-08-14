@@ -9,6 +9,8 @@ import Select from "@ui/input/Select";
 import Button from "@ui/buttons/Button";
 import useDivision from "lib/hooks/useDivision";
 import { useEffect } from "react";
+import Link from "next/link";
+import { meta_types } from "@global_types";
 type Props = {};
 
 const InputRow = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
@@ -16,8 +18,8 @@ const InputRow = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
 };
 
 const MypageGroup = () => {
-    const { auth, clientSideApi } = useAuthStore();
-
+    const { auth, update, clientSideApi } = useAuthStore();
+    const router = useRouter();
     const name = useInput(auth?.name);
     const duty = useInput(auth?.duty);
     const phoneNum = useInput(auth?.phone_num);
@@ -35,6 +37,14 @@ const MypageGroup = () => {
         }
     }, [auth]);
 
+    useEffect(() => {
+        if (firstDivision.value) {
+            setTimeout(() => {
+                secondDivsion.setValue(auth?.second_division);
+            }, 100);
+        }
+    }, [firstDivision.value]);
+
     const updateMyPage = async () => {
         const res = await clientSideApi("PUT", "MAIN", "USER_UPDATE_INFO", undefined, {
             name: name.value,
@@ -44,10 +54,33 @@ const MypageGroup = () => {
         });
         if (res.result === "SUCCESS") {
             alert("성공적으로 변경되었습니다");
-
-            alert("유저 정보 갱신 TODO");
+            //@ts-ignore
+            if (auth) {
+                const updateReqObj: meta_types.user = {
+                    ...auth,
+                    name: name.value,
+                    duty: duty.value,
+                    first_division: firstDivision.value,
+                    second_division: secondDivsion.value,
+                };
+                update(updateReqObj);
+            }
         } else {
             alert(res.msg);
+        }
+    };
+
+    const deleteMe = async () => {
+        if (
+            window.confirm(
+                "정말로 회원탈퇴 하시겠습니까?\n회원 탈퇴시 회원님의 정보는 모두 삭제되며 되돌릴 수 없습니다"
+            )
+        ) {
+            const res = await clientSideApi("DELETE", "MAIN", "USER_DELETE");
+            if (res.result === "SUCCESS") {
+                alert("회원 탈퇴 되었습니다\n확인을 누르시면 메인페이지로 이동합니다");
+                router.replace("/logout");
+            } else [alert(res.msg)];
         }
     };
 
@@ -100,14 +133,16 @@ const MypageGroup = () => {
                         </div>
                     </InputRow>
                     <div className={style.btn_row}>
-                        <Button
-                            type={"ROUND"}
-                            size={"medium"}
-                            fontSize={"small"}
-                            content={"비밀번호 변경"}
-                            line={"outline"}
-                            className={style.btn}
-                        />
+                        <Link href={`/pwchange`} passHref>
+                            <Button
+                                type={"ROUND"}
+                                size={"medium"}
+                                fontSize={"small"}
+                                content={"비밀번호 변경"}
+                                line={"outline"}
+                                className={style.btn}
+                            />
+                        </Link>
                         <Button
                             onClick={updateMyPage}
                             type={"ROUND"}
@@ -120,15 +155,18 @@ const MypageGroup = () => {
                         />
                     </div>
                     <div className={style.danger_btn_row}>
-                        <Button
-                            type={"ROUND"}
-                            size={"medium"}
-                            fontSize={"small"}
-                            content={"로그아웃"}
-                            backgroundColor={"brown_base"}
-                            color={"white"}
-                            className={style.btn}
-                        />
+                        <Link href={"/logout"} passHref>
+                            <Button
+                                type={"ROUND"}
+                                size={"medium"}
+                                fontSize={"small"}
+                                content={"로그아웃"}
+                                backgroundColor={"brown_base"}
+                                color={"white"}
+                                className={style.btn}
+                            />
+                        </Link>
+
                         <Button
                             type={"ROUND"}
                             size={"medium"}
@@ -137,6 +175,7 @@ const MypageGroup = () => {
                             backgroundColor={"gray_accent"}
                             color={"white"}
                             className={style.btn}
+                            onClick={deleteMe}
                         />
                     </div>
                 </div>

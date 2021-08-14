@@ -18,6 +18,7 @@ declare module "@api_config_type" {
                 // USER
                 | "USER_LOGIN"
                 | "USER_CHECK"
+                | "USER_DELETE"
                 | "USER_REGISTER"
                 | "USER_UPDATE_INFO"
                 | "USER_UPDATE_PASSWORD"

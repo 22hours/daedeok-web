@@ -7,6 +7,7 @@
     }
     .body {
         .btn_col {
+            display: flex;
             align-items: center;
             .btn {
                 @include desktop {

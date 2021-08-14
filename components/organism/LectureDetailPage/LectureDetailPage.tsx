@@ -8,6 +8,8 @@ import DateController from "lib/client/dateController";
 import TextInput from "@ui/input/TextInput";
 import TableWrapper from "@ui/board/TableWrapper";
 import { SettingsApplications } from "@material-ui/icons";
+import Link from "next/link";
+import Button from "@ui/buttons/Button";
 
 type Props = {};
 type State = {
@@ -34,7 +36,7 @@ type State = {
 const LectureDetailPage = (props: Props) => {
     const [data, setData] = useState<State | null>(null);
     const router = useRouter();
-    const { lecture_id } = router.query;
+    const { status, lecture_id } = router.query;
     const { clientSideApi } = useAuthStore();
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_DETAIL", { lecture_id: lecture_id });
@@ -114,7 +116,11 @@ const LectureDetailPage = (props: Props) => {
                                     className={style.value}
                                     form={"underline"}
                                     type={"text"}
-                                    value={data.type.map((it) => it).join(" - ")}
+                                    value={data.type
+                                        .map((it) =>
+                                            it === "OFFLINE" ? "오프라인" : it === "ONLINE" ? "영상 강의" : "ZOOM"
+                                        )
+                                        .join(" - ")}
                                     disable
                                 />
                             </div>
@@ -152,7 +158,12 @@ const LectureDetailPage = (props: Props) => {
                                     className={style.value}
                                     form={"underline"}
                                     type={"text"}
-                                    value={""}
+                                    value={data.division_list
+                                        .map((first_item) => {
+                                            const secondDivList = first_item.second_division.map((it) => it).join(", ");
+                                            return `${first_item.first_division} - ${secondDivList}`;
+                                        })
+                                        .join(" | ")}
                                     disable
                                 />
                             </div>
@@ -226,7 +237,19 @@ const LectureDetailPage = (props: Props) => {
                         ))}
                     </div>
                 </div>
-                <div className={style.footer}></div>
+                <div className={style.footer}>
+                    <Link href={`/lecture/${status}`} passHref>
+                        <Button
+                            className={style.golist_btn}
+                            type={"SQUARE"}
+                            size={"free"}
+                            fontSize={"smaller"}
+                            color={"white"}
+                            backgroundColor={"yellow_accent"}
+                            content={"목록"}
+                        />
+                    </Link>
+                </div>
             </div>
         );
     }

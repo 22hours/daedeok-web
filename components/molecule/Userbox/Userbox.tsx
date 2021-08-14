@@ -8,6 +8,7 @@ import useInput from "lib/hooks/useInput";
 import Link from "next/link";
 import React from "react";
 import { useAuthStore } from "store/AuthStore";
+import { useGlobalLoader } from "store/GlobalLoader";
 import style from "./Userbox.module.scss";
 type Props = {
     className?: string;
@@ -16,11 +17,13 @@ type Props = {
 const Userbox = (props: Props) => {
     const { auth, login, logout, clientSideApi } = useAuthStore();
 
+    const globalLoader = useGlobalLoader();
     const phone_num = useInput();
     const pw = useInput();
     const rememberUser = useBoolean();
 
     const handleLogin = async () => {
+        globalLoader.toggle();
         const res = await clientSideApi("POST", "MAIN", "USER_LOGIN", undefined, {
             id: phone_num.value,
             password: pw.value,
@@ -28,8 +31,12 @@ const Userbox = (props: Props) => {
         if (res.result === "SUCCESS") {
             phone_num.setValue("");
             pw.setValue("");
+            globalLoader.setValue(false);
+
             login(res.data);
         } else {
+            globalLoader.setValue(false);
+
             alert(res.msg);
         }
         pw.setValue("");
@@ -53,7 +60,7 @@ const Userbox = (props: Props) => {
                         <TextInput
                             className={style.input}
                             {...pw}
-                            type={"text"}
+                            type={"password"}
                             form={"box"}
                             placeholder={"비밀번호"}
                         />
@@ -121,13 +128,18 @@ const Userbox = (props: Props) => {
                                 content={`${auth.role === "ROLE_TUTOR" ? "진행중인" : "수강중인"} 강의`}
                             />
                             &nbsp;
-                            <Typo type={"TEXT"} size={"small"} color={"mint_accent"} content={"3"} />
+                            <Typo
+                                type={"TEXT"}
+                                size={"small"}
+                                color={"mint_accent"}
+                                content={auth.lecture_num.toString()}
+                            />
                         </>
                     )}
                 </div>
 
                 <div className={style.control_row}>
-                    <Link href={"/mypage"}>
+                    <Link href={"/mypage"} passHref>
                         <div className={style.control_btn}>
                             <Typo
                                 className={style.control_typo}
@@ -138,9 +150,11 @@ const Userbox = (props: Props) => {
                         </div>
                     </Link>
 
-                    <div className={style.control_btn} onClick={logout}>
-                        <Typo className={style.control_typo} type={"TEXT"} size={"small"} content={`로그아웃 > `} />
-                    </div>
+                    <Link href={"/logout"} passHref>
+                        <div className={style.control_btn}>
+                            <Typo className={style.control_typo} type={"TEXT"} size={"small"} content={`로그아웃 > `} />
+                        </div>
+                    </Link>
                 </div>
             </div>
         );

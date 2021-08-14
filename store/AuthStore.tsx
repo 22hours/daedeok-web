@@ -21,10 +21,11 @@ type Store = {
     ) => Promise<api_config_type.api_response>;
     login: (user_data: meta_types.user) => void;
     logout: () => void;
+    update: (userData: meta_types.user) => void;
 };
 
 // ACTION TYPES
-type Action = { type: "LOGIN"; data: State } | { type: "LOGOUT" };
+type Action = { type: "UPDATE"; data: State } | { type: "LOGIN"; data: State } | { type: "LOGOUT" };
 
 // DISPATCH TYPES
 type ContextDispatch = Dispatch<Action>;
@@ -36,6 +37,9 @@ const AuthDispatchContext = createContext<ContextDispatch | null>(null);
 // REDUCER
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
+        case "UPDATE": {
+            return action.data;
+        }
         case "LOGIN": {
             return action.data;
         }
@@ -126,6 +130,17 @@ export const AuthProvider = ({ children }) => {
         CookieController.removeUserInCookie();
     };
 
+    const update = (userData: meta_types.user) => {
+        dispatch({
+            type: "UPDATE",
+            data: {
+                ...auth,
+                ...userData,
+            },
+        });
+        CookieController.setUserWithCookie({ ...auth, ...userData });
+    };
+
     const initAuth = () => {
         const userData: meta_types.user = CookieController.getUserWithCookie();
         if (userData.user_id) {
@@ -145,6 +160,7 @@ export const AuthProvider = ({ children }) => {
         clientSideApi,
         login,
         logout,
+        update,
     };
 
     useEffect(() => {

@@ -73,7 +73,6 @@ const JoinButton = ({ state, idx, handleClassJoin }) => {
 };
 
 const ClassJoinSelect = () => {
-    const [optionList, setOptionList] = useState<{ name: string; value: string }[]>([]);
     const { state, changeCategory } = useListCommonStore();
     const { categoryOptionList } = useClassCategory();
 

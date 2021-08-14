@@ -8,6 +8,7 @@ import Button from "@ui/buttons/Button";
 import PageHeader from "@ui/PageHeader";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
+import PasswordController from "lib/client/passwordController";
 type PhoneAuthTabProps = {
     onAuthStateCallBack: (authState: string | null) => void;
 };
@@ -40,6 +41,9 @@ const FormGroupTab = (props: FormGroupTabProps) => {
     const handleSubmit = () => {
         if (pw.value === rePw.value) {
             props.submitPwChange(pw.value);
+        }
+        if (!PasswordController.checkPasswordValidate(pw.value, "password")) {
+            return;
         } else {
             alert("비밀번호 확인이 다릅니다");
         }

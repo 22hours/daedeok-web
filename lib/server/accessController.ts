@@ -23,7 +23,6 @@ export const SecureRoute = async (ctx, role: meta_types.accessRole, getDataFunc?
     const flag = isAccess(allCookies.role, role);
     if (flag) {
         const additionalData = getDataFunc ? await getDataFunc() : undefined;
-        console.log(additionalData);
         return {
             props: additionalData ? { ...additionalData } : {},
         };
