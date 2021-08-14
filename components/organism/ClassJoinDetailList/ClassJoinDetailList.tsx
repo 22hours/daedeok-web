@@ -12,12 +12,14 @@ import { nanoid } from "nanoid";
 
 //store
 import { useAuthStore } from "store/AuthStore";
-import { SecureRoute } from "lib/server/accessController";
+import { useRouter } from "next/router";
 
-const ClassJoinDetailList = ({ classId }) => {
+const ClassJoinDetailList = () => {
     const { clientSideApi } = useAuthStore();
+    const router = useRouter();
     const [detailData, setDetailData] = useState<res_types.classDetail>();
     const [classType, setClassType] = useState<Array<string>>();
+    const { class_id } = router.query;
 
     const ListForm = ({ label, content }) => {
         return (
@@ -59,7 +61,7 @@ const ClassJoinDetailList = ({ classId }) => {
     };
 
     const getClassJoinDetailData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "LECTURE_DETAIL", { lecture_id: classId }, {});
+        const res = await clientSideApi("GET", "MAIN", "LECTURE_DETAIL", { lecture_id: class_id }, {});
         if (res.result === "SUCCESS") {
             var data = res.data;
             setDetailData(data);
@@ -68,7 +70,7 @@ const ClassJoinDetailList = ({ classId }) => {
 
     useEffect(() => {
         getClassJoinDetailData();
-    }, [classId]);
+    }, [class_id]);
 
     useEffect(() => {
         if (detailData?.type) {
