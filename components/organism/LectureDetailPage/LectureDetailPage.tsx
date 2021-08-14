@@ -116,7 +116,11 @@ const LectureDetailPage = (props: Props) => {
                                     className={style.value}
                                     form={"underline"}
                                     type={"text"}
-                                    value={data.type.map((it) => it).join(" - ")}
+                                    value={data.type
+                                        .map((it) =>
+                                            it === "OFFLINE" ? "오프라인" : it === "ONLINE" ? "영상 강의" : "ZOOM"
+                                        )
+                                        .join(" - ")}
                                     disable
                                 />
                             </div>
