@@ -12,13 +12,13 @@ const ClassBoardCategorySelect = (props: Props) => {
     const categoryOptionState = useClassBoardCategory();
     return (
         <Select
-            value={props.category || "ALL"}
+            value={props.category}
             onChange={(e) => {
                 props.changeCategory(e.target.value);
             }}
             form={props.form || "box"}
             placeholder={"카테고리별 보기"}
-            option_list={[{ name: "전체", value: "ALL" }].concat(categoryOptionState.categoryOptionList)}
+            option_list={categoryOptionState.categoryOptionList}
             className={`${props.className || ""} ${style.select}`}
         />
     );
