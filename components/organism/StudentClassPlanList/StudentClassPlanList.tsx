@@ -14,7 +14,7 @@ const ClassTypeBtn = ({ type, idx, classId, link, isAttendance, setIsAttendance 
 
     const planUserAttendance = async () => {
         setIsAttendance(false);
-        const res = await clientSideApi("POST", "MAIN", "LECTURE_PLAN_USER_ATTENDANCE", {
+        const res = await clientSideApi("POST", "MAIN", "LECTURE_PLAN_USER_ATTENDANCE_MEMBER", {
             plan_id: idx,
         });
         if (res.result === "SUCCESS") {

@@ -92,6 +92,7 @@ declare module "@api_config_type" {
                 | "LECTURE_FIND_PLAN"
                 | "LECTURE_FIND_PLAN_DETAIL"
                 | "LECTURE_PLAN_USER_ATTENDANCE"
+                | "LECTURE_PLAN_USER_ATTENDANCE_MEMBER"
                 // >>> ONLINE
                 | "LECTURE_ONLINE_DETAIL"
                 | "LECTURE_ONLINE_DURATION"
