@@ -8,6 +8,7 @@ import useInput from "lib/hooks/useInput";
 import Link from "next/link";
 import React from "react";
 import { useAuthStore } from "store/AuthStore";
+import { useGlobalLoader } from "store/GlobalLoader";
 import style from "./Userbox.module.scss";
 type Props = {
     className?: string;
@@ -16,11 +17,13 @@ type Props = {
 const Userbox = (props: Props) => {
     const { auth, login, logout, clientSideApi } = useAuthStore();
 
+    const globalLoader = useGlobalLoader();
     const phone_num = useInput();
     const pw = useInput();
     const rememberUser = useBoolean();
 
     const handleLogin = async () => {
+        globalLoader.toggle();
         const res = await clientSideApi("POST", "MAIN", "USER_LOGIN", undefined, {
             id: phone_num.value,
             password: pw.value,
@@ -28,8 +31,12 @@ const Userbox = (props: Props) => {
         if (res.result === "SUCCESS") {
             phone_num.setValue("");
             pw.setValue("");
+            globalLoader.setValue(false);
+
             login(res.data);
         } else {
+            globalLoader.setValue(false);
+
             alert(res.msg);
         }
         pw.setValue("");

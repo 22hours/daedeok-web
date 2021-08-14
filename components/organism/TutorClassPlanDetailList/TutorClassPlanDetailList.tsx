@@ -7,8 +7,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import style from "./TutorClassPlanDetailList.module.scss";
 type Props = {};
@@ -68,24 +66,11 @@ const TutorClassPlanDetailList = () => {
         getData();
     }, []);
 
-    const [open, setOpen] = React.useState(false);
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const handleToggle = () => {
-        setOpen(!open);
-    };
-
     if (!state) {
         return <div></div>;
     } else {
         return (
             <div>
-                <Backdrop open={open} onClick={handleClose}>
-                    <CircularProgress color={"primary"} />
-                </Backdrop>
-                <button>BACKDROP</button>
-
                 <div className={style.header}>
                     <div className={style.sub_breadcrumbs_container}>
                         <Link href={`${router.asPath.split("/").slice(0, -2).join("/")}`} passHref>

@@ -77,3 +77,6 @@ body {
 .CarouselItem {
     height: 100%;
 }
+.MuiBackdrop-root {
+    z-index: 100000 !important;
+}

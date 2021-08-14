@@ -14,6 +14,7 @@ import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
 import useDivision from "lib/hooks/useDivision";
 import PasswordController from "lib/client/passwordController";
+import { useGlobalLoader } from "store/GlobalLoader";
 
 const PhoneAuth = dynamic(import("components/molecule/PhoneAuth"));
 
@@ -63,7 +64,7 @@ type Props = {};
 const RegisterFormGroup = () => {
     const router = useRouter();
     const { clientSideApi } = useAuthStore();
-
+    const globalLoader = useGlobalLoader();
     const [auth, setAuth] = useState<string | null>(null);
     const onAuthStateCallBack = (authState: string | null) => {
         setAuth(authState);
@@ -124,6 +125,8 @@ const RegisterFormGroup = () => {
             alert("개인정보 처리방침에 동의해주세요");
             return;
         }
+
+        globalLoader.toggle();
         const res = await clientSideApi("POST", "MAIN", "USER_REGISTER", undefined, {
             phone_num: auth,
             name: name.value,
@@ -133,9 +136,12 @@ const RegisterFormGroup = () => {
             second_division: secondDivision.value,
         });
         if (res.result === "SUCCESS") {
+            globalLoader.setValue(false);
+
             alert("성공적으로 회원가입하였습니다\n확인을 누르시면 로그인페이지로 이동합니다");
             router.push("/login");
         } else {
+            globalLoader.setValue(false);
             alert(res.msg);
         }
     };
