@@ -14,17 +14,11 @@ const ClassTypeBtn = ({ type, idx, classId, link, isAttendance, setIsAttendance 
 
     const planUserAttendance = async () => {
         setIsAttendance(false);
-        const res = await clientSideApi(
-            "POST",
-            "MAIN",
-            "LECTURE_PLAN_USER_ATTENDANCE",
-            {
-                plan_id: idx,
-            },
-            { user_id: auth?.user_id }
-        );
+        const res = await clientSideApi("POST", "MAIN", "LECTURE_PLAN_USER_ATTENDANCE", {
+            plan_id: idx,
+        });
         if (res.result === "SUCCESS") {
-            setIsAttendance(true);
+            alert("출석완료");
         } else {
             setIsAttendance(false);
         }
@@ -34,34 +28,21 @@ const ClassTypeBtn = ({ type, idx, classId, link, isAttendance, setIsAttendance 
         case "ZOOM":
             return (
                 <>
-                    {isAttendance ? (
-                        <Link href={link} passHref>
-                            <a target="_blank">
-                                <Button
-                                    content={"ZOOM"}
-                                    backgroundColor="red_accent"
-                                    fontSize="smaller"
-                                    color="white"
-                                    alignment="center"
-                                    size="small"
-                                    line="inline"
-                                    type="SQUARE"
-                                />
-                            </a>
-                        </Link>
-                    ) : (
-                        <Button
-                            content={"ZOOM"}
-                            backgroundColor="red_accent"
-                            fontSize="smaller"
-                            color="white"
-                            alignment="center"
-                            size="small"
-                            line="inline"
-                            type="SQUARE"
-                            onClick={planUserAttendance}
-                        />
-                    )}
+                    <Link href={link} passHref>
+                        <a target="_blank">
+                            <Button
+                                content={"ZOOM"}
+                                backgroundColor="red_accent"
+                                fontSize="smaller"
+                                color="white"
+                                alignment="center"
+                                size="small"
+                                line="inline"
+                                type="SQUARE"
+                                onClick={planUserAttendance}
+                            />
+                        </a>
+                    </Link>
                 </>
             );
         case "ONLINE":
