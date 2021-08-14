@@ -191,7 +191,11 @@ const ClassJoinDetailList = () => {
                         <div className={style.other_item}>
                             <Typo size="normal" content={it.title} type="TEXT" />
                             <Typo size="normal" content={it.tutor} type="TEXT" />
-                            <Typo size="normal" content={it.location} type="TEXT" />
+                            <Typo
+                                size="normal"
+                                content={it.location === "ONLINE" ? "영상 강의" : it.location}
+                                type="TEXT"
+                            />
                         </div>
                     </div>
                 ))}
