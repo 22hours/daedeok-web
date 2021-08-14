@@ -428,6 +428,15 @@ const ClassEditor = (props: Props) => {
         }
     };
 
+    const checkFormIsValid = (): boolean => {
+        if (state.title.length > 1) {
+            alert("강의 제목은 최소 1글자 이상으로 작성해주세요");
+            return false;
+        }
+
+        return true;
+    };
+
     const handleSumbit = async () => {
         const makeDivisionList = () => {
             var reqDivisionList: { first_division: string; second_division: string[] }[] = [];

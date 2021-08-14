@@ -36,5 +36,4 @@ const JoinDetail = () => {
 export async function getServerSideProps(ctx) {
     return SecureRoute(ctx, "ROLE_MEMBER");
 }
-// http://localhost:3000/class/open/1/student/join/detail/1
 export default JoinDetail;

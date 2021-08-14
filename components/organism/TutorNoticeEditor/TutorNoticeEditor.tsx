@@ -31,6 +31,7 @@ const TutorNoticeEditorController = (props: Props) => {
             content: editorController.getMarkdownContent(),
         });
         if (res.result === "SUCCESS") {
+            alert("게시글을 작성하였습니다");
             router.push(`/class/notice/detail/${res.data}`);
         } else {
             alert(res.msg);
@@ -40,6 +41,7 @@ const TutorNoticeEditorController = (props: Props) => {
     // EDIT
     const handleEdit = async () => {
         const { notice_id } = router.query;
+        const { deleted_item_list, new_item_list } = editorController.getUpdatedImgList();
         const res = await clientSideApi(
             "PUT",
             "MAIN",
@@ -51,7 +53,13 @@ const TutorNoticeEditorController = (props: Props) => {
             }
         );
         if (res.result === "SUCCESS") {
+            alert("수정되었습니다");
             router.push(`/class/notice/detail/${notice_id}`);
+            clientSideApi("PUT", "MAIN", "UPDATE_FILE", undefined, {
+                new_file_list: new_item_list,
+                delete_file_list: deleted_item_list,
+                to_path: "TUTOR_NOTICE",
+            });
         } else {
             alert(res.msg);
         }

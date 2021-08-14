@@ -121,7 +121,12 @@ const Userbox = (props: Props) => {
                                 content={`${auth.role === "ROLE_TUTOR" ? "진행중인" : "수강중인"} 강의`}
                             />
                             &nbsp;
-                            <Typo type={"TEXT"} size={"small"} color={"mint_accent"} content={"3"} />
+                            <Typo
+                                type={"TEXT"}
+                                size={"small"}
+                                color={"mint_accent"}
+                                content={auth.lecture_num.toString()}
+                            />
                         </>
                     )}
                 </div>

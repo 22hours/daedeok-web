@@ -10,6 +10,7 @@ import Button from "@ui/buttons/Button";
 import useDivision from "lib/hooks/useDivision";
 import { useEffect } from "react";
 import Link from "next/link";
+import { meta_types } from "@global_types";
 type Props = {};
 
 const InputRow = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
@@ -17,7 +18,7 @@ const InputRow = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
 };
 
 const MypageGroup = () => {
-    const { auth, clientSideApi } = useAuthStore();
+    const { auth, update, clientSideApi } = useAuthStore();
     const router = useRouter();
     const name = useInput(auth?.name);
     const duty = useInput(auth?.duty);
@@ -53,8 +54,17 @@ const MypageGroup = () => {
         });
         if (res.result === "SUCCESS") {
             alert("성공적으로 변경되었습니다");
-
-            alert("유저 정보 갱신 TODO");
+            //@ts-ignore
+            if (auth) {
+                const updateReqObj: meta_types.user = {
+                    ...auth,
+                    name: name.value,
+                    duty: duty.value,
+                    first_division: firstDivision.value,
+                    second_division: secondDivsion.value,
+                };
+                update(updateReqObj);
+            }
         } else {
             alert(res.msg);
         }
