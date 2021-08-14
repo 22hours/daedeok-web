@@ -139,7 +139,7 @@ const Userbox = (props: Props) => {
                 </div>
 
                 <div className={style.control_row}>
-                    <Link href={"/mypage"}>
+                    <Link href={"/mypage"} passHref>
                         <div className={style.control_btn}>
                             <Typo
                                 className={style.control_typo}
@@ -150,9 +150,11 @@ const Userbox = (props: Props) => {
                         </div>
                     </Link>
 
-                    <div className={style.control_btn} onClick={logout}>
-                        <Typo className={style.control_typo} type={"TEXT"} size={"small"} content={`로그아웃 > `} />
-                    </div>
+                    <Link href={"/logout"} passHref>
+                        <div className={style.control_btn}>
+                            <Typo className={style.control_typo} type={"TEXT"} size={"small"} content={`로그아웃 > `} />
+                        </div>
+                    </Link>
                 </div>
             </div>
         );
