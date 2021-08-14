@@ -4,13 +4,11 @@ import useAgent from "lib/hooks/useAgent";
 
 import MypageGroup from "components/organism/MypageGroup/MypageGroup";
 import { SecureRoute } from "lib/server/accessController";
-import AxiosClient from "lib/api/api";
 type Props = {};
 
 const GlobalLayout = dynamic(import("components/layout/GlobalLayout"));
 
 const Mypage = (props) => {
-    console.log(props);
     const agent = useAgent();
 
     return (
@@ -23,11 +21,7 @@ const Mypage = (props) => {
 Mypage.Layout = (page: any) => <>{page}</>;
 
 export async function getServerSideProps(ctx) {
-    const getData = async () => {
-        const res = await AxiosClient.serverSideApi("GET", "MAIN", "FIND_DIVISION");
-        return res.data;
-    };
-    return SecureRoute(ctx, "ROLE_ALL", getData);
+    return SecureRoute(ctx, "ROLE_ALL");
 }
 
 export default Mypage;

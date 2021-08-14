@@ -41,6 +41,9 @@ const QnaDetail = ({ articleId }) => {
         if (res.result === "SUCCESS") {
             const data: State = res.data;
             setQnaDetailData(data);
+        } else {
+            alert("열람할 수 없는 글 입니다\n확인을 클릭하시면 이전 페이지로 돌아갑니다");
+            router.back();
         }
     };
 
@@ -78,8 +81,7 @@ const QnaDetail = ({ articleId }) => {
                 if (parent_id) {
                     // 대댓일때
                     if (qnaDetailData) {
-                        var newCommentList: res_types.qnaDetailList["comment_list"] =
-                            qnaDetailData?.comment_list.slice();
+                        var newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         newCommentList[matchIdx].children.push({
                             id: new_comment_id,
@@ -100,8 +102,7 @@ const QnaDetail = ({ articleId }) => {
                 } else {
                     // 댓일때
                     if (qnaDetailData) {
-                        const newCommentList: res_types.qnaDetailList["comment_list"] =
-                            qnaDetailData?.comment_list.slice();
+                        const newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
                         newCommentList.push({
                             id: new_comment_id,
                             // @ts-ignore
@@ -189,8 +190,7 @@ const QnaDetail = ({ articleId }) => {
                 if (parent_id) {
                     // 대댓일때
                     if (qnaDetailData) {
-                        var newCommentList: res_types.qnaDetailList["comment_list"] =
-                            qnaDetailData?.comment_list.slice();
+                        var newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
                         newCommentList[matchIdx].children.splice(childMatchIdx, 1);
@@ -204,8 +204,7 @@ const QnaDetail = ({ articleId }) => {
                 } else {
                     // 댓일때
                     if (qnaDetailData) {
-                        const newCommentList: res_types.qnaDetailList["comment_list"] =
-                            qnaDetailData?.comment_list.slice();
+                        const newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
                         newCommentList.splice(matchIdx, 1);
                         setQnaDetailData({

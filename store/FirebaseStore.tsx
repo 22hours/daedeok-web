@@ -76,8 +76,11 @@ export const FirebaseProvider = ({ children }) => {
     };
 
     const phoneNumberAuth = async (phoneNumber: string, callBack: Function) => {
+        const onlyNumberPhoneNumber = phoneNumber.replaceAll("-", "");
+
         firebase.auth().languageCode = "ko";
-        const requestPhoneNumber = `+82${phoneNumber}`;
+        const requestPhoneNumber = `+82${onlyNumberPhoneNumber}`;
+
         // @ts-ignore
         const appVerifier = window.recaptchaVerifier;
         return await firebase

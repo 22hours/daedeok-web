@@ -3,6 +3,7 @@ import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import cookies from "next-cookies";
+import { SecureRoute } from "lib/server/accessController";
 
 type State = {
     title: string;
@@ -41,7 +42,7 @@ const QnaEdit = () => {
         }
     }, [auth]);
     if (!originData) {
-        return <div>NOW LOADING</div>;
+        return <div>NOW LOADING QNA EDITOR</div>;
     } else {
         return (
             <div>
@@ -56,12 +57,6 @@ const QnaEdit = () => {
 };
 
 export async function getServerSideProps(ctx) {
-    const { article_id } = ctx.query;
-    return {
-        props: {
-            article_id: article_id,
-        },
-    };
+    return SecureRoute(ctx, "ROLE_ALL");
 }
-
 export default QnaEdit;

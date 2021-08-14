@@ -13,6 +13,7 @@ import useBoolean from "lib/hooks/useBoolean";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
 import useDivision from "lib/hooks/useDivision";
+import PasswordController from "lib/client/passwordController";
 
 const PhoneAuth = dynamic(import("components/molecule/PhoneAuth"));
 
@@ -77,6 +78,8 @@ const RegisterFormGroup = () => {
     const terms = useBoolean();
     const privacy = useBoolean();
 
+    const checkPw = () => {};
+
     const handleSumbit = async () => {
         if (auth === null) {
             alert("핸드폰 인증을 먼저 완료해주세요");
@@ -96,6 +99,9 @@ const RegisterFormGroup = () => {
         }
         if (password.value !== rePassword.value) {
             alert("비밀번호가 일치하지 않습니다");
+            return;
+        }
+        if (!PasswordController.checkPasswordValidate(password.value, auth)) {
             return;
         }
         if (duty.value === "") {
@@ -127,7 +133,7 @@ const RegisterFormGroup = () => {
             second_division: secondDivision.value,
         });
         if (res.result === "SUCCESS") {
-            alert("회원가입 성공");
+            alert("성공적으로 회원가입하였습니다\n확인을 누르시면 로그인페이지로 이동합니다");
             router.push("/login");
         } else {
             alert(res.msg);
@@ -146,6 +152,7 @@ const RegisterFormGroup = () => {
                             inputClassName={style.register_form}
                             buttonClassName={style.register_button}
                             onAuthStateCallBack={onAuthStateCallBack}
+                            isRegister
                         />
                     </InputSection>
                     <InputSection>

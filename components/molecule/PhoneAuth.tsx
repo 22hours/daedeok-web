@@ -16,6 +16,7 @@ type Props = {
     inputClassName: string;
     buttonClassName: string;
     onAuthStateCallBack: (authState: string | null) => void;
+    isRegister?: boolean;
 };
 type State = {
     smsState: "IDLE" | "LOAD";
@@ -96,14 +97,26 @@ const PhoneAuth = (props: Props) => {
             dispatch({ type: "SET_SMS_STATE", data: "IDLE" });
         };
 
-        const res = await clientSideApi("GET", "MAIN", "USER_CHECK", undefined, {
-            phone_num: state.phoneNumber,
-        });
-        if (res.result === "SUCCESS") {
-            dispatch({ type: "SET_SMS_STATE", data: "LOAD" });
-            firebaseAuth.phoneNumberAuth(state.phoneNumber, registerCallBack);
+        if (props.isRegister) {
+            const res = await clientSideApi("GET", "MAIN", "USER_CHECK", undefined, {
+                phone_num: state.phoneNumber,
+            });
+            if (res.result === "SUCCESS") {
+                dispatch({ type: "SET_SMS_STATE", data: "LOAD" });
+                firebaseAuth.phoneNumberAuth(state.phoneNumber, registerCallBack);
+            } else {
+                alert(res.msg);
+            }
         } else {
-            alert(res.msg);
+            const res = await clientSideApi("GET", "MAIN", "USER_CHECK", undefined, {
+                phone_num: state.phoneNumber,
+            });
+            if (res.result === "SUCCESS") {
+                alert("해당 유저는 존재하지 않습니다\n전화번호를 다시 입력해주세요");
+            } else {
+                dispatch({ type: "SET_SMS_STATE", data: "LOAD" });
+                firebaseAuth.phoneNumberAuth(state.phoneNumber, registerCallBack);
+            }
         }
     };
 

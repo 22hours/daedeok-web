@@ -17,6 +17,8 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `user/login`;
         case `USER_CHECK`:
             return `user/check`;
+        case "USER_DELETE":
+            return `user`;
         case `USER_REGISTER`:
             return `user/`;
         case `USER_UPDATE_INFO`:

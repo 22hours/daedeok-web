@@ -53,7 +53,7 @@ const Userbox = (props: Props) => {
                         <TextInput
                             className={style.input}
                             {...pw}
-                            type={"text"}
+                            type={"password"}
                             form={"box"}
                             placeholder={"비밀번호"}
                         />

@@ -8,6 +8,8 @@ import DateController from "lib/client/dateController";
 import TextInput from "@ui/input/TextInput";
 import TableWrapper from "@ui/board/TableWrapper";
 import { SettingsApplications } from "@material-ui/icons";
+import Link from "next/link";
+import Button from "@ui/buttons/Button";
 
 type Props = {};
 type State = {
@@ -152,7 +154,12 @@ const LectureDetailPage = (props: Props) => {
                                     className={style.value}
                                     form={"underline"}
                                     type={"text"}
-                                    value={""}
+                                    value={data.division_list
+                                        .map((first_item) => {
+                                            const secondDivList = first_item.second_division.map((it) => it).join(", ");
+                                            return `${first_item.first_division} - ${secondDivList}`;
+                                        })
+                                        .join(" | ")}
                                     disable
                                 />
                             </div>
@@ -226,7 +233,18 @@ const LectureDetailPage = (props: Props) => {
                         ))}
                     </div>
                 </div>
-                <div className={style.footer}></div>
+                <div className={style.footer}>
+                    <Link href={`/lecture/${status}`} passHref>
+                        <Button
+                            type={"SQUARE"}
+                            size={"small"}
+                            fontSize={"smaller"}
+                            color={"white"}
+                            backgroundColor={"yellow_accent"}
+                            content={"목록"}
+                        />
+                    </Link>
+                </div>
             </div>
         );
     }
