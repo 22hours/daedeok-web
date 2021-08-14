@@ -75,6 +75,10 @@ h22_axios.interceptors.response.use(
                 res = { result: "ERROR", msg: error_msg, statusCode: customErrorCode };
                 break;
             }
+            case 708: {
+                res = { result: "ERROR", msg: error_msg, statusCode: customErrorCode };
+                break;
+            }
             default: {
                 res = { result: "ERROR", msg: "서버와의 연결상태가 좋지 않습니다" };
                 break;
