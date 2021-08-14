@@ -36,7 +36,7 @@ type State = {
 const LectureDetailPage = (props: Props) => {
     const [data, setData] = useState<State | null>(null);
     const router = useRouter();
-    const { lecture_id } = router.query;
+    const { status, lecture_id } = router.query;
     const { clientSideApi } = useAuthStore();
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_DETAIL", { lecture_id: lecture_id });
@@ -236,8 +236,9 @@ const LectureDetailPage = (props: Props) => {
                 <div className={style.footer}>
                     <Link href={`/lecture/${status}`} passHref>
                         <Button
+                            className={style.golist_btn}
                             type={"SQUARE"}
-                            size={"small"}
+                            size={"free"}
                             fontSize={"smaller"}
                             color={"white"}
                             backgroundColor={"yellow_accent"}
