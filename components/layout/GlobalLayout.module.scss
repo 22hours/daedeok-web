@@ -65,6 +65,7 @@ $mobile_footer_height: 139px;
             }
             @include desktop {
                 height: 100px;
+                cursor: pointer;
             }
         }
     }
