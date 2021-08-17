@@ -2,17 +2,27 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import cookies from "next-cookies";
 import { SecureRoute } from "lib/server/accessController";
-
-const TutorNoticeEditor = dynamic(() => import("components/organism/TutorNoticeEditor/TutorNoticeEditor"), {
-    ssr: false,
-});
-
-type Props = {};
+import { useRouter } from "next/router";
+import PageHeader from "@ui/PageHeader";
+const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const ClassNoticeNew = () => {
+    const router = useRouter();
+    const onCreated = (notice_id) => {
+        alert("게시글을 작성하였습니다");
+        router.push(`/class/notice/detail/${notice_id}`);
+    };
     return (
         <div>
-            <TutorNoticeEditor type={"NEW"} />
+            <ContentEditor
+                type={"NEW"}
+                submitApiConfig={{
+                    method: "POST",
+                    domain: "MAIN",
+                    ep: "TOTAL_NOTICE_NEW",
+                }}
+                onCreated={onCreated}
+            />
         </div>
     );
 };
