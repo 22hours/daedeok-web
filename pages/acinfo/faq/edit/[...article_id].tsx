@@ -55,7 +55,7 @@ const NoticeEdit = () => {
                         url_query: { article_id: article_id },
                     }}
                     onEdited={handleEdited}
-                    imgPath={"QNA"}
+                    imgPath={"FAQ"}
                     originData={originData}
                 />
             </div>

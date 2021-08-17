@@ -184,12 +184,12 @@ const ContentEditController = (props: EditProps) => {
             secret: props.isSecret ? secret : undefined,
         });
         if (res.result === "SUCCESS") {
+            props.onEdited();
             clientSideApi("PUT", "MAIN", "UPDATE_FILE", undefined, {
                 new_file_list: new_item_list,
                 delete_file_list: deleted_item_list,
                 to_path: props.imgPath,
             });
-            props.onEdited();
         } else {
             alert(res.msg);
         }
