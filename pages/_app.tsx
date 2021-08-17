@@ -8,6 +8,7 @@ import "styles/nprogress.css";
 import NProgress from "nprogress";
 import { useRouter } from "next/router";
 import { GlobalLoaderProvider } from "store/GlobalLoader";
+import { GlobalAlertProvider } from "store/GlobalAlertStore";
 
 const MyApp = ({ Component, pageProps }) => {
     useEffect(() => {
@@ -46,7 +47,9 @@ const MyApp = ({ Component, pageProps }) => {
         <>
             <CssBaseline />
             <GlobalLoaderProvider>
-                <AuthProvider>{Layout(<Component {...pageProps} />)}</AuthProvider>
+                <GlobalAlertProvider>
+                    <AuthProvider>{Layout(<Component {...pageProps} />)}</AuthProvider>
+                </GlobalAlertProvider>
             </GlobalLoaderProvider>
         </>
     );

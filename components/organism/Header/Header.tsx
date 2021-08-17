@@ -6,6 +6,10 @@ import MobileHeader from "./MobileHeader";
 const Header = () => {
     const [mode, setMode] = useState<"pc" | "mobile">("pc");
 
+    useEffect(() => {
+        console.log("refder");
+    });
+
     const setModeByWindowSize = () => {
         if (window.innerWidth > 775) {
             setMode("pc");
