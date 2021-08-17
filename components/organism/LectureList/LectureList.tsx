@@ -16,6 +16,11 @@ import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
 import useClassCategory from "lib/hooks/useClassCategory";
 import { useRouter } from "next/router";
+import ListSelect from "components/molecule/ListSelect/ListSelect";
+import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
+import ListPagination from "components/molecule/ListPagination/ListPagination";
+import PageHeader from "@ui/PageHeader";
+import ListPageLayout from "components/layout/ListPageLayout";
 
 type State = res_types.classCompleteList;
 
@@ -23,26 +28,6 @@ type State = res_types.classCompleteList;
 const initState: State = {
     lecture_list: [],
     total_count: 0,
-};
-
-const LectuerCloseCategory = () => {
-    const { clientSideApi } = useAuthStore();
-    const { state, changeCategory } = useListCommonStore();
-
-    const { categoryOptionList } = useClassCategory();
-
-    return (
-        <Select
-            value={state.category || "ALL"}
-            onChange={(e) => {
-                changeCategory(e.target.value);
-            }}
-            form="box"
-            placeholder={"카테고리별 보기"}
-            option_list={[{ name: "전체", value: "ALL" }].concat(categoryOptionList)}
-            className={style.select}
-        />
-    );
 };
 
 const LectureCloseList = (props: { lecture_list: any }) => {
@@ -71,7 +56,7 @@ type Props = {
 
 const LectureList = ({ status }: Props) => {
     const { clientSideApi } = useAuthStore();
-    const { state, changePage, changeKeyword } = useListCommonStore();
+    const { state } = useListCommonStore();
 
     const [listState, setListState] = useState<State>(initState);
 
@@ -105,30 +90,16 @@ const LectureList = ({ status }: Props) => {
     }, [state]);
 
     return (
-        <div>
-            <div className={style.header_title}>
-                <Typo type="HEADER" size="h3" content={status === "OPEN" ? "현재 진행중인 강의" : "종료된 강의"} />
-            </div>
-            <div className={style.top_form}>
-                <LectuerCloseCategory />
-                <SearchBar
-                    className={style.search}
-                    form="box"
-                    placeholder={"검색어를 입력하세요"}
-                    refs={searchRef}
-                    onEnterKeyDown={(e) => changeKeyword(e.target.value)}
-                />
-            </div>
-            <LectureCloseList lecture_list={listState.lecture_list} />
-            <div>
-                <Pagination
-                    totalCount={listState.total_count}
-                    handleChange={(page: number) => changePage((page + 1).toString())}
-                    pageNum={state.page ? parseInt(state.page) - 1 : 0}
-                    requiredCount={7}
-                />
-            </div>
-        </div>
+        <>
+            <PageHeader title={status === "OPEN" ? "현재 진행중인 강의" : "종료된 강의"} />
+            <ListPageLayout
+                headerLeft={<ListSelect categoryType={"CLASS"} />}
+                headerRight={<ListSearchbar />}
+                footer={<ListPagination total_count={listState.total_count} />}
+            >
+                <LectureCloseList lecture_list={listState.lecture_list} />
+            </ListPageLayout>
+        </>
     );
 };
 

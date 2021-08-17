@@ -1,4 +1,4 @@
-import TutorClassBoardList from "components/organism/TutorClassBoardList/TutorClassBoardList";
+import ClassBoardList from "components/organism/ClassBoardList/ClassBoardList";
 import { SecureRoute } from "lib/server/accessController";
 import { ListCommonProvider } from "store/ListCommonStore";
 
@@ -6,7 +6,7 @@ const index = () => {
     return (
         <div>
             <ListCommonProvider>
-                <TutorClassBoardList />
+                <ClassBoardList />
             </ListCommonProvider>
         </div>
     );

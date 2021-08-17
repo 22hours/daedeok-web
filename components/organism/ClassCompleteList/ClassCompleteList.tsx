@@ -10,6 +10,11 @@ import Pagination from "@ui/pagination/Pagination";
 import TableRow from "@ui/board/TableRow";
 import DateController from "lib/client/dateController";
 import Button from "@ui/buttons/Button";
+// List
+import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
+import ListSelect from "components/molecule/ListSelect/ListSelect";
+import ListPagination from "components/molecule/ListPagination/ListPagination";
+import ListPageLayout from "components/layout/ListPageLayout";
 
 type State = {
     total_count: number;
@@ -79,46 +84,29 @@ const ClassCompleteList = () => {
             );
         }
     };
-
     return (
-        <div className={style.container}>
-            <div className={style.head}>
-                <div></div>
-                <div></div>
-                <SearchBar
-                    className={style.search}
-                    form="box"
-                    placeholder={"검색어를 입력하세요"}
-                    onEnterKeyDown={(e) => pageState.changeKeyword(e.target.value)}
-                />
-            </div>
-            <div className={style.body}>
-                <TableWrapper>
-                    {data.lecture_list.map((it, idx) => (
-                        <TableRow
-                            href={`/class/complete/${it.id}/board`}
-                            key={`completelectureitem:${idx}`}
-                            idx={idx + 1}
-                            title={it.title}
-                            date={`${DateController.getFormatedDate(
-                                "YYYY/MM/DD",
-                                it.start_date
-                            )}~${DateController.getFormatedDate("YYYY/MM/DD", it.end_date)}`}
-                        >
-                            {makeStatusButton(it)}
-                        </TableRow>
-                    ))}
-                </TableWrapper>
-            </div>
-            <div className={style.footer}>
-                <Pagination
-                    totalCount={data.total_count}
-                    handleChange={(page: number) => pageState.changePage((page + 1).toString())}
-                    pageNum={pageState.state.page ? parseInt(pageState.state.page) - 1 : 0}
-                    requiredCount={7}
-                />
-            </div>
-        </div>
+        <ListPageLayout
+            headerLeft={<ListSelect categoryType={"CLASS"} />}
+            headerRight={<ListSearchbar />}
+            footer={<ListPagination total_count={data.total_count} />}
+        >
+            <TableWrapper>
+                {data.lecture_list.map((it, idx) => (
+                    <TableRow
+                        href={`/class/complete/${it.id}/board`}
+                        key={`completelectureitem:${idx}`}
+                        idx={idx + 1}
+                        title={it.title}
+                        date={`${DateController.getFormatedDate(
+                            "YYYY/MM/DD",
+                            it.start_date
+                        )}~${DateController.getFormatedDate("YYYY/MM/DD", it.end_date)}`}
+                    >
+                        {makeStatusButton(it)}
+                    </TableRow>
+                ))}
+            </TableWrapper>
+        </ListPageLayout>
     );
 };
 

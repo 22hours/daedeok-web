@@ -1,6 +1,7 @@
 //  ./@types/custom-types/index.d.ts
 declare module "@global_types" {
     export namespace meta_types {
+        type Category = "CLASS" | "CLASS_BOARD" | "QNA";
         type BreadCrumbItem = { name: string; link: string };
         type classStatus = "OPEN" | "CLOSE" | "COMPLETE";
         type accessRole = "ROLE_ALL" | "ROLE_MEMBER" | "ROLE_TUTOR" | "ROLE_ADMIN";
@@ -26,6 +27,57 @@ declare module "@global_types" {
             view: numbe;
         };
         type classType = "ONLINE" | "ZOOM" | "OFFLINE";
+
+        type ListItem = {
+            faqItem: { id: string; user_id: string; title: string };
+            qnaList: {
+                id: string;
+                user_id: string;
+                title: string;
+                category: string;
+                author: string;
+                secret: boolean;
+                create_date: string;
+                view: string;
+            };
+            noticeItem: {
+                id: string;
+                user_id: string;
+                title: string;
+                create_date: string;
+            };
+            categoryItem: {
+                id: string;
+                category: string;
+                content: string;
+                create_date: string;
+            };
+            lectureItem: {
+                id: string;
+                title: string;
+                category: string;
+                start_date: string;
+                end_date: string;
+                student_limit: string;
+                student_num: string;
+            };
+            userItem: {
+                id: string;
+                name: string;
+                duty: string;
+                first_division: string;
+                second_division: string;
+                phone_num: string;
+            };
+        };
+        type ListType = {
+            faq_list?: faqItem[];
+            qna_list?: qnaList[];
+            notice_list?: noticeItem[];
+            category_list?: categoryItem[];
+            lecture_list?: lectureItem[];
+            user_list?: userItem[];
+        };
     }
     export namespace class_types {
         type Division = {

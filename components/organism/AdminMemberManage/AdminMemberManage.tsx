@@ -9,6 +9,13 @@ import { useAuthStore } from "store/AuthStore";
 import { useEffect, useState } from "react";
 import TableRow from "@ui/board/TableRow";
 import Button from "@ui/buttons/Button";
+
+// List
+import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
+import ListSelect from "components/molecule/ListSelect/ListSelect";
+import ListPagination from "components/molecule/ListPagination/ListPagination";
+import ListPageLayout from "components/layout/ListPageLayout";
+
 type Props = {};
 
 type UserItem = {
@@ -93,6 +100,69 @@ const MemberManageList = () => {
         }
     };
 
+    return (
+        <ListPageLayout
+            headerLeft={
+                <div className={style.head}>
+                    <Typo
+                        className={style.label}
+                        type={"TEXT"}
+                        size={"normal"}
+                        content={`총 가입 : ${data.total_count}명`}
+                        color={"gray_accent"}
+                    />
+                </div>
+            }
+            headerRight={<ListSearchbar />}
+            footer={<ListPagination total_count={data.total_count} />}
+        >
+            <div className={style.body}>
+                <Typo
+                    className={style.label}
+                    type={"TEXT"}
+                    size={"small"}
+                    content={`총 가입 : ${1}명`}
+                    color={"gray_accent"}
+                />
+                <TableWrapper>
+                    {data.user_list.map((it, idx) => (
+                        <TableRow
+                            key={`adminmanageuseritem${idx}`}
+                            idx={idx + 1}
+                            studentName={it.name}
+                            studentInfo={{
+                                duty: it.duty,
+                                first_division: it.first_division,
+                                second_division: it.second_division,
+                                phone_number: it.phone_num,
+                            }}
+                        >
+                            <div className={style.user_control_col}>
+                                <Button
+                                    className={`${style.control_btn}`}
+                                    type={"SQUARE"}
+                                    size={"free"}
+                                    fontSize={"smaller"}
+                                    content={"PW전송"}
+                                    color={"white"}
+                                    onClick={() => callPwSend(it.id)}
+                                />
+                                <Button
+                                    className={`${style.control_btn}`}
+                                    type={"SQUARE"}
+                                    size={"free"}
+                                    fontSize={"smaller"}
+                                    content={"삭제"}
+                                    color={"white"}
+                                    onClick={() => callDeleteUser(it.id)}
+                                />
+                            </div>
+                        </TableRow>
+                    ))}
+                </TableWrapper>
+            </div>
+        </ListPageLayout>
+    );
     return (
         <>
             <div className={style.head}>
