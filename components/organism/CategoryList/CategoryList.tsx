@@ -8,6 +8,10 @@ import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
 import style from "./CategoryList.module.scss";
 import Pagination from "@ui/pagination/Pagination";
+import ListSelect from "components/molecule/ListSelect/ListSelect";
+import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
+import ListPagination from "components/molecule/ListPagination/ListPagination";
+import ListPageLayout from "components/layout/ListPageLayout";
 
 type Props = {};
 type CategoryItem = {
@@ -54,40 +58,20 @@ const CategoryList = (props: Props) => {
         return <div>LOAD</div>;
     } else {
         return (
-            <div className={style.container}>
-                <div className={style.head}>
-                    <SearchBar
-                        className={style.search}
-                        form="box"
-                        placeholder={"검색어를 입력하세요"}
-                        initialValue={state.keyword}
-                        onEnterKeyDown={(e) => changeKeyword(e.target.value)}
-                    />
-                </div>
-                <div className={style.body}>
-                    <TableWrapper>
-                        <>
-                            {data.category_list.map((it, idx) => (
-                                <Link
-                                    key={`admincategoryitem${idx}`}
-                                    href={`/lecture-category/detail/${it.id}`}
-                                    passHref
-                                >
-                                    <TableRow idx={idx + 1} title={it.category}></TableRow>
-                                </Link>
-                            ))}
-                        </>
-                    </TableWrapper>
-                </div>
-                <div className={style.footer}>
-                    <Pagination
-                        totalCount={parseInt(data.total_count)}
-                        handleChange={(page: number) => changePage((page + 1).toString())}
-                        pageNum={state.page ? parseInt(state.page) - 1 : 0}
-                        requiredCount={7}
-                    />
-                </div>
-            </div>
+            <ListPageLayout
+                headerRight={<ListSearchbar />}
+                footer={<ListPagination total_count={parseInt(data.total_count)} />}
+            >
+                <TableWrapper>
+                    <>
+                        {data.category_list.map((it, idx) => (
+                            <Link key={`admincategoryitem${idx}`} href={`/lecture-category/detail/${it.id}`} passHref>
+                                <TableRow idx={idx + 1} title={it.category}></TableRow>
+                            </Link>
+                        ))}
+                    </>
+                </TableWrapper>
+            </ListPageLayout>
         );
     }
 };
