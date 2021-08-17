@@ -279,7 +279,6 @@ const IndexPage = (props: Props) => {
                     </div>
                 </>
             )}
-
             <div className={style.footer} style={{ backgroundImage: `url('${mainFooterImg.src}')` }}>
                 <div className={style.mask}>
                     <Typo

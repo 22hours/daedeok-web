@@ -1,7 +1,7 @@
 @import "styles/meta.scss";
 
 .container {
-    z-index: 99999;
+    z-index: 1;
     @include desktop {
         top: 0;
         left: 0;
