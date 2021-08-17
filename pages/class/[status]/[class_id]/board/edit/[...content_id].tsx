@@ -52,7 +52,7 @@ const ClassBoardEdit = () => {
                 isCategory
                 categoryOption={categoryOptionList}
                 onEdited={handleEdited}
-                imgPath={"QNA"}
+                imgPath={"LECTURE_BOARD"}
                 originData={originData}
             />
         );

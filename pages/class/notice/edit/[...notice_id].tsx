@@ -55,7 +55,7 @@ const TutorNoticeEdit = () => {
                         url_query: { notice_id: notice_id },
                     }}
                     onEdited={handleEdited}
-                    imgPath={"GLOBAL_NOTICE"}
+                    imgPath={"TUTOR_NOTICE"}
                     originData={originData}
                 />
             </div>
