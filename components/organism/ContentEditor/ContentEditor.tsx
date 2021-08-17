@@ -187,7 +187,7 @@ const ContentEditController = (props: EditProps) => {
             clientSideApi("PUT", "MAIN", "UPDATE_FILE", undefined, {
                 new_file_list: new_item_list,
                 delete_file_list: deleted_item_list,
-                to_path: "QNA",
+                to_path: props.imgPath,
             });
             props.onEdited();
         } else {
