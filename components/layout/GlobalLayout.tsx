@@ -4,7 +4,7 @@ import Image from "next/image";
 import Banner from "public/assets/banner.jpg";
 import HeaderLogo from "public/assets/headerlogo.png";
 import { useRouter } from "next/dist/client/router";
-
+import Link from "next/link";
 //ORGANIMS
 import Header from "components/organism/Header/Header";
 import Footer from "components/organism/Footer/Footer";
@@ -51,7 +51,9 @@ const GlobalLayout = ({ children, isBannerHide, isMenuHide, isIndex }: Props) =>
             {/* HEADER */}
             <div className={style.header}>
                 <div className={style.head}>
-                    <Image src={HeaderLogo} alt={HeaderLogo.src} />
+                    <Link href="/" passHref>
+                        <Image src={HeaderLogo} alt={HeaderLogo.src} />
+                    </Link>
                 </div>
                 {!isMenuHide && (
                     <div className={style.nav}>
