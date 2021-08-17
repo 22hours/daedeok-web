@@ -9,15 +9,22 @@ type Props = {
 };
 
 const ListPageLayout = (props: Props) => {
+    const Header = () => {
+        if (props.headerLeft || props.headerRight) {
+            return (
+                <div className={style.head}>
+                    <div className={style.left}>{props.headerLeft}</div>
+                    <div className={style.right}>{props.headerRight}</div>
+                </div>
+            );
+        } else {
+            return <></>;
+        }
+    };
+
     return (
         <div className={style.container}>
-            {props.headerLeft ||
-                (props.headerRight && (
-                    <div className={style.head}>
-                        <div className={style.left}>{props.headerLeft}</div>
-                        <div className={style.right}>{props.headerRight}</div>
-                    </div>
-                ))}
+            <Header />
 
             <div className={style.body}> {props.children} </div>
 
