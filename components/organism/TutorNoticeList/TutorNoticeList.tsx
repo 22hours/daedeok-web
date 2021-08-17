@@ -60,19 +60,17 @@ const TutorNoticeList = () => {
         <ListPageLayout
             headerRight={<ListSearchbar />}
             control_row={
-                <>
-                    <Link href={`/class/notice/new`} passHref>
-                        <Button
-                            type="SQUARE"
-                            content="글쓰기"
-                            backgroundColor="yellow_accent"
-                            fontSize="smaller"
-                            size="small"
-                            color="white"
-                            className={style.new_btn}
-                        />
-                    </Link>
-                </>
+                <Link href={`/class/notice/new`} passHref>
+                    <Button
+                        type="SQUARE"
+                        content="글쓰기"
+                        backgroundColor="yellow_accent"
+                        fontSize="smaller"
+                        size="small"
+                        color="white"
+                        className={style.new_btn}
+                    />
+                </Link>
             }
             footer={<ListPagination total_count={listState.total_count} />}
         >
@@ -90,7 +88,5 @@ const TutorNoticeList = () => {
             </TableWrapper>
         </ListPageLayout>
     );
-
-    r;
 };
 export default TutorNoticeList;

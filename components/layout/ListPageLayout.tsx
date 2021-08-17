@@ -11,7 +11,6 @@ type Props = {
 const ListPageLayout = (props: Props) => {
     return (
         <div className={style.container}>
-            <h2>TEST</h2>
             {props.headerLeft ||
                 (props.headerRight && (
                     <div className={style.head}>
@@ -21,13 +20,11 @@ const ListPageLayout = (props: Props) => {
                 ))}
 
             <div className={style.body}> {props.children} </div>
-            {props.control_row ||
-                (props.footer && (
-                    <div className={style.footer}>
-                        <div className={style.control_row}>{props.control_row}</div>
-                        <div className={style.pagination_row}> {props.footer}</div>
-                    </div>
-                ))}
+
+            <div className={style.footer}>
+                {props.control_row && <div className={style.control_row}>{props.control_row}</div>}
+                {props.footer && <div className={style.pagination_row}> {props.footer}</div>}
+            </div>
         </div>
     );
 };
