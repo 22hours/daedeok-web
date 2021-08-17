@@ -7,19 +7,6 @@ import { useEffect, useState } from "react";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 type Props = {};
-function Item(props) {
-    return (
-        <Paper>
-            <h2>{props.item.name}</h2>
-            <h2>{props.item.name}</h2>
-            <h2>{props.item.name}</h2>
-            <h2>{props.item.name}</h2>
-            <p>{props.item.description}</p>
-
-            <Button className="CheckButton">Check it out!</Button>
-        </Paper>
-    );
-}
 
 const BannerItem = ({ url }: { url: string }) => {
     return <div className={style.item_container} style={{ backgroundImage: `url('${url}')` }}></div>;
@@ -39,40 +26,9 @@ const MainCarousel = (props: Props) => {
     useEffect(() => {
         getData();
     }, []);
-    var items = [
-        {
-            name: "Random Name #1",
-            description: "Probably the most random thing you have ever seen!",
-        },
-        {
-            name: "Random Name #2",
-            description: "Hello World!",
-        },
-    ];
+
     return (
-        <Carousel
-            indicators={false}
-            // NavButton={({ onClick, className, style, next, prev }) => {
-            //     if (next) {
-            //         return (
-            //             //@ts-ignore
-            //             <div onClick={onClick}>
-            //                 <NavigateNextIcon />
-            //             </div>
-            //         );
-            //     } else {
-            //         return (
-            //             //@ts-ignore
-            //             <div onClick={onClick}>
-            //                 <NavigateNextIcon color={"white"} />
-            //             </div>
-            //         );
-            //     }
-            // }}
-            animation={"slide"}
-            autoPlay={false}
-            className={style.conatiner}
-        >
+        <Carousel indicators={false} navButtonsAlwaysVisible={true} animation={"slide"} className={style.conatiner}>
             {imgList.map((url, idx) => (
                 <BannerItem key={`carouselitem${url}`} url={url} />
             ))}
