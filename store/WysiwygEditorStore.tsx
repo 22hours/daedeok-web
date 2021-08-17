@@ -8,7 +8,7 @@ type Store = {
     editorRef: RefObject<Editor>;
     uploadDummyImage: (blob: Blob | File) => Promise<any>;
     saveOriginImgList: () => void;
-    getMarkdownContent: () => void;
+    getMarkdownContent: () => string;
     getUpdatedImgList: () => {
         new_item_list: any[];
         deleted_item_list: any[];
@@ -79,7 +79,7 @@ export const WysiwygEditorProvider = ({ children }) => {
         }
     };
 
-    const getMarkdownContent = () => {
+    const getMarkdownContent = (): string => {
         if (editorRef.current) {
             //@ts-ignore
             const md = editorRef.current.getInstance().getMarkdown();

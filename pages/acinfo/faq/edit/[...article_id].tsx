@@ -10,9 +10,7 @@ type State = {
     content: string;
 };
 
-const FaqEditor = dynamic(() => import("components/organism/FaqEditor/FaqEditor"), {
-    ssr: false,
-});
+const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const NoticeEdit = () => {
     const router = useRouter();
@@ -27,7 +25,6 @@ const NoticeEdit = () => {
                 title: res.data.title,
                 content: res.data.content,
             });
-            console.log(res.data);
         } else {
             alert(res.msg);
         }
@@ -38,14 +35,27 @@ const NoticeEdit = () => {
             getOriginData();
         }
     }, [auth]);
-    if (!originData) {
-        return <div>NOW LOADING</div>;
+
+    const handleEdited = () => {
+        alert("수정되었습니다");
+        router.push(`/acinfo/faq/detail/${article_id}`);
+    };
+
+    if (originData === null) {
+        return <div>NOW LOADING FAQ EDITOR</div>;
     } else {
         return (
             <div>
-                <FaqEditor
+                <ContentEditor
                     type={"EDIT"}
-                    //@ts-ignore
+                    editApiConfig={{
+                        method: "PUT",
+                        domain: "MAIN",
+                        ep: "FAQ_EDIT",
+                        url_query: { article_id: article_id },
+                    }}
+                    onEdited={handleEdited}
+                    imgPath={"QNA"}
                     originData={originData}
                 />
             </div>

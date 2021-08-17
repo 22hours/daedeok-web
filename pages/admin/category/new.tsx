@@ -5,8 +5,6 @@ import dynamic from "next/dynamic";
 const AdminCategoryEditor = dynamic(() => import("components/organism/AdminCategoryEditor/AdminCategoryEditor"), {
     ssr: false,
 });
-type Props = {};
-
 const NewCategory = () => {
     return (
         <div>

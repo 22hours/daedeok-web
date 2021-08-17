@@ -10,9 +10,7 @@ type State = {
     content: string;
 };
 
-const NoticeEditor = dynamic(() => import("components/organism/NoticeEditor/NoticeEditor"), {
-    ssr: false,
-});
+const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const NoticeEdit = () => {
     const router = useRouter();
@@ -38,14 +36,27 @@ const NoticeEdit = () => {
             getOriginData();
         }
     }, [auth]);
-    if (!originData) {
-        return <div>NOW LOADING</div>;
+
+    const handleEdited = () => {
+        alert("수정되었습니다");
+        router.push(`/acinfo/notice/detail/${article_id}`);
+    };
+
+    if (originData === null) {
+        return <div>NOW LOADING FAQ EDITOR</div>;
     } else {
         return (
             <div>
-                <NoticeEditor
+                <ContentEditor
                     type={"EDIT"}
-                    //@ts-ignore
+                    editApiConfig={{
+                        method: "PUT",
+                        domain: "MAIN",
+                        ep: "TOTAL_NOTICE_EDIT",
+                        url_query: { article_id: article_id },
+                    }}
+                    onEdited={handleEdited}
+                    imgPath={"GLOBAL_NOTICE"}
                     originData={originData}
                 />
             </div>

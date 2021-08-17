@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { WysiwygEditorProvider } from "store/WysiwygEditorStore";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
 import { SecureRoute } from "lib/server/accessController";
+import useCategory from "lib/hooks/useCategory";
 type Props = {};
 
-const ClassBoardEditor = dynamic(() => import("components/organism/ClassBoardEditor/ClassBoardEditor"), { ssr: false });
+const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const ClassBoardEdit = () => {
     const router = useRouter();
-    const { content_id } = router.query;
+    const { content_id, class_id, status } = router.query;
     const { clientSideApi } = useAuthStore();
 
-    const [data, setData] = useState<{ title: string; category: string; content: string } | null>(null);
+    const { categoryOptionList } = useCategory("CLASS_BOARD");
+    const [originData, setOriginData] = useState<{ title: string; category: string; content: string } | null>(null);
     const getOriginData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_BOARD_DETAIL", { content_id: content_id });
         if (res.result === "SUCCESS") {
-            setData({
+            setOriginData({
                 title: res.data.title,
                 category: res.data.category,
                 content: res.data.content,
@@ -31,13 +32,29 @@ const ClassBoardEdit = () => {
         getOriginData();
     }, []);
 
-    if (data === null) {
+    const handleEdited = () => {
+        alert("수정되었습니다");
+        router.replace(`/class/${status}/${class_id}/board/detail/${content_id}`);
+    };
+
+    if (originData === null) {
         return <div>LOAD NOW</div>;
     } else {
         return (
-            <WysiwygEditorProvider>
-                <ClassBoardEditor type={"EDIT"} originData={data} />
-            </WysiwygEditorProvider>
+            <ContentEditor
+                type={"EDIT"}
+                editApiConfig={{
+                    method: "PUT",
+                    domain: "MAIN",
+                    ep: "LECTURE_BOARD_EDIT",
+                    url_query: { content_id: content_id },
+                }}
+                isCategory
+                categoryOption={categoryOptionList}
+                onEdited={handleEdited}
+                imgPath={"QNA"}
+                originData={originData}
+            />
         );
     }
 };

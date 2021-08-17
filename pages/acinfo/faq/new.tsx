@@ -2,13 +2,29 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import PageHeader from "@ui/PageHeader";
 import { SecureRoute } from "lib/server/accessController";
-const FaqEditor = dynamic(() => import("components/organism/FaqEditor/FaqEditor"), { ssr: false });
+import { useRouter } from "next/router";
+const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const NewFaq = () => {
+    const router = useRouter();
+
+    const onCreated = (article_id) => {
+        alert("게시글을 작성하였습니다");
+        router.push(`/acinfo/faq/detail/${article_id}`);
+    };
+
     return (
         <>
             <PageHeader title={"자주묻는 질문"} />
-            <FaqEditor type={"NEW"} />
+            <ContentEditor
+                type={"NEW"}
+                submitApiConfig={{
+                    method: "POST",
+                    domain: "MAIN",
+                    ep: "FAQ_NEW",
+                }}
+                onCreated={onCreated}
+            />
         </>
     );
 };

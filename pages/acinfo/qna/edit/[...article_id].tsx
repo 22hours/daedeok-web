@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import cookies from "next-cookies";
 import { SecureRoute } from "lib/server/accessController";
+import useCategory from "lib/hooks/useCategory";
+const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 type State = {
     title: string;
@@ -12,15 +13,12 @@ type State = {
     category: string;
 };
 
-const QnaEditor = dynamic(() => import("components/organism/QnaEditor/QnaEditor"), {
-    ssr: false,
-});
-
 const QnaEdit = () => {
     const router = useRouter();
     const { article_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
     const [originData, setOriginData] = useState<State | null>(null);
+    const { categoryOptionList } = useCategory("QNA");
 
     const getOriginData = async () => {
         const res = await clientSideApi("GET", "MAIN", "QNA_FIND_DETAIL", { article_id: article_id });
@@ -36,19 +34,34 @@ const QnaEdit = () => {
         }
     };
 
+    const handleEdit = () => {
+        alert("수정되었습니다");
+        router.push(`/acinfo/qna/detail/${article_id}`);
+    };
+
     useEffect(() => {
         if (auth) {
             getOriginData();
         }
     }, [auth]);
-    if (!originData) {
+    if (originData === null) {
         return <div>NOW LOADING QNA EDITOR</div>;
     } else {
         return (
             <div>
-                <QnaEditor
+                <ContentEditor
                     type={"EDIT"}
-                    //@ts-ignore
+                    editApiConfig={{
+                        method: "PUT",
+                        domain: "MAIN",
+                        ep: "QNA_EDIT",
+                        url_query: { article_id: article_id },
+                    }}
+                    categoryOption={categoryOptionList}
+                    onEdited={handleEdit}
+                    imgPath={"QNA"}
+                    isCategory
+                    isSecret
                     originData={originData}
                 />
             </div>
