@@ -10,9 +10,10 @@ $gray_back: rgb(187, 189, 191);
 $light_accent: #f5f5f5;
 
 // MEDIA QUERIES
-$breakpoint-mobile: 450px;
-$breakpoint-tablet: 800px;
-$breakpoint-desktop: 451px;
+$breakpoint-mobile: 775px;
+$breakpoint-tablet: 1000px;
+$breakpoint-desktop: 775px;
+$breakpoint-home-desktop: 1001px;
 
 // CAROUSEL SETTING
 $pc_carousel_height: 500px;
@@ -20,13 +21,25 @@ $mobile_carousel_height: 250px;
 
 $mobile_font_resize_size: 3px;
 @mixin mobile {
-    @media (max-width: #{$breakpoint-mobile - 1px}) {
+    @media (max-width: #{$breakpoint-mobile}) {
         @content;
     }
 }
 
 @mixin desktop {
     @media (min-width: #{$breakpoint-desktop}) {
+        @content;
+    }
+}
+
+@mixin home_desktop {
+    @media (min-width: #{$breakpoint-home-desktop}) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: #{$breakpoint-mobile})and(max-width: #{$breakpoint-home-desktop}) {
         @content;
     }
 }
