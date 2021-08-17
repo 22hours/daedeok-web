@@ -22,6 +22,7 @@ declare module "@api_config_type" {
                 | "USER_REGISTER"
                 | "USER_UPDATE_INFO"
                 | "USER_UPDATE_PASSWORD"
+                | "USER_PASSWORD_RESET"
                 // FAQ
                 | "FAQ_FIND"
                 | "FAQ_FIND_DETAIL"
