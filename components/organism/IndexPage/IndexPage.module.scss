@@ -16,22 +16,21 @@
             grid-template-columns: 0.8fr 7fr 0.8fr;
         }
     }
+    //PC, TABLET
     .image_button_grid {
         display: grid;
         @include desktop {
             grid-template-columns: 1fr 1fr 2fr;
-            gap: 10px;
+            gap: 1px;
         }
         @include mobile {
             grid-template-columns: 1fr 3fr;
         }
-
         .img_btn {
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             height: 140px;
             @include desktop {
                 display: flex;
@@ -76,12 +75,268 @@
         .class {
             background-color: $yellow_accent;
         }
+
+        // 반응형 FAQ
+        .faq_btn {
+            display: flex;
+            height: 140px;
+            align-items: center;
+            width: 100%;
+            @include home_desktop {
+                .img_wrapper {
+                    width: 30%;
+                    display: flex;
+                    justify-content: flex-end;
+                    .img_size {
+                        height: 45px;
+                        width: 55px;
+                    }
+                }
+                .faq_btn_text {
+                    width: 70%;
+                    text-align: center;
+                }
+            }
+            @include tablet {
+                .img_wrapper {
+                    width: 25%;
+                    display: flex;
+                    justify-content: flex-end;
+                    .img_size {
+                        display: flex;
+                        height: 20px;
+                        width: 35px;
+                        align-items: center;
+                    }
+                }
+                .faq_btn_text {
+                    width: 75%;
+                    text-align: center;
+                }
+            }
+            .btn_style {
+                @include tablet {
+                    font-size: 17px !important;
+                }
+            }
+        }
+        // 반응형 ACINFO
+        .qna_btn {
+            display: flex;
+            height: 140px;
+            align-items: center;
+            width: 100%;
+            @include home_desktop {
+                .img_wrapper {
+                    width: 25%;
+                    display: flex;
+                    justify-content: flex-end;
+                    .img_size {
+                        height: 40px;
+                        width: 45px;
+                    }
+                }
+                .qna_btn_text {
+                    width: 75%;
+                    text-align: center;
+                }
+            }
+            @include tablet {
+                .img_wrapper {
+                    width: 20%;
+                    display: flex;
+                    justify-content: flex-end;
+
+                    .img_size {
+                        display: flex;
+                        height: 20px;
+                        width: 30px;
+                        align-items: center;
+                    }
+                }
+                .qna_btn_text {
+                    width: 80%;
+                    text-align: center;
+                }
+            }
+            .btn_style {
+                @include tablet {
+                    font-size: 17px !important;
+                }
+            }
+        }
+        //반응형 CLASS
+        .class_btn {
+            display: flex;
+            height: 140px;
+            align-items: center;
+            width: 100%;
+            @include home_desktop {
+                .class_btn_wrapper {
+                    display: flex;
+                    align-items: center;
+                    width: 70%;
+                    .img_wrapper {
+                        width: 40%;
+                        display: flex;
+                        justify-content: center;
+
+                        .img_size {
+                            height: 45px;
+                            width: 50px;
+                        }
+                    }
+                    .class_btn_text {
+                        width: 60%;
+                        text-align: left;
+                    }
+                }
+                .arrow_wrapper {
+                    width: 30%;
+                    display: flex;
+                    margin-right: 30px;
+                    justify-content: flex-end;
+                    .arrow_size {
+                        height: 45px;
+                        width: 30px;
+                    }
+                }
+            }
+            @include tablet {
+                .class_btn_wrapper {
+                    display: flex;
+                    align-items: center;
+                    width: 70%;
+                    .img_wrapper {
+                        width: 30%;
+                        display: flex;
+                        justify-content: center;
+
+                        .img_size {
+                            height: 30px;
+                            width: 35px;
+                        }
+                    }
+                    .class_btn_text {
+                        width: 70%;
+                        text-align: left;
+                    }
+                }
+                .arrow_wrapper {
+                    width: 20%;
+                    display: flex;
+                    margin-right: 20px;
+                    justify-content: flex-end;
+                    .arrow_size {
+                        height: 35px;
+                        width: 20px;
+                    }
+                }
+            }
+        }
+        .btn_style {
+            @include tablet {
+                font-size: 25px !important;
+            }
+        }
     }
+    //MOBILE
+    .login_class_btn_grid {
+        display: grid;
+        gap: 1px;
+
+        @include mobile {
+            grid-template-columns: 2fr 4fr;
+        }
+        .login_btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 140px;
+            .btn_txt {
+                font-size: 16px !important;
+            }
+        }
+        .class_btn {
+            display: flex;
+            height: 140px;
+            align-items: center;
+            .btn_txt {
+                font-size: 20px !important;
+            }
+            .class_btn_text {
+                width: 80%;
+                padding-left: 15px;
+            }
+            .img_wrapper {
+                width: 20%;
+                align-items: center;
+                .arrow_img {
+                    width: 20px;
+                    height: 35px;
+                }
+            }
+        }
+        .user {
+            background-color: $red_accent;
+        }
+        .class {
+            background-color: $yellow_accent;
+        }
+    }
+    .faq_acinfo_btn_grid {
+        display: grid;
+        gap: 1px;
+        @include mobile {
+            grid-template-columns: 1fr 1fr;
+        }
+        .faq_btn {
+            display: flex;
+            height: 140px;
+            justify-content: center;
+            align-items: center;
+            .btn_txt {
+                font-size: 16px !important;
+            }
+        }
+        .acinfo_btn {
+            display: flex;
+            height: 140px;
+            justify-content: center;
+            align-items: center;
+            .btn_txt {
+                font-size: 16px !important;
+            }
+        }
+        .faq {
+            background-color: $mint_accent;
+        }
+        .acinfo {
+            background-color: $mint_accent;
+        }
+    }
+
     .notice_user_grid {
         margin-top: 10px;
-        @include desktop {
+        @include home_desktop {
             display: flex;
             .notice_preview {
+                flex-grow: 1;
+                padding: 20px;
+                background-color: white;
+                height: 210px;
+            }
+            .user_box {
+                margin-left: 10px;
+                width: 350px;
+                height: 210px;
+            }
+        }
+        @include tablet {
+            display: flex;
+            .notice_preview {
+                padding: 20px;
                 flex-grow: 1;
                 background-color: white;
                 height: 210px;
@@ -92,11 +347,12 @@
                 height: 210px;
             }
         }
-        @include mobile {
-        }
 
         .notice_preview {
-            padding: 25px;
+            @include mobile {
+                padding: 25px;
+            }
+
             .notice_head {
                 display: flex;
                 justify-content: space-between;
@@ -121,7 +377,11 @@
             }
         }
     }
-
+    @include mobile {
+        .notice_head_typo {
+            font-size: 20px !important;
+        }
+    }
     .footer {
         @include desktop {
             height: 200px;
@@ -129,7 +389,7 @@
         @include mobile {
             height: 130px;
         }
-        width: 100vw;
+        width: 100%;
         margin-top: 20px;
         background-position-y: center;
         background-position: center;
