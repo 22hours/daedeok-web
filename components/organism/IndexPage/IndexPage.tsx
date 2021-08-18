@@ -244,7 +244,7 @@ const IndexPage = (props: Props) => {
                                                     className={style.btn_txt}
                                                     type={"HEADER"}
                                                     size={"h4"}
-                                                    content={"아마데미 사용법"}
+                                                    content={"아카데미 사용법"}
                                                     color={"white"}
                                                 />
                                             </div>
