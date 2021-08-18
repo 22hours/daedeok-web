@@ -14,14 +14,12 @@ const MobileSideBar = (props: Props) => {
     const drawer = useBoolean(false);
     // @ts-ignore
     const toggleDrawer = () => drawer.onChange();
-
     const DrawerInner = () => {
         return <div className={style.inner_container}>{props.children}</div>;
     };
     return (
         <Drawer
             isOpen={drawer.value}
-            setIsOpen={drawer.setValue}
             toggleDrawer={toggleDrawer}
             drawerAnchor={"left"}
             drawerButtonChildren={
