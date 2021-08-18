@@ -110,14 +110,14 @@ const PlanItemInput = (props: PlanItemProps) => {
             id: 5,
             type: "date",
             value: planItem.date,
-            placeholder: "날짜",
+            placeholder: "yyyy-mm-dd",
             name: "date",
         },
         {
             id: 6,
             type: "time",
             value: planItem.time,
-            placeholder: "시간",
+            placeholder: "hh:mm",
             name: "time",
         },
     ];
