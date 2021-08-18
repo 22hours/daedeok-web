@@ -95,7 +95,7 @@ const SidebarMenuList = () => {
 
                         return (
                             <div className={style.section_menu}>
-                                <Link href={buttonLink}>
+                                <Link href={buttonLink} passHref>
                                     <Button
                                         type={"UNDERLINE"}
                                         size={"medium"}

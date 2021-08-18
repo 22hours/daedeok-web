@@ -21,6 +21,7 @@ const MobileSideBar = (props: Props) => {
     return (
         <Drawer
             isOpen={drawer.value}
+            setIsOpen={drawer.setValue}
             toggleDrawer={toggleDrawer}
             drawerAnchor={"left"}
             drawerButtonChildren={
