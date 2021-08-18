@@ -97,6 +97,7 @@ const PwChangeTab = () => {
     const router = useRouter();
     const { auth, clientSideApi } = useAuthStore();
     const [isCertified, setIsCertified] = useState<string | null>(null);
+    const { alertOn, apiErrorAlert } = useAlert();
     const onAuthStateCallBack = (authState: string | null) => {
         setIsCertified(authState);
     };
@@ -114,10 +115,15 @@ const PwChangeTab = () => {
             password: newPassword,
         });
         if (res.result === "SUCCESS") {
-            alert("비밀번호를 성공적으로 변경하였습니다");
+            alertOn({
+                title: "",
+                //@ts-ignore
+                message: "비밀번호를 성공적으로 변경하였습니다",
+                type: "POSITIVE",
+            });
             router.replace("/");
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 

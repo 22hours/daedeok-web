@@ -85,7 +85,12 @@ const MypageGroup = () => {
             onSuccess: async () => {
                 const res = await clientSideApi("DELETE", "MAIN", "USER_DELETE");
                 if (res.result === "SUCCESS") {
-                    alert("회원 탈퇴 되었습니다\n확인을 누르시면 메인페이지로 이동합니다");
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "회원 탈퇴 되었습니다\n확인을 누르시면 메인페이지로 이동합니다",
+                        type: "POSITIVE",
+                    });
                     router.replace("/logout");
                 } else {
                     apiErrorAlert(res.msg);

@@ -16,13 +16,17 @@ import DateController from "lib/client/dateController";
 import { useAuthStore } from "store/AuthStore";
 import CommentList from "../CommentList/CommentList";
 import { useRouter } from "next/router";
-
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
 type State = res_types.qnaDetailList;
 
 const QnaDetail = ({ articleId }) => {
     const router = useRouter();
+    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
+
     const { article_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
     const [qnaDetailData, setQnaDetailData] = useState<State | null>(null);
@@ -41,23 +45,35 @@ const QnaDetail = ({ articleId }) => {
             const data: State = res.data;
             setQnaDetailData(data);
         } else {
-            alert("열람할 수 없는 글 입니다\n확인을 클릭하시면 이전 페이지로 돌아갑니다");
+            alertOn({
+                title: "",
+                //@ts-ignore
+                message: "열람할 수 없는 글 입니다\n확인을 클릭하시면 이전 페이지로 돌아갑니다",
+                type: "WARN",
+            });
             router.back();
         }
     };
 
     //공지사항 삭제
     const handleDelete = async () => {
-        const flag = confirm("삭제하시겠습니까?");
-        if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "QNA_DELETE", { article_id: articleId });
-            if (res.result === "SUCCESS") {
-                alert("삭제되었습니다.");
-                location.replace("/acinfo/qna");
-            } else {
-                alert("다시 시도해주세요");
-            }
-        }
+        confirmOn({
+            message: "삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "QNA_DELETE", { article_id: articleId });
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "삭제되었습니다",
+                        type: "POSITIVE",
+                    });
+                    location.replace("/acinfo/qna");
+                } else {
+                    apiErrorAlert(res.msg);
+                }
+            },
+        });
     };
 
     //댓글 작성
@@ -74,13 +90,12 @@ const QnaDetail = ({ articleId }) => {
                 }
             );
             if (res.result === "SUCCESS") {
-                console.log(res.data);
                 const new_comment_id = res.data;
-
                 if (parent_id) {
                     // 대댓일때
                     if (qnaDetailData) {
-                        var newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
+                        var newCommentList: res_types.qnaDetailList["comment_list"] =
+                            qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         newCommentList[matchIdx].children.push({
                             id: new_comment_id,
@@ -101,7 +116,8 @@ const QnaDetail = ({ articleId }) => {
                 } else {
                     // 댓일때
                     if (qnaDetailData) {
-                        const newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
+                        const newCommentList: res_types.qnaDetailList["comment_list"] =
+                            qnaDetailData?.comment_list.slice();
                         newCommentList.push({
                             id: new_comment_id,
                             // @ts-ignore
@@ -119,81 +135,47 @@ const QnaDetail = ({ articleId }) => {
                         });
                     }
                 }
-                alert("댓글이 추가되었습니다.");
+                alertOn({
+                    title: "",
+                    //@ts-ignore
+                    message: "댓글이 추가되었습니다",
+                    type: "POSITIVE",
+                });
             } else {
-                alert("다시 시도해주세요.");
+                apiErrorAlert(res.msg);
             }
         } else {
-            alert("댓글을 작성해주세요.");
+            alertOn({
+                title: "",
+                //@ts-ignore
+                message: "댓글을 작성해주세요",
+                type: "WARN",
+            });
         }
     };
 
     const editComment = async (content: string, comment_id: string, parent_id?: string) => {
-        const res = await clientSideApi(
-            "PUT",
-            "MAIN",
-            "QNA_UPDATE_COMMENT",
-            { comment_id: comment_id },
-            {
-                content: content,
-                parent_id: parent_id,
-            }
-        );
-        if (res.result === "SUCCESS") {
-            if (parent_id) {
-                // 대댓일때
-                if (qnaDetailData) {
-                    var newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
-                    const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
-                    const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
-                    newCommentList[matchIdx].children[childMatchIdx].content = content;
-                    newCommentList[matchIdx].children[childMatchIdx].create_date = new Date().toString();
-
-                    setQnaDetailData({
-                        ...qnaDetailData,
-                        //@ts-ignore
-                        comment_list: newCommentList,
-                    });
-                }
-            } else {
-                // 댓일때
-                if (qnaDetailData) {
-                    const newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
-                    const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
-                    newCommentList[matchIdx].content = content;
-                    newCommentList[matchIdx].create_date = new Date().toString();
-                    setQnaDetailData({
-                        ...qnaDetailData,
-                        //@ts-ignore
-                        comment_list: newCommentList,
-                    });
-                }
-            }
-            alert("수정되었습니다.");
-        } else {
-            alert("다시 시도해주세요.");
-        }
-    };
-
-    const deleteComment = async (comment_id: string, parent_id?: string) => {
-        const flag = confirm("삭제하시겠습니까?");
-        if (flag) {
+        if (content) {
             const res = await clientSideApi(
-                "DELETE",
+                "PUT",
                 "MAIN",
-                "QNA_DELETE_COMMENT",
+                "QNA_UPDATE_COMMENT",
                 { comment_id: comment_id },
-                undefined
+                {
+                    content: content,
+                    parent_id: parent_id,
+                }
             );
             if (res.result === "SUCCESS") {
                 if (parent_id) {
                     // 대댓일때
                     if (qnaDetailData) {
-                        var newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
+                        var newCommentList: res_types.qnaDetailList["comment_list"] =
+                            qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
-                        newCommentList[matchIdx].children.splice(childMatchIdx, 1);
-
+                        newCommentList[matchIdx].children[childMatchIdx].content = content;
+                        newCommentList[matchIdx].children[childMatchIdx].create_date = new Date().toString();
                         setQnaDetailData({
                             ...qnaDetailData,
                             //@ts-ignore
@@ -203,9 +185,11 @@ const QnaDetail = ({ articleId }) => {
                 } else {
                     // 댓일때
                     if (qnaDetailData) {
-                        const newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
+                        const newCommentList: res_types.qnaDetailList["comment_list"] =
+                            qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
-                        newCommentList.splice(matchIdx, 1);
+                        newCommentList[matchIdx].content = content;
+                        newCommentList[matchIdx].create_date = new Date().toString();
                         setQnaDetailData({
                             ...qnaDetailData,
                             //@ts-ignore
@@ -213,11 +197,78 @@ const QnaDetail = ({ articleId }) => {
                         });
                     }
                 }
-                alert("삭제되었습니다.");
+                alertOn({
+                    title: "",
+                    //@ts-ignore
+                    message: "수정되었습니다",
+                    type: "POSITIVE",
+                });
             } else {
-                alert("다시 시도해주세요.");
+                apiErrorAlert(res.msg);
             }
+        } else {
+            alertOn({
+                title: "",
+                //@ts-ignore
+                message: "댓글을 작성해주세요",
+                type: "WARN",
+            });
         }
+    };
+
+    const deleteComment = async (comment_id: string, parent_id?: string) => {
+        confirmOn({
+            message: "삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi(
+                    "DELETE",
+                    "MAIN",
+                    "QNA_DELETE_COMMENT",
+                    { comment_id: comment_id },
+                    undefined
+                );
+                if (res.result === "SUCCESS") {
+                    if (parent_id) {
+                        // 대댓일때
+                        if (qnaDetailData) {
+                            var newCommentList: res_types.qnaDetailList["comment_list"] =
+                                qnaDetailData?.comment_list.slice();
+                            const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
+                            const childMatchIdx = newCommentList[matchIdx].children.findIndex(
+                                (it) => it.id === comment_id
+                            );
+                            newCommentList[matchIdx].children.splice(childMatchIdx, 1);
+                            setQnaDetailData({
+                                ...qnaDetailData,
+                                //@ts-ignore
+                                comment_list: newCommentList,
+                            });
+                        }
+                    } else {
+                        // 댓일때
+                        if (qnaDetailData) {
+                            const newCommentList: res_types.qnaDetailList["comment_list"] =
+                                qnaDetailData?.comment_list.slice();
+                            const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
+                            newCommentList.splice(matchIdx, 1);
+                            setQnaDetailData({
+                                ...qnaDetailData,
+                                //@ts-ignore
+                                comment_list: newCommentList,
+                            });
+                        }
+                    }
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "삭제되었습니다",
+                        type: "POSITIVE",
+                    });
+                } else {
+                    apiErrorAlert(res.msg);
+                }
+            },
+        });
     };
 
     if (qnaDetailData === null) {

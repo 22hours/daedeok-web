@@ -80,7 +80,7 @@ const JoinButton = ({ state, idx, handleClassJoin }) => {
 
 const ClassJoin = () => {
     const { clientSideApi } = useAuthStore();
-    const { alertOn } = useAlert();
+    const { alertOn, apiErrorAlert } = useAlert();
     const { state, changePage, changeKeyword } = useListCommonStore();
     const [listState, setListState] = useState<State>(initState);
     const searchRef = useRef<HTMLInputElement | null>(null);
@@ -118,19 +118,14 @@ const ClassJoin = () => {
         const res_data = await clientSideApi("POST", "MAIN", "LECTURE_JOIN", { lecture_id: idx });
         if (res_data.result === "SUCCESS") {
             alertOn({
-                title: "수강신청 성공",
-                message: "수강신청이 완료되었습니다.",
+                title: "",
+                message: "수강신청이 완료되었습니다",
                 type: "POSITIVE",
             });
             location.reload();
         } else {
             const msg = res_data?.msg;
-            alertOn({
-                title: "에러가 발생하였습니다",
-                //@ts-ignore
-                message: msg,
-                type: "ERROR",
-            });
+            apiErrorAlert(msg);
         }
     };
 
