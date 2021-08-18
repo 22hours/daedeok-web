@@ -6,8 +6,6 @@ import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 import { nanoid } from "nanoid";
 
-type Props = {};
-
 const isInPath = (nowPath, buttonPath) => {
     const nowPathInDouble = nowPath.split("/").slice(0, 3).join("/");
     return nowPathInDouble === buttonPath;
