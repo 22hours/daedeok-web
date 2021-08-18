@@ -15,6 +15,7 @@ import ListController from "lib/client/listController";
 import { useRouter } from "next/router";
 import { useClassDetailStore } from "store/ClassDetailStore";
 import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 import ClassCategorySelect from "components/molecule/ClassCategorySelect/ClassCategorySelect";
 import useClassCategory from "lib/hooks/useClassCategory";
@@ -329,7 +330,8 @@ const reducer = (state: State, action: Action) => {
 
 const ClassEditor = (props: Props) => {
     const { clientSideApi } = useAuthStore();
-    const { alertOn } = useAlert();
+    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
     const [originHandoutList, setOriginHandoutList] = useState<class_types.Handout[]>([]);
     const [originPlanList, setOriginPlanList] = useState<class_types.PlanItem[]>([]);
     const [state, dispatch] = useReducer(reducer, initState);
@@ -351,12 +353,14 @@ const ClassEditor = (props: Props) => {
 
     const titleChange = useCallback((e) => dispatch({ type: "SET_TITLE", data: e.target.value }), [state.title]);
     const contentChange = useCallback((e) => dispatch({ type: "SET_CONTENT", data: e.target.value }), [state.content]);
-    const referenceChange = useCallback((e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }), [
-        state.reference,
-    ]);
-    const categoryChange = useCallback((e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }), [
-        state.category,
-    ]);
+    const referenceChange = useCallback(
+        (e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }),
+        [state.reference]
+    );
+    const categoryChange = useCallback(
+        (e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }),
+        [state.category]
+    );
     const addDivisionItem = useCallback(
         (division: class_types.Division) => dispatch({ type: "ADD_DIVISION", data: division }),
         [state.division_list]
@@ -367,18 +371,22 @@ const ClassEditor = (props: Props) => {
         },
         [state.division_list]
     );
-    const removeDivisionItem = useCallback((idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }), [
-        state.division_list,
-    ]);
-    const studentLimitChange = useCallback((value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }), [
-        state.student_limit,
-    ]);
-    const addHandoutItem = useCallback((item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }), [
-        state.handout_list,
-    ]);
-    const removeHandoutItem = useCallback((idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }), [
-        state.handout_list,
-    ]);
+    const removeDivisionItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }),
+        [state.division_list]
+    );
+    const studentLimitChange = useCallback(
+        (value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }),
+        [state.student_limit]
+    );
+    const addHandoutItem = useCallback(
+        (item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }),
+        [state.handout_list]
+    );
+    const removeHandoutItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }),
+        [state.handout_list]
+    );
 
     const addPlanItem = useCallback(
         (planType: class_types.PlanType) => dispatch({ type: "ADD_PLAN", data: planType }),
@@ -411,68 +419,69 @@ const ClassEditor = (props: Props) => {
         [state.plan_list]
     );
 
-    const removePlanItem = useCallback((idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }), [
-        state.plan_list,
-    ]);
+    const removePlanItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }),
+        [state.plan_list]
+    );
 
     //강의종료
     const handleFinish = async () => {
-        const flag = confirm("정말 종료하겠습니까?");
-        if (flag) {
-            const res = await clientSideApi("POST", "MAIN", "LECTURE_FINISH", {
-                lecture_id: class_id,
-            });
-            if (res.result === "SUCCESS") {
-                alertOn({
-                    title: "강의 생성",
-                    //@ts-ignore
-                    message: "강의가 종료되었습니다.",
-                    type: "POSITIVE",
+        confirmOn({
+            message: "정말 종료하겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi("POST", "MAIN", "LECTURE_FINISH", {
+                    lecture_id: class_id,
                 });
-                location.replace("/class");
-            } else {
-                alertOn({
-                    title: "에러가 발생하였습니다",
-                    //@ts-ignore
-                    message: "다시 시도해주세요.",
-                    type: "ERROR",
-                });
-            }
-        }
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "강의가 종료되었습니다",
+                        type: "POSITIVE",
+                    });
+                    location.replace("/class");
+                } else {
+                    alertOn({
+                        title: "에러가 발생하였습니다",
+                        //@ts-ignore
+                        message: "다시 시도해주세요",
+                        type: "ERROR",
+                    });
+                }
+            },
+        });
     };
 
     //강의삭제
     const handleDelete = async () => {
-        const flag = confirm("정말 삭제하시겠습니까?");
-        if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "LECTURE_DELETE", { lecture_id: class_id }, undefined);
-
-            if (res.result === "SUCCESS") {
-                alertOn({
-                    title: "강의 삭제",
-                    //@ts-ignore
-                    message: "삭제되었습니다..",
-                    type: "POSITIVE",
-                });
-                location.replace("/class");
-            } else {
-                alertOn({
-                    title: "에러가 발생하였습니다",
-                    //@ts-ignore
-                    message: "다시 시도해주세요.",
-                    type: "ERROR",
-                });
-            }
-        }
-    };
-
-    const checkFormIsValid = (): boolean => {
-        if (state.title.length > 1) {
-            alert("강의 제목은 최소 1글자 이상으로 작성해주세요");
-            return false;
-        }
-
-        return true;
+        confirmOn({
+            message: "정말 삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi(
+                    "DELETE",
+                    "MAIN",
+                    "LECTURE_DELETE",
+                    { lecture_id: class_id },
+                    undefined
+                );
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "삭제되었습니다",
+                        type: "POSITIVE",
+                    });
+                    location.replace("/class");
+                } else {
+                    alertOn({
+                        title: "에러가 발생하였습니다",
+                        //@ts-ignore
+                        message: "다시 시도해주세요",
+                        type: "ERROR",
+                    });
+                }
+            },
+        });
     };
 
     const handleSumbit = async () => {
@@ -543,27 +552,21 @@ const ClassEditor = (props: Props) => {
                 });
                 if (res.result === "SUCCESS") {
                     alertOn({
-                        title: "강의 개설",
+                        title: "",
                         //@ts-ignore
                         message: "강의 개설에 성공하였습니다",
                         type: "POSITIVE",
                     });
-
                     location.replace(`/class/open/${res.data}/board`);
                 } else {
-                    alertOn({
-                        title: "에러가 발생하였습니다",
-                        //@ts-ignore
-                        message: res.msg,
-                        type: "ERROR",
-                    });
+                    apiErrorAlert(res.msg);
                 }
             } else {
                 alertOn({
-                    title: "에러가 발생하였습니다",
+                    title: "",
                     //@ts-ignore
                     message: "정원은 0명이 될 수 없습니다.",
-                    type: "ERROR",
+                    type: "WARN",
                 });
             }
         } else {
@@ -599,7 +602,7 @@ const ClassEditor = (props: Props) => {
                 );
                 if (res.result === "SUCCESS") {
                     alertOn({
-                        title: "강의수정",
+                        title: "",
                         //@ts-ignore
                         message: "수정되었습니다.",
                         type: "POSITIVE",
@@ -615,10 +618,10 @@ const ClassEditor = (props: Props) => {
                 }
             } else {
                 alertOn({
-                    title: "에러가 발생하였습니다",
+                    title: "",
                     //@ts-ignore
                     message: "정원은 0명이 될 수 없습니다.",
-                    type: "ERROR",
+                    type: "WARN",
                 });
             }
         }

@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 import style from "./TutorClassPlanDetailList.module.scss";
 type Props = {};
@@ -31,13 +33,15 @@ const TutorClassPlanDetailList = () => {
     const [state, setState] = useState<State | null>(null);
     const router = useRouter();
     const { episode_id } = router.query;
+    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
 
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_PLAN_DETAIL", { episode_id: episode_id });
         if (res.result === "SUCCESS") {
             setState(res.data);
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
@@ -54,11 +58,22 @@ const TutorClassPlanDetailList = () => {
             );
             if (res.result === "SUCCESS") {
                 getData();
+                alertOn({
+                    title: "",
+                    //@ts-ignore
+                    message: "완료되었습니다",
+                    type: "POSITIVE",
+                });
             } else {
-                alert(res.msg);
+                apiErrorAlert(res.msg);
             }
         } else {
-            alert("오프라인 강의만 출석할 수 있습니다");
+            alertOn({
+                title: "",
+                //@ts-ignore
+                message: "오프라인 강의만 출석 가능합니다",
+                type: "WARN",
+            });
         }
     };
 

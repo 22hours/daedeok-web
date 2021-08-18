@@ -176,7 +176,7 @@ const ContentEditorPresenter = (props: PresenterProps) => {
 
 const ContentCreateController = (props: NewProps) => {
     const { clientSideApi } = useAuthStore();
-
+    const { apiErrorAlert } = useAlert();
     const handleCreate = async (title, content, category, secret) => {
         const reqOption = {
             ...props.submitApiConfig,
@@ -191,7 +191,7 @@ const ContentCreateController = (props: NewProps) => {
         if (res.result === "SUCCESS") {
             props.onCreated(res.data);
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
     return (
