@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 import style from "./AdminCategoryDetail.module.scss";
 type Props = {};
 
@@ -15,7 +17,8 @@ type State = {
 
 const AdminCategoryDetail = () => {
     const [data, setData] = useState<State | null>(null);
-
+    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
     const router = useRouter();
     const { category_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
@@ -24,7 +27,7 @@ const AdminCategoryDetail = () => {
         if (res.result === "SUCCESS") {
             setData(res.data);
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
@@ -35,17 +38,23 @@ const AdminCategoryDetail = () => {
     }, [auth]);
 
     const deleteCategory = async () => {
-        if (window.confirm("해당 카테고리를 삭제하시겠습니까?\n삭제한 카테고리는 변경할 수 없습니다")) {
-            const res = await clientSideApi("DELETE", "MAIN", "ADMIN_DELETE_CATEGORY", {
-                category_id: category_id,
-            });
-            if (res.result === "SUCCESS") {
-                alert("성공적으로 해당 카테고리를 삭제하였습니다.");
-                router.replace("/admin/category");
-            } else {
-                alert(res.msg);
-            }
-        }
+        confirmOn({
+            message: "해당 카테고리를 삭제하시겠습니까?\n삭제한 카테고리는 변경할 수 없습니다",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "ADMIN_DELETE_CATEGORY", {
+                    category_id: category_id,
+                });
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        message: "성공적으로 해당 카테고리를 삭제하였습니다",
+                        type: "POSITIVE",
+                    });
+                    router.replace("/admin/category");
+                } else {
+                    apiErrorAlert(res.msg);
+                }
+            },
+        });
     };
 
     if (data === null) {

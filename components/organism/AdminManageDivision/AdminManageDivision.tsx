@@ -9,6 +9,8 @@ import Button from "@ui/buttons/Button";
 import { useAuthStore } from "store/AuthStore";
 import TableWrapper from "@ui/board/TableWrapper";
 import TableRow from "@ui/board/TableRow";
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 type Props = {};
 
@@ -38,6 +40,8 @@ type NewDivisionAddFormProps = {
     addNewDivision: (first_division: string, second_division_list: string[]) => Promise<boolean>;
 };
 const NewDivisionAddForm = (props: NewDivisionAddFormProps) => {
+    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
     const fisrt_division = useInput();
     const [secondDivisionList, setSecondDivisionList] = useState<second_division_list>([""]);
 
@@ -61,11 +65,17 @@ const NewDivisionAddForm = (props: NewDivisionAddFormProps) => {
     };
     const handleAddDivsion = async () => {
         if (fisrt_division.value.length <= 1) {
-            alert("상위소속의 이름은 2자 이상이여야 합니다");
+            alertOn({
+                message: "상위소속의 이름은 2자 이상이여야 합니다",
+                type: "WARN",
+            });
             return;
         }
         if (secondDivisionList.findIndex((it) => it === "" || it.length <= 1) !== -1) {
-            alert("하위소속의 이름은 2자 이상이여야 합니다");
+            alertOn({
+                message: "하위소속의 이름은 2자 이상이여야 합니다",
+                type: "WARN",
+            });
             return;
         }
         const res = await props.addNewDivision(fisrt_division.value, secondDivisionList);
@@ -134,6 +144,8 @@ type DivisionList = {
     second_division: string[];
 };
 const AdminManageDivision = () => {
+    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
     const [data, setData] = useState<DivisionList[]>([]);
     const { auth, clientSideApi } = useAuthStore();
     const addNewDivision = async (first_division, second_division_list): Promise<boolean> => {
@@ -142,12 +154,15 @@ const AdminManageDivision = () => {
             second_division: second_division_list,
         });
         if (res.result === "SUCCESS") {
-            alert("성공적으로 추가되었습니다");
+            alertOn({
+                message: "성공적으로 추가되었습니다",
+                type: "POSITIVE",
+            });
             setData([]);
             getData();
             return true;
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
             return false;
         }
     };
@@ -157,7 +172,7 @@ const AdminManageDivision = () => {
         if (res.result === "SUCCESS") {
             setData(res.data);
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
@@ -168,18 +183,24 @@ const AdminManageDivision = () => {
     }, [auth]);
 
     const deleteDivision = async (first_division: string) => {
-        if (window.confirm("해당 소속을 정말로 삭제하시겠습니까?")) {
-            const res = await clientSideApi("DELETE", "MAIN", "DELETE_DIVISION", undefined, {
-                name: first_division,
-            });
-            if (res.result === "SUCCESS") {
-                alert("성공적으로 삭제되었습니다");
-                setData([]);
-                getData();
-            } else {
-                alert(res.msg);
-            }
-        }
+        confirmOn({
+            message: "해당 소속을 정말로 삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "DELETE_DIVISION", undefined, {
+                    name: first_division,
+                });
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        message: "성공적으로 삭제되었습니다",
+                        type: "POSITIVE",
+                    });
+                    setData([]);
+                    getData();
+                } else {
+                    apiErrorAlert(res.msg);
+                }
+            },
+        });
     };
 
     return (
