@@ -25,6 +25,9 @@ const Drawer = (props: Props) => {
             isFirstRun.current = false;
             return;
         }
+        if (props.isOpen) {
+            props.toggleDrawer();
+        }
     }, [router.asPath]);
     useEffect(() => {
         const handleClose = () => {

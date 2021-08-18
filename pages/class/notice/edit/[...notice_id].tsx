@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import cookies from "next-cookies";
 import { SecureRoute } from "lib/server/accessController";
+import { useAlert } from "store/GlobalAlertStore";
 
 type Props = {};
 
@@ -15,6 +16,8 @@ type State = {
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const TutorNoticeEdit = () => {
+    const { alertOn, apiErrorAlert } = useAlert();
+
     const router = useRouter();
     const { notice_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
@@ -28,7 +31,7 @@ const TutorNoticeEdit = () => {
                 content: res.data.content,
             });
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
@@ -38,7 +41,10 @@ const TutorNoticeEdit = () => {
         }
     }, [auth]);
     const handleEdited = () => {
-        alert("수정되었습니다");
+        alertOn({
+            message: "게시글을 수정하였습니다",
+            type: "POSITIVE",
+        });
         router.push(`/class/notice/detail/${notice_id}`);
     };
     if (originData === null) {

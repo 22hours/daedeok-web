@@ -20,13 +20,7 @@ const Confirm = () => {
             >
                 {state.title && (
                     <DialogTitle id="alert-dialog-title">
-                        <Typo
-                            className={`${style[state.type.toLowerCase()]}`}
-                            type={"TEXT"}
-                            size={"smaller"}
-                            content={state.title}
-                            color={"gray_accent"}
-                        />
+                        <Typo type={"TEXT"} size={"smaller"} content={state.title} color={"gray_accent"} />
                     </DialogTitle>
                 )}
                 <DialogContent>
@@ -42,7 +36,7 @@ const Confirm = () => {
                             fontSize={"smaller"}
                             onClick={() => {
                                 setState({ isOpen: false });
-                                state.onFail();
+                                state.onFail && state.onFail();
                             }}
                         />
                         <Button

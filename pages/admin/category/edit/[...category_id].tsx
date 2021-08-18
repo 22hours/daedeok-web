@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
+import { useConfirm } from "store/GlobalConfirmStore";
+import { useAlert } from "store/GlobalAlertStore";
 
 const AdminCategoryEditor = dynamic(() => import("components/organism/AdminCategoryEditor/AdminCategoryEditor"), {
     ssr: false,
@@ -16,6 +18,7 @@ type State = {
 type Props = {};
 
 const AdminCategoryEdit = () => {
+    const { alertOn, apiErrorAlert } = useAlert();
     const router = useRouter();
     const { category_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
@@ -29,7 +32,7 @@ const AdminCategoryEdit = () => {
                 content: res.data.content,
             });
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
             router.replace("/admin/category");
         }
     };

@@ -13,9 +13,8 @@ type Store = {
     }: {
         message: string;
         onSuccess: Function;
-        onFail: Function;
+        onFail?: Function;
         title?: string | undefined;
-        type?: "POSITIVE" | "ERROR" | "WARN" | "DEFAULT" | undefined;
     }) => void;
 };
 type State =
@@ -25,7 +24,7 @@ type State =
           title?: string;
           message: string;
           onSuccess: Function;
-          onFail: Function;
+          onFail?: Function;
       };
 const initState: State = {
     isOpen: false,
@@ -48,7 +47,7 @@ export const GlobalConfirmProvider = ({ children }) => {
     }: {
         message: string;
         onSuccess: Function;
-        onFail: Function;
+        onFail?: Function;
         title?: string;
     }) => {
         setState({
