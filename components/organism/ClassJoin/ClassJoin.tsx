@@ -115,15 +115,8 @@ const ClassJoin = () => {
 
     // 수강신청
     const handleClassJoin = async (idx) => {
-        const res_data = await clientSideApi(
-            "POST",
-            "MAIN",
-            "LECTURE_JOIN",
-            { lecture_id: idx },
-            {
-                lecture_id: idx,
-            }
-        );
+        console.log(idx);
+        const res_data = await clientSideApi("POST", "MAIN", "LECTURE_JOIN", { lecture_id: idx });
         if (res_data.result === "SUCCESS") {
             alert("수강신청이 완료되었습니다.");
             location.reload();
@@ -155,7 +148,7 @@ const ClassJoin = () => {
                                 <JoinButton
                                     state={it.status}
                                     idx={it.id}
-                                    handleClassJoin={() => handleClassJoin(idx)}
+                                    handleClassJoin={() => handleClassJoin(it.id)}
                                 />
                             </div>
                         </TableRow>

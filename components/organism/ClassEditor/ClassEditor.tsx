@@ -339,28 +339,34 @@ const ClassEditor = (props: Props) => {
 
     const titleChange = useCallback((e) => dispatch({ type: "SET_TITLE", data: e.target.value }), [state.title]);
     const contentChange = useCallback((e) => dispatch({ type: "SET_CONTENT", data: e.target.value }), [state.content]);
-    const referenceChange = useCallback((e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }), [
-        state.reference,
-    ]);
-    const categoryChange = useCallback((e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }), [
-        state.category,
-    ]);
+    const referenceChange = useCallback(
+        (e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }),
+        [state.reference]
+    );
+    const categoryChange = useCallback(
+        (e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }),
+        [state.category]
+    );
     const addDivisionItem = useCallback(
         (division: class_types.Division) => dispatch({ type: "ADD_DIVISION", data: division }),
         [state.division_list]
     );
-    const removeDivisionItem = useCallback((idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }), [
-        state.division_list,
-    ]);
-    const studentLimitChange = useCallback((value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }), [
-        state.student_limit,
-    ]);
-    const addHandoutItem = useCallback((item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }), [
-        state.handout_list,
-    ]);
-    const removeHandoutItem = useCallback((idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }), [
-        state.handout_list,
-    ]);
+    const removeDivisionItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }),
+        [state.division_list]
+    );
+    const studentLimitChange = useCallback(
+        (value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }),
+        [state.student_limit]
+    );
+    const addHandoutItem = useCallback(
+        (item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }),
+        [state.handout_list]
+    );
+    const removeHandoutItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }),
+        [state.handout_list]
+    );
 
     const addPlanItem = useCallback(
         (planType: class_types.PlanType) => dispatch({ type: "ADD_PLAN", data: planType }),
@@ -393,9 +399,10 @@ const ClassEditor = (props: Props) => {
         [state.plan_list]
     );
 
-    const removePlanItem = useCallback((idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }), [
-        state.plan_list,
-    ]);
+    const removePlanItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }),
+        [state.plan_list]
+    );
 
     //강의종료
     const handleFinish = async () => {
@@ -465,21 +472,25 @@ const ClassEditor = (props: Props) => {
         };
         if (props.type === "NEW") {
             // NEW
-            const res = await clientSideApi("POST", "MAIN", "LECTURE_NEW", undefined, {
-                title: state.title,
-                content: state.content,
-                category: state.category,
-                division_list: makeDivisionList(),
-                student_limit: state.student_limit,
-                reference: state.reference,
-                handout_list: state.handout_list,
-                plan_list: state.plan_list,
-            });
-            if (res.result === "SUCCESS") {
-                alert("강의 개설에 성공하였습니다");
-                location.replace(`/class/open/${res.data}/board`);
+            if (state.student_limit !== 0) {
+                const res = await clientSideApi("POST", "MAIN", "LECTURE_NEW", undefined, {
+                    title: state.title,
+                    content: state.content,
+                    category: state.category,
+                    division_list: makeDivisionList(),
+                    student_limit: state.student_limit,
+                    reference: state.reference,
+                    handout_list: state.handout_list,
+                    plan_list: state.plan_list,
+                });
+                if (res.result === "SUCCESS") {
+                    alert("강의 개설에 성공하였습니다");
+                    location.replace(`/class/open/${res.data}/board`);
+                } else {
+                    alert(res.msg);
+                }
             } else {
-                alert(res.msg);
+                alert("정원은 0명이 될 수 없습니다.");
             }
         } else {
             // EDIT
@@ -491,32 +502,35 @@ const ClassEditor = (props: Props) => {
             });
             const deletePlanList = ListController.getDeletedItemInList(originPlanList, current_plan_id_list, true);
             const diffItemList = ListController.getUpdateInList(originHandoutList, state.handout_list);
-
-            const res = await clientSideApi(
-                "PUT",
-                "MAIN",
-                "LECTURE_UPDATE",
-                { lecture_id: class_id },
-                {
-                    title: state.title,
-                    content: state.content,
-                    category: state.category,
-                    division_list: makeDivisionList(),
-                    student_limit: state.student_limit,
-                    reference: state.reference,
-                    handout_list: {
-                        new_file_list: diffItemList.new_item_list,
-                        delete_file_list: diffItemList.deleted_item_list,
-                    },
-                    delete_plan_list: deletePlanList,
-                    plan_list: state.plan_list,
+            if (state.student_limit !== 0) {
+                const res = await clientSideApi(
+                    "PUT",
+                    "MAIN",
+                    "LECTURE_UPDATE",
+                    { lecture_id: class_id },
+                    {
+                        title: state.title,
+                        content: state.content,
+                        category: state.category,
+                        division_list: makeDivisionList(),
+                        student_limit: state.student_limit,
+                        reference: state.reference,
+                        handout_list: {
+                            new_file_list: diffItemList.new_item_list,
+                            delete_file_list: diffItemList.deleted_item_list,
+                        },
+                        delete_plan_list: deletePlanList,
+                        plan_list: state.plan_list,
+                    }
+                );
+                if (res.result === "SUCCESS") {
+                    alert("수정되었습니다.");
+                    location.replace(`/class/${status}/${class_id}/board`);
+                } else {
+                    alert("다시 시도해주세요.");
                 }
-            );
-            if (res.result === "SUCCESS") {
-                alert("수정되었습니다.");
-                location.replace(`/class/${status}/${class_id}/board`);
             } else {
-                alert("다시 시도해주세요.");
+                alert("정원은 0명이 될 수 없습니다.");
             }
         }
     };
