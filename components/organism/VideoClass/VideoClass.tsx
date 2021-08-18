@@ -10,6 +10,7 @@ import Typo from "@ui/Typo";
 import Link from "next/link";
 import TableRow from "@ui/board/TableRow";
 import TableWrapper from "@ui/board/TableWrapper";
+import { useAlert } from "store/GlobalAlertStore";
 
 type State = {
     id: string;
@@ -18,9 +19,11 @@ type State = {
     introduce: string;
     duration: number;
     week: number;
+    isAttendacned: boolean;
 } | null;
 
 const VideoClass = () => {
+    const { alertOn } = useAlert();
     const router = useRouter();
     const { episode_id } = router.query;
     const classInfo = useClassDetailStore();
@@ -44,13 +47,30 @@ const VideoClass = () => {
     const setDuration = (duration: number) => setState({ ...state, duration: duration });
 
     const saveDuration = async () => {
-        const res = await clientSideApi(
-            "POST",
-            "MAIN",
-            "LECTURE_ONLINE_DURATION",
-            { episode_id: episode_id },
-            { duration: state?.duration }
-        );
+        if (state) {
+            if (!state.isAttendacned) {
+                const res = await clientSideApi(
+                    "POST",
+                    "MAIN",
+                    "LECTURE_ONLINE_DURATION",
+                    { episode_id: episode_id },
+                    { duration: state?.duration }
+                );
+                if (res.result === "SUCCESS") {
+                    if (state.duration >= 90) {
+                        alertOn({
+                            title: "출석완료",
+                            message: "90%이상을 시청하여 출석이 완료되었습니다",
+                            type: "POSITIVE",
+                        });
+                        setState({
+                            ...state,
+                            isAttendacned: true,
+                        });
+                    }
+                }
+            }
+        }
     };
 
     const initRef = useRef<boolean>(true);
