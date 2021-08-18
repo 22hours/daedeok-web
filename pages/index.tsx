@@ -7,8 +7,9 @@ import React from "react";
 export default function Home() {
     return <IndexPage />;
 }
-Home.Layout = (page: any) => (
-    <GlobalLayout isBannerHide isIndex>
-        {page}
-    </GlobalLayout>
-);
+// Home.Layout = (page: any) => (
+//     <GlobalLayout isBannerHide isIndex>
+//         {page}
+//     </GlobalLayout>
+// );
+Home.Layout = (page: any) => <>{page}</>;

@@ -243,3 +243,88 @@ $mobile_font_resize_size: 3px;
 @mixin color_red_accent {
     color: $red_accent;
 }
+
+@mixin container {
+    display: flex;
+    .main_col {
+        flex-shrink: 0;
+        flex-grow: 1;
+    }
+    .padding_col {
+        flex-shrink: 1;
+        width: 10%;
+    }
+
+    @media only screen and (max-width: 600px) {
+        .main_col {
+            flex-grow: 1;
+        }
+        .padding_col {
+            flex-shrink: 1;
+            width: 5%;
+        }
+    }
+    @media only screen and (min-width: 600px) {
+        .main_col {
+            flex-grow: 1;
+        }
+        .padding_col {
+            flex-shrink: 1;
+            width: 5%;
+        }
+    }
+    @media only screen and (min-width: 775px) {
+        .main_col {
+            width: 775px;
+        }
+        .padding_col {
+            flex-shrink: 1;
+            width: 10%;
+        }
+    }
+    @media only screen and (min-width: 850px) {
+        .main_col {
+            width: 850px;
+        }
+        .padding_col {
+            flex-shrink: 1;
+            width: 10%;
+        }
+    }
+    @media only screen and (min-width: 900px) {
+        .main_col {
+            min-width: 900px;
+        }
+        .padding_col {
+            flex-shrink: 1;
+            width: 10%;
+        }
+    }
+    @media only screen and (min-width: 1000px) {
+        .main_col {
+            min-width: 1000px;
+        }
+        .padding_col {
+            flex-shrink: 1;
+            width: 10%;
+        }
+    }
+    @media only screen and (min-width: 1100px) {
+        .main_col {
+            min-width: 1100px;
+        }
+        .padding_col {
+            flex-shrink: 1;
+            width: 10%;
+        }
+    }
+    @media only screen and (min-width: 1200px) {
+        .main_col {
+            min-width: 1200px;
+        }
+        .padding_col {
+            flex-shrink: 1;
+            width: 10%;
+        }
+    }
+}

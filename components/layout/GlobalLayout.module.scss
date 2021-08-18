@@ -1,5 +1,5 @@
-// GlobalLayout.module
 // LAYOUT 사이즈 참고
+// GlobalLayout.module
 // https://github.com/22hours/daedeok-web/wiki/GLOBAL-LAYOUT-%EB%B9%84%EC%9C%A8
 @import "styles/meta.scss";
 
@@ -70,23 +70,21 @@ $mobile_footer_height: 139px;
         }
     }
     .nav {
+        @include container;
         border-top: 1px solid #8c8c8b;
-        display: grid;
+
         @include mobile {
             height: $mobile_nav_height;
-            grid-template-columns: 0fr 1fr 0fr;
         }
         @include desktop {
             height: $pc_nav_height;
-            grid-template-columns: 0.8fr 7fr 0.8fr;
         }
 
         .nav_inner {
             @include desktop {
                 border-right: 1px solid $gray_accent;
             }
-            height: 100%;
-            width: 100%;
+
             position: relative;
         }
     }
@@ -100,6 +98,12 @@ $mobile_footer_height: 139px;
         height: $pc_carousel_height;
     }
 }
+.indexSection1 {
+    background-color: rgb(232, 235, 236);
+}
+.indexSection2 {
+}
+
 .banner {
     @include mobile {
         height: $mobile_banner_height;
@@ -120,20 +124,7 @@ $mobile_footer_height: 139px;
 }
 
 .article {
-    flex-grow: 1;
-    display: grid;
-
-    @include mobile {
-        grid-template-columns: 0.2fr 7fr 0.2fr;
-    }
-
-    @include desktop {
-        grid-template-columns: 0.8fr 7fr 0.8fr;
-    }
-
-    .main_article {
-        height: 100%;
-    }
+    @include container;
 }
 
 .footer {
