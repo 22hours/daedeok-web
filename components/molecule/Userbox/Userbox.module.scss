@@ -2,6 +2,7 @@
 @import "styles/meta.scss";
 
 .container {
+    overflow: hidden;
     height: inherit;
     background-color: white;
     padding: 20px;
@@ -38,6 +39,7 @@
 }
 
 .not_login_container {
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     height: inherit;
@@ -54,6 +56,7 @@
         margin-bottom: 10px;
     }
     .login_row {
+        overflow: hidden;
         flex-grow: 1;
         display: flex;
         justify-content: space-between;
@@ -62,6 +65,15 @@
             flex-grow: 1;
             display: grid;
             gap: 5px;
+            .input {
+                height: 42px;
+            }
+        }
+        .login_btn {
+            width: 95px;
+            height: 94px;
+            padding-left: 5px;
+            padding-right: 5px;
         }
     }
     .footer {

@@ -66,6 +66,7 @@ const Userbox = (props: Props) => {
                         />
                     </div>
                     <Button
+                        className={style.login_btn}
                         type={"SQUARE"}
                         size={"free"}
                         backgroundColor={"red_accent"}
