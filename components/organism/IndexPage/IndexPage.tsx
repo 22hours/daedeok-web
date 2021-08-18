@@ -307,14 +307,14 @@ const IndexPage = (props: Props) => {
                                 color={"white"}
                             />
                             <div className={style.img_btn_row}>
-                                <Link href={"/acinfo/introduce"}>
+                                <Link href={"/acinfo/introduce"} passHref>
                                     <div className={style.img_btn_wrapper}>
-                                        <Image src={bibleIntro} />
+                                        <Image src={bibleIntro} alt={bibleIntro.src} />
                                     </div>
                                 </Link>
-                                <Link href={``}>
+                                <Link href={`/acinfo/qna`} passHref>
                                     <div className={style.img_btn_wrapper}>
-                                        <Image src={bibleContact} />
+                                        <Image src={bibleContact} alt={bibleContact.src} />
                                     </div>
                                 </Link>
                             </div>
