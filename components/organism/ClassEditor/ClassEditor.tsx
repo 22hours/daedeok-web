@@ -522,10 +522,10 @@ const ClassEditor = (props: Props) => {
                 });
                 if (res.result === "SUCCESS") {
                     alertOn({
-                        title: "에러가 발생하였습니다",
+                        title: "강의 개설",
                         //@ts-ignore
                         message: "강의 개설에 성공하였습니다",
-                        type: "ERROR",
+                        type: "POSITIVE",
                     });
 
                     location.replace(`/class/open/${res.data}/board`);

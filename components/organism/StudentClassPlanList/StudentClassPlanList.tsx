@@ -18,6 +18,18 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
     const nowTime = moment();
     const diffTime = moment.duration(nowTime.diff(time)).asMinutes();
 
+    const handleError = () => {
+        if (diffTime >= 0) {
+        } else {
+            alertOn({
+                title: "에러가 발생하였습니다",
+                //@ts-ignore
+                message: "강의 시작 시간이 아닙니다.",
+                type: "ERROR",
+            });
+        }
+    };
+
     const planUserAttendance = async () => {
         if (diffTime >= -30 && diffTime <= 180) {
             const res = await clientSideApi("POST", "MAIN", "LECTURE_PLAN_USER_ATTENDANCE_MEMBER", {
@@ -97,6 +109,7 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
                                 alignment="center"
                                 size="small"
                                 type="SQUARE"
+                                onClick={handleError}
                             />
                         </Link>
                     ) : (
@@ -109,6 +122,7 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
                             size="small"
                             className={style.cursor_none}
                             type="SQUARE"
+                            onClick={handleError}
                         />
                     )}
                 </>
