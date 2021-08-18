@@ -229,6 +229,10 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `image`;
         case "ADMIN_SAVE_IMAGE":
             return `image`;
+        case "ACINFO_INTRODUCE":
+            return `acinfo/introduce`;
+        case "ACINFO_EDUVISION":
+            return `acinfo/eduvision`;
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);
     }

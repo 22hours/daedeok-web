@@ -29,6 +29,7 @@ type NewProps = {
     isCategory?: boolean;
     isSecret?: boolean;
     categoryOption?: { value: string; name: string }[];
+    isHeaderHide?: boolean;
 };
 type EditProps = {
     type: "EDIT";
@@ -42,11 +43,14 @@ type EditProps = {
         | "GLOBAL_NOTICE"
         | "TUTOR_NOTICE"
         | "AC_INFO"
-        | "MAIN_IMAGE";
+        | "MAIN_IMAGE"
+        | "ACINFO_INTRODUCE"
+        | "ACINFO_EDUVISION";
     originData: { title: string; content: string; category?: string; secret?: boolean };
     isCategory?: boolean;
     isSecret?: boolean;
     categoryOption?: { value: string; name: string }[];
+    isHeaderHide?: boolean;
 };
 
 type PresenterProps = {
@@ -56,6 +60,7 @@ type PresenterProps = {
     isCategory?: boolean;
     isSecret?: boolean;
     categoryOption?: { value: string; name: string }[];
+    isHeaderHide?: boolean;
 };
 const ContentEditorPresenter = (props: PresenterProps) => {
     const editorController = useEditorController();
@@ -80,27 +85,33 @@ const ContentEditorPresenter = (props: PresenterProps) => {
     return (
         <div className={style.container}>
             <div className={style.head}>
-                {props.isCategory && (
-                    <Select
-                        className={style.category_select}
-                        value={category.value}
-                        onChange={(e) => {
-                            category.setValue(e.target.value);
-                        }}
-                        form="underline"
-                        placeholder={"카테고리별"}
-                        option_list={props.categoryOption || []}
-                    />
-                )}
-                <TextInput
-                    className={style.title_input}
-                    {...title}
-                    form={"underline"}
-                    type={"text"}
-                    placeholder={"제목을 적어주세요"}
-                />
-                {props.isSecret && (
-                    <CheckBox className={style.check_input} labelContent={"비밀 글"} {...secret} isLabelRight />
+                {props.isHeaderHide ? (
+                    <></>
+                ) : (
+                    <>
+                        {props.isCategory && (
+                            <Select
+                                className={style.category_select}
+                                value={category.value}
+                                onChange={(e) => {
+                                    category.setValue(e.target.value);
+                                }}
+                                form="underline"
+                                placeholder={"카테고리별"}
+                                option_list={props.categoryOption || []}
+                            />
+                        )}
+                        <TextInput
+                            className={style.title_input}
+                            {...title}
+                            form={"underline"}
+                            type={"text"}
+                            placeholder={"제목을 적어주세요"}
+                        />
+                        {props.isSecret && (
+                            <CheckBox className={style.check_input} labelContent={"비밀 글"} {...secret} isLabelRight />
+                        )}
+                    </>
                 )}
             </div>
             <div className={style.body}>
@@ -162,6 +173,7 @@ const ContentCreateController = (props: NewProps) => {
             isCategory={props.isCategory}
             isSecret={props.isSecret}
             categoryOption={props.categoryOption}
+            isHeaderHide={props.isHeaderHide}
         />
     );
 };
@@ -203,6 +215,7 @@ const ContentEditController = (props: EditProps) => {
             isCategory={props.isCategory}
             isSecret={props.isSecret}
             categoryOption={props.categoryOption}
+            isHeaderHide={props.isHeaderHide}
         />
     );
 };

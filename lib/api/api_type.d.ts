@@ -134,7 +134,9 @@ declare module "@api_config_type" {
                 | "ADMIN_FIND_CATEGORY"
                 | "ADMIN_FIND_DETAIL_CATEGORY"
                 | "ADMIN_FIND_IMAGE"
-                | "ADMIN_SAVE_IMAGE";
+                | "ADMIN_SAVE_IMAGE"
+                | "ACINFO_INTRODUCE"
+                | "ACINFO_EDUVISION";
             url_query?: string | { lecture_id: string; board_id: string } | any;
             data?: any;
             extraHeader?: any;
