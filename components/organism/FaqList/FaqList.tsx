@@ -14,7 +14,6 @@ import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
 
 // List
-import ListSelect from "components/molecule/ListSelect/ListSelect";
 import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
 import ListPagination from "components/molecule/ListPagination/ListPagination";
 import ListPageLayout from "components/layout/ListPageLayout";
@@ -25,18 +24,6 @@ type State = res_types.faqList;
 const initState: State = {
     faq_list: [],
     total_count: 0,
-};
-
-const FaqListItem = (props: { notice_list: any }) => {
-    return (
-        <TableWrapper>
-            {props.notice_list.map((it, idx) => (
-                <div key={idx}>
-                    <TableRow idx={it.id} title={it.title} href={`/acinfo/faq/detail/${it.id}`}></TableRow>
-                </div>
-            ))}
-        </TableWrapper>
-    );
 };
 
 const FaqList = () => {
