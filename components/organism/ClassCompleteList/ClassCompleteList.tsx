@@ -84,12 +84,9 @@ const ClassCompleteList = () => {
             );
         }
     };
-    return (
-        <ListPageLayout
-            headerLeft={<ListSelect categoryType={"CLASS"} />}
-            headerRight={<ListSearchbar />}
-            footer={<ListPagination total_count={data.total_count} />}
-        >
+
+    const ClassList = () => {
+        return (
             <TableWrapper>
                 {data.lecture_list.map((it, idx) => (
                     <TableRow
@@ -102,10 +99,38 @@ const ClassCompleteList = () => {
                             it.start_date
                         )}~${DateController.getFormatedDate("YYYY/MM/DD", it.end_date)}`}
                     >
-                        {makeStatusButton(it)}
+                        {it.status === "ING" ? (
+                            <Button
+                                className={`${style.row_btn} ${style.ing_btn}`}
+                                type={"SQUARE"}
+                                size={"small"}
+                                fontSize={"smaller"}
+                                content={it.status === "ING" ? "미수료" : "수료증"}
+                            />
+                        ) : (
+                            <a target="_blank" href={it.url} rel="noreferrer">
+                                <Button
+                                    className={`${style.row_btn} ${style.complete_btn}`}
+                                    type={"SQUARE"}
+                                    size={"small"}
+                                    fontSize={"smaller"}
+                                    content={"수료증"}
+                                />
+                            </a>
+                        )}
                     </TableRow>
                 ))}
             </TableWrapper>
+        );
+    };
+
+    return (
+        <ListPageLayout
+            headerLeft={<ListSelect categoryType={"CLASS"} />}
+            headerRight={<ListSearchbar />}
+            footer={<ListPagination total_count={data.total_count} />}
+        >
+            <ClassList />
         </ListPageLayout>
     );
 };

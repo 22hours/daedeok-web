@@ -41,7 +41,7 @@ const LectureDetailPage = (props: Props) => {
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_DETAIL", { lecture_id: lecture_id });
         if (res.result === "SUCCESS") {
-            setData(res.data);
+            setData({ ...res.data, division_list: res.data.division_list || [] });
         } else {
             alert(res.msg);
         }

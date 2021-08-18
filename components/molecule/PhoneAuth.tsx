@@ -10,6 +10,7 @@ import Typo from "@ui/Typo";
 import TextInput from "@ui/input/TextInput";
 import { CircularProgress } from "@material-ui/core";
 import { useAuthStore } from "store/AuthStore";
+import { useAlert } from "store/GlobalAlertStore";
 
 type Props = {
     innerContainerClassName: string;
@@ -81,6 +82,7 @@ const PhoneAuth = (props: Props) => {
         }
     };
 
+    const { alertOn } = useAlert();
     const { clientSideApi } = useAuthStore();
     const [state, dispatch] = useReducer(reducer, initState);
     const firebaseAuth = useFirebaseAuth();
@@ -89,9 +91,17 @@ const PhoneAuth = (props: Props) => {
     const requestAuth = async () => {
         const registerCallBack = (result: boolean) => {
             if (result) {
-                alert("인증번호를 성공적으로 발송했습니다");
+                alertOn({
+                    title: "핸드폰 번호 인증",
+                    message: "인증번호를 성공적으로 발송했습니다",
+                    type: "POSITIVE",
+                });
             } else {
-                alert("인증번호 발송에 실패하였습니다\n번호를 알맞게 입력했는지 확인 해 주세요");
+                alertOn({
+                    title: "핸드폰 번호 인증오류",
+                    message: "인증번호 발송에 실패하였습니다\n번호를 알맞게 입력했는지 확인 해 주세요",
+                    type: "ERROR",
+                });
             }
 
             dispatch({ type: "SET_SMS_STATE", data: "IDLE" });
@@ -105,14 +115,23 @@ const PhoneAuth = (props: Props) => {
                 dispatch({ type: "SET_SMS_STATE", data: "LOAD" });
                 firebaseAuth.phoneNumberAuth(state.phoneNumber, registerCallBack);
             } else {
-                alert(res.msg);
+                alertOn({
+                    title: "",
+                    // @ts-ignore
+                    message: res.msg,
+                    type: "ERROR",
+                });
             }
         } else {
             const res = await clientSideApi("GET", "MAIN", "USER_CHECK", undefined, {
                 phone_num: state.phoneNumber,
             });
             if (res.result === "SUCCESS") {
-                alert("해당 유저는 존재하지 않습니다\n전화번호를 다시 입력해주세요");
+                alertOn({
+                    title: "",
+                    message: "해당 유저는 존재하지 않습니다\n전화번호를 다시 입력해주세요",
+                    type: "ERROR",
+                });
             } else {
                 dispatch({ type: "SET_SMS_STATE", data: "LOAD" });
                 firebaseAuth.phoneNumberAuth(state.phoneNumber, registerCallBack);
@@ -131,7 +150,11 @@ const PhoneAuth = (props: Props) => {
                 .confirm(state.authCode)
                 .then((result) => {
                     // @ts-ignore
-                    alert("인증 완료");
+                    alertOn({
+                        title: "핸드폰 번호 인증",
+                        message: "인증이 완료되었습니다",
+                        type: "POSITIVE",
+                    });
                     successCheck();
                 })
                 .catch((error) => {

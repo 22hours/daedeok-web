@@ -1,4 +1,4 @@
-type Type = "MM/DD" | "YYYY-MM-DD" | "YYYY/MM/DD";
+type Type = "MM/DD" | "YYYY-MM-DD" | "YYYY/MM/DD" | "YYYY/MM/DD HH:MM";
 const getFormatedDate = (type: Type, time: string): string => {
     const cur_date = new Date(time);
 
@@ -13,6 +13,16 @@ const getFormatedDate = (type: Type, time: string): string => {
         date = "0" + date;
     }
 
+    var hour: string = cur_date.getHours().toString();
+    if (hour.toString().length === 1) {
+        hour = "0" + hour;
+    }
+
+    var minute: string = cur_date.getMinutes().toString();
+    if (minute.toString().length === 1) {
+        minute = "0" + minute;
+    }
+
     switch (type) {
         case "YYYY-MM-DD": {
             return `${year}-${month}-${date}`;
@@ -23,6 +33,9 @@ const getFormatedDate = (type: Type, time: string): string => {
         case "MM/DD": {
             return `${month}/${date}`;
         }
+        case "YYYY/MM/DD HH:MM":
+            return `${year}/${month}/${date} ${hour}:${minute}`;
+
         default:
             throw new Error("use Time REDUCER ERROR");
     }

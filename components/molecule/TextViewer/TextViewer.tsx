@@ -20,7 +20,7 @@ const TextViewer = (props: Props) => {
         }
     }, [props]);
     return (
-        <div style={{ width: width - 50 }} className={style.container}>
+        <div style={{ maxWidth: width - 50 }} className={style.container}>
             <Viewer ref={viewerRef} />
         </div>
     );

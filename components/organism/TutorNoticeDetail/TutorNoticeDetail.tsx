@@ -28,12 +28,6 @@ const TutorNoticeDetail = () => {
     const { auth, clientSideApi } = useAuthStore();
     const [noticeDetailData, setNoticeDetailData] = useState<State | null>(null);
 
-    useEffect(() => {
-        if (notice_id) {
-            getTutorNotieDetail();
-        }
-    }, [notice_id]);
-
     //공지사항 상세 data
     const getTutorNotieDetail = async () => {
         const res = await clientSideApi("GET", "MAIN", "TUTOR_NOTICE_FIND_DETAIL", {
@@ -45,6 +39,11 @@ const TutorNoticeDetail = () => {
         }
     };
 
+    useEffect(() => {
+        if (auth !== null) {
+            getTutorNotieDetail();
+        }
+    }, [auth]);
     //공지사항 삭제
     const handleDelete = async () => {
         const flag = confirm("삭제하시겠습니까?");

@@ -20,7 +20,7 @@ const TextEditor = (props: Props) => {
         }
     };
     return (
-        <div style={{ width: width - 50 }}>
+        <div style={{ maxWidth: width - 50 }}>
             <Editor
                 ref={props.editorRef}
                 initialValue={props.initialValue}
