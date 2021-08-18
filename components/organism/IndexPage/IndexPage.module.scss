@@ -4,7 +4,6 @@
 .container {
     .section_1 {
         width: 100vw;
-        padding-bottom: 20px;
 
         background-color: rgb(232, 235, 236);
         display: grid;
@@ -82,6 +81,7 @@
             height: 140px;
             align-items: center;
             width: 100%;
+            cursor: pointer;
             @include home_desktop {
                 .img_wrapper {
                     width: 30%;
@@ -126,6 +126,7 @@
             height: 140px;
             align-items: center;
             width: 100%;
+            cursor: pointer;
             @include home_desktop {
                 .img_wrapper {
                     width: 25%;
@@ -171,6 +172,7 @@
             height: 140px;
             align-items: center;
             width: 100%;
+            cursor: pointer;
             @include home_desktop {
                 .class_btn_wrapper {
                     display: flex;
@@ -253,6 +255,7 @@
             justify-content: center;
             align-items: center;
             width: 100%;
+            cursor: pointer;
             height: 140px;
             .btn_txt {
                 font-size: 16px !important;
@@ -261,6 +264,7 @@
         .class_btn {
             display: flex;
             height: 140px;
+            cursor: pointer;
             align-items: center;
             .btn_txt {
                 font-size: 20px !important;
@@ -288,6 +292,7 @@
     .faq_acinfo_btn_grid {
         display: grid;
         gap: 1px;
+        cursor: pointer;
         @include mobile {
             grid-template-columns: 1fr 1fr;
         }
