@@ -10,10 +10,19 @@ import { useListCommonStore } from "store/ListCommonStore";
 import Pagination from "@ui/pagination/Pagination";
 import DateController from "lib/client/dateController";
 
-import Select from "@ui/input/Select";
+// List
+import ListSelect from "components/molecule/ListSelect/ListSelect";
+import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
+import ListPagination from "components/molecule/ListPagination/ListPagination";
+import ListPageLayout from "components/layout/ListPageLayout";
+
 type Props = {};
 type QuestionItem = {
     id: string;
+    title: string;
+    autho: string;
+    secret: boolean;
+    view: string;
     category: string;
     content: string;
     create_date: string;
@@ -28,31 +37,10 @@ const initState: State = {
     total_count: 0,
 };
 
-const QnaListItem = (props: { qnaList: any }) => {
-    return (
-        <TableWrapper>
-            {props.qnaList.map((it, idx) => (
-                <div key={idx}>
-                    <Link href={`/acinfo/qna/detail/${it.id}`} passHref>
-                        <TableRow
-                            idx={it.id}
-                            title={it.title}
-                            date={DateController.getFormatedDate("YYYY-MM-DD", it.create_date)}
-                            category={it.category}
-                            view={`조회수 ${it.view}`}
-                        ></TableRow>
-                    </Link>
-                </div>
-            ))}
-        </TableWrapper>
-    );
-};
-
 const QnaList = (props: Props) => {
     const [data, setData] = useState<State>(initState);
-    const { state, changePage, changeKeyword, changeCategory } = useListCommonStore();
+    const { state } = useListCommonStore();
     const { auth, clientSideApi } = useAuthStore();
-    const [categoryData, setCategoryData] = useState<Array<{ name: string; value: string }>>([]);
 
     const getData = async () => {
         if (state.isLoadEnd) {
@@ -60,27 +48,13 @@ const QnaList = (props: Props) => {
                 category: state.category === "ALL" ? undefined : state.category,
                 keyword: state.keyword,
                 page: parseInt(state.page) - 1,
-                required_count: 7,
+                required_count: 10,
             });
             if (res.result === "SUCCESS") {
                 setData({ ...res.data });
             } else {
                 alert(res.msg);
             }
-        }
-    };
-
-    const getCategoryData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "CATEGORY_QNA");
-        if (res.result === "SUCCESS") {
-            setCategoryData(
-                res.data.map((it) => {
-                    return {
-                        value: it.category,
-                        name: it.category,
-                    };
-                })
-            );
         }
     };
 
@@ -94,37 +68,14 @@ const QnaList = (props: Props) => {
         }
     }, [state]);
 
-    useEffect(() => {
-        getCategoryData();
-    }, [data]);
-
     if (data === null) {
         return <div>LOAD</div>;
     } else {
         return (
-            <div>
-                <div className={style.top_form}>
-                    <Select
-                        value={state.category || "ALL"}
-                        onChange={(e) => {
-                            changeCategory(e.target.value);
-                        }}
-                        form="box"
-                        placeholder={"카테고리별 보기"}
-                        option_list={[{ name: "전체", value: "ALL" }].concat(categoryData)}
-                        className={style.select}
-                    />
-                    <div></div>
-                    <SearchBar
-                        className={style.search}
-                        form="box"
-                        placeholder={"검색어를 입력하세요"}
-                        initialValue={state.keyword}
-                        onEnterKeyDown={(e) => changeKeyword(e.target.value)}
-                    />
-                </div>
-                <QnaListItem qnaList={data.qna_list} />
-                <div className={style.btn_wrapper}>
+            <ListPageLayout
+                headerLeft={<ListSelect categoryType={"QNA"} />}
+                headerRight={<ListSearchbar />}
+                control_row={
                     <Link href={`/acinfo/qna/new`} passHref>
                         <Button
                             type="SQUARE"
@@ -136,16 +87,25 @@ const QnaList = (props: Props) => {
                             className={style.new_btn}
                         />
                     </Link>
-                </div>
-                <div>
-                    <Pagination
-                        totalCount={data.total_count}
-                        handleChange={(page: number) => changePage((page + 1).toString())}
-                        pageNum={state.page ? parseInt(state.page) - 1 : 0}
-                        requiredCount={7}
-                    />
-                </div>
-            </div>
+                }
+                footer={<ListPagination total_count={data.total_count} />}
+            >
+                <TableWrapper>
+                    {data.qna_list.map((it, idx) => (
+                        <div key={idx}>
+                            <Link href={`/acinfo/qna/detail/${it.id}`} passHref>
+                                <TableRow
+                                    idx={it.id}
+                                    title={it.title}
+                                    date={DateController.getFormatedDate("YYYY-MM-DD", it.create_date)}
+                                    category={it.category}
+                                    view={`조회수 ${it.view}`}
+                                ></TableRow>
+                            </Link>
+                        </div>
+                    ))}
+                </TableWrapper>
+            </ListPageLayout>
         );
     }
 };

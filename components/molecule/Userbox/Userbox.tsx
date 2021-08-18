@@ -113,8 +113,7 @@ const Userbox = (props: Props) => {
             <div className={`${style.container} ${props.className || ""}`}>
                 <div className={style.head}>
                     <Typo type={"TEXT"} size={"large"} content={auth.name} className={style.user} />
-                    &nbsp; &nbsp;
-                    <Typo type={"TEXT"} size={"normal"} content={welcom_text} className={style.wellcome} />
+                    <Typo type={"TEXT"} size={"small"} content={welcom_text} className={style.wellcome} />
                 </div>
                 <div>
                     <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={role_kr} />

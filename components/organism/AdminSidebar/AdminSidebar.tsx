@@ -29,7 +29,7 @@ const MobileSidebar = ({ children }) => {
             drawerButtonChildren={
                 <div className={style.mobile_side_bar_container}>
                     <MenuIcon />
-                    <Typo type={"TEXT"} size={"medium"} content={"관리자 상세 메뉴"} />
+                    <Typo type={"TEXT"} size={"small"} content={"관리자 상세 메뉴"} />
                 </div>
             }
             drawerInnerChildren={<DrawerInner />}
@@ -48,7 +48,7 @@ const MenuItem = (props: MenuItemType) => {
                 <Button
                     type={"UNDERLINE"}
                     size={"medium"}
-                    fontSize={"small"}
+                    fontSize={"smaller"}
                     alignment={"left"}
                     line={"inline"}
                     color={"gray_accent"}
@@ -70,6 +70,8 @@ const CommonSidebar = () => {
             { name: "수업 카테고리 관리", link: "/admin/category" },
             { name: "소속관리", link: "/admin/division" },
             { name: "메인페이지 이미지 관리", link: "/admin/image" },
+            { name: "대덕바이블 아카데미 소개 관리", link: "/admin/introduce" },
+            { name: "교육비전 관리", link: "/admin/eduvision" },
         ];
         return (
             <>

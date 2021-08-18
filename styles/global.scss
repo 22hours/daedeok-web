@@ -42,6 +42,7 @@ body {
     margin: 0px;
     width: 100%;
     min-height: 100vh;
+    background: white;
     p {
         margin: 0px;
     }
@@ -74,12 +75,20 @@ body {
     font-size: 15px !important;
 }
 
+.Carousel-root-1 {
+}
 .CarouselItem {
     height: 100%;
 }
-.MuiBackdrop-root {
-    z-index: 100000 !important;
+.Carousel-button-10 {
+    background: transparent !important;
 }
-.MuiPaper-root {
-    z-index: 200000 !important;
-}
+// .MuiDialog-container {
+//     z-index: 100000 !important;
+// }
+// .MuiBackdrop-root {
+//     z-index: 100000 !important;
+// }
+// .MuiPaper-root {
+//     z-index: 200000 !important;
+// }

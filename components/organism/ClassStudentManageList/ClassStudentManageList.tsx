@@ -9,7 +9,9 @@ import Button from "@ui/buttons/Button";
 import Icon from "@ui/Icon";
 import FileInput from "@ui/input/FileInput";
 import useFileInput from "lib/hooks/useFileInput";
-import Link from "next/link";
+// List
+import ListPageLayout from "components/layout/ListPageLayout";
+
 type Props = {};
 
 type UserListItem = {
@@ -215,7 +217,7 @@ const ClassStudentManageList = () => {
         return <div className={style.container}>LOAD NOW</div>;
     } else {
         return (
-            <div className={style.container}>
+            <ListPageLayout>
                 <div className={style.head}>
                     <Typo
                         type={"TEXT"}
@@ -224,21 +226,19 @@ const ClassStudentManageList = () => {
                         color={"gray_accent"}
                     />
                 </div>
-                <div className={style.body}>
-                    <TableWrapper>
-                        {data.user_list.map((it, idx) => {
-                            return (
-                                <ClassStudentListItem
-                                    key={`usermanageitem:${idx}`}
-                                    idx={idx}
-                                    data={it}
-                                    cancleStudent={cancleStudent}
-                                />
-                            );
-                        })}
-                    </TableWrapper>
-                </div>
-            </div>
+                <TableWrapper>
+                    {data.user_list.map((it, idx) => {
+                        return (
+                            <ClassStudentListItem
+                                key={`usermanageitem:${idx}`}
+                                idx={idx}
+                                data={it}
+                                cancleStudent={cancleStudent}
+                            />
+                        );
+                    })}
+                </TableWrapper>
+            </ListPageLayout>
         );
     }
 };

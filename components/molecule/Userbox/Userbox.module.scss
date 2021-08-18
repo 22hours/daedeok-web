@@ -4,21 +4,27 @@
 .container {
     height: inherit;
     background-color: white;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    .user {
-        font-weight: bolder;
-    }
-    .wellcome {
-        margin-bottom: 2px;
-    }
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
     .head {
         display: flex;
         align-items: flex-end;
+        flex-wrap: wrap;
+        margin-bottom: 5px;
+        .user {
+            margin-right: 5px;
+            display: inline;
+            font-weight: bolder;
+        }
+        .wellcome {
+            display: inline;
+            margin-bottom: 2px;
+        }
     }
+
     .bottom {
+        flex-grow: 1;
         margin-top: 12px;
     }
     .control_row {
@@ -32,6 +38,8 @@
 }
 
 .not_login_container {
+    display: flex;
+    flex-direction: column;
     height: inherit;
     background-color: white;
     padding-top: 20px;
@@ -46,6 +54,7 @@
         margin-bottom: 10px;
     }
     .login_row {
+        flex-grow: 1;
         display: flex;
         justify-content: space-between;
         .input_col {

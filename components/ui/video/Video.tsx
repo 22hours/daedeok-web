@@ -5,6 +5,7 @@ import React from "react";
 
 // icons
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
+import { useAlert } from "store/GlobalAlertStore";
 
 type Props = {
     duration: number;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 const Video = React.memo((props: Props) => {
+    const { alertOn } = useAlert();
     const [videoInfo, setVideoInfo] = useState(null);
     const YoutubeRef = useRef(null);
 
@@ -63,7 +65,12 @@ const Video = React.memo((props: Props) => {
             const playTime = await videoInfo.player.getCurrentTime();
             // @ts-ignore
             const durationTime = await videoInfo.player.getDuration();
-            return (playTime / durationTime) * 100;
+
+            var res = (playTime / durationTime) * 100;
+            if (res >= 90) {
+                res = 100;
+            }
+            return res;
         }
     };
 

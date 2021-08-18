@@ -1,170 +1,435 @@
 // IndexPage.module
 @import "styles/meta.scss";
 
-.container {
-    .section_1 {
-        width: 100vw;
-        padding-bottom: 20px;
+.section_1 {
+    @include container;
 
-        background-color: rgb(232, 235, 236);
-        display: grid;
-        @include mobile {
-            grid-template-columns: 0.2fr 7fr 0.2fr;
-        }
-
-        @include desktop {
-            grid-template-columns: 0.8fr 7fr 0.8fr;
+    @media only screen and (max-width: 775px) {
+        .padding_col {
+            flex-shrink: 1;
+            width: 0%;
         }
     }
-    .image_button_grid {
-        display: grid;
+    width: 100vw;
+    padding-bottom: 20px;
+    background-color: rgb(232, 235, 236);
+}
+//PC, TABLET
+.image_button_grid {
+    display: grid;
+    @include desktop {
+        grid-template-columns: 1fr 1fr 2fr;
+        gap: 1px;
+    }
+    @include mobile {
+        grid-template-columns: 1fr 3fr;
+    }
+    .img_btn {
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 140px;
         @include desktop {
-            grid-template-columns: 1fr 1fr 2fr;
-            gap: 10px;
+            display: flex;
+            .img_wrapper {
+                width: 40px;
+                margin-right: 10px;
+            }
+            padding-left: 50px;
+            padding-right: 50px;
         }
         @include mobile {
-            grid-template-columns: 1fr 3fr;
+            display: grid;
+
+            .img_wrapper {
+                width: 20px;
+                margin-right: 10px;
+            }
+            padding-left: 5px;
+            padding-right: 5px;
         }
 
-        .img_btn {
-            cursor: pointer;
+        overflow: hidden;
+
+        .btn_typo {
+            white-space: nowrap;
+        }
+
+        .class_btn_wrapper {
+            display: flex;
+            align-items: center;
+        }
+    }
+    .user {
+        background-color: $red_accent;
+    }
+    .faq {
+        background-color: $mint_accent;
+    }
+    .acinfo {
+        background-color: $mint_accent;
+    }
+    .class {
+        background-color: $yellow_accent;
+    }
+
+    // 반응형 FAQ
+    .faq_btn {
+        display: flex;
+        height: 140px;
+        align-items: center;
+        width: 100%;
+        cursor: pointer;
+        @include home_desktop {
+            .img_wrapper {
+                width: 30%;
+                display: flex;
+                justify-content: flex-end;
+                .img_size {
+                    height: 45px;
+                    width: 55px;
+                }
+            }
+            .faq_btn_text {
+                width: 70%;
+                text-align: center;
+            }
+        }
+        @include tablet {
+            .img_wrapper {
+                width: 25%;
+                display: flex;
+                justify-content: flex-end;
+                .img_size {
+                    display: flex;
+                    height: 20px;
+                    width: 35px;
+                    align-items: center;
+                }
+            }
+            .faq_btn_text {
+                width: 75%;
+                text-align: center;
+            }
+        }
+        .btn_style {
+            @include tablet {
+                font-size: 17px !important;
+            }
+        }
+    }
+    // 반응형 ACINFO
+    .qna_btn {
+        display: flex;
+        height: 140px;
+        align-items: center;
+        width: 100%;
+        cursor: pointer;
+        @include home_desktop {
+            .img_wrapper {
+                width: 25%;
+                display: flex;
+                justify-content: flex-end;
+                .img_size {
+                    height: 40px;
+                    width: 45px;
+                }
+            }
+            .qna_btn_text {
+                width: 75%;
+                text-align: center;
+            }
+        }
+        @include tablet {
+            .img_wrapper {
+                width: 20%;
+                display: flex;
+                justify-content: flex-end;
+
+                .img_size {
+                    display: flex;
+                    height: 20px;
+                    width: 30px;
+                    align-items: center;
+                }
+            }
+            .qna_btn_text {
+                width: 80%;
+                text-align: center;
+            }
+        }
+        .btn_style {
+            @include tablet {
+                font-size: 17px !important;
+            }
+        }
+    }
+    //반응형 CLASS
+    .class_btn {
+        display: flex;
+        height: 140px;
+        align-items: center;
+        width: 100%;
+        cursor: pointer;
+        @include home_desktop {
+            .class_btn_wrapper {
+                display: flex;
+                align-items: center;
+                width: 70%;
+                .img_wrapper {
+                    width: 40%;
+                    display: flex;
+                    justify-content: center;
+
+                    .img_size {
+                        height: 45px;
+                        width: 50px;
+                    }
+                }
+                .class_btn_text {
+                    width: 60%;
+                    text-align: left;
+                }
+            }
+            .arrow_wrapper {
+                width: 30%;
+                display: flex;
+                margin-right: 30px;
+                justify-content: flex-end;
+                .arrow_size {
+                    height: 45px;
+                    width: 30px;
+                }
+            }
+        }
+        @include tablet {
+            .class_btn_wrapper {
+                display: flex;
+                align-items: center;
+                width: 70%;
+                .img_wrapper {
+                    width: 30%;
+                    display: flex;
+                    justify-content: center;
+
+                    .img_size {
+                        height: 30px;
+                        width: 35px;
+                    }
+                }
+                .class_btn_text {
+                    width: 70%;
+                    text-align: left;
+                }
+            }
+            .arrow_wrapper {
+                width: 20%;
+                display: flex;
+                margin-right: 20px;
+                justify-content: flex-end;
+                .arrow_size {
+                    height: 35px;
+                    width: 20px;
+                }
+            }
+        }
+    }
+    .btn_style {
+        @include tablet {
+            font-size: 25px !important;
+        }
+    }
+}
+//MOBILE
+.login_class_btn_grid {
+    display: grid;
+    gap: 1px;
+
+    @include mobile {
+        grid-template-columns: 2fr 4fr;
+    }
+    .login_btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        cursor: pointer;
+        height: 140px;
+        .btn_txt {
+            font-size: 16px !important;
+        }
+    }
+    .class_btn {
+        display: flex;
+        height: 140px;
+        cursor: pointer;
+        align-items: center;
+        .btn_txt {
+            font-size: 20px !important;
+        }
+        .class_btn_text {
+            width: 80%;
+            padding-left: 15px;
+        }
+        .img_wrapper {
+            width: 20%;
+            align-items: center;
+            .arrow_img {
+                width: 20px;
+                height: 35px;
+            }
+        }
+    }
+    .user {
+        background-color: $red_accent;
+    }
+    .class {
+        background-color: $yellow_accent;
+    }
+}
+.faq_acinfo_btn_grid {
+    display: grid;
+    gap: 1px;
+    cursor: pointer;
+    @include mobile {
+        grid-template-columns: 1fr 1fr;
+    }
+    .faq_btn {
+        display: flex;
+        height: 140px;
+        justify-content: center;
+        align-items: center;
+        .btn_txt {
+            font-size: 16px !important;
+        }
+    }
+    .acinfo_btn {
+        display: flex;
+        height: 140px;
+        justify-content: center;
+        align-items: center;
+        .btn_txt {
+            font-size: 16px !important;
+        }
+    }
+    .faq {
+        background-color: $mint_accent;
+    }
+    .acinfo {
+        background-color: $mint_accent;
+    }
+}
+
+.notice_user_grid {
+    margin-top: 10px;
+    @include home_desktop {
+        display: flex;
+        .notice_preview {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: white;
+            height: 210px;
+        }
+        .user_box {
+            margin-left: 10px;
+            width: 350px;
+            height: 210px;
+        }
+    }
+    @include tablet {
+        display: flex;
+        .notice_preview {
+            padding: 20px;
+            flex-grow: 1;
+            background-color: white;
+            height: 210px;
+        }
+        .user_box {
+            margin-left: 10px;
+            width: 350px;
+            height: 210px;
+        }
+    }
+
+    .notice_preview {
+        display: flex;
+        flex-direction: column;
+
+        @include mobile {
+            padding: 25px;
+        }
+
+        .notice_head {
+            flex-grow: 1;
             display: flex;
             justify-content: space-between;
             align-items: center;
 
-            height: 140px;
-            @include desktop {
-                display: flex;
-                .img_wrapper {
-                    width: 40px;
-                    margin-right: 10px;
-                }
-                padding-left: 50px;
-                padding-right: 50px;
+            svg {
+                cursor: pointer;
             }
-            @include mobile {
-                display: grid;
-
-                .img_wrapper {
-                    width: 20px;
-                    margin-right: 10px;
-                }
-                padding-left: 5px;
-                padding-right: 5px;
-            }
-
-            overflow: hidden;
-
-            .btn_typo {
-                white-space: nowrap;
-            }
-
-            .class_btn_wrapper {
-                display: flex;
-                align-items: center;
+            .notice_head_typo {
+                font-weight: bold;
             }
         }
-        .user {
-            background-color: $red_accent;
-        }
-        .faq {
-            background-color: $mint_accent;
-        }
-        .acinfo {
-            background-color: $mint_accent;
-        }
-        .class {
-            background-color: $yellow_accent;
-        }
-    }
-    .notice_user_grid {
-        margin-top: 10px;
-        @include desktop {
-            display: flex;
-            .notice_preview {
-                flex-grow: 1;
-                background-color: white;
-                height: 210px;
-            }
-            .user_box {
-                margin-left: 10px;
-                width: 350px;
-                height: 210px;
-            }
-        }
-        @include mobile {
-        }
-
-        .notice_preview {
-            padding: 25px;
-            .notice_head {
+        .notice_body {
+            margin-top: 10px;
+            display: grid;
+            gap: 10px;
+            .notice_list_item {
+                cursor: pointer;
                 display: flex;
                 justify-content: space-between;
-                align-items: center;
-
-                svg {
-                    cursor: pointer;
-                }
-                .notice_head_typo {
-                    font-weight: bold;
-                }
-            }
-            .notice_body {
-                margin-top: 10px;
-                display: grid;
-                gap: 10px;
-                .notice_list_item {
-                    cursor: pointer;
-                    display: flex;
-                    justify-content: space-between;
-                }
             }
         }
     }
-
-    .footer {
-        @include desktop {
-            height: 200px;
-        }
-        @include mobile {
-            height: 130px;
-        }
-        width: 100vw;
-        margin-top: 20px;
-        background-position-y: center;
-        background-position: center;
-        background-size: cover;
-        position: relative;
-        .mask {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            .img_btn_row {
-                cursor: pointer;
-                margin-top: 10px;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                @include desktop {
-                    .img_btn_wrapper {
-                        width: 220px;
-                    }
-                    gap: 40px;
+}
+@include mobile {
+    .notice_head_typo {
+        font-size: 20px !important;
+    }
+}
+.footer {
+    @include desktop {
+        height: 200px;
+    }
+    @include mobile {
+        height: 130px;
+    }
+    width: 100%;
+    background-position-y: center;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        .img_btn_row {
+            cursor: pointer;
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            @include desktop {
+                .img_btn_wrapper {
+                    width: 220px;
                 }
-                @include mobile {
-                    .img_btn_wrapper {
-                        width: 150px;
-                    }
-                    gap: 20px;
+                gap: 40px;
+            }
+            @include mobile {
+                .img_btn_wrapper {
+                    width: 150px;
                 }
+                gap: 20px;
             }
         }
     }

@@ -33,6 +33,7 @@ type Action =
     | { type: "SET_REFERENCE"; data: State["reference"] }
     | { type: "SET_CATEGORY"; data: State["category"] }
     | { type: "ADD_DIVISION"; data: class_types.Division }
+    | { type: "ADD_DIVISION_LIST"; data: class_types.Division[] }
     | { type: "REMOVE_DIVISION"; data: number }
     | { type: "SET_STUDENT_LIMIT"; data: State["student_limit"] }
     | { type: "ADD_HANDOUT"; data: class_types.Handout }
@@ -106,6 +107,15 @@ const reducer = (state: State, action: Action) => {
             } else {
                 return state;
             }
+        }
+        case "ADD_DIVISION_LIST": {
+            console.log(action.data);
+            var newDivisonList = state.division_list.slice();
+            newDivisonList = newDivisonList.concat(action.data);
+            return {
+                ...state,
+                division_list: newDivisonList,
+            };
         }
         case "REMOVE_DIVISION": {
             const newDivisonList = state.division_list.slice();
@@ -349,6 +359,12 @@ const ClassEditor = (props: Props) => {
         (division: class_types.Division) => dispatch({ type: "ADD_DIVISION", data: division }),
         [state.division_list]
     );
+    const addDivisonList = useCallback(
+        (division_list: class_types.Division[]) => {
+            dispatch({ type: "ADD_DIVISION_LIST", data: division_list });
+        },
+        [state.division_list]
+    );
     const removeDivisionItem = useCallback((idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }), [
         state.division_list,
     ]);
@@ -465,21 +481,25 @@ const ClassEditor = (props: Props) => {
         };
         if (props.type === "NEW") {
             // NEW
-            const res = await clientSideApi("POST", "MAIN", "LECTURE_NEW", undefined, {
-                title: state.title,
-                content: state.content,
-                category: state.category,
-                division_list: makeDivisionList(),
-                student_limit: state.student_limit,
-                reference: state.reference,
-                handout_list: state.handout_list,
-                plan_list: state.plan_list,
-            });
-            if (res.result === "SUCCESS") {
-                alert("강의 개설에 성공하였습니다");
-                location.replace(`/class/open/${res.data}/board`);
+            if (state.student_limit !== 0) {
+                const res = await clientSideApi("POST", "MAIN", "LECTURE_NEW", undefined, {
+                    title: state.title,
+                    content: state.content,
+                    category: state.category,
+                    division_list: makeDivisionList(),
+                    student_limit: state.student_limit,
+                    reference: state.reference,
+                    handout_list: state.handout_list,
+                    plan_list: state.plan_list,
+                });
+                if (res.result === "SUCCESS") {
+                    alert("강의 개설에 성공하였습니다");
+                    location.replace(`/class/open/${res.data}/board`);
+                } else {
+                    alert(res.msg);
+                }
             } else {
-                alert(res.msg);
+                alert("정원은 0명이 될 수 없습니다.");
             }
         } else {
             // EDIT
@@ -491,32 +511,35 @@ const ClassEditor = (props: Props) => {
             });
             const deletePlanList = ListController.getDeletedItemInList(originPlanList, current_plan_id_list, true);
             const diffItemList = ListController.getUpdateInList(originHandoutList, state.handout_list);
-
-            const res = await clientSideApi(
-                "PUT",
-                "MAIN",
-                "LECTURE_UPDATE",
-                { lecture_id: class_id },
-                {
-                    title: state.title,
-                    content: state.content,
-                    category: state.category,
-                    division_list: makeDivisionList(),
-                    student_limit: state.student_limit,
-                    reference: state.reference,
-                    handout_list: {
-                        new_file_list: diffItemList.new_item_list,
-                        delete_file_list: diffItemList.deleted_item_list,
-                    },
-                    delete_plan_list: deletePlanList,
-                    plan_list: state.plan_list,
+            if (state.student_limit !== 0) {
+                const res = await clientSideApi(
+                    "PUT",
+                    "MAIN",
+                    "LECTURE_UPDATE",
+                    { lecture_id: class_id },
+                    {
+                        title: state.title,
+                        content: state.content,
+                        category: state.category,
+                        division_list: makeDivisionList(),
+                        student_limit: state.student_limit,
+                        reference: state.reference,
+                        handout_list: {
+                            new_file_list: diffItemList.new_item_list,
+                            delete_file_list: diffItemList.deleted_item_list,
+                        },
+                        delete_plan_list: deletePlanList,
+                        plan_list: state.plan_list,
+                    }
+                );
+                if (res.result === "SUCCESS") {
+                    alert("수정되었습니다.");
+                    location.replace(`/class/${status}/${class_id}/board`);
+                } else {
+                    alert("다시 시도해주세요.");
                 }
-            );
-            if (res.result === "SUCCESS") {
-                alert("수정되었습니다.");
-                location.replace(`/class/${status}/${class_id}/board`);
             } else {
-                alert("다시 시도해주세요.");
+                alert("정원은 0명이 될 수 없습니다.");
             }
         }
     };
@@ -547,6 +570,7 @@ const ClassEditor = (props: Props) => {
             <DivisionInput
                 divisionList={state.division_list}
                 addDivisionItem={addDivisionItem}
+                addDivisonList={addDivisonList}
                 removeDivisionItem={removeDivisionItem}
             />
             <ClassTextInput

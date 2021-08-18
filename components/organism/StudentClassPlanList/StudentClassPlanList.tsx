@@ -9,18 +9,25 @@ import { nanoid } from "nanoid";
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
 
-const ClassTypeBtn = ({ type, idx, classId, link, isAttendance, setIsAttendance }) => {
+import moment from "moment";
+
+const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
     const { clientSideApi, auth } = useAuthStore();
+    const nowTime = moment();
+    const diffTime = moment.duration(nowTime.diff(time)).asMinutes();
 
     const planUserAttendance = async () => {
-        setIsAttendance(false);
-        const res = await clientSideApi("POST", "MAIN", "LECTURE_PLAN_USER_ATTENDANCE_MEMBER", {
-            plan_id: idx,
-        });
-        if (res.result === "SUCCESS") {
-            alert("출석완료");
+        if (diffTime >= -30 && diffTime <= 180) {
+            const res = await clientSideApi("POST", "MAIN", "LECTURE_PLAN_USER_ATTENDANCE_MEMBER", {
+                plan_id: idx,
+            });
+            if (res.result === "SUCCESS") {
+                alert("출석완료");
+            } else {
+                alert("다시 시도해주세요");
+            }
         } else {
-            setIsAttendance(false);
+            alert("강의 시작 시간이 아닙니다.");
         }
     };
 
@@ -28,36 +35,66 @@ const ClassTypeBtn = ({ type, idx, classId, link, isAttendance, setIsAttendance 
         case "ZOOM":
             return (
                 <>
-                    <Link href={link} passHref>
-                        <a target="_blank">
-                            <Button
-                                content={"ZOOM"}
-                                backgroundColor="red_accent"
-                                fontSize="smaller"
-                                color="white"
-                                alignment="center"
-                                size="small"
-                                line="inline"
-                                type="SQUARE"
-                                onClick={planUserAttendance}
-                            />
-                        </a>
-                    </Link>
+                    {diffTime >= -30 && diffTime <= 180 ? (
+                        <Link href={link} passHref>
+                            <a target="_blank">
+                                <Button
+                                    content={"ZOOM"}
+                                    backgroundColor="red_accent"
+                                    fontSize="smaller"
+                                    color="white"
+                                    alignment="center"
+                                    size="small"
+                                    line="inline"
+                                    type="SQUARE"
+                                    onClick={planUserAttendance}
+                                />
+                            </a>
+                        </Link>
+                    ) : (
+                        <Button
+                            content={"ZOOM"}
+                            backgroundColor="red_accent"
+                            fontSize="smaller"
+                            color="white"
+                            alignment="center"
+                            size="small"
+                            line="inline"
+                            className={style.cursor_none}
+                            type="SQUARE"
+                            onClick={planUserAttendance}
+                        />
+                    )}
                 </>
             );
         case "ONLINE":
             return (
-                <Link href={`/class/open/${classId}/student/join/detail/${idx}`}>
-                    <Button
-                        content={"영상보기"}
-                        backgroundColor="yellow_accent"
-                        fontSize="smaller"
-                        color="white"
-                        alignment="center"
-                        size="small"
-                        type="SQUARE"
-                    />
-                </Link>
+                <>
+                    {diffTime >= 0 ? (
+                        <Link href={`/class/open/${classId}/student/join/detail/${idx}`}>
+                            <Button
+                                content={"영상보기"}
+                                backgroundColor="yellow_accent"
+                                fontSize="smaller"
+                                color="white"
+                                alignment="center"
+                                size="small"
+                                type="SQUARE"
+                            />
+                        </Link>
+                    ) : (
+                        <Button
+                            content={"영상보기"}
+                            backgroundColor="yellow_accent"
+                            fontSize="smaller"
+                            color="white"
+                            alignment="center"
+                            size="small"
+                            className={style.cursor_none}
+                            type="SQUARE"
+                        />
+                    )}
+                </>
             );
         case "OFFLINE":
             return (
@@ -79,11 +116,10 @@ const ClassTypeBtn = ({ type, idx, classId, link, isAttendance, setIsAttendance 
 
 const StudentClassPlanList = () => {
     const [planList, setPlanList] = useState<
-        Array<{ id: number; week: number; title: string; type: string; link: string }>
+        Array<{ id: number; week: number; title: string; type: string; link: string; date: string }>
     >([]);
     const { clientSideApi } = useAuthStore();
     const lectureId = useClassDetailStore();
-    const [isAttendance, setIsAttendance] = useState<boolean>(false);
 
     useEffect(() => {
         if (lectureId.class_id) {
@@ -107,12 +143,11 @@ const StudentClassPlanList = () => {
                         <TableRow week={it.week + "주차"} weekTitle={it.title}>
                             <div style={{ width: "90px", marginRight: "20px" }}>
                                 <ClassTypeBtn
-                                    isAttendance={isAttendance}
-                                    setIsAttendance={setIsAttendance}
                                     type={it.type}
                                     idx={it.id}
                                     classId={lectureId.class_id}
                                     link={it.link}
+                                    time={it.date}
                                 ></ClassTypeBtn>
                             </div>
                         </TableRow>

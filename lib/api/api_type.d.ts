@@ -22,6 +22,8 @@ declare module "@api_config_type" {
                 | "USER_REGISTER"
                 | "USER_UPDATE_INFO"
                 | "USER_UPDATE_PASSWORD"
+                | "USER_PASSWORD_RESET"
+                | "USER_ROLE_CHANGE"
                 // FAQ
                 | "FAQ_FIND"
                 | "FAQ_FIND_DETAIL"
@@ -133,7 +135,9 @@ declare module "@api_config_type" {
                 | "ADMIN_FIND_CATEGORY"
                 | "ADMIN_FIND_DETAIL_CATEGORY"
                 | "ADMIN_FIND_IMAGE"
-                | "ADMIN_SAVE_IMAGE";
+                | "ADMIN_SAVE_IMAGE"
+                | "ACINFO_INTRODUCE"
+                | "ACINFO_EDUVISION";
             url_query?: string | { lecture_id: string; board_id: string } | any;
             data?: any;
             extraHeader?: any;

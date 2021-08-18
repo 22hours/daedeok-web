@@ -25,6 +25,10 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `user/`;
         case `USER_UPDATE_PASSWORD`:
             return `user/password?id=${url_query.user_id}`;
+        case `USER_PASSWORD_RESET`:
+            return `user/password/reset`;
+        case "USER_ROLE_CHANGE":
+            return `user/admin/role`;
         // FAQ
         case `FAQ_FIND`:
             return `faq/`;
@@ -227,6 +231,10 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `image`;
         case "ADMIN_SAVE_IMAGE":
             return `image`;
+        case "ACINFO_INTRODUCE":
+            return `acinfo/introduce`;
+        case "ACINFO_EDUVISION":
+            return `acinfo/eduvision`;
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);
     }

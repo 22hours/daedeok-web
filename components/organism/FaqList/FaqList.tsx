@@ -13,6 +13,11 @@ import Button from "@ui/buttons/Button";
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
 
+// List
+import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
+import ListPagination from "components/molecule/ListPagination/ListPagination";
+import ListPageLayout from "components/layout/ListPageLayout";
+
 type State = res_types.faqList;
 
 // ELEMENT TYPES
@@ -21,21 +26,9 @@ const initState: State = {
     total_count: 0,
 };
 
-const FaqListItem = (props: { notice_list: any }) => {
-    return (
-        <TableWrapper>
-            {props.notice_list.map((it, idx) => (
-                <div key={idx}>
-                    <TableRow idx={it.id} title={it.title} href={`/acinfo/faq/detail/${it.id}`}></TableRow>
-                </div>
-            ))}
-        </TableWrapper>
-    );
-};
-
 const FaqList = () => {
     const { auth, clientSideApi } = useAuthStore();
-    const { state, changePage, changeKeyword } = useListCommonStore();
+    const { state } = useListCommonStore();
     const [listState, setListState] = useState<State>(initState);
     const searchRef = useRef<HTMLInputElement | null>(null);
 
@@ -44,7 +37,7 @@ const FaqList = () => {
             const res = await clientSideApi("GET", "MAIN", "FAQ_FIND", undefined, {
                 keyword: state.keyword,
                 page: parseInt(state.page) - 1,
-                required_count: 7,
+                required_count: 10,
             });
             if (res.result === "SUCCESS") {
                 setListState({ ...res.data });
@@ -64,41 +57,37 @@ const FaqList = () => {
     }, [state]);
 
     return (
-        <div>
-            <div className={style.top_form}>
-                <SearchBar
-                    className={style.search}
-                    form="box"
-                    placeholder={"검색어를 입력하세요"}
-                    refs={searchRef}
-                    onEnterKeyDown={(e) => changeKeyword(e.target.value)}
-                />
-            </div>
-            <FaqListItem notice_list={listState.faq_list} />
-            {auth?.role === "ROLE_ADMIN" && (
-                <div className={style.btn_wrapper}>
-                    <Link href={`/acinfo/faq/new`} passHref>
-                        <Button
-                            type="SQUARE"
-                            content="글쓰기"
-                            backgroundColor="yellow_accent"
-                            fontSize="smaller"
-                            size="smaller"
-                            color="white"
-                            className={style.new_btn}
-                        />
-                    </Link>
-                </div>
-            )}
-            <div>
-                <Pagination
-                    totalCount={listState.total_count}
-                    handleChange={(page: number) => changePage((page + 1).toString())}
-                    pageNum={state.page ? parseInt(state.page) - 1 : 0}
-                    requiredCount={7}
-                />
-            </div>
-        </div>
+        <ListPageLayout
+            headerRight={<ListSearchbar />}
+            control_row={
+                <>
+                    {auth?.role === "ROLE_ADMIN" && (
+                        <div className={style.btn_wrapper}>
+                            <Link href={`/acinfo/faq/new`} passHref>
+                                <Button
+                                    type="SQUARE"
+                                    content="글쓰기"
+                                    backgroundColor="yellow_accent"
+                                    fontSize="smaller"
+                                    size="smaller"
+                                    color="white"
+                                    className={style.new_btn}
+                                />
+                            </Link>
+                        </div>
+                    )}
+                </>
+            }
+            footer={<ListPagination total_count={listState.total_count} />}
+        >
+            <TableWrapper>
+                {listState.faq_list.map((it, idx) => (
+                    <div key={idx}>
+                        <TableRow idx={it.id} title={it.title} href={`/acinfo/faq/detail/${it.id}`}></TableRow>
+                    </div>
+                ))}
+            </TableWrapper>
+        </ListPageLayout>
     );
 };
 export default FaqList;

@@ -1,0 +1,87 @@
+@import "styles/meta.scss";
+
+.positive {
+    color: #4caf50;
+}
+.error {
+    color: #d32f2f;
+}
+.warn {
+    color: #f9a825;
+}
+.default {
+    color: $brown_base;
+}
+
+.positive_btn {
+    transition: 0.2s;
+    border: 1px solid #4caf50;
+    span {
+        color: #4caf50;
+    }
+}
+.positive_btn:hover {
+    transition: 0.2s;
+    background-color: #4caf50;
+    span {
+        color: white;
+    }
+}
+
+.error_btn {
+    transition: 0.2s;
+    border: 1px solid #d32f2f;
+    span {
+        color: #d32f2f;
+    }
+}
+.error_btn:hover {
+    transition: 0.2s;
+    background-color: #d32f2f;
+    span {
+        color: white;
+    }
+}
+
+.warn_btn {
+    transition: 0.2s;
+    border: 1px solid #f9a825;
+    span {
+        color: #f9a825;
+    }
+}
+.warn_btn:hover {
+    transition: 0.2s;
+    background-color: #f9a825;
+    span {
+        color: white;
+    }
+}
+
+.default_btn {
+    transition: 0.2s;
+    border: 1px solid $brown_base;
+    span {
+        color: $brown_base;
+    }
+}
+
+.default_btn:hover {
+    transition: 0.2s;
+    background-color: $brown_base;
+    span {
+        color: white;
+    }
+}
+
+.btn {
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}

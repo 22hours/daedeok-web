@@ -1,0 +1,33 @@
+// ListPageLayout.module
+@import "styles/meta.scss";
+.head {
+    @include desktop {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .left {
+            min-height: 40px;
+        }
+
+        .right {
+            flex-grow: 0.5;
+        }
+        margin-bottom: 30px;
+    }
+    @include mobile {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+}
+
+.body {
+    margin-bottom: 20px;
+}
+
+.control_row {
+    display: flex;
+    justify-content: flex-end;
+}
+.footer {
+}

@@ -20,12 +20,14 @@ const PaginationRounded = (props: Props) => {
 
     return (
         <div className="pagination_wrapper">
-            <Pagination
-                count={pageCount}
-                shape="rounded"
-                page={parseInt(nowPageNum.toString())}
-                onChange={(_, page) => handleChange(page - 1)}
-            />
+            {props.totalCount !== 0 && (
+                <Pagination
+                    count={pageCount}
+                    shape="rounded"
+                    page={parseInt(nowPageNum.toString())}
+                    onChange={(_, page) => handleChange(page - 1)}
+                />
+            )}
         </div>
     );
 };

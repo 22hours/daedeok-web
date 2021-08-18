@@ -13,29 +13,17 @@ import Button from "@ui/buttons/Button";
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
 
+// List
+import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
+import ListPagination from "components/molecule/ListPagination/ListPagination";
+import ListPageLayout from "components/layout/ListPageLayout";
+
 type State = res_types.tutorNoticeListItem;
 
 // ELEMENT TYPES
 const initState: State = {
     notice_list: [],
     total_count: 0,
-};
-
-const NoticeList = (props: { notice_list: any }) => {
-    return (
-        <TableWrapper>
-            {props.notice_list.map((it, idx) => (
-                <div key={idx}>
-                    <TableRow
-                        idx={it.id}
-                        title={it.title}
-                        date={UseDate("YYYY-MM-DD", it.create_date)}
-                        href={`/class/notice/detail/${it.id}`}
-                    ></TableRow>
-                </div>
-            ))}
-        </TableWrapper>
-    );
 };
 
 const TutorNoticeList = () => {
@@ -69,39 +57,36 @@ const TutorNoticeList = () => {
     }, [state]);
 
     return (
-        <div>
-            <div className={style.top_form}>
-                <SearchBar
-                    className={style.search}
-                    form="box"
-                    placeholder={"검색어를 입력하세요"}
-                    refs={searchRef}
-                    onEnterKeyDown={(e) => changeKeyword(e.target.value)}
-                />
-            </div>
-            <NoticeList notice_list={listState.notice_list} />
-            <div className={style.btn_wrapper}>
+        <ListPageLayout
+            headerRight={<ListSearchbar />}
+            control_row={
                 <Link href={`/class/notice/new`} passHref>
                     <Button
                         type="SQUARE"
                         content="글쓰기"
                         backgroundColor="yellow_accent"
                         fontSize="smaller"
-                        size="smaller"
+                        size="small"
                         color="white"
                         className={style.new_btn}
                     />
                 </Link>
-            </div>
-            <div>
-                <Pagination
-                    totalCount={listState.total_count}
-                    handleChange={(page: number) => changePage((page + 1).toString())}
-                    pageNum={state.page ? parseInt(state.page) - 1 : 0}
-                    requiredCount={7}
-                />
-            </div>
-        </div>
+            }
+            footer={<ListPagination total_count={listState.total_count} />}
+        >
+            <TableWrapper>
+                {listState.notice_list.map((it, idx) => (
+                    <div key={idx}>
+                        <TableRow
+                            idx={it.id}
+                            title={it.title}
+                            date={UseDate("YYYY-MM-DD", it.create_date)}
+                            href={`/class/notice/detail/${it.id}`}
+                        ></TableRow>
+                    </div>
+                ))}
+            </TableWrapper>
+        </ListPageLayout>
     );
 };
 export default TutorNoticeList;

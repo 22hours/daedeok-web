@@ -12,9 +12,7 @@ type State = {
     content: string;
 };
 
-const TutorNoticeEditor = dynamic(() => import("components/organism/TutorNoticeEditor/TutorNoticeEditor"), {
-    ssr: false,
-});
+const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const TutorNoticeEdit = () => {
     const router = useRouter();
@@ -39,12 +37,27 @@ const TutorNoticeEdit = () => {
             getOriginData();
         }
     }, [auth]);
-    if (!originData) {
+    const handleEdited = () => {
+        alert("수정되었습니다");
+        router.push(`/class/notice/detail/${notice_id}`);
+    };
+    if (originData === null) {
         return <div>NOW LOADING</div>;
     } else {
         return (
             <div>
-                <TutorNoticeEditor type={"EDIT"} originData={originData} />
+                <ContentEditor
+                    type={"EDIT"}
+                    editApiConfig={{
+                        method: "PUT",
+                        domain: "MAIN",
+                        ep: "TUTOR_NOTICE_EDIT",
+                        url_query: { notice_id: notice_id },
+                    }}
+                    onEdited={handleEdited}
+                    imgPath={"TUTOR_NOTICE"}
+                    originData={originData}
+                />
             </div>
         );
     }

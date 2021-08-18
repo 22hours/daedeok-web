@@ -12,6 +12,10 @@ import Button from "@ui/buttons/Button";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
+// List
+import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
+import ListPagination from "components/molecule/ListPagination/ListPagination";
+import ListPageLayout from "components/layout/ListPageLayout";
 
 type State = res_types.noticeList;
 
@@ -19,23 +23,6 @@ type State = res_types.noticeList;
 const initState: State = {
     notice_list: [],
     total_count: 0,
-};
-
-const NoticeListItem = (props: { notice_list: any }) => {
-    return (
-        <TableWrapper>
-            {props.notice_list.map((it, idx) => (
-                <div key={idx}>
-                    <TableRow
-                        idx={it.id}
-                        title={it.title}
-                        date={UseDate("YYYY-MM-DD", it.create_date)}
-                        href={`/acinfo/notice/detail/${it.id}`}
-                    ></TableRow>
-                </div>
-            ))}
-        </TableWrapper>
-    );
 };
 
 const NoticeList = () => {
@@ -69,41 +56,42 @@ const NoticeList = () => {
     }, [state]);
 
     return (
-        <div>
-            <div className={style.top_form}>
-                <SearchBar
-                    className={style.search}
-                    form="box"
-                    placeholder={"검색어를 입력하세요"}
-                    refs={searchRef}
-                    onEnterKeyDown={(e) => changeKeyword(e.target.value)}
-                />
-            </div>
-            <NoticeListItem notice_list={listState.notice_list} />
-            {auth?.role === "ROLE_ADMIN" && (
-                <div className={style.btn_wrapper}>
-                    <Link href={`/acinfo/notice/new`} passHref>
-                        <Button
-                            type="SQUARE"
-                            content="글쓰기"
-                            backgroundColor="yellow_accent"
-                            fontSize="smaller"
-                            size="smaller"
-                            color="white"
-                            className={style.new_btn}
-                        />
-                    </Link>
-                </div>
-            )}
-            <div>
-                <Pagination
-                    totalCount={listState.total_count}
-                    handleChange={(page: number) => changePage((page + 1).toString())}
-                    pageNum={state.page ? parseInt(state.page) - 1 : 0}
-                    requiredCount={7}
-                />
-            </div>
-        </div>
+        <ListPageLayout
+            headerRight={<ListSearchbar />}
+            control_row={
+                <>
+                    {auth?.role === "ROLE_ADMIN" && (
+                        <div className={style.btn_wrapper}>
+                            <Link href={`/acinfo/notice/new`} passHref>
+                                <Button
+                                    type="SQUARE"
+                                    content="글쓰기"
+                                    backgroundColor="yellow_accent"
+                                    fontSize="smaller"
+                                    size="smaller"
+                                    color="white"
+                                    className={style.new_btn}
+                                />
+                            </Link>
+                        </div>
+                    )}
+                </>
+            }
+            footer={<ListPagination total_count={listState.total_count} />}
+        >
+            <TableWrapper>
+                {listState.notice_list.map((it, idx) => (
+                    <div key={idx}>
+                        <TableRow
+                            idx={it.id}
+                            title={it.title}
+                            date={UseDate("YYYY-MM-DD", it.create_date)}
+                            href={`/acinfo/notice/detail/${it.id}`}
+                        ></TableRow>
+                    </div>
+                ))}
+            </TableWrapper>
+        </ListPageLayout>
     );
 };
 export default NoticeList;

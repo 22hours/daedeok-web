@@ -41,6 +41,7 @@ const FormGroupTab = (props: FormGroupTabProps) => {
     const handleSubmit = () => {
         if (pw.value === rePw.value) {
             props.submitPwChange(pw.value);
+            return;
         }
         if (!PasswordController.checkPasswordValidate(pw.value, "password")) {
             return;
@@ -95,15 +96,10 @@ const PwChangeTab = () => {
     });
 
     const submitPwChange = async (newPassword: String) => {
-        const res = await clientSideApi(
-            "PUT",
-            "MAIN",
-            "USER_UPDATE_PASSWORD",
-            { user_id: auth?.user_id },
-            {
-                password: newPassword,
-            }
-        );
+        const res = await clientSideApi("PUT", "MAIN", "USER_PASSWORD_RESET", undefined, {
+            phone_num: isCertified,
+            password: newPassword,
+        });
         if (res.result === "SUCCESS") {
             alert("비밀번호를 성공적으로 변경하였습니다");
             router.replace("/");
