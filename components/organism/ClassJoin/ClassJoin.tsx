@@ -13,7 +13,7 @@ import Select from "@ui/input/Select";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
-import useClassCategory from "lib/hooks/useClassCategory";
+import { useAlert } from "store/GlobalAlertStore";
 
 // List
 import ListSelect from "components/molecule/ListSelect/ListSelect";
@@ -80,10 +80,9 @@ const JoinButton = ({ state, idx, handleClassJoin }) => {
 
 const ClassJoin = () => {
     const { clientSideApi } = useAuthStore();
+    const { alertOn } = useAlert();
     const { state, changePage, changeKeyword } = useListCommonStore();
-
     const [listState, setListState] = useState<State>(initState);
-
     const searchRef = useRef<HTMLInputElement | null>(null);
 
     // 카테고리필터 가능 & 페이지 이동
@@ -118,10 +117,20 @@ const ClassJoin = () => {
         console.log(idx);
         const res_data = await clientSideApi("POST", "MAIN", "LECTURE_JOIN", { lecture_id: idx });
         if (res_data.result === "SUCCESS") {
-            alert("수강신청이 완료되었습니다.");
+            alertOn({
+                title: "수강신청 성공",
+                message: "수강신청이 완료되었습니다.",
+                type: "POSITIVE",
+            });
             location.reload();
         } else {
-            alert(res_data.msg);
+            const msg = res_data?.msg;
+            alertOn({
+                title: "에러가 발생하였습니다",
+                //@ts-ignore
+                message: msg,
+                type: "ERROR",
+            });
         }
     };
 

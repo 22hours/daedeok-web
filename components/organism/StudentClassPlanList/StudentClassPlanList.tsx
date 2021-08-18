@@ -8,11 +8,13 @@ import { nanoid } from "nanoid";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
+import { useAlert } from "store/GlobalAlertStore";
 
 import moment from "moment";
 
 const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
     const { clientSideApi, auth } = useAuthStore();
+    const { alertOn } = useAlert();
     const nowTime = moment();
     const diffTime = moment.duration(nowTime.diff(time)).asMinutes();
 
@@ -22,12 +24,27 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
                 plan_id: idx,
             });
             if (res.result === "SUCCESS") {
-                alert("출석완료");
+                alertOn({
+                    title: "강의출석",
+                    //@ts-ignore
+                    message: "출석 완료",
+                    type: "POSITIVE",
+                });
             } else {
-                alert("다시 시도해주세요");
+                alertOn({
+                    title: "에러가 발생하였습니다",
+                    //@ts-ignore
+                    message: "다시 시도해주세요.",
+                    type: "ERROR",
+                });
             }
         } else {
-            alert("강의 시작 시간이 아닙니다.");
+            alertOn({
+                title: "에러가 발생하였습니다",
+                //@ts-ignore
+                message: "강의 시작 시간이 아닙니다.",
+                type: "ERROR",
+            });
         }
     };
 
