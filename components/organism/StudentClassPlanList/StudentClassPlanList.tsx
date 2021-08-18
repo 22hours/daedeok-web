@@ -60,6 +60,7 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
                             alignment="center"
                             size="small"
                             line="inline"
+                            className={style.cursor_none}
                             type="SQUARE"
                             onClick={planUserAttendance}
                         />
@@ -68,17 +69,32 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
             );
         case "ONLINE":
             return (
-                <Link href={`/class/open/${classId}/student/join/detail/${idx}`}>
-                    <Button
-                        content={"영상보기"}
-                        backgroundColor="yellow_accent"
-                        fontSize="smaller"
-                        color="white"
-                        alignment="center"
-                        size="small"
-                        type="SQUARE"
-                    />
-                </Link>
+                <>
+                    {diffTime >= 0 ? (
+                        <Link href={`/class/open/${classId}/student/join/detail/${idx}`}>
+                            <Button
+                                content={"영상보기"}
+                                backgroundColor="yellow_accent"
+                                fontSize="smaller"
+                                color="white"
+                                alignment="center"
+                                size="small"
+                                type="SQUARE"
+                            />
+                        </Link>
+                    ) : (
+                        <Button
+                            content={"영상보기"}
+                            backgroundColor="yellow_accent"
+                            fontSize="smaller"
+                            color="white"
+                            alignment="center"
+                            size="small"
+                            className={style.cursor_none}
+                            type="SQUARE"
+                        />
+                    )}
+                </>
             );
         case "OFFLINE":
             return (
