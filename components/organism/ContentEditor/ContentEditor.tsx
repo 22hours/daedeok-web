@@ -11,6 +11,7 @@ import CheckBox from "@ui/input/CheckBox";
 import TextEditor from "components/molecule/TextEditor/TextEditor";
 import Button from "@ui/buttons/Button";
 import { useRouter } from "next/router";
+import { useAlert } from "store/GlobalAlertStore";
 type api_params = api_config_type.api_params;
 
 type ApiConfigType = {
@@ -63,6 +64,7 @@ type PresenterProps = {
     isHeaderHide?: boolean;
 };
 const ContentEditorPresenter = (props: PresenterProps) => {
+    const { alertOn } = useAlert();
     const editorController = useEditorController();
     const router = useRouter();
 
@@ -79,6 +81,34 @@ const ContentEditorPresenter = (props: PresenterProps) => {
     }, [props.originData]);
 
     const handleOnSubmit = () => {
+        if (!props.isHeaderHide) {
+            if (props.isCategory && category.value === "") {
+                alertOn({
+                    title: "",
+                    message: "카테고리를 선택해주세요",
+                    type: "WARN",
+                });
+                return;
+            }
+            if (title.value.length < 5) {
+                alertOn({
+                    title: "",
+                    message: "제목은 5자 이상으로 입력해주세요",
+                    type: "WARN",
+                });
+                return;
+            }
+        }
+        const content = editorController.getMarkdownContent();
+        if (content.length < 5) {
+            alertOn({
+                title: "",
+                message: "본문을 5자 이상으로 작성해주세요",
+                type: "WARN",
+            });
+            return;
+        }
+
         props.onSubmit(title.value, editorController.getMarkdownContent(), category.value, secret.value);
     };
 
@@ -159,7 +189,6 @@ const ContentCreateController = (props: NewProps) => {
             secret: props.isSecret ? secret : undefined,
         });
         if (res.result === "SUCCESS") {
-            console.log(res.data);
             props.onCreated(res.data);
         } else {
             alert(res.msg);
