@@ -9,7 +9,7 @@ const Logout = (props: Props) => {
     const { auth, logout } = useAuthStore();
     const router = useRouter();
     useEffect(() => {
-        if (auth) {
+        if (auth !== null) {
             logout();
             router.replace("/");
         }

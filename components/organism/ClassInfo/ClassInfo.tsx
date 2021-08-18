@@ -67,7 +67,7 @@ const LecturePlanItem = (props: LecturePlanItem) => {
         <TableRow
             week={props.week + "주차"}
             weekTitle={props.title}
-            date={DateController.getFormatedDate("YYYY-MM-DD", props.date)}
+            date={`${DateController.getFormatedDate("YYYY/MM/DD HH:MM", props.date)}`}
         >
             <div>
                 <Typo
