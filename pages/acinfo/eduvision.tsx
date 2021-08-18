@@ -5,7 +5,7 @@ import { useAlert } from "store/GlobalAlertStore";
 import { useAuthStore } from "store/AuthStore";
 const TextEditor = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
-const eduvision = () => {
+const Eduvision = () => {
     const [state, setState] = useState<string | null>(null);
     const { alertOn } = useAlert();
     const { clientSideApi } = useAuthStore();
@@ -33,4 +33,4 @@ const eduvision = () => {
     );
 };
 
-export default eduvision;
+export default Eduvision;
