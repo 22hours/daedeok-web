@@ -1,13 +1,14 @@
 import style from "./TextViewer.module.scss";
 import { Viewer } from "@toast-ui/react-editor";
 import { useEffect, useRef } from "react";
+import WindowController from "lib/client/windowController";
 
 type Props = {
     content: string;
 };
 
 const TextViewer = (props: Props) => {
-    const width = window.screen.width;
+    var width = WindowController.getWindowSize();
 
     const viewerRef = useRef(null);
     useEffect(() => {
@@ -19,7 +20,7 @@ const TextViewer = (props: Props) => {
         }
     }, [props]);
     return (
-        <div style={{ width: width }} className={style.container}>
+        <div style={{ width: width - 50 }} className={style.container}>
             <Viewer ref={viewerRef} />
         </div>
     );

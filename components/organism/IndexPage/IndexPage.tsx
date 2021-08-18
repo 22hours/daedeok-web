@@ -18,6 +18,7 @@ import mainFooterImg from "public/assets/mainFooterImg.jpg";
 import bibleIntro from "public/assets/bibleIntro.png";
 import bibleContact from "public/assets/bibleContact.png";
 import userImg from "public/assets/user.png";
+import WindowController from "lib/client/windowController";
 
 type Props = {};
 type NoticeItem = {
@@ -49,8 +50,9 @@ const IndexPage = (props: Props) => {
     const [mode, setMode] = useState<"pc" | "mobile">("pc");
 
     const setModeByWindowSize = () => {
-        console.log(window.screen.width);
-        if (window.screen.width > 775) {
+        var width = WindowController.getWindowSize();
+        console.log(width);
+        if (width > 775) {
             console.log("PC");
             setMode("pc");
         } else {

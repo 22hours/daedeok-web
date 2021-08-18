@@ -6,7 +6,6 @@ import Link from "next/link";
 //component
 import Typo from "@ui/Typo";
 import Button from "@ui/buttons/Button";
-import { nanoid } from "nanoid";
 import TextArea from "@ui/input/TextArea";
 import TableRow from "@ui/board/TableRow";
 import TableWrapper from "@ui/board/TableWrapper";

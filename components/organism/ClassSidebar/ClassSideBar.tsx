@@ -2,6 +2,7 @@ import Button from "@ui/buttons/Button";
 import CollapseButton from "@ui/buttons/CollapseButton";
 import Typo from "@ui/Typo";
 import Userbox from "components/molecule/Userbox/Userbox";
+import WindowController from "lib/client/windowController";
 import { RouteController } from "lib/RouteController";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -158,7 +159,8 @@ const ClassSideBar = () => {
     const [mode, setMode] = useState<"pc" | "mobile">("pc");
 
     const setModeByWindowSize = () => {
-        if (window.innerWidth > 900) {
+        var width = WindowController.getWindowSize();
+        if (width > 900) {
             setMode("pc");
         } else {
             setMode("mobile");

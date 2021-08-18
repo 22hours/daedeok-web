@@ -8,6 +8,7 @@ import style from "./AdminSidebar.module.scss";
 import Drawer from "@ui/drawer";
 import useBoolean from "lib/hooks/useBoolean";
 import MenuIcon from "@material-ui/icons/Menu";
+import WindowController from "lib/client/windowController";
 
 const PcSidebar = ({ children }) => {
     return <div className={style.pc_side_bar_container}>{children}</div>;
@@ -100,7 +101,8 @@ const AdminSidebar = () => {
     const [mode, setMode] = useState<"pc" | "mobile">("pc");
 
     const setModeByWindowSize = () => {
-        if (window.innerWidth > 900) {
+        var width = WindowController.getWindowSize();
+        if (width > 900) {
             setMode("pc");
         } else {
             setMode("mobile");

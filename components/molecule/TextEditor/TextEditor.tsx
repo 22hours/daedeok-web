@@ -2,6 +2,7 @@ import style from "./TextEditor.module.scss";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { RefObject } from "react";
+import WindowController from "lib/client/windowController";
 
 type Props = {
     editorRef: RefObject<Editor>;
@@ -11,7 +12,7 @@ type Props = {
 };
 
 const TextEditor = (props: Props) => {
-    const width = window.screen.width;
+    var width = WindowController.getWindowSize();
 
     const handleOnLoad = () => {
         if (props.onLoad) {
@@ -19,7 +20,7 @@ const TextEditor = (props: Props) => {
         }
     };
     return (
-        <div style={{ width: width }}>
+        <div style={{ width: width - 50 }}>
             <Editor
                 ref={props.editorRef}
                 initialValue={props.initialValue}

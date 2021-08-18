@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import styles from "./Header.module.scss";
 import PcHeader from "./PcHeader";
 import MobileHeader from "./MobileHeader";
+import WindowController from "lib/client/windowController";
 
 const Header = () => {
     const [mode, setMode] = useState<"pc" | "mobile">("pc");
 
     const setModeByWindowSize = () => {
-        if (window.screen.width > 775) {
+        var width = WindowController.getWindowSize();
+        if (width > 775) {
             setMode("pc");
         } else {
             setMode("mobile");
