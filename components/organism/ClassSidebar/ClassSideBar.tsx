@@ -158,7 +158,7 @@ const ClassSideBar = () => {
     const [mode, setMode] = useState<"pc" | "mobile">("pc");
 
     const setModeByWindowSize = () => {
-        if (window.innerWidth > 775) {
+        if (window.innerWidth > 900) {
             setMode("pc");
         } else {
             setMode("mobile");

@@ -41,8 +41,10 @@ type Props = {
     isBannerHide?: boolean;
     isMenuHide?: boolean;
     isIndex?: boolean;
+    indexSection1?: JSX.Element;
+    indexSection2?: JSX.Element;
 };
-const GlobalLayout = ({ children, isBannerHide, isMenuHide, isIndex }: Props) => {
+const GlobalLayout = ({ children, isBannerHide, isMenuHide, isIndex, indexSection1, indexSection2 }: Props) => {
     return (
         <div className={style.container}>
             {/* STRIPE */}
@@ -57,19 +59,23 @@ const GlobalLayout = ({ children, isBannerHide, isMenuHide, isIndex }: Props) =>
                 </div>
                 {!isMenuHide && (
                     <div className={style.nav}>
-                        <div></div>
-                        <div className={style.nav_inner}>
+                        <div className={style.padding_col}></div>
+                        <div className={`${style.main_col} ${style.nav_inner}`}>
                             <Header />
                         </div>
-                        <div></div>
+                        <div className={style.padding_col}></div>
                     </div>
                 )}
             </div>
 
             {isIndex && (
-                <div className={style.carousel}>
-                    <MainCarousel />
-                </div>
+                <>
+                    <div className={style.carousel}>
+                        <MainCarousel />
+                    </div>
+                    <div className={style.indexSection1}>{indexSection1}</div>
+                    <div className={style.indexSection2}>{indexSection2}</div>
+                </>
             )}
 
             {/* BANNER */}
@@ -81,11 +87,11 @@ const GlobalLayout = ({ children, isBannerHide, isMenuHide, isIndex }: Props) =>
 
             {/* ARTICLE */}
             <div className={style.article}>
-                <div></div>
-                <article className={style.main_article}>
+                <div className={style.padding_col}></div>
+                <article className={style.main_col}>
                     <PageDetailLayout>{children}</PageDetailLayout>
                 </article>
-                <div></div>
+                <div className={style.padding_col}></div>
             </div>
 
             {/* FOOTER */}

@@ -4,22 +4,25 @@
 .container {
     height: inherit;
     background-color: white;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    .user {
-        font-weight: bolder;
-    }
-    .wellcome {
-        margin-bottom: 2px;
-    }
     .head {
         display: flex;
         align-items: flex-end;
+        flex-wrap: wrap;
+        margin-bottom: 5px;
+        .user {
+            margin-right: 5px;
+            display: inline;
+            font-weight: bolder;
+        }
+        .wellcome {
+            display: inline;
+            margin-bottom: 2px;
+        }
     }
+
     .bottom {
         flex-grow: 1;
         margin-top: 12px;
