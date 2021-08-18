@@ -11,7 +11,6 @@ const Logout = (props: Props) => {
     useEffect(() => {
         if (auth !== null) {
             logout();
-            router.replace("/");
         }
     }, [auth]);
 

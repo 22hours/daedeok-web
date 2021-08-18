@@ -133,9 +133,11 @@ export const AuthProvider = ({ children }) => {
         CookieController.setUserWithCookie(userData);
     };
 
-    const logout = () => {
+    const logout = async () => {
+        await CookieController.removeUserInCookie();
+        console.log("COOKIE 삭제 완료");
         dispatch({ type: "LOGOUT" });
-        CookieController.removeUserInCookie();
+        router.replace("/");
     };
 
     const update = (userData: meta_types.user) => {
