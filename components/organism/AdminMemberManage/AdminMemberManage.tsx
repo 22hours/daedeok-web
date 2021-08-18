@@ -15,6 +15,8 @@ import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
 import ListSelect from "components/molecule/ListSelect/ListSelect";
 import ListPagination from "components/molecule/ListPagination/ListPagination";
 import ListPageLayout from "components/layout/ListPageLayout";
+import { meta_types } from "@global_types";
+import { useAlert } from "store/GlobalAlertStore";
 
 type Props = {};
 
@@ -25,6 +27,7 @@ type UserItem = {
     first_division: string;
     second_division: string;
     phone_num: string;
+    role: meta_types.user["role"];
 };
 type State = {
     user_list: UserItem[];
@@ -35,6 +38,58 @@ const initState: State = {
     user_list: [],
     total_count: 0,
     total_pate: 0,
+};
+
+const RoleChangeButton = (props: UserItem & { refresh: () => void }) => {
+    const { clientSideApi } = useAuthStore();
+    const { alertOn } = useAlert();
+    const [state, setState] = useState<UserItem | null>(null);
+    useEffect(() => {
+        if (props) {
+            setState({ ...props });
+        }
+    }, [props]);
+
+    const handleClick = async () => {
+        if (state) {
+            const afterChangeRole = state.role === "ROLE_TUTOR" ? "ROLE_MEMBER" : "ROLE_TUTOR";
+
+            const res = await clientSideApi("PUT", "MAIN", "USER_ROLE_CHANGE", undefined, {
+                id: state.id,
+                role: afterChangeRole,
+            });
+            if (res.result === "SUCCESS") {
+                alertOn({
+                    title: "",
+                    message: "성공적으로 전환하였습니다",
+                    type: "POSITIVE",
+                });
+                props.refresh();
+            } else {
+                alertOn({
+                    title: "에러가 발생하였습니다",
+                    // @ts-ignore
+                    message: res.msg,
+                    type: "ERROR",
+                });
+            }
+        }
+    };
+    if (state === null) {
+        return <></>;
+    } else {
+        return (
+            <Button
+                className={`${style.control_btn}`}
+                type={"SQUARE"}
+                size={"free"}
+                fontSize={"smaller"}
+                content={state.role === "ROLE_TUTOR" ? "강사 해지" : "강사 전환"}
+                color={"white"}
+                onClick={handleClick}
+            />
+        );
+    }
 };
 
 const MemberManageList = () => {
@@ -54,6 +109,10 @@ const MemberManageList = () => {
         } else {
             alert(res.msg);
         }
+    };
+    const refresh = () => {
+        setData(initState);
+        getData();
     };
 
     useEffect(() => {
@@ -138,6 +197,7 @@ const MemberManageList = () => {
                             }}
                         >
                             <div className={style.user_control_col}>
+                                <RoleChangeButton {...it} refresh={refresh} />
                                 <Button
                                     className={`${style.control_btn}`}
                                     type={"SQUARE"}
@@ -162,78 +222,6 @@ const MemberManageList = () => {
                 </TableWrapper>
             </div>
         </ListPageLayout>
-    );
-    return (
-        <>
-            <div className={style.head}>
-                <Typo
-                    className={style.label}
-                    type={"TEXT"}
-                    size={"normal"}
-                    content={`총 가입 : ${data.total_count}명`}
-                    color={"gray_accent"}
-                />
-                <SearchBar
-                    placeholder={"검색어를 입력하세요"}
-                    form={"box"}
-                    initialValue={pageState.state.keyword}
-                    onEnterKeyDown={(e) => pageState.changeKeyword(e.target.value)}
-                />
-            </div>
-            <div className={style.body}>
-                <Typo
-                    className={style.label}
-                    type={"TEXT"}
-                    size={"small"}
-                    content={`총 가입 : ${1}명`}
-                    color={"gray_accent"}
-                />
-                <TableWrapper>
-                    {data.user_list.map((it, idx) => (
-                        <TableRow
-                            key={`adminmanageuseritem${idx}`}
-                            idx={idx + 1}
-                            studentName={it.name}
-                            studentInfo={{
-                                duty: it.duty,
-                                first_division: it.first_division,
-                                second_division: it.second_division,
-                                phone_number: it.phone_num,
-                            }}
-                        >
-                            <div className={style.user_control_col}>
-                                <Button
-                                    className={`${style.control_btn}`}
-                                    type={"SQUARE"}
-                                    size={"free"}
-                                    fontSize={"smaller"}
-                                    content={"PW전송"}
-                                    color={"white"}
-                                    onClick={() => callPwSend(it.id)}
-                                />
-                                <Button
-                                    className={`${style.control_btn}`}
-                                    type={"SQUARE"}
-                                    size={"free"}
-                                    fontSize={"smaller"}
-                                    content={"삭제"}
-                                    color={"white"}
-                                    onClick={() => callDeleteUser(it.id)}
-                                />
-                            </div>
-                        </TableRow>
-                    ))}
-                </TableWrapper>
-            </div>
-            <div className={style.footer}>
-                <Pagination
-                    totalCount={data.total_count}
-                    handleChange={(page: number) => pageState.changePage((page + 1).toString())}
-                    pageNum={pageState.state.page ? parseInt(pageState.state.page) - 1 : 0}
-                    requiredCount={7}
-                />
-            </div>
-        </>
     );
 };
 

@@ -33,6 +33,7 @@ type Action =
     | { type: "SET_REFERENCE"; data: State["reference"] }
     | { type: "SET_CATEGORY"; data: State["category"] }
     | { type: "ADD_DIVISION"; data: class_types.Division }
+    | { type: "ADD_DIVISION_LIST"; data: class_types.Division[] }
     | { type: "REMOVE_DIVISION"; data: number }
     | { type: "SET_STUDENT_LIMIT"; data: State["student_limit"] }
     | { type: "ADD_HANDOUT"; data: class_types.Handout }
@@ -106,6 +107,15 @@ const reducer = (state: State, action: Action) => {
             } else {
                 return state;
             }
+        }
+        case "ADD_DIVISION_LIST": {
+            console.log(action.data);
+            var newDivisonList = state.division_list.slice();
+            newDivisonList = newDivisonList.concat(action.data);
+            return {
+                ...state,
+                division_list: newDivisonList,
+            };
         }
         case "REMOVE_DIVISION": {
             const newDivisonList = state.division_list.slice();
@@ -339,34 +349,34 @@ const ClassEditor = (props: Props) => {
 
     const titleChange = useCallback((e) => dispatch({ type: "SET_TITLE", data: e.target.value }), [state.title]);
     const contentChange = useCallback((e) => dispatch({ type: "SET_CONTENT", data: e.target.value }), [state.content]);
-    const referenceChange = useCallback(
-        (e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }),
-        [state.reference]
-    );
-    const categoryChange = useCallback(
-        (e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }),
-        [state.category]
-    );
+    const referenceChange = useCallback((e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }), [
+        state.reference,
+    ]);
+    const categoryChange = useCallback((e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }), [
+        state.category,
+    ]);
     const addDivisionItem = useCallback(
         (division: class_types.Division) => dispatch({ type: "ADD_DIVISION", data: division }),
         [state.division_list]
     );
-    const removeDivisionItem = useCallback(
-        (idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }),
+    const addDivisonList = useCallback(
+        (division_list: class_types.Division[]) => {
+            dispatch({ type: "ADD_DIVISION_LIST", data: division_list });
+        },
         [state.division_list]
     );
-    const studentLimitChange = useCallback(
-        (value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }),
-        [state.student_limit]
-    );
-    const addHandoutItem = useCallback(
-        (item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }),
-        [state.handout_list]
-    );
-    const removeHandoutItem = useCallback(
-        (idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }),
-        [state.handout_list]
-    );
+    const removeDivisionItem = useCallback((idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }), [
+        state.division_list,
+    ]);
+    const studentLimitChange = useCallback((value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }), [
+        state.student_limit,
+    ]);
+    const addHandoutItem = useCallback((item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }), [
+        state.handout_list,
+    ]);
+    const removeHandoutItem = useCallback((idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }), [
+        state.handout_list,
+    ]);
 
     const addPlanItem = useCallback(
         (planType: class_types.PlanType) => dispatch({ type: "ADD_PLAN", data: planType }),
@@ -399,10 +409,9 @@ const ClassEditor = (props: Props) => {
         [state.plan_list]
     );
 
-    const removePlanItem = useCallback(
-        (idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }),
-        [state.plan_list]
-    );
+    const removePlanItem = useCallback((idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }), [
+        state.plan_list,
+    ]);
 
     //강의종료
     const handleFinish = async () => {
@@ -561,6 +570,7 @@ const ClassEditor = (props: Props) => {
             <DivisionInput
                 divisionList={state.division_list}
                 addDivisionItem={addDivisionItem}
+                addDivisonList={addDivisonList}
                 removeDivisionItem={removeDivisionItem}
             />
             <ClassTextInput

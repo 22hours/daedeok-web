@@ -27,6 +27,8 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `user/password?id=${url_query.user_id}`;
         case `USER_PASSWORD_RESET`:
             return `user/password/reset`;
+        case "USER_ROLE_CHANGE":
+            return `user/admin/role`;
         // FAQ
         case `FAQ_FIND`:
             return `faq/`;

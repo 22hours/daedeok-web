@@ -113,10 +113,10 @@ const RegisterFormGroup = () => {
             alert("상위 소속을 입력해주세요");
             return;
         }
-        if (secondDivision.value === "") {
-            alert("하위 소속을 입력해주세요");
-            return;
-        }
+        // if (secondDivision.value === "") {
+        //     alert("하위 소속을 입력해주세요");
+        //     return;
+        // }
         if (!terms.value) {
             alert("이용약관에 동의해주세요");
             return;

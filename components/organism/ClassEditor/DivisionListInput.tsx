@@ -10,13 +10,14 @@ import useDivision from "lib/hooks/useDivision";
 type DivisionProps = {
     divisionList: class_types.ClassInfo["division_list"];
     addDivisionItem: (division: class_types.Division) => void;
+    addDivisonList: (division_list: class_types.Division[]) => void;
     removeDivisionItem: (idx: number) => void;
 };
 type DivisionSelectOption = { value: string; name: string };
 const DivisionListInput = (props: DivisionProps) => {
     return (
         <div className={style.DivisionListInput}>
-            <DivisionInputInner addDivisionList={props.addDivisionItem} />
+            <DivisionInputInner addDivisionItem={props.addDivisionItem} addDivisonList={props.addDivisonList} />
             <DivisionItemList divisionList={props.divisionList} removeDivisionItem={props.removeDivisionItem} />
         </div>
     );
@@ -64,7 +65,8 @@ const DivisionItemList = (props: DivisionItemListProps) => {
 
 // DIVISON INPUT INNER
 type InnerProps = {
-    addDivisionList: (division: class_types.Division) => void;
+    addDivisionItem: (division: class_types.Division) => void;
+    addDivisonList: (division_list: class_types.Division[]) => void;
 };
 const DivisionInputInner = React.memo((props: InnerProps) => {
     const first_division = useInput();
@@ -74,10 +76,22 @@ const DivisionInputInner = React.memo((props: InnerProps) => {
 
     useEffect(() => {
         if (first_division.value !== "" && second_division.value !== "") {
-            props.addDivisionList({
-                first_division: first_division.value,
-                second_division: second_division.value,
-            });
+            if (second_division.value === "ALL") {
+                const newItemList: class_types.Division[] = [];
+                secondDivisionOptionList().forEach((second_division) => {
+                    newItemList.push({
+                        first_division: first_division.value,
+                        second_division: second_division.name,
+                    });
+                });
+                console.log(newItemList);
+                props.addDivisonList(newItemList);
+            } else {
+                props.addDivisionItem({
+                    first_division: first_division.value,
+                    second_division: second_division.value,
+                });
+            }
         }
     }, [second_division.value]);
 
@@ -95,7 +109,11 @@ const DivisionInputInner = React.memo((props: InnerProps) => {
                 value={second_division.value}
                 onChange={second_division.onChange}
                 placeholder={"하위소속"}
-                option_list={secondDivisionOptionList()}
+                option_list={
+                    first_division.value !== ""
+                        ? [{ name: "전체", value: "ALL" }].concat(secondDivisionOptionList())
+                        : []
+                }
             />
         </div>
     );

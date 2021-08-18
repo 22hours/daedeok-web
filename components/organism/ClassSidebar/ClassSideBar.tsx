@@ -43,68 +43,76 @@ const SidebarMenuList = () => {
             }
         }
     });
-    return (
-        <>
-            {SidebarButtonList.map((it) => {
-                if (it.isDropdown) {
-                    // 서버에서 데이터 받아와야함
-                    const status = it.pathname.split("/")[2];
-                    return (
-                        <div className={style.section_menu}>
-                            <CollapseButton
-                                mainText={it.name}
-                                mainButtonSize={"medium"}
-                                mainFontSize={"small"}
-                                mainTextColor={"brown_base"}
-                                mainBackgroundColor={"transparent"}
-                                icon={true}
-                            >
-                                <div className={style.collapse_outter}>
-                                    {openList.map((lectureItem, idx) => {
-                                        const link = RouteController.class.childPage[status].childPage.board.as({
-                                            class_id: lectureItem.lecture_id,
-                                        });
-                                        const isNow = lectureItem.lecture_id?.toString() === class_id;
-                                        return (
-                                            <Link key={`classlistbtn::${idx}`} href={link} passHref>
-                                                <Button
-                                                    type={"SQUARE"}
-                                                    size={"small"}
-                                                    backgroundColor={isNow ? "mint_accent" : "white"}
-                                                    fontSize={"smaller"}
-                                                    color={isNow ? "white" : "brown_base"}
-                                                    content={lectureItem.title}
-                                                    className={style.collapse_inner_button}
-                                                />
-                                            </Link>
-                                        );
-                                    })}
-                                </div>
-                            </CollapseButton>
-                        </div>
-                    );
-                } else {
-                    const buttonLink = it.pathname;
-                    return (
-                        <div className={style.section_menu}>
-                            <Link href={buttonLink}>
-                                <Button
-                                    type={"UNDERLINE"}
-                                    size={"medium"}
-                                    fontSize={"small"}
-                                    alignment={"left"}
-                                    line={"inline"}
-                                    color={"brown_base"}
-                                    backgroundColor={"transparent"}
-                                    content={it.name}
-                                />
-                            </Link>
-                        </div>
-                    );
-                }
-            })}
-        </>
-    );
+    if (auth === null) {
+        return <div></div>;
+    } else {
+        return (
+            <>
+                {SidebarButtonList.map((it) => {
+                    if (it.isDropdown) {
+                        // 서버에서 데이터 받아와야함
+                        const status = it.pathname.split("/")[2];
+
+                        const menuText = auth?.role === "ROLE_TUTOR" ? "현재 진행중인 강의" : "현재 수강중인 강의";
+                        return (
+                            <div className={style.section_menu}>
+                                <CollapseButton
+                                    // mainText={it.name}
+                                    mainText={menuText}
+                                    mainButtonSize={"medium"}
+                                    mainFontSize={"small"}
+                                    mainTextColor={"brown_base"}
+                                    mainBackgroundColor={"transparent"}
+                                    icon={true}
+                                >
+                                    <div className={style.collapse_outter}>
+                                        {openList.map((lectureItem, idx) => {
+                                            const link = RouteController.class.childPage[status].childPage.board.as({
+                                                class_id: lectureItem.lecture_id,
+                                            });
+                                            const isNow = lectureItem.lecture_id?.toString() === class_id;
+                                            return (
+                                                <Link key={`classlistbtn::${idx}`} href={link} passHref>
+                                                    <Button
+                                                        type={"SQUARE"}
+                                                        size={"small"}
+                                                        backgroundColor={isNow ? "mint_accent" : "white"}
+                                                        fontSize={"smaller"}
+                                                        color={isNow ? "white" : "brown_base"}
+                                                        content={lectureItem.title}
+                                                        className={style.collapse_inner_button}
+                                                    />
+                                                </Link>
+                                            );
+                                        })}
+                                    </div>
+                                </CollapseButton>
+                            </div>
+                        );
+                    } else {
+                        const buttonLink = it.pathname;
+
+                        return (
+                            <div className={style.section_menu}>
+                                <Link href={buttonLink}>
+                                    <Button
+                                        type={"UNDERLINE"}
+                                        size={"medium"}
+                                        fontSize={"small"}
+                                        alignment={"left"}
+                                        line={"inline"}
+                                        color={"brown_base"}
+                                        backgroundColor={"transparent"}
+                                        content={it.name}
+                                    />
+                                </Link>
+                            </div>
+                        );
+                    }
+                })}
+            </>
+        );
+    }
 };
 
 const CommonSideBar = () => {

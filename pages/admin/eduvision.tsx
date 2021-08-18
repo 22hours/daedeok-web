@@ -51,7 +51,7 @@ const Eduvision = () => {
     } else {
         return (
             <div>
-                <PageHeader title={"대덕바이블 아카데미 소개 관리"} />
+                <PageHeader title={"교육비전 관리"} />
                 <ContentEditor
                     type={"EDIT"}
                     editApiConfig={{

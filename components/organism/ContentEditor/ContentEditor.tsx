@@ -190,7 +190,7 @@ const ContentEditController = (props: EditProps) => {
         };
         const res = await clientSideApi(reqOption.method, reqOption.domain, reqOption.ep, reqOption.url_query, {
             ...reqOption.data,
-            title: title,
+            title: props.isHeaderHide ? undefined : title,
             content: content,
             category: props.isCategory ? category : undefined,
             secret: props.isSecret ? secret : undefined,

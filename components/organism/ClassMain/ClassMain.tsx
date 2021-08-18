@@ -49,7 +49,7 @@ const ClassMain = () => {
     } else {
         return (
             <div className={style.container}>
-                <MainSection sectionTitle={"현재 진행강의"}>
+                <MainSection sectionTitle={auth.role === "ROLE_TUTOR" ? "현재 진행중인 강의" : "현재 수강중인 강의"}>
                     <div>
                         {data.lecture_list.map((it, idx) => (
                             <LecturePannel key={`lectureitem${idx}`} {...it} />
