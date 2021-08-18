@@ -1,7 +1,11 @@
 import style from "./AdminLayout.module.scss";
 import GlobalLayout from "components/layout/GlobalLayout";
-import AdminSidebar from "components/organism/AdminSidebar/AdminSidebar";
+import dynamic from "next/dynamic";
 type Props = {};
+
+const AdminSidebar = dynamic(() => import("components/organism/AdminSidebar/AdminSidebar"), {
+    ssr: false,
+});
 
 const AdminLayout = ({ children }) => {
     return (

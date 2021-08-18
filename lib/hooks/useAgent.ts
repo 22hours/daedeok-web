@@ -8,6 +8,9 @@ const useAgent = () => {
             setAgnet("mobile");
         }
     }, []);
+    useEffect(() => {
+        console.log(agent);
+    }, [agent]);
     return agent;
 };
 export default useAgent;

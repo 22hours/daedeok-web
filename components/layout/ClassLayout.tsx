@@ -1,7 +1,10 @@
 import style from "./ClassLayout.module.scss";
 import GlobalLayout from "components/layout/GlobalLayout";
-import ClassSideBar from "components/organism/ClassSidebar/ClassSideBar";
+import dynamic from "next/dynamic";
 
+const ClassSideBar = dynamic(() => import("components/organism/ClassSidebar/ClassSideBar"), {
+    ssr: false,
+});
 type Props = {};
 
 const ClassLayout = ({ children }) => {

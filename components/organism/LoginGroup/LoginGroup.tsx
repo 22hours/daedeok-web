@@ -9,12 +9,14 @@ import Link from "next/link";
 import PageHeader from "@ui/PageHeader";
 import style from "./LoginGroup.module.scss";
 import { useEffect } from "react";
+import { useAlert } from "store/GlobalAlertStore";
+
 type Props = {};
 
 const LoginGroup = (props: Props) => {
     const { auth, login, logout, clientSideApi } = useAuthStore();
     const router = useRouter();
-
+    const { alertOn } = useAlert();
     useEffect(() => {
         // @ts-ignore
         const require_role: meta_types.accessRole | undefined = router.query.require_role;
@@ -22,19 +24,39 @@ const LoginGroup = (props: Props) => {
             console.log(require_role);
             switch (require_role) {
                 case "ROLE_ADMIN": {
-                    alert("관리자만 접근 가능합니다\n관리자 계정으로 로그인 해 주세요");
+                    alertOn({
+                        title: "에러가 발생하였습니다",
+                        //@ts-ignore
+                        message: "관리자만 접근 가능합니다\n관리자 계정으로 로그인 해 주세요",
+                        type: "ERROR",
+                    });
                     break;
                 }
                 case "ROLE_TUTOR": {
-                    alert("강사만 접근 가능합니다강사 계정으로 로그인 해 주세요");
+                    alertOn({
+                        title: "에러가 발생하였습니다",
+                        //@ts-ignore
+                        message: "강사만 접근 가능합니다강사 계정으로 로그인 해 주세요",
+                        type: "ERROR",
+                    });
                     break;
                 }
                 case "ROLE_MEMBER": {
-                    alert("수강생만 접근 가능합니다\n수강생 계정으로 로그인 해 주세요");
+                    alertOn({
+                        title: "에러가 발생하였습니다",
+                        //@ts-ignore
+                        message: "수강생만 접근 가능합니다\n수강생 계정으로 로그인 해 주세요",
+                        type: "ERROR",
+                    });
                     break;
                 }
                 case "ROLE_ALL": {
-                    alert("로그인 후 이용가능합니다");
+                    alertOn({
+                        title: "에러가 발생하였습니다",
+                        //@ts-ignore
+                        message: "로그인 후 이용가능합니다",
+                        type: "ERROR",
+                    });
                     break;
                 }
                 default:
@@ -47,7 +69,12 @@ const LoginGroup = (props: Props) => {
     const pwInput = useInput();
     const inputLogin = async () => {
         if (idInput.value.length <= 5) {
-            alert("전화번호를 입력해주세요");
+            alertOn({
+                title: "에러가 발생하였습니다",
+                //@ts-ignore
+                message: "전화번호를 입력해주세요.",
+                type: "ERROR",
+            });
             return;
         }
         // if (pwInput.value.length < 8) {
@@ -61,7 +88,12 @@ const LoginGroup = (props: Props) => {
         if (res.result === "SUCCESS") {
             login(res.data);
         } else {
-            alert(res.msg);
+            alertOn({
+                title: "에러가 발생하였습니다",
+                //@ts-ignore
+                message: res.msg,
+                type: "ERROR",
+            });
         }
     };
 
