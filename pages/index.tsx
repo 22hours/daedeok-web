@@ -1,6 +1,7 @@
 import GlobalLayout from "components/layout/GlobalLayout";
-import IndexPage from "components/organism/IndexPage/IndexPage";
+import dynamic from "next/dynamic";
 
+const IndexPage = dynamic(() => import("components/organism/IndexPage/IndexPage"), { ssr: false });
 import React from "react";
 
 // HOME

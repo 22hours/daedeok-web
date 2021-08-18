@@ -11,13 +11,15 @@ type Props = {
 };
 
 const TextEditor = (props: Props) => {
+    const width = window.screen.width;
+
     const handleOnLoad = () => {
         if (props.onLoad) {
             props.onLoad();
         }
     };
     return (
-        <>
+        <div style={{ width: width }}>
             <Editor
                 ref={props.editorRef}
                 initialValue={props.initialValue}
@@ -37,7 +39,7 @@ const TextEditor = (props: Props) => {
                     load: handleOnLoad,
                 }}
             />
-        </>
+        </div>
     );
 };
 

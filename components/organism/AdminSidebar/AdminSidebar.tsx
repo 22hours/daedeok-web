@@ -100,7 +100,7 @@ const AdminSidebar = () => {
     const [mode, setMode] = useState<"pc" | "mobile">("pc");
 
     const setModeByWindowSize = () => {
-        if (window.innerWidth > 450) {
+        if (window.innerWidth > 900) {
             setMode("pc");
         } else {
             setMode("mobile");

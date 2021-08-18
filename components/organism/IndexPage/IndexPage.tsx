@@ -49,12 +49,16 @@ const IndexPage = (props: Props) => {
     const [mode, setMode] = useState<"pc" | "mobile">("pc");
 
     const setModeByWindowSize = () => {
-        if (window.innerWidth > 775) {
+        console.log(window.screen.width);
+        if (window.screen.width > 775) {
+            console.log("PC");
             setMode("pc");
         } else {
+            console.log("MOBILE");
             setMode("mobile");
         }
     };
+
     useEffect(() => {
         setModeByWindowSize();
         window.addEventListener("resize", setModeByWindowSize);

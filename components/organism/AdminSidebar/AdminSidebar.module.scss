@@ -1,5 +1,6 @@
 @import "styles/meta.scss";
 .common_container {
+    min-height: 100vh;
     padding: 20px;
     height: 100%;
     background-color: $light_accent;

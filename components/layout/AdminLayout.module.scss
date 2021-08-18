@@ -3,15 +3,16 @@
 
 .container {
     height: 100%;
-    @include mobile {
+
+    @media only screen and (max-width: 900px) {
     }
-    @include desktop {
+    @media only screen and (min-width: 900px) {
         display: grid;
-        grid-template-columns: 2.5fr 7.5fr;
+        grid-template-columns: 290px auto;
     }
 }
 .aside {
-    @include mobile {
+    @media only screen and (max-width: 900px) {
         background-color: white;
         border-bottom: 1px solid $brown_base;
         display: grid;
@@ -20,17 +21,20 @@
         left: 0px;
         right: 0px;
     }
+    @media only screen and (min-width: 900px) {
+    }
 }
 .article {
     background-color: white;
-    @include mobile {
-        padding-top: 30px;
+    @media only screen and (max-width: 900px) {
+        padding-top: 60px;
         display: grid;
         grid-template-columns: 0fr 10fr 0fr;
     }
-    @include desktop {
+    @media only screen and (min-width: 900px) {
         display: grid;
         grid-template-columns: 0.5fr 9fr 0.5fr;
+        padding-top: 45px;
         padding-bottom: 45px;
         border-right: 1px solid $gray_accent;
     }
