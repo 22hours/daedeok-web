@@ -95,10 +95,10 @@ const QnaList = (props: Props) => {
                         <div key={idx}>
                             <Link href={`/acinfo/qna/detail/${it.id}`} passHref>
                                 <TableRow
-                                    idx={it.id}
-                                    title={it.title}
+                                    idx={`${it.id}`}
+                                    title={`${it.title}`}
                                     date={DateController.getFormatedDate("YYYY-MM-DD", it.create_date)}
-                                    category={it.category}
+                                    category={`${it.secret ? "[비밀글] " : ""}${it.category}`}
                                     view={`조회수 ${it.view}`}
                                 ></TableRow>
                             </Link>
