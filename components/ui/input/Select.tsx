@@ -2,6 +2,10 @@ import React, { useMemo, useRef } from "react";
 import style from "./Select.module.scss";
 import CSS from "csstype";
 import useFormStyle from "lib/hooks/useFormStyle";
+import NativeSelect from "@material-ui/core/NativeSelect";
+import { makeStyles } from "@material-ui/core/styles";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
 
 // icons
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -18,20 +22,29 @@ type Props = {
     className?: string;
 };
 
+const useStyles = makeStyles((theme) => ({
+    select: {
+        width: "100%",
+    },
+}));
+
 const Select = (props: Props) => {
     const classNames = useFormStyle({ ...props, type: "select" });
+    const classes = useStyles();
+
     return (
         <div className={Object.values(classNames).concat(props.className).concat(style.wrapper).join(" ")}>
-            <select
-                className={style.container}
+            <NativeSelect
+                className={`${props.value === "" ? style.nowOff : ""} ${style.container}`}
                 // @ts-ignore
                 refs={props.refs || undefined}
                 onChange={props.onChange}
                 value={props.value}
                 disabled={props.disable}
+                variant={"filled"}
             >
                 {props.placeholder && (
-                    <option value="" disabled selected>
+                    <option aria-label="None" value="" disabled selected>
                         {props.placeholder}
                     </option>
                 )}
@@ -41,15 +54,7 @@ const Select = (props: Props) => {
                         {it.name}
                     </option>
                 ))}
-            </select>
-
-            {props.form === "box" ? (
-                <div className={style.arrow_wrapper}>
-                    <ArrowDropDownIcon />{" "}
-                </div>
-            ) : (
-                <ArrowDropDownIcon />
-            )}
+            </NativeSelect>
         </div>
     );
 };
