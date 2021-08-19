@@ -41,7 +41,7 @@ const PcHeader = () => {
                                 mainText={fisrtItem.name}
                                 childButtonItem={curDropdownItem}
                                 mainButtonSize={"small"}
-                                mainFontSize={"smaller"}
+                                mainFontSize={"smaller_header"}
                                 mainBackgroundColor={"white"}
                                 mainTextColor={"brown_font"}
                                 childButtonSize={"small"}
@@ -59,7 +59,7 @@ const PcHeader = () => {
                                     <div className={`${style.square} ${style.small} ${style.white}`}>
                                         <Typo
                                             type={"BUTTON"}
-                                            size={"smaller"}
+                                            size={"smaller_header"}
                                             color={"brown_font"}
                                             content={fisrtItem.name}
                                         />

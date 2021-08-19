@@ -10,7 +10,7 @@ type Props = {
     mainText: string;
     childButtonItem: Array<{ text: string; url: string; className?: string }>;
     mainButtonSize: "small" | "medium" | "large" | "full";
-    mainFontSize: "huge" | "large" | "medium" | "small" | "smaller";
+    mainFontSize: "huge" | "large" | "medium" | "small" | "smaller" | "smaller_header";
     mainBackgroundColor:
         | "brown_base"
         | "brown_font"
@@ -73,15 +73,8 @@ const ChildButton = (props: {
 };
 
 const DropdownButton = (props: Props) => {
-    const {
-        children,
-        mainText,
-        childButtonItem,
-        mainButtonSize,
-        mainFontSize,
-        mainBackgroundColor,
-        mainTextColor,
-    } = props;
+    const { children, mainText, childButtonItem, mainButtonSize, mainFontSize, mainBackgroundColor, mainTextColor } =
+        props;
 
     const [isOpen, setIsOpen] = useState(false);
 

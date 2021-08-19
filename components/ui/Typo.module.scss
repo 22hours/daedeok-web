@@ -19,6 +19,10 @@
 .smaller {
     @include font_button_smaller;
 }
+.smaller_header {
+    @include font_button_smaller;
+    font-weight: bold !important;
+}
 
 //HEADER
 .h1_header {
