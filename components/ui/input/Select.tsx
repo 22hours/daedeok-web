@@ -3,7 +3,6 @@ import style from "./Select.module.scss";
 import CSS from "csstype";
 import useFormStyle from "lib/hooks/useFormStyle";
 import NativeSelect from "@material-ui/core/NativeSelect";
-import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 
@@ -22,15 +21,8 @@ type Props = {
     className?: string;
 };
 
-const useStyles = makeStyles((theme) => ({
-    select: {
-        width: "100%",
-    },
-}));
-
 const Select = (props: Props) => {
     const classNames = useFormStyle({ ...props, type: "select" });
-    const classes = useStyles();
 
     return (
         <div className={Object.values(classNames).concat(props.className).concat(style.wrapper).join(" ")}>
