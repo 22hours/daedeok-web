@@ -85,7 +85,7 @@ const RenderChildren = ({ state, children }) => {
         return (
             <ClassDetailProvider
                 BreadCrumbsComponent={<BreadCrumbs item_list={state.breadCrumbList} />}
-                PageTitle={<Typo type={"HEADER"} size={"h3"} content={state.pageTitle} />}
+                PageTitle={<Typo type={"HEADER"} size={"h4"} content={state.pageTitle} />}
             >
                 <ClassPageInfoLayout isDetailPage={true}>{children}</ClassPageInfoLayout>
             </ClassDetailProvider>
@@ -95,7 +95,7 @@ const RenderChildren = ({ state, children }) => {
             <div>
                 <ClassPageInfoLayout>
                     <BreadCrumbs item_list={state.breadCrumbList} />
-                    <Typo type={"HEADER"} size={"h3"} content={state.pageTitle} />
+                    <Typo type={"HEADER"} size={"h4"} content={state.pageTitle} />
                     {children}
                 </ClassPageInfoLayout>
             </div>
