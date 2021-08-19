@@ -10,13 +10,14 @@ import React from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useGlobalLoader } from "store/GlobalLoader";
 import style from "./Userbox.module.scss";
+import { useAlert } from "store/GlobalAlertStore";
 type Props = {
     className?: string;
 };
 
 const Userbox = (props: Props) => {
     const { auth, login, logout, clientSideApi } = useAuthStore();
-
+    const { alertOn, apiErrorAlert } = useAlert();
     const globalLoader = useGlobalLoader();
     const phone_num = useInput();
     const pw = useInput();
@@ -36,8 +37,7 @@ const Userbox = (props: Props) => {
             login(res.data);
         } else {
             globalLoader.setValue(false);
-
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
         pw.setValue("");
     };
