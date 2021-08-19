@@ -13,7 +13,13 @@ const BreadItem = (props: ItemProps) => {
     return (
         <>
             {props.isLast ? (
-                <Typo type={"TEXT"} size={"small"} color={"brown_base"} content={props.name} />
+                <Typo
+                    className={style.breadcrumb}
+                    type={"TEXT"}
+                    size={"small"}
+                    color={"brown_base"}
+                    content={props.name}
+                />
             ) : (
                 <Link href={props.link}>
                     <a>

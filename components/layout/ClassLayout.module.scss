@@ -28,6 +28,8 @@
     background-color: white;
     @media only screen and (max-width: 900px) {
         padding-top: 60px;
+        padding-bottom: 45px;
+
         display: grid;
         grid-template-columns: 0fr 10fr 0fr;
     }

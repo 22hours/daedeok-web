@@ -167,7 +167,7 @@ const StudentClassPlanList = () => {
                 {planList.map((it, idx) => (
                     <div key={`studentclassplanlist${nanoid()}`}>
                         <TableRow week={it.week + "주차"} weekTitle={it.title}>
-                            <div style={{ width: "90px", marginRight: "20px" }}>
+                            <div style={{ width: "90px" }}>
                                 <ClassTypeBtn
                                     type={it.type}
                                     idx={it.id}
