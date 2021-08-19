@@ -15,7 +15,7 @@ const TextViewer = (props: Props) => {
         if (props.content) {
             if (viewerRef.current) {
                 //@ts-ignore
-                viewerRef.current.getInstance().setMarkdown(props.content);
+                viewerRef.current.getInstance().setMarkdown(props.content.replaceAll("\n", "\n<br/>"));
             }
         }
     }, [props]);
