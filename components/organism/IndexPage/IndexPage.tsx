@@ -332,8 +332,6 @@ const IndexPage = (props: Props) => {
             <div></div>
         </GlobalLayout>
     );
-
-    return <div className={style.container}></div>;
 };
 
 export default IndexPage;
