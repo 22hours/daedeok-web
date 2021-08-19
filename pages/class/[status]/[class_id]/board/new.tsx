@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { SecureRoute } from "lib/server/accessController";
 import { useRouter } from "next/router";
 import useCategory from "lib/hooks/useCategory";
+import { useAlert } from "store/GlobalAlertStore";
 
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
@@ -10,10 +11,16 @@ type Props = {};
 
 const NewBoard = () => {
     const router = useRouter();
+    const { alertOn, apiErrorAlert } = useAlert();
     const { status, class_id } = router.query;
     const { categoryOptionList } = useCategory("CLASS_BOARD");
     const onCreated = (location) => {
-        alert("게시글 작성에 성공하였습니다");
+        alertOn({
+            title: "",
+            //@ts-ignore
+            message: "게시글 작성에 성공했습니다",
+            type: "POSITIVE",
+        });
         router.push(`/class/${status}/${class_id}/board/detail/${location}`);
     };
     return (

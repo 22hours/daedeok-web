@@ -7,6 +7,7 @@ import useFileInput from "lib/hooks/useFileInput";
 import useInput from "lib/hooks/useInput";
 import { useCallback, useEffect, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
+import { useAlert } from "store/GlobalAlertStore";
 import style from "./AdminManageImage.module.scss";
 type ImageItemType = string;
 
@@ -17,6 +18,8 @@ type ImageItemProps = {
     removeImageItem: (idx: number) => void;
 };
 const ImageItem = (props: ImageItemProps) => {
+    const { alertOn, apiErrorAlert } = useAlert();
+
     const { clientSideApi } = useAuthStore();
     const file = useFileInput();
 
@@ -33,7 +36,7 @@ const ImageItem = (props: ImageItemProps) => {
             const res_url = url_res.data[0];
             props.editImageItem(props.idx, res_url);
         } else {
-            alert(url_res.msg);
+            apiErrorAlert(url_res.msg);
         }
     };
     useEffect(() => {
@@ -73,6 +76,8 @@ const ImageItem = (props: ImageItemProps) => {
 
 type State = ImageItemType[];
 const AdminManageImage = () => {
+    const { alertOn, apiErrorAlert } = useAlert();
+
     const { auth, clientSideApi } = useAuthStore();
 
     const [originImgList, setOriginImgList] = useState<State>([]);
@@ -84,7 +89,7 @@ const AdminManageImage = () => {
             setData(imageList);
             setOriginImgList(imageList);
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
     useEffect(() => {
@@ -113,7 +118,7 @@ const AdminManageImage = () => {
 
     const addImageItem = useCallback(() => {
         if (data.length > 4) {
-            alert("4개 이상으로는 추가할 수 없습니다");
+            alertOn({ message: "4개 이상으로는 추가할 수 없습니다", type: "WARN" });
             return;
         }
 
@@ -134,7 +139,7 @@ const AdminManageImage = () => {
 
         const flag = data.findIndex((it) => !it.match(regex)) === -1;
         if (!flag) {
-            alert("이미지 주소는 공백일 수 없으며\nhttps로 시작하는 주소여야만합니다");
+            alertOn({ message: "이미지 주소는 공백일 수 없으며\nhttps로 시작하는 주소여야만합니다", type: "WARN" });
         } else {
             // TODO
 
@@ -150,11 +155,11 @@ const AdminManageImage = () => {
                     delete_file_list: delete_image_list,
                     to_path: "MAIN_IMAGE",
                 });
-                alert("성공적으로 저장하였습니다");
+                alertOn({ message: "성공적으로 저장하였습니다", type: "POSITIVE" });
                 setData([]);
                 getData();
             } else {
-                alert(res.msg);
+                apiErrorAlert(res.msg);
             }
         }
     };

@@ -6,6 +6,7 @@ import useInput from "lib/hooks/useInput";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
+import { useAlert } from "store/GlobalAlertStore";
 import { useEditorController, WysiwygEditorProvider } from "store/WysiwygEditorStore";
 import style from "./AdminCategoryEditor.module.scss";
 type Props = {
@@ -17,6 +18,8 @@ type Props = {
 };
 
 const AdminCategoryController = (props: Props) => {
+    const { alertOn, apiErrorAlert } = useAlert();
+
     const router = useRouter();
 
     const editorController = useEditorController();
@@ -31,9 +34,13 @@ const AdminCategoryController = (props: Props) => {
             content: editorController.getMarkdownContent(),
         });
         if (res.result === "SUCCESS") {
+            alertOn({
+                message: "성공적으로 추가되었습니다",
+                type: "POSITIVE",
+            });
             router.push(`/admin/category/detail/${res.data}`);
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
@@ -52,7 +59,10 @@ const AdminCategoryController = (props: Props) => {
         );
         if (res.result === "SUCCESS") {
             const { new_item_list, deleted_item_list } = editorController.getUpdatedImgList();
-
+            alertOn({
+                message: "성공적으로 수정되었습니다",
+                type: "POSITIVE",
+            });
             await clientSideApi("PUT", "MAIN", "UPDATE_FILE", undefined, {
                 new_file_list: new_item_list,
                 delete_file_list: deleted_item_list,
@@ -60,7 +70,7 @@ const AdminCategoryController = (props: Props) => {
             });
             router.push(`/admin/category/detail/${category_id}`);
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 

@@ -18,6 +18,7 @@ type Store = {
         type?: "POSITIVE" | "ERROR" | "WARN" | "DEFAULT" | undefined;
     }) => void;
     alertOff: () => void;
+    apiErrorAlert: (msg?: string | undefined) => void;
 };
 type State =
     | { isOpen: false }
@@ -50,15 +51,27 @@ export const GlobalAlertProvider = ({ children }) => {
             type: type || "DEFAULT",
         });
     };
+
     const alertOff = () => {
         setState({
             isOpen: false,
         });
     };
+
+    const apiErrorAlert = (msg?: string) => {
+        alertOn({
+            title: "에러가 발생하였습니다",
+            // @ts-ignore
+            message: msg,
+            type: "ERROR",
+        });
+    };
+
     const store: Store = {
         state,
         alertOn,
         alertOff,
+        apiErrorAlert,
     };
     return (
         <GlobalAlertContext.Provider value={store}>

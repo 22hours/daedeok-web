@@ -29,7 +29,18 @@ const Drawer = (props: Props) => {
             props.toggleDrawer();
         }
     }, [router.asPath]);
+    useEffect(() => {
+        const handleClose = () => {
+            if (props.isOpen) {
+                props.toggleDrawer();
+            }
+        };
 
+        router.events.on("routeChangeComplete", handleClose);
+        return () => {
+            router.events.off("routeChangeComplete", handleClose);
+        };
+    }, [router]);
     return (
         <>
             <DrawerButton />

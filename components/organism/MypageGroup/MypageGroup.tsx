@@ -11,6 +11,8 @@ import useDivision from "lib/hooks/useDivision";
 import { useEffect } from "react";
 import Link from "next/link";
 import { meta_types } from "@global_types";
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 type Props = {};
 
 const InputRow = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
@@ -18,6 +20,8 @@ const InputRow = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
 };
 
 const MypageGroup = () => {
+    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
     const { auth, update, clientSideApi } = useAuthStore();
     const router = useRouter();
     const name = useInput(auth?.name);
@@ -53,7 +57,12 @@ const MypageGroup = () => {
             second_division: secondDivsion.value,
         });
         if (res.result === "SUCCESS") {
-            alert("성공적으로 변경되었습니다");
+            alertOn({
+                title: "",
+                //@ts-ignore
+                message: "성공적으로 반영되었습니다",
+                type: "POSITIVE",
+            });
             //@ts-ignore
             if (auth) {
                 const updateReqObj: meta_types.user = {
@@ -66,22 +75,28 @@ const MypageGroup = () => {
                 update(updateReqObj);
             }
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
     const deleteMe = async () => {
-        if (
-            window.confirm(
-                "정말로 회원탈퇴 하시겠습니까?\n회원 탈퇴시 회원님의 정보는 모두 삭제되며 되돌릴 수 없습니다"
-            )
-        ) {
-            const res = await clientSideApi("DELETE", "MAIN", "USER_DELETE");
-            if (res.result === "SUCCESS") {
-                alert("회원 탈퇴 되었습니다\n확인을 누르시면 메인페이지로 이동합니다");
-                router.replace("/logout");
-            } else [alert(res.msg)];
-        }
+        confirmOn({
+            message: "정말로 회원탈퇴 하시겠습니까?\n회원 탈퇴시 회원님의 정보는 모두 삭제되며 되돌릴 수 없습니다",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "USER_DELETE");
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "회원 탈퇴 되었습니다\n확인을 누르시면 메인페이지로 이동합니다",
+                        type: "POSITIVE",
+                    });
+                    router.replace("/logout");
+                } else {
+                    apiErrorAlert(res.msg);
+                }
+            },
+        });
     };
 
     if (auth) {

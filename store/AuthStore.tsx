@@ -3,6 +3,8 @@ import { api_config_type } from "@api_config_type";
 import React, { useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import { meta_types } from "@global_types";
 import CookieController from "lib/client/cookieController";
+import { useRouter } from "next/router";
+import { useAlert } from "./GlobalAlertStore";
 
 // ELEMENT TYPES
 type api_params = api_config_type.api_params;
@@ -54,6 +56,8 @@ const reducer = (state: State, action: Action): State => {
 export const AuthProvider = ({ children }) => {
     const apiClient = AxiosClient;
 
+    const router = useRouter();
+    const { alertOn } = useAlert();
     const [auth, dispatch] = useReducer(reducer, null);
 
     const getNewAccessToken = async () => {
@@ -63,8 +67,12 @@ export const AuthProvider = ({ children }) => {
             CookieController.setAccessTokenInCokkie(res_data.data.access_token);
             return res_data.data.access_token;
         } else {
-            alert("다시 로그인하십시오");
-            logout();
+            alertOn({
+                title: "세션이 만료되었습니다",
+                message: "다시 로그인해주시기 바랍니다",
+                type: "DEFAULT",
+            });
+            router.replace("/logout");
         }
     };
 
@@ -125,9 +133,11 @@ export const AuthProvider = ({ children }) => {
         CookieController.setUserWithCookie(userData);
     };
 
-    const logout = () => {
+    const logout = async () => {
+        await CookieController.removeUserInCookie();
+        console.log("COOKIE 삭제 완료");
         dispatch({ type: "LOGOUT" });
-        CookieController.removeUserInCookie();
+        router.replace("/");
     };
 
     const update = (userData: meta_types.user) => {

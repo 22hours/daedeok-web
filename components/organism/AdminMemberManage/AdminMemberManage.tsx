@@ -17,6 +17,7 @@ import ListPagination from "components/molecule/ListPagination/ListPagination";
 import ListPageLayout from "components/layout/ListPageLayout";
 import { meta_types } from "@global_types";
 import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 type Props = {};
 
@@ -93,6 +94,8 @@ const RoleChangeButton = (props: UserItem & { refresh: () => void }) => {
 };
 
 const MemberManageList = () => {
+    const { confirmOn } = useConfirm();
+    const { alertOn } = useAlert();
     const pageState = useListCommonStore();
     const { clientSideApi } = useAuthStore();
 
@@ -107,7 +110,12 @@ const MemberManageList = () => {
         if (res.result === "SUCCESS") {
             setData(res.data);
         } else {
-            alert(res.msg);
+            alertOn({
+                title: "에러 발생",
+                // @ts-ignore
+                message: res.msg,
+                type: "ERROR",
+            });
         }
     };
     const refresh = () => {
@@ -122,41 +130,56 @@ const MemberManageList = () => {
     }, [pageState.state]);
 
     const callPwSend = async (user_id: string) => {
-        if (
-            window.confirm(
-                "해당유저의 PW를 초기화 하시겠습니까?\n초기화된 비밀번호는 해당유저가 등록한 핸드폰번호로 발송됩니다."
-            )
-        ) {
-            console.log(user_id);
-            const res = await clientSideApi("PUT", "MAIN", "ADMIN_RESET_PW", {
-                user_id: user_id,
-            });
-            if (res.result === "SUCCESS") {
-                alert("성공적으로 비밀번호를 초기화하였습니다");
-            } else {
-                alert(res.msg);
-            }
-        }
+        confirmOn({
+            message:
+                "해당유저의 PW를 초기화 하시겠습니까?\n초기화된 비밀번호는 해당유저가 등록한 핸드폰번호로 발송됩니다.",
+            onSuccess: async () => {
+                const res = await clientSideApi("PUT", "MAIN", "ADMIN_RESET_PW", {
+                    user_id: user_id,
+                });
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        message: "성공적으로 비밀번호를 초기화하였습니다",
+                        type: "POSITIVE",
+                    });
+                } else {
+                    alertOn({
+                        title: "에러 발생",
+                        // @ts-ignore
+                        message: res.msg,
+                        type: "ERROR",
+                    });
+                }
+            },
+        });
     };
     const callDeleteUser = async (user_id: string) => {
-        if (
-            window.confirm("해당 유저를 정말 삭제하시겠습니까?\n유저 삭제시 해당 유저의 모든 데이터는 즉시 소멸됩니다")
-        ) {
-            const res = await clientSideApi("DELETE", "MAIN", "ADMIN_DELETE_USER", {
-                user_id: user_id,
-            });
-            if (res.result === "SUCCESS") {
-                alert("해당 회원을 성공적으로 탈퇴시켰습니다");
-
-                setData({
-                    ...data,
-                    user_list: [],
+        confirmOn({
+            message: "해당 유저를 정말 삭제하시겠습니까?\n유저 삭제시 해당 유저의 모든 데이터는 즉시 소멸됩니다",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "ADMIN_DELETE_USER", {
+                    user_id: user_id,
                 });
-                getData();
-            } else {
-                alert(res.msg);
-            }
-        }
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        message: "해당 회원을 성공적으로 탈퇴시켰습니다",
+                        type: "POSITIVE",
+                    });
+                    setData({
+                        ...data,
+                        user_list: [],
+                    });
+                    getData();
+                } else {
+                    alertOn({
+                        title: "에러 발생",
+                        // @ts-ignore
+                        message: res.msg,
+                        type: "ERROR",
+                    });
+                }
+            },
+        });
     };
 
     return (

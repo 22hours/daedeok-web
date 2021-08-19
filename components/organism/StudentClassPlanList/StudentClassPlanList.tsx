@@ -14,7 +14,7 @@ import moment from "moment";
 
 const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
     const { clientSideApi, auth } = useAuthStore();
-    const { alertOn } = useAlert();
+    const { alertOn, apiErrorAlert } = useAlert();
     const nowTime = moment();
     const diffTime = moment.duration(nowTime.diff(time)).asMinutes();
 
@@ -22,10 +22,10 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
         if (diffTime >= 0) {
         } else {
             alertOn({
-                title: "에러가 발생하였습니다",
+                title: "",
                 //@ts-ignore
                 message: "강의 시작 시간이 아닙니다.",
-                type: "ERROR",
+                type: "WARN",
             });
         }
     };
@@ -43,19 +43,14 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
                     type: "POSITIVE",
                 });
             } else {
-                alertOn({
-                    title: "에러가 발생하였습니다",
-                    //@ts-ignore
-                    message: "다시 시도해주세요.",
-                    type: "ERROR",
-                });
+                apiErrorAlert(res.msg);
             }
         } else {
             alertOn({
-                title: "에러가 발생하였습니다",
+                title: "",
                 //@ts-ignore
                 message: "강의 시작 시간이 아닙니다.",
-                type: "ERROR",
+                type: "WARN",
             });
         }
     };

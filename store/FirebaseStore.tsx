@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
+import { useAlert } from "store/GlobalAlertStore";
 
 const TEST = false;
 
@@ -33,6 +34,7 @@ type ContextDispatch = Dispatch<Action>;
 const FirebaseContext = React.createContext<Store | null>(null);
 
 export const FirebaseProvider = ({ children }) => {
+    const { alertOn, apiErrorAlert } = useAlert();
     useEffect(() => {
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
@@ -47,30 +49,59 @@ export const FirebaseProvider = ({ children }) => {
     }, []);
 
     const firebaseError = (error) => {
-        console.log(error);
         switch (error) {
             case "auth/missing-verification-code": {
-                alert("인증번호를 입력해주세요");
+                alertOn({
+                    title: "",
+                    //@ts-ignore
+                    message: "인증번호를 입력해주세요",
+                    type: "ERROR",
+                });
                 break;
             }
             case "auth/invalid-verification-code": {
-                alert("인증번호가 유효하지 않습니다");
+                alertOn({
+                    title: "",
+                    //@ts-ignore
+                    message: "인증번호가 유효하지 않습니다",
+                    type: "ERROR",
+                });
                 break;
             }
             case "auth/code-expired": {
-                alert("인증번호가 만료되었습니다");
+                alertOn({
+                    title: "",
+                    //@ts-ignore
+                    message: "인증번호가 만료되었습니다",
+                    type: "ERROR",
+                });
                 break;
             }
             case "auth/seesion-expired": {
-                alert("인증번호가 만료되었습니다");
+                alertOn({
+                    title: "",
+                    //@ts-ignore
+                    message: "인증번호가 만료되었습니다",
+                    type: "ERROR",
+                });
                 break;
             }
             case "auth/too-many-requests": {
-                alert("잠시 후 다시 시도해 주세요");
+                alertOn({
+                    title: "",
+                    //@ts-ignore
+                    message: "잠시 후 다시 시도해 주세요",
+                    type: "ERROR",
+                });
                 break;
             }
             default: {
-                alert("인증번호를 정확히 입력해주세요");
+                alertOn({
+                    title: "",
+                    //@ts-ignore
+                    message: "인증번호를 정확히 입력해주세요",
+                    type: "ERROR",
+                });
             }
         }
     };

@@ -4,12 +4,17 @@ import cookies from "next-cookies";
 import { SecureRoute } from "lib/server/accessController";
 import { useRouter } from "next/router";
 import PageHeader from "@ui/PageHeader";
+import { useAlert } from "store/GlobalAlertStore";
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const ClassNoticeNew = () => {
     const router = useRouter();
+    const { alertOn } = useAlert();
     const onCreated = (notice_id) => {
-        alert("게시글을 작성하였습니다");
+        alertOn({
+            message: "게시글을 작성하였습니다",
+            type: "POSITIVE",
+        });
         router.push(`/class/notice/detail/${notice_id}`);
     };
     return (
@@ -19,7 +24,7 @@ const ClassNoticeNew = () => {
                 submitApiConfig={{
                     method: "POST",
                     domain: "MAIN",
-                    ep: "TOTAL_NOTICE_NEW",
+                    ep: "TUTOR_NOTICE_NEW",
                 }}
                 onCreated={onCreated}
             />

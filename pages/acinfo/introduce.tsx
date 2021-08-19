@@ -8,19 +8,14 @@ const TextEditor = dynamic(() => import("components/molecule/TextViewer/TextView
 
 const Introduce = () => {
     const [state, setState] = useState<string | null>(null);
-    const { alertOn } = useAlert();
+    const { alertOn, apiErrorAlert } = useAlert();
     const { clientSideApi } = useAuthStore();
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "ACINFO_INTRODUCE");
         if (res.result === "SUCCESS") {
             setState(res.data.content);
         } else {
-            alertOn({
-                title: "",
-                // @ts-ignore
-                message: res.msg,
-                type: "ERROR",
-            });
+            apiErrorAlert(res.msg);
         }
     };
     useEffect(() => {

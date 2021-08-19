@@ -11,14 +11,13 @@ const Logout = (props: Props) => {
     useEffect(() => {
         if (auth !== null) {
             logout();
-            router.replace("/");
         }
     }, [auth]);
 
     return <div>로그아웃 중 입니다</div>;
 };
 
-export async function getServerSideProps(ctx) {
+export async function getSwerverSideProps(ctx) {
     return SecureRoute(ctx, "ROLE_ALL");
 }
 

@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import useDivision from "lib/hooks/useDivision";
 import PasswordController from "lib/client/passwordController";
 import { useGlobalLoader } from "store/GlobalLoader";
+import { useAlert } from "store/GlobalAlertStore";
 
 const PhoneAuth = dynamic(import("components/molecule/PhoneAuth"));
 
@@ -62,6 +63,7 @@ const DivisionInput = ({ firstDivision, secondDivision }) => {
 type Props = {};
 
 const RegisterFormGroup = () => {
+    const { alertOn } = useAlert();
     const router = useRouter();
     const { clientSideApi } = useAuthStore();
     const globalLoader = useGlobalLoader();
@@ -83,34 +85,67 @@ const RegisterFormGroup = () => {
 
     const handleSumbit = async () => {
         if (auth === null) {
-            alert("핸드폰 인증을 먼저 완료해주세요");
+            alertOn({
+                title: "",
+                message: "핸드폰 인증을 먼저 완료해주세요",
+                type: "WARN",
+            });
             return;
         }
         if (name.value?.length < 1) {
-            alert("이름을 입력해주세요");
+            alertOn({
+                title: "",
+                message: "이름을 입력해주세요",
+                type: "WARN",
+            });
             return;
         }
         if (password.value?.length < 1) {
-            alert("비밀번호를 입력해주세요");
+            alertOn({
+                title: "",
+                message: "비밀번호를 입력해주세요",
+                type: "WARN",
+            });
             return;
         }
         if (rePassword.value?.length < 1) {
-            alert("비밀번호를 입력해주세요");
+            alertOn({
+                title: "",
+                message: "비밀번호확인을 입력해주세요",
+                type: "WARN",
+            });
             return;
         }
         if (password.value !== rePassword.value) {
-            alert("비밀번호가 일치하지 않습니다");
+            alertOn({
+                title: "",
+                message: "비밀번호가 일치하지 않습니다",
+                type: "WARN",
+            });
             return;
         }
         if (!PasswordController.checkPasswordValidate(password.value, auth)) {
+            alertOn({
+                title: "",
+                message: "비밀번호는 8자 이상, 최소1개의 영문자와 숫자를 포함하시길 바랍니다",
+                type: "WARN",
+            });
             return;
         }
         if (duty.value === "") {
-            alert("직분을 입력해주세요");
+            alertOn({
+                title: "",
+                message: "직분을 입력해주세요",
+                type: "WARN",
+            });
             return;
         }
         if (firstDivision.value === "") {
-            alert("상위 소속을 입력해주세요");
+            alertOn({
+                title: "",
+                message: "상위 소속을 입력해주세요",
+                type: "WARN",
+            });
             return;
         }
         // if (secondDivision.value === "") {
@@ -118,11 +153,19 @@ const RegisterFormGroup = () => {
         //     return;
         // }
         if (!terms.value) {
-            alert("이용약관에 동의해주세요");
+            alertOn({
+                title: "",
+                message: "이용약관에 동의해주세요",
+                type: "WARN",
+            });
             return;
         }
         if (!privacy.value) {
-            alert("개인정보 처리방침에 동의해주세요");
+            alertOn({
+                title: "",
+                message: "개인정보 처리방침에 동의해주세요",
+                type: "WARN",
+            });
             return;
         }
 
@@ -137,12 +180,20 @@ const RegisterFormGroup = () => {
         });
         if (res.result === "SUCCESS") {
             globalLoader.setValue(false);
-
-            alert("성공적으로 회원가입하였습니다\n확인을 누르시면 로그인페이지로 이동합니다");
+            alertOn({
+                title: "",
+                message: "성공적으로 회원가입하였습니다\n확인을 누르시면 로그인페이지로 이동합니다",
+                type: "POSITIVE",
+            });
             router.push("/login");
         } else {
             globalLoader.setValue(false);
-            alert(res.msg);
+            alertOn({
+                title: "에러가 발생하였습니다",
+                // @ts-ignore
+                message: res.msg,
+                type: "ERROR",
+            });
         }
     };
 

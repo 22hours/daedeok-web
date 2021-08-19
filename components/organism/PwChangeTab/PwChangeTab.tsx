@@ -9,6 +9,7 @@ import PageHeader from "@ui/PageHeader";
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
 import PasswordController from "lib/client/passwordController";
+import { useAlert } from "store/GlobalAlertStore";
 type PhoneAuthTabProps = {
     onAuthStateCallBack: (authState: string | null) => void;
 };
@@ -35,18 +36,30 @@ type FormGroupTabProps = {
     submitPwChange: (newPassword: String) => void;
 };
 const FormGroupTab = (props: FormGroupTabProps) => {
+    const { alertOn } = useAlert();
     const pw = useInput();
     const rePw = useInput();
 
     const handleSubmit = () => {
+        if (!PasswordController.checkPasswordValidate(pw.value, "password")) {
+            alertOn({
+                title: "",
+                message: "비밀번호는 8자 이상, 최소1개의 영문자와 숫자를 포함하시길 바랍니다",
+                type: "WARN",
+            });
+            return;
+        }
+        if (pw.value !== rePw.value) {
+            alertOn({
+                title: "",
+                message: "비밀번호 확인이 다릅니다",
+                type: "WARN",
+            });
+            return;
+        }
         if (pw.value === rePw.value) {
             props.submitPwChange(pw.value);
             return;
-        }
-        if (!PasswordController.checkPasswordValidate(pw.value, "password")) {
-            return;
-        } else {
-            alert("비밀번호 확인이 다릅니다");
         }
     };
 
@@ -84,6 +97,7 @@ const PwChangeTab = () => {
     const router = useRouter();
     const { auth, clientSideApi } = useAuthStore();
     const [isCertified, setIsCertified] = useState<string | null>(null);
+    const { alertOn, apiErrorAlert } = useAlert();
     const onAuthStateCallBack = (authState: string | null) => {
         setIsCertified(authState);
     };
@@ -101,10 +115,15 @@ const PwChangeTab = () => {
             password: newPassword,
         });
         if (res.result === "SUCCESS") {
-            alert("비밀번호를 성공적으로 변경하였습니다");
+            alertOn({
+                title: "",
+                //@ts-ignore
+                message: "비밀번호를 성공적으로 변경하였습니다",
+                type: "POSITIVE",
+            });
             router.replace("/");
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 

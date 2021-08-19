@@ -176,7 +176,7 @@ const ContentEditorPresenter = (props: PresenterProps) => {
 
 const ContentCreateController = (props: NewProps) => {
     const { clientSideApi } = useAuthStore();
-
+    const { apiErrorAlert } = useAlert();
     const handleCreate = async (title, content, category, secret) => {
         const reqOption = {
             ...props.submitApiConfig,
@@ -191,7 +191,7 @@ const ContentCreateController = (props: NewProps) => {
         if (res.result === "SUCCESS") {
             props.onCreated(res.data);
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
     return (
@@ -210,6 +210,7 @@ const ContentCreateController = (props: NewProps) => {
 const ContentEditController = (props: EditProps) => {
     const editorController = useEditorController();
     const { clientSideApi } = useAuthStore();
+    const { apiErrorAlert } = useAlert();
 
     const handleEdit = async (title, content, category, secret) => {
         const { deleted_item_list, new_item_list } = editorController.getUpdatedImgList();
@@ -232,7 +233,7 @@ const ContentEditController = (props: EditProps) => {
                 to_path: props.imgPath,
             });
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 

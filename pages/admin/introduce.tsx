@@ -46,6 +46,9 @@ const Introduce = () => {
             message: "성공적으로 수정되었습니다",
             type: "POSITIVE",
         });
+        if (typeof window !== "undefined") {
+            location.reload();
+        }
     };
 
     if (originData === null) {

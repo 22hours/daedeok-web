@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import TableWrapper from "@ui/board/TableWrapper";
 import style from "./ClassStudentManageList.module.scss";
-import { useAuthStore } from "store/AuthStore";
-import { useClassDetailStore } from "store/ClassDetailStore";
 import Typo from "@ui/Typo";
 import TableRow from "@ui/board/TableRow";
 import Button from "@ui/buttons/Button";
 import Icon from "@ui/Icon";
 import FileInput from "@ui/input/FileInput";
 import useFileInput from "lib/hooks/useFileInput";
+//store
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
+import { useAuthStore } from "store/AuthStore";
+import { useClassDetailStore } from "store/ClassDetailStore";
 // List
 import ListPageLayout from "components/layout/ListPageLayout";
 
@@ -28,6 +31,7 @@ type UserListItem = {
 const CertificateBtn = ({ data }: { data: UserListItem }) => {
     const ClassDetailStore = useClassDetailStore();
     const { clientSideApi } = useAuthStore();
+    const { apiErrorAlert, alertOn } = useAlert();
     const [fileState, setFileState] = useState<string | null>(null);
     useEffect(() => {
         if (data) {
@@ -46,7 +50,7 @@ const CertificateBtn = ({ data }: { data: UserListItem }) => {
         if (res.result === "SUCCESS") {
             setFileState(null);
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
@@ -64,7 +68,7 @@ const CertificateBtn = ({ data }: { data: UserListItem }) => {
             const resData = res.data;
             setFileState(resData);
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
@@ -171,8 +175,10 @@ type State = {
 const ClassStudentManageList = () => {
     const classDetailState = useClassDetailStore();
     const [data, setData] = useState<State | null>(null);
-
+    const { apiErrorAlert, alertOn } = useAlert();
     const { clientSideApi } = useAuthStore();
+    const { confirmOn } = useConfirm();
+
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_MANAGE_STUDENT", {
             lecture_id: classDetailState.class_id,
@@ -180,31 +186,41 @@ const ClassStudentManageList = () => {
         if (res.result === "SUCCESS") {
             setData({ ...res.data });
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
     const cancleStudent = async (user_id: string) => {
-        const res = await clientSideApi("DELETE", "MAIN", "CANCEL_STUDENT", {
-            user_id: user_id,
-            lecture_id: classDetailState.class_id,
-        });
-        if (res.result === "SUCCESS") {
-            if (data) {
-                var new_user_list: UserListItem[] = data?.user_list.slice();
-                var delete_target_idx = new_user_list?.findIndex((it) => it.user_id === user_id);
-                console.log(delete_target_idx);
-                if (typeof delete_target_idx === "number") {
-                    new_user_list?.splice(delete_target_idx, 1);
-                }
-                setData({
-                    student_num: (parseInt(data.student_num) - 1).toString(),
-                    user_list: new_user_list,
+        confirmOn({
+            message: "정말 철회하겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "CANCEL_STUDENT", {
+                    user_id: user_id,
+                    lecture_id: classDetailState.class_id,
                 });
-            }
-        } else {
-            alert(res.msg);
-        }
+                if (res.result === "SUCCESS") {
+                    if (data) {
+                        var new_user_list: UserListItem[] = data?.user_list.slice();
+                        var delete_target_idx = new_user_list?.findIndex((it) => it.user_id === user_id);
+                        if (typeof delete_target_idx === "number") {
+                            new_user_list?.splice(delete_target_idx, 1);
+                        }
+                        setData({
+                            student_num: (parseInt(data.student_num) - 1).toString(),
+                            user_list: new_user_list,
+                        });
+                    }
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "철회되었습니다",
+                        type: "POSITIVE",
+                    });
+                } else {
+                    apiErrorAlert(res.msg);
+                }
+            },
+        });
     };
 
     useEffect(() => {

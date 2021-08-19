@@ -16,7 +16,8 @@ import DateController from "lib/client/dateController";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
-
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 import CommentList from "../CommentList/CommentList";
 import { useRouter } from "next/router";
 
@@ -29,6 +30,8 @@ const ClassBoardDetail = () => {
     const { content_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
     const { class_id } = useClassDetailStore();
+    const { apiErrorAlert, alertOn } = useAlert();
+    const { confirmOn } = useConfirm();
     const [boardDetailData, setBoardDetailData] = useState<State | null>(null);
     useEffect(() => {
         getClassBoardDetail();
@@ -47,16 +50,28 @@ const ClassBoardDetail = () => {
 
     //detail 삭제
     const handleDelete = async () => {
-        const flag = confirm("삭제하시겠습니까?");
-        if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "LECTURE_BOARD_DELETE", { content_id: content_id });
-            if (res.result === "SUCCESS") {
-                alert("삭제되었습니다.");
-                location.replace(`/class/open/${class_id}/board`);
-            } else {
-                alert("다시 시도해주세요");
-            }
-        }
+        confirmOn({
+            message: "삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "LECTURE_BOARD_DELETE", { content_id: content_id });
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "삭제되었습니다",
+                        type: "POSITIVE",
+                    });
+                    location.replace(`/class/open/${class_id}/board`);
+                } else {
+                    alertOn({
+                        title: "에러가 발생하였습니다",
+                        //@ts-ignore
+                        message: "다시 시도해주세요",
+                        type: "ERROR",
+                    });
+                }
+            },
+        });
     };
 
     //댓글 작성
@@ -73,13 +88,12 @@ const ClassBoardDetail = () => {
                 }
             );
             if (res.result === "SUCCESS") {
-                console.log(res.data);
                 const new_comment_id = res.data;
-
                 if (parent_id) {
                     // 대댓일때
                     if (boardDetailData) {
-                        var newCommentList: res_types.classBoardDetail["comment_list"] = boardDetailData?.comment_list?.slice();
+                        var newCommentList: res_types.classBoardDetail["comment_list"] =
+                            boardDetailData?.comment_list?.slice();
                         const matchIdx = newCommentList?.findIndex((it) => it.id === parent_id);
                         //@ts-ignore
                         newCommentList[matchIdx]?.children.push({
@@ -121,84 +135,52 @@ const ClassBoardDetail = () => {
                         });
                     }
                 }
-                alert("댓글이 추가되었습니다.");
+                alertOn({
+                    title: "",
+                    //@ts-ignore
+                    message: "댓글이 추가되었습니다",
+                    type: "POSITIVE",
+                });
             } else {
-                alert("다시 시도해주세요.");
+                alertOn({
+                    title: "에러가 발생하였습니다",
+                    //@ts-ignore
+                    message: "다시 시도해주세요",
+                    type: "ERROR",
+                });
             }
         } else {
-            alert("댓글을 작성해주세요.");
+            alertOn({
+                title: "",
+                //@ts-ignore
+                message: "댓글을 작성해주세요",
+                type: "WARN",
+            });
         }
     };
 
     const editComment = async (content: string, comment_id: string, parent_id?: string) => {
-        const res = await clientSideApi(
-            "PUT",
-            "MAIN",
-            "LECTURE_BOARD_EDIT_COMMENT",
-            { comment_id: comment_id },
-            {
-                content: content,
-                parent_id: parent_id,
-            }
-        );
-        if (res.result === "SUCCESS") {
-            if (parent_id) {
-                // 대댓일때
-                if (boardDetailData) {
-                    var newCommentList: res_types.classBoardDetail["comment_list"] = boardDetailData?.comment_list?.slice();
-                    const matchIdx = newCommentList?.findIndex((it) => it.id === parent_id);
-                    const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
-                    newCommentList[matchIdx].children[childMatchIdx].content = content;
-                    newCommentList[matchIdx].children[childMatchIdx].create_date = new Date().toString();
-
-                    setBoardDetailData({
-                        ...boardDetailData,
-                        //@ts-ignore
-                        comment_list: newCommentList,
-                    });
-                }
-            } else {
-                // 댓일때
-                if (boardDetailData) {
-                    const newCommentList: res_types.classBoardDetail["comment_list"] = boardDetailData?.comment_list?.slice();
-                    const matchIdx = newCommentList?.findIndex((it) => it.id === comment_id);
-                    //@ts-ignore
-                    newCommentList[matchIdx].content = content;
-                    //@ts-ignore
-                    newCommentList[matchIdx].create_date = new Date().toString();
-                    setBoardDetailData({
-                        ...boardDetailData,
-                        //@ts-ignore
-                        comment_list: newCommentList,
-                    });
-                }
-            }
-            alert("수정되었습니다.");
-        } else {
-            alert("다시 시도해주세요.");
-        }
-    };
-
-    const deleteComment = async (comment_id: string, parent_id?: string) => {
-        const flag = confirm("삭제하시겠습니까?");
-        if (flag) {
+        if (content) {
             const res = await clientSideApi(
-                "DELETE",
+                "PUT",
                 "MAIN",
-                "LECTURE_BOARD_DELETE_COMMENT",
+                "LECTURE_BOARD_EDIT_COMMENT",
                 { comment_id: comment_id },
-                undefined
+                {
+                    content: content,
+                    parent_id: parent_id,
+                }
             );
             if (res.result === "SUCCESS") {
                 if (parent_id) {
                     // 대댓일때
                     if (boardDetailData) {
-                        var newCommentList: res_types.classBoardDetail["comment_list"] = boardDetailData?.comment_list?.slice();
+                        var newCommentList: res_types.classBoardDetail["comment_list"] =
+                            boardDetailData?.comment_list?.slice();
                         const matchIdx = newCommentList?.findIndex((it) => it.id === parent_id);
-                        //@ts-ignore
                         const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
-                        //@ts-ignore
-                        newCommentList[matchIdx].children.splice(childMatchIdx, 1);
+                        newCommentList[matchIdx].children[childMatchIdx].content = content;
+                        newCommentList[matchIdx].children[childMatchIdx].create_date = new Date().toString();
 
                         setBoardDetailData({
                             ...boardDetailData,
@@ -209,9 +191,13 @@ const ClassBoardDetail = () => {
                 } else {
                     // 댓일때
                     if (boardDetailData) {
-                        const newCommentList: res_types.classBoardDetail["comment_list"] = boardDetailData?.comment_list.slice();
-                        const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
-                        newCommentList.splice(matchIdx, 1);
+                        const newCommentList: res_types.classBoardDetail["comment_list"] =
+                            boardDetailData?.comment_list?.slice();
+                        const matchIdx = newCommentList?.findIndex((it) => it.id === comment_id);
+                        //@ts-ignore
+                        newCommentList[matchIdx].content = content;
+                        //@ts-ignore
+                        newCommentList[matchIdx].create_date = new Date().toString();
                         setBoardDetailData({
                             ...boardDetailData,
                             //@ts-ignore
@@ -219,11 +205,90 @@ const ClassBoardDetail = () => {
                         });
                     }
                 }
-                alert("삭제되었습니다.");
+                alertOn({
+                    title: "",
+                    //@ts-ignore
+                    message: "수정되었습니다",
+                    type: "POSITIVE",
+                });
             } else {
-                alert("다시 시도해주세요.");
+                alertOn({
+                    title: "에러가 발생하였습니다",
+                    //@ts-ignore
+                    message: "다시 시도해주세요",
+                    type: "ERROR",
+                });
             }
+        } else {
+            alertOn({
+                title: "",
+                //@ts-ignore
+                message: "댓글을 작성해주세요",
+                type: "WARN",
+            });
         }
+    };
+
+    const deleteComment = async (comment_id: string, parent_id?: string) => {
+        confirmOn({
+            message: "삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi(
+                    "DELETE",
+                    "MAIN",
+                    "LECTURE_BOARD_DELETE_COMMENT",
+                    { comment_id: comment_id },
+                    undefined
+                );
+                if (res.result === "SUCCESS") {
+                    if (parent_id) {
+                        // 대댓일때
+                        if (boardDetailData) {
+                            var newCommentList: res_types.classBoardDetail["comment_list"] =
+                                boardDetailData?.comment_list?.slice();
+                            const matchIdx = newCommentList?.findIndex((it) => it.id === parent_id);
+                            //@ts-ignore
+                            const childMatchIdx = newCommentList[matchIdx].children.findIndex(
+                                (it) => it.id === comment_id
+                            );
+                            //@ts-ignore
+                            newCommentList[matchIdx].children.splice(childMatchIdx, 1);
+                            setBoardDetailData({
+                                ...boardDetailData,
+                                //@ts-ignore
+                                comment_list: newCommentList,
+                            });
+                        }
+                    } else {
+                        // 댓일때
+                        if (boardDetailData) {
+                            const newCommentList: res_types.classBoardDetail["comment_list"] =
+                                boardDetailData?.comment_list.slice();
+                            const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
+                            newCommentList.splice(matchIdx, 1);
+                            setBoardDetailData({
+                                ...boardDetailData,
+                                //@ts-ignore
+                                comment_list: newCommentList,
+                            });
+                        }
+                    }
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "삭제되었습니다",
+                        type: "POSITIVE",
+                    });
+                } else {
+                    alertOn({
+                        title: "에러가 발생하였습니다",
+                        //@ts-ignore
+                        message: "다시 시도해주세요",
+                        type: "ERROR",
+                    });
+                }
+            },
+        });
     };
 
     if (boardDetailData === null) {

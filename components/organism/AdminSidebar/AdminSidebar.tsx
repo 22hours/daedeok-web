@@ -15,7 +15,7 @@ const PcSidebar = ({ children }) => {
 };
 
 const MobileSidebar = ({ children }) => {
-    const drawer = useBoolean(true);
+    const drawer = useBoolean(false);
     // @ts-ignore
     const toggleDrawer = () => drawer.onChange();
 

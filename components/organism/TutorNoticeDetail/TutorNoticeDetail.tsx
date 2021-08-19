@@ -17,12 +17,16 @@ import DateController from "lib/client/dateController";
 import { useAuthStore } from "store/AuthStore";
 import CommentList from "../CommentList/CommentList";
 import { useRouter } from "next/router";
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
 type State = res_types.tutorNoticeDetail;
 
 const TutorNoticeDetail = () => {
+    const { confirmOn } = useConfirm();
+    const { alertOn, apiErrorAlert } = useAlert();
     const router = useRouter();
     const { notice_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
@@ -46,16 +50,21 @@ const TutorNoticeDetail = () => {
     }, [auth]);
     //공지사항 삭제
     const handleDelete = async () => {
-        const flag = confirm("삭제하시겠습니까?");
-        if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "TUTOR_NOTICE_DELETE", notice_id);
-            if (res.result === "SUCCESS") {
-                alert("삭제되었습니다.");
-                location.replace("/class/notice");
-            } else {
-                alert("다시 시도해주세요");
-            }
-        }
+        confirmOn({
+            message: "해당 게시글을 삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "TUTOR_NOTICE_DELETE", notice_id);
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        message: "삭제되었습니다",
+                        type: "POSITIVE",
+                    });
+                    location.replace("/class/notice");
+                } else {
+                    apiErrorAlert(res.msg);
+                }
+            },
+        });
     };
 
     //댓글 작성
@@ -117,12 +126,18 @@ const TutorNoticeDetail = () => {
                         });
                     }
                 }
-                alert("댓글이 추가되었습니다.");
+                alertOn({
+                    message: "댓글이 추가되었습니다.",
+                    type: "POSITIVE",
+                });
             } else {
-                alert("다시 시도해주세요.");
+                apiErrorAlert(res.msg);
             }
         } else {
-            alert("댓글을 작성해주세요.");
+            alertOn({
+                message: "댓글을 작성해주세요.",
+                type: "WARN",
+            });
         }
     };
 
@@ -167,50 +182,59 @@ const TutorNoticeDetail = () => {
                     });
                 }
             }
-            alert("수정되었습니다.");
+            alertOn({
+                message: "수정되었습니다",
+                type: "POSITIVE",
+            });
         } else {
-            alert("다시 시도해주세요.");
+            apiErrorAlert(res.msg);
         }
     };
 
     const deleteComment = async (comment_id: string, parent_id?: string) => {
-        const flag = confirm("삭제하시겠습니까?");
-        if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "TUTOR_NOTICE_DELETE_COMMENT", comment_id, undefined);
-            console.log(comment_id);
-            if (res.result === "SUCCESS") {
-                if (parent_id) {
-                    // 대댓일때
-                    if (noticeDetailData) {
-                        var newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
-                        const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
-                        const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
-                        newCommentList[matchIdx].children.splice(childMatchIdx, 1);
+        confirmOn({
+            message: "해당 댓글을 삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "TUTOR_NOTICE_DELETE_COMMENT", comment_id, undefined);
+                if (res.result === "SUCCESS") {
+                    if (parent_id) {
+                        // 대댓일때
+                        if (noticeDetailData) {
+                            var newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                            const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
+                            const childMatchIdx = newCommentList[matchIdx].children.findIndex(
+                                (it) => it.id === comment_id
+                            );
+                            newCommentList[matchIdx].children.splice(childMatchIdx, 1);
 
-                        setNoticeDetailData({
-                            ...noticeDetailData,
-                            //@ts-ignore
-                            comment_list: newCommentList,
-                        });
+                            setNoticeDetailData({
+                                ...noticeDetailData,
+                                //@ts-ignore
+                                comment_list: newCommentList,
+                            });
+                        }
+                    } else {
+                        // 댓일때
+                        if (noticeDetailData) {
+                            const newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                            const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
+                            newCommentList.splice(matchIdx, 1);
+                            setNoticeDetailData({
+                                ...noticeDetailData,
+                                //@ts-ignore
+                                comment_list: newCommentList,
+                            });
+                        }
                     }
+                    alertOn({
+                        message: "삭제되었습니다",
+                        type: "POSITIVE",
+                    });
                 } else {
-                    // 댓일때
-                    if (noticeDetailData) {
-                        const newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
-                        const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
-                        newCommentList.splice(matchIdx, 1);
-                        setNoticeDetailData({
-                            ...noticeDetailData,
-                            //@ts-ignore
-                            comment_list: newCommentList,
-                        });
-                    }
+                    apiErrorAlert(res.msg);
                 }
-                alert("삭제되었습니다.");
-            } else {
-                alert("다시 시도해주세요.");
-            }
-        }
+            },
+        });
     };
 
     if (noticeDetailData === null) {

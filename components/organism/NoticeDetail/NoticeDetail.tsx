@@ -17,6 +17,8 @@ import DateController from "lib/client/dateController";
 import { useAuthStore } from "store/AuthStore";
 import CommentList from "../CommentList/CommentList";
 import { useRouter } from "next/router";
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
@@ -26,6 +28,8 @@ const NoticeDetail = ({ noticeId }) => {
     const router = useRouter();
     const { auth, clientSideApi } = useAuthStore();
     const [noticeDetailData, setNoticeDetailData] = useState<State | null>(null);
+    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
 
     useEffect(() => {
         if (noticeId) {
@@ -46,18 +50,30 @@ const NoticeDetail = ({ noticeId }) => {
 
     //공지사항 삭제
     const handleDelete = async () => {
-        const flag = confirm("삭제하시겠습니까?");
-        if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "TOTAL_NOTICE_DELETE", {
-                article_id: noticeId,
-            });
-            if (res.result === "SUCCESS") {
-                alert("삭제되었습니다.");
-                location.replace("/acinfo/notice");
-            } else {
-                alert("다시 시도해주세요");
-            }
-        }
+        confirmOn({
+            message: "삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "TOTAL_NOTICE_DELETE", {
+                    article_id: noticeId,
+                });
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "삭제되었습니다",
+                        type: "POSITIVE",
+                    });
+                    location.replace("/acinfo/notice");
+                } else {
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "삭제되었습니다",
+                        type: "POSITIVE",
+                    });
+                }
+            },
+        });
     };
 
     if (noticeDetailData === null) {

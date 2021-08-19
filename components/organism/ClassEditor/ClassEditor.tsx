@@ -15,9 +15,11 @@ import ListController from "lib/client/listController";
 import { useRouter } from "next/router";
 import { useClassDetailStore } from "store/ClassDetailStore";
 import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 import ClassCategorySelect from "components/molecule/ClassCategorySelect/ClassCategorySelect";
 import useClassCategory from "lib/hooks/useClassCategory";
+import RegexController from "lib/client/regexController";
 
 type Props = {
     data?: class_types.ClassInfo;
@@ -328,7 +330,8 @@ const reducer = (state: State, action: Action) => {
 
 const ClassEditor = (props: Props) => {
     const { clientSideApi } = useAuthStore();
-    const { alertOn } = useAlert();
+    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
     const [originHandoutList, setOriginHandoutList] = useState<class_types.Handout[]>([]);
     const [originPlanList, setOriginPlanList] = useState<class_types.PlanItem[]>([]);
     const [state, dispatch] = useReducer(reducer, initState);
@@ -423,62 +426,62 @@ const ClassEditor = (props: Props) => {
 
     //강의종료
     const handleFinish = async () => {
-        const flag = confirm("정말 종료하겠습니까?");
-        if (flag) {
-            const res = await clientSideApi("POST", "MAIN", "LECTURE_FINISH", {
-                lecture_id: class_id,
-            });
-            if (res.result === "SUCCESS") {
-                alertOn({
-                    title: "강의 생성",
-                    //@ts-ignore
-                    message: "강의가 종료되었습니다.",
-                    type: "POSITIVE",
+        confirmOn({
+            message: "정말 종료하겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi("POST", "MAIN", "LECTURE_FINISH", {
+                    lecture_id: class_id,
                 });
-                location.replace("/class");
-            } else {
-                alertOn({
-                    title: "에러가 발생하였습니다",
-                    //@ts-ignore
-                    message: "다시 시도해주세요.",
-                    type: "ERROR",
-                });
-            }
-        }
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "강의가 종료되었습니다",
+                        type: "POSITIVE",
+                    });
+                    location.replace("/class");
+                } else {
+                    alertOn({
+                        title: "에러가 발생하였습니다",
+                        //@ts-ignore
+                        message: "다시 시도해주세요",
+                        type: "ERROR",
+                    });
+                }
+            },
+        });
     };
 
     //강의삭제
     const handleDelete = async () => {
-        const flag = confirm("정말 삭제하시겠습니까?");
-        if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "LECTURE_DELETE", { lecture_id: class_id }, undefined);
-
-            if (res.result === "SUCCESS") {
-                alertOn({
-                    title: "강의 삭제",
-                    //@ts-ignore
-                    message: "삭제되었습니다..",
-                    type: "POSITIVE",
-                });
-                location.replace("/class");
-            } else {
-                alertOn({
-                    title: "에러가 발생하였습니다",
-                    //@ts-ignore
-                    message: "다시 시도해주세요.",
-                    type: "ERROR",
-                });
-            }
-        }
-    };
-
-    const checkFormIsValid = (): boolean => {
-        if (state.title.length > 1) {
-            alert("강의 제목은 최소 1글자 이상으로 작성해주세요");
-            return false;
-        }
-
-        return true;
+        confirmOn({
+            message: "정말 삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi(
+                    "DELETE",
+                    "MAIN",
+                    "LECTURE_DELETE",
+                    { lecture_id: class_id },
+                    undefined
+                );
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "삭제되었습니다",
+                        type: "POSITIVE",
+                    });
+                    location.replace("/class");
+                } else {
+                    alertOn({
+                        title: "에러가 발생하였습니다",
+                        //@ts-ignore
+                        message: "다시 시도해주세요",
+                        type: "ERROR",
+                    });
+                }
+            },
+        });
     };
 
     const handleSumbit = async () => {
@@ -507,8 +510,35 @@ const ClassEditor = (props: Props) => {
             });
             return reqDivisionList;
         };
+
+        var flag = true;
+        state.plan_list.forEach((plan_item) => {
+            if (!RegexController.checkDate(plan_item.date)) {
+                flag = false;
+                alertOn({
+                    title: "",
+                    message: "날짜는 YYYY-MM-DD 형식에 맞게 입력해야합니다",
+                    type: "WARN",
+                });
+                return false;
+            }
+            if (!RegexController.checkTime(plan_item.time)) {
+                flag = false;
+                alertOn({
+                    title: "",
+                    message: "시간은 HH:MM 형식에 맞게 입력해야합니다",
+                    type: "WARN",
+                });
+                return false;
+            }
+        });
+        if (!flag) {
+            return;
+        }
+
         if (props.type === "NEW") {
             // NEW
+
             if (state.student_limit !== 0) {
                 const res = await clientSideApi("POST", "MAIN", "LECTURE_NEW", undefined, {
                     title: state.title,
@@ -522,27 +552,21 @@ const ClassEditor = (props: Props) => {
                 });
                 if (res.result === "SUCCESS") {
                     alertOn({
-                        title: "강의 개설",
+                        title: "",
                         //@ts-ignore
                         message: "강의 개설에 성공하였습니다",
                         type: "POSITIVE",
                     });
-
                     location.replace(`/class/open/${res.data}/board`);
                 } else {
-                    alertOn({
-                        title: "에러가 발생하였습니다",
-                        //@ts-ignore
-                        message: res.msg,
-                        type: "ERROR",
-                    });
+                    apiErrorAlert(res.msg);
                 }
             } else {
                 alertOn({
-                    title: "에러가 발생하였습니다",
+                    title: "",
                     //@ts-ignore
                     message: "정원은 0명이 될 수 없습니다.",
-                    type: "ERROR",
+                    type: "WARN",
                 });
             }
         } else {
@@ -578,7 +602,7 @@ const ClassEditor = (props: Props) => {
                 );
                 if (res.result === "SUCCESS") {
                     alertOn({
-                        title: "강의수정",
+                        title: "",
                         //@ts-ignore
                         message: "수정되었습니다.",
                         type: "POSITIVE",
@@ -594,10 +618,10 @@ const ClassEditor = (props: Props) => {
                 }
             } else {
                 alertOn({
-                    title: "에러가 발생하였습니다",
+                    title: "",
                     //@ts-ignore
                     message: "정원은 0명이 될 수 없습니다.",
-                    type: "ERROR",
+                    type: "WARN",
                 });
             }
         }
