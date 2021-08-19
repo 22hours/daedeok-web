@@ -24,7 +24,7 @@ const ClassNoticeNew = () => {
                 submitApiConfig={{
                     method: "POST",
                     domain: "MAIN",
-                    ep: "TOTAL_NOTICE_NEW",
+                    ep: "TUTOR_NOTICE_NEW",
                 }}
                 onCreated={onCreated}
             />
