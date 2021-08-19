@@ -118,7 +118,7 @@ const Userbox = (props: Props) => {
                 </div>
                 <div>
                     <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={auth.first_division} />
-                    <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={auth.second_division} />
+                    <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={` ${auth.second_division}`} />
                 </div>
                 <div className={style.bottom}>
                     {auth.role !== "ROLE_ADMIN" && (
