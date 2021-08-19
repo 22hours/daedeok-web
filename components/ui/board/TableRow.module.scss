@@ -74,9 +74,11 @@
 }
 .idx_item {
     @include desktop {
+        min-width: 20px;
         margin-right: 50px;
     }
     @include mobile {
+        min-width: 16px;
         margin-right: 10px;
     }
 }
