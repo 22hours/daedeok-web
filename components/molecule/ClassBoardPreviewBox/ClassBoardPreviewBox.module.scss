@@ -5,7 +5,7 @@
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
     background-color: rgb(240, 240, 240);
 
     .head {
@@ -21,13 +21,14 @@
     }
     .body {
         display: grid;
-        gap: 15px;
-        margin-top: 15px;
+        gap: 8px;
+        margin-top: 8px;
         .item_row {
-            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: pointer;
+
             .typo_item {
             }
             .typo_date {

@@ -3,6 +3,9 @@
 
 .container {
     .section {
+        .section_header {
+            margin-bottom: 10px;
+        }
         margin-bottom: 50px;
         .box_grid {
             @include desktop {

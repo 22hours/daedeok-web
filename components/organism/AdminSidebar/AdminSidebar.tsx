@@ -30,7 +30,7 @@ const MobileSidebar = ({ children }) => {
             drawerButtonChildren={
                 <div className={style.mobile_side_bar_container}>
                     <MenuIcon />
-                    <Typo type={"TEXT"} size={"small"} content={"관리자 상세 메뉴"} />
+                    <Typo type={"TEXT"} size={"normal"} content={"관리자 상세 메뉴"} />
                 </div>
             }
             drawerInnerChildren={<DrawerInner />}

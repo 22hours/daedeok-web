@@ -14,7 +14,7 @@ type MainSectionProps = {
 const MainSection = (props: MainSectionProps) => {
     return (
         <div className={style.section}>
-            <Typo type={"HEADER"} size={"h4"} content={props.sectionTitle} />
+            <Typo className={style.section_header} type={"HEADER"} size={"h4"} content={props.sectionTitle} />
             <div className={style.section_body}>{props.children}</div>
         </div>
     );

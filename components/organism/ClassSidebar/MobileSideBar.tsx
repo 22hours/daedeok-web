@@ -25,7 +25,7 @@ const MobileSideBar = (props: Props) => {
             drawerButtonChildren={
                 <div className={style.container}>
                     <MenuIcon />
-                    <Typo type={"TEXT"} size={"medium"} content={"강의실 상세 메뉴"} />
+                    <Typo type={"TEXT"} size={"normal"} content={"강의실 상세 메뉴"} />
                 </div>
             }
             drawerInnerChildren={<DrawerInner />}
