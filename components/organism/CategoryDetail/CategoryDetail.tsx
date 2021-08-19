@@ -44,6 +44,19 @@ const CategoryDetail = () => {
                 <div className={style.body}>
                     <TextViewer content={data.content} />
                 </div>
+                <div className={style.bottom_btn_wrapper}>
+                    <Link href={"/lecture-category"} passHref>
+                        <Button
+                            type="SQUARE"
+                            size="smaller"
+                            fontSize="smaller"
+                            backgroundColor="yellow_accent"
+                            content="목록보기"
+                            color="white"
+                            className={style.bottom_btn_style}
+                        />
+                    </Link>
+                </div>
             </div>
         );
     }
