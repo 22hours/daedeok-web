@@ -49,6 +49,7 @@ const getUserWithCookie = (): user => {
 };
 
 const setUserWithCookie = async (user: user) => {
+    console.log("COOKIE CHANGE ! : ", user);
     const expires = getExpiredDate();
 
     for (const [key, value] of Object.entries(user)) {
