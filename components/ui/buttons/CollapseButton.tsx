@@ -66,17 +66,7 @@ const CollapseButton = (props: Props) => {
                 alignment={"between"}
                 className={buttonClassName || ""}
             >
-                {icon ? (
-                    <>
-                        {isOpen ? (
-                            <ArrowDropDownIcon style={{ marginRight: "15px" }} />
-                        ) : (
-                            <ArrowRightIcon style={{ marginRight: "15px" }} />
-                        )}
-                    </>
-                ) : (
-                    <></>
-                )}
+                {icon ? <>{isOpen ? <ArrowDropDownIcon /> : <ArrowRightIcon />}</> : <></>}
             </Button>
             <Collapse className={childClassName || ""} in={isOpen} timeout="auto" unmountOnExit>
                 <>{children}</>
