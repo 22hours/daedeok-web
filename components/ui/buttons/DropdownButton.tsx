@@ -62,6 +62,7 @@ const ChildButton = (props: {
                 onMouseLeave={toggle}
             >
                 <Typo
+                    className={styles.child_square_typo}
                     type={"BUTTON"}
                     size={props.childFontSize}
                     color={props.childTextColor}
@@ -73,8 +74,15 @@ const ChildButton = (props: {
 };
 
 const DropdownButton = (props: Props) => {
-    const { children, mainText, childButtonItem, mainButtonSize, mainFontSize, mainBackgroundColor, mainTextColor } =
-        props;
+    const {
+        children,
+        mainText,
+        childButtonItem,
+        mainButtonSize,
+        mainFontSize,
+        mainBackgroundColor,
+        mainTextColor,
+    } = props;
 
     const [isOpen, setIsOpen] = useState(false);
 
