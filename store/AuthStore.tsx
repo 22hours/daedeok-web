@@ -1,6 +1,6 @@
 import AxiosClient from "lib/api/api";
 import { api_config_type } from "@api_config_type";
-import React, { useEffect, Dispatch, createContext, useReducer, useContext } from "react";
+import React, { useEffect, Dispatch, createContext, useReducer, useContext, useRef } from "react";
 import { meta_types } from "@global_types";
 import CookieController from "lib/client/cookieController";
 import { useRouter } from "next/router";
@@ -163,6 +163,17 @@ export const AuthProvider = ({ children }) => {
             });
         }
     };
+
+    const firstRef = useRef(true);
+    useEffect(() => {
+        if (firstRef.current) {
+            firstRef.current = false;
+        } else {
+            if (auth === null) {
+                CookieController.removeUserInCookie();
+            }
+        }
+    }, [auth]);
 
     const store: Store = {
         auth,
