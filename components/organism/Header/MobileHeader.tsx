@@ -123,7 +123,13 @@ const MobileHeader = () => {
                 <div className={style.container}>
                     {BoxItemList.map((it, idx) => (
                         <div className={style.square} key={`mobile-header-item${idx}`}>
-                            <Typo type={"BUTTON"} size={"smaller"} color={"brown_base"} content={it} />
+                            <Typo
+                                className={style.square_typo}
+                                type={"BUTTON"}
+                                size={"smaller"}
+                                color={"brown_base"}
+                                content={it}
+                            />
                         </div>
                     ))}
                 </div>
