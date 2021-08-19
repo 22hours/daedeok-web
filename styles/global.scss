@@ -92,3 +92,15 @@ body {
 // .MuiPaper-root {
 //     z-index: 200000 !important;
 // }
+.MuiInputBase-root {
+    border-bottom: 0px !important;
+}
+.MuiInput-underline:after,
+.MuiInput-underline:before {
+    border-bottom: 0px !important;
+}
+.MuiNativeSelect-root {
+    border-bottom: 0px !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
