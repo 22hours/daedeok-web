@@ -8,7 +8,7 @@
             @include desktop {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 10%;
+                gap: 3%;
             }
             @include mobile {
                 display: grid;
