@@ -68,7 +68,6 @@ export const WysiwygEditorProvider = ({ children }) => {
 
     const saveOriginImgList = () => {
         const cur_origin_img_list = getImageSourceList();
-        console.log(cur_origin_img_list);
         setOriginImgList(cur_origin_img_list);
     };
 
@@ -100,6 +99,7 @@ export const WysiwygEditorProvider = ({ children }) => {
 
     const onLoadEditor = () => {
         setTimeout(() => {
+            console.log("LOAD END");
             const rootElmList: HTMLCollection = document.getElementsByClassName("toastui-editor-contents");
             const rootElm = rootElmList.item(1);
             if (rootElm) {
