@@ -99,7 +99,7 @@ const IndexPage = (props: Props) => {
                                                 </div>
                                             </div>
                                         </Link>
-                                        <Link href={`/acinfo/introduce`} passHref>
+                                        <Link href={`/acinfo/guide`} passHref>
                                             <div className={`${style.qna_btn} ${style.acinfo}`}>
                                                 <div className={style.img_wrapper}>
                                                     <div className={style.img_size}>
@@ -238,7 +238,7 @@ const IndexPage = (props: Props) => {
                                                 />
                                             </div>
                                         </Link>
-                                        <Link href={`/acinfo/introduce`} passHref>
+                                        <Link href={`/acinfo/guide`} passHref>
                                             <div className={`${style.acinfo_btn} ${style.acinfo}`}>
                                                 <Typo
                                                     className={style.btn_txt}
