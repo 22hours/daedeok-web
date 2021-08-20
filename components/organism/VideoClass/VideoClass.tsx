@@ -114,7 +114,14 @@ const VideoClass = () => {
 
                 <div className={style.table}>
                     <TableWrapper>
-                        <TableRow week={`${state.week} 주차`} weekTitle={state.title} />
+                        <div className={style.list_container}>
+                            <div className={style.week_col}>
+                                <Typo type={"TEXT"} size={"normal"} content={`${state.week} 주차`} />
+                            </div>
+                            <div className={style.week_title}>
+                                <Typo type={"TEXT"} size={"normal"} content={`${state.title}`} />
+                            </div>
+                        </div>
                     </TableWrapper>
                 </div>
 

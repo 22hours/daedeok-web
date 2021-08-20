@@ -33,3 +33,10 @@
 .introduce_container {
     margin-top: 20px;
 }
+
+.list_container {
+    @include list_item_container;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 100px auto;
+}
