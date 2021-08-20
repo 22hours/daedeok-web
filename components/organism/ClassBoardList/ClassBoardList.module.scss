@@ -27,27 +27,38 @@
 }
 @include class_list_mobile {
     .class_list {
+        align-items: center;
+        cursor: pointer;
+        justify-content: space-between;
         padding-top: 20px;
         padding-bottom: 20px;
         padding-left: 10px;
         padding-right: 10px;
         border-bottom: 0.5px $gray_accent solid;
         .title_wrapper {
-            display: flex;
+            display: grid;
+            grid-template-columns: 30px auto;
             align-items: center;
             .list_id {
-                margin-right: 10px;
+                width: 25px;
             }
             .list_title {
-                width: 250px;
+                display: inline-block;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                @include class_list_mobile {
+                    display: inline-block;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
             }
         }
         .list_detail_wrapper {
             display: flex;
             align-items: center;
+
             .author {
                 margin-left: 10px;
                 text-align: center;
@@ -60,7 +71,8 @@
 }
 @include class_list_pc {
     .class_list {
-        display: flex;
+        display: grid;
+        grid-template-columns: auto 300px;
         align-items: center;
         cursor: pointer;
         justify-content: space-between;
@@ -70,23 +82,19 @@
         padding-right: 10px;
         border-bottom: 0.5px $gray_accent solid;
         .title_wrapper {
-            display: flex;
+            display: grid;
+            grid-template-columns: 30px auto;
             align-items: center;
             .list_id {
-                @include class_list_pc {
-                    margin-right: 50px;
-                }
-                @include class_list_mobile {
-                    margin-right: 10px;
-                }
+                width: 25px;
             }
             .list_title {
-                width: 400px;
+                display: inline-block;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 @include class_list_mobile {
-                    width: 250px;
+                    display: inline-block;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
@@ -96,6 +104,7 @@
         .list_detail_wrapper {
             display: flex;
             align-items: center;
+            justify-content: flex-end;
             .author {
                 width: 70px;
                 margin-left: 10px;
