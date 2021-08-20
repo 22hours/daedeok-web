@@ -21,6 +21,9 @@
         padding-left: 15px;
     }
 }
+.qna_list_wrapper {
+    cursor: pointer;
+}
 @include desktop {
     .qna_list_wrapper {
         display: flex;
@@ -48,6 +51,7 @@
             width: 300px;
             display: flex;
             align-items: center;
+            justify-content: flex-end;
             .detail_items {
                 margin-left: 10px;
             }

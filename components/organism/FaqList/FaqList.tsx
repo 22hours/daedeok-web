@@ -79,7 +79,7 @@ const FaqList = () => {
         >
             <TableWrapper>
                 {listState.faq_list.map((it, idx) => (
-                    <div key={idx}>
+                    <div key={`faqitem${idx}`}>
                         <Link href={`/acinfo/faq/detail/${it.id}`} passHref>
                             <div className={style.faq_list_wrapper}>
                                 <div className={style.list_id}>
