@@ -23,9 +23,10 @@
 }
 
 .faq_list_wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: 30px auto;
+
     cursor: pointer;
-    align-items: center;
     padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 10px;
@@ -33,21 +34,24 @@
     border-bottom: 0.5px $gray_accent solid;
     .list_id {
         @include desktop {
+            width: 20px;
             margin-right: 50px;
         }
         @include mobile {
+            width: 20px;
+
             margin-right: 10px;
         }
     }
     .list_title {
         @include desktop {
-            width: 775px;
+            display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
         @include mobile {
-            width: 250px;
+            display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
