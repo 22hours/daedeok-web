@@ -1,6 +1,7 @@
 import { RefObject } from "react";
 import Typo from "@ui/Typo";
 import style from "./CheckBox.module.scss";
+import Link from "next/link";
 type Props = {
     refs?: HTMLInputElement;
     labelContent: string;
@@ -9,6 +10,7 @@ type Props = {
     isLabelRight?: boolean;
     className?: string;
     disable?: boolean;
+    link?: string;
 };
 
 const CheckBox = (props: Props) => {
@@ -26,7 +28,15 @@ const CheckBox = (props: Props) => {
                     />
 
                     <div className={style.padding_bar}></div>
-                    <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={props.labelContent} />
+                    {props.link ? (
+                        <Link href={props.link} passHref>
+                            <div className={style.link_wrapper}>
+                                <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={props.labelContent} />
+                            </div>
+                        </Link>
+                    ) : (
+                        <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={props.labelContent} />
+                    )}
                 </>
             ) : (
                 <>

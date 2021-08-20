@@ -8,6 +8,12 @@
     input {
         transform: scale(1.5);
     }
+    .link_wrapper {
+        cursor: pointer;
+        span:hover {
+            color: blue;
+        }
+    }
 }
 
 .padding_bar {
