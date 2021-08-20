@@ -29,11 +29,12 @@ const CheckBox = (props: Props) => {
 
                     <div className={style.padding_bar}></div>
                     {props.link ? (
-                        <Link href={props.link} passHref>
+                        // eslint-disable-next-line react/jsx-no-target-blank
+                        <a href={props.link} target="_blank">
                             <div className={style.link_wrapper}>
                                 <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={props.labelContent} />
                             </div>
-                        </Link>
+                        </a>
                     ) : (
                         <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={props.labelContent} />
                     )}

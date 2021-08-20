@@ -1,9 +1,11 @@
+import PageHeader from "@ui/PageHeader";
 import React, { useState, useEffect } from "react";
 type Props = {};
 
 const terms = () => {
     return (
         <div>
+            <PageHeader title={"이용약관"} />
             <pre>
                 {`
 
