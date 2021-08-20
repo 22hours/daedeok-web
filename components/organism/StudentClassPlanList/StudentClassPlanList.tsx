@@ -172,7 +172,7 @@ const StudentClassPlanList = () => {
                                 <Typo
                                     color="gray_accent"
                                     content={`${it.week.toString()} 주차`}
-                                    size="small"
+                                    size="normal"
                                     type="TEXT"
                                     className={style.margin_style}
                                 />
