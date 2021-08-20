@@ -76,17 +76,21 @@ const QnaList = (props: Props) => {
                 headerLeft={<ListSelect categoryType={"QNA"} />}
                 headerRight={<ListSearchbar />}
                 control_row={
-                    <Link href={`/acinfo/qna/new`} passHref>
-                        <Button
-                            type="SQUARE"
-                            content="글쓰기"
-                            backgroundColor="yellow_accent"
-                            fontSize="smaller"
-                            size="smaller"
-                            color="white"
-                            className={style.new_btn}
-                        />
-                    </Link>
+                    <>
+                        {auth && (
+                            <Link href={`/acinfo/qna/new`} passHref>
+                                <Button
+                                    type="SQUARE"
+                                    content="글쓰기"
+                                    backgroundColor="yellow_accent"
+                                    fontSize="smaller"
+                                    size="smaller"
+                                    color="white"
+                                    className={style.new_btn}
+                                />
+                            </Link>
+                        )}
+                    </>
                 }
                 footer={<ListPagination total_count={data.total_count} />}
             >

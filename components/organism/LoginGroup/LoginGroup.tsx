@@ -6,7 +6,6 @@ import Typo from "@ui/Typo";
 import TextInput from "@ui/input/TextInput";
 import Button from "@ui/buttons/Button";
 import Link from "next/link";
-import PageHeader from "@ui/PageHeader";
 import style from "./LoginGroup.module.scss";
 import { useEffect } from "react";
 import { useAlert } from "store/GlobalAlertStore";
@@ -25,37 +24,37 @@ const LoginGroup = (props: Props) => {
             switch (require_role) {
                 case "ROLE_ADMIN": {
                     alertOn({
-                        title: "에러가 발생하였습니다",
+                        title: "권한이 없습니다",
                         //@ts-ignore
                         message: "관리자만 접근 가능합니다\n관리자 계정으로 로그인 해 주세요",
-                        type: "ERROR",
+                        type: "WARN",
                     });
                     break;
                 }
                 case "ROLE_TUTOR": {
                     alertOn({
-                        title: "에러가 발생하였습니다",
+                        title: "권한이 없습니다",
                         //@ts-ignore
                         message: "강사만 접근 가능합니다강사 계정으로 로그인 해 주세요",
-                        type: "ERROR",
+                        type: "WARN",
                     });
                     break;
                 }
                 case "ROLE_MEMBER": {
                     alertOn({
-                        title: "에러가 발생하였습니다",
+                        title: "권한이 없습니다",
                         //@ts-ignore
                         message: "수강생만 접근 가능합니다\n수강생 계정으로 로그인 해 주세요",
-                        type: "ERROR",
+                        type: "WARN",
                     });
                     break;
                 }
                 case "ROLE_ALL": {
                     alertOn({
-                        title: "에러가 발생하였습니다",
+                        title: "권한이 없습니다",
                         //@ts-ignore
                         message: "로그인 후 이용가능합니다",
-                        type: "ERROR",
+                        type: "WARN",
                     });
                     break;
                 }
