@@ -10,12 +10,13 @@ import Pagination from "@ui/pagination/Pagination";
 import TableRow from "@ui/board/TableRow";
 import DateController from "lib/client/dateController";
 import useClassCategory from "lib/hooks/useClassCategory";
-
+import Link from "next/link";
 // List
 import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
 import ListSelect from "components/molecule/ListSelect/ListSelect";
 import ListPagination from "components/molecule/ListPagination/ListPagination";
 import ListPageLayout from "components/layout/ListPageLayout";
+import Typo from "@ui/Typo";
 
 type State = {
     total_count: number;
@@ -71,18 +72,42 @@ const ClassCloseList = () => {
             footer={<ListPagination total_count={data.total_count} />}
         >
             <TableWrapper>
-                {data.lecture_list.map((it, idx) => (
-                    <TableRow
-                        href={`/class/close/${it.id}/board`}
-                        key={`closelectureitem:${idx}`}
-                        idx={idx + 1}
-                        title={it.title}
-                        category={it.category}
-                        date={`${DateController.getFormatedDate(
-                            "YYYY/MM/DD",
-                            it.start_date
-                        )}~${DateController.getFormatedDate("YYYY/MM/DD", it.end_date)}`}
-                    />
+                {data.lecture_list?.map((it, idx) => (
+                    <div key={`lectureitem${idx}`}>
+                        <Link href={`/class/close/${it.id}/board`} passHref>
+                            <div className={style.list_wrapper}>
+                                <div className={style.title_wrapper}>
+                                    <div className={style.list_id}>
+                                        <Typo
+                                            type="TEXT"
+                                            size="small"
+                                            content={it.id.toString()}
+                                            color={"brown_font"}
+                                        />
+                                    </div>
+                                    <div className={style.list_title}>
+                                        <Typo type="TEXT" size="medium" content={it.title} color={"brown_font"} />
+                                    </div>
+                                </div>
+                                <div className={style.detail_item_list}>
+                                    <div className={`${style.category_item} ${style.detail_item}`}>
+                                        <Typo content={it.category} type="TEXT" size="small" color="red_accent" />
+                                    </div>
+                                    <div className={`${style.date_item} ${style.detail_item}`}>
+                                        <Typo
+                                            content={`${DateController.getFormatedDate(
+                                                "YYYY/MM/DD",
+                                                it.start_date
+                                            )}~${DateController.getFormatedDate("YYYY/MM/DD", it.end_date)}`}
+                                            type="TEXT"
+                                            size="small"
+                                            color="gray_accent"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
                 ))}
             </TableWrapper>
         </ListPageLayout>
