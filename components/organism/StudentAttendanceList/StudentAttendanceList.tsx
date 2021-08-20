@@ -5,9 +5,11 @@ import { res_types } from "@global_types";
 import TableRow from "@ui/board/TableRow";
 import Button from "@ui/buttons/Button";
 import TableWrapper from "@ui/board/TableWrapper";
+import Typo from "@ui/Typo";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
+import StatusLectureList from "pages/lecture/[status]";
 
 type State = res_types.studentAttendanceList;
 
@@ -75,11 +77,21 @@ const StudentAttendanceList = () => {
             <TableWrapper>
                 {attendanceList?.map((it, idx) => (
                     <div key={`attendancelist${idx}`}>
-                        <TableRow week={it.week.toString() + "주차"} weekTitle={it.title}>
-                            <div style={{ width: "90px" }}>
+                        <div className={style.attendance_wrapper}>
+                            <div className={style.title_wrapper}>
+                                <Typo
+                                    color="gray_accent"
+                                    content={`${it.week.toString()} 주차`}
+                                    size="small"
+                                    type="TEXT"
+                                    className={style.margin_style}
+                                />
+                                <Typo color="gray_accent" content={it.title} size="normal" type="TEXT" />
+                            </div>
+                            <div className={style.button}>
                                 <StatusButton state={it.status} />
                             </div>
-                        </TableRow>
+                        </div>
                     </div>
                 ))}
             </TableWrapper>
