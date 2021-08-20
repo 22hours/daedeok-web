@@ -26,12 +26,77 @@
             }
         }
     }
-    .user_control_col {
+}
+
+.list_container {
+    @include list_item_container;
+    @include desktop {
         display: flex;
+        justify-content: space-between;
+    }
+    @include mobile {
+    }
+
+    .first_wrapper {
+        align-items: center;
+        @include desktop {
+            display: grid;
+            grid-template-columns: 20px 150px 300px auto;
+            gap: 10px;
+        }
+        @include mobile {
+            display: grid;
+            grid-template-columns: 20px auto 220px;
+            gap: 5px;
+        }
+        .name_col {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .info_col {
+            display: flex;
+            @include mobile {
+                justify-content: flex-end;
+            }
+        }
+    }
+    .second_wrapper {
+        display: grid;
+        grid-template-columns: 100px 100px 100px;
+        gap: 10px;
+        @include desktop {
+        }
+        @include mobile {
+            margin-top: 10px;
+        }
+
         .control_btn {
+            width: 100px;
             height: 30px;
-            margin-left: 10px;
+            span {
+                white-space: nowrap;
+            }
             background-color: $gray_form;
         }
+    }
+}
+
+@include desktop {
+    .pc_only {
+        visibility: visible;
+    }
+    .mobile_only {
+        display: none;
+        visibility: hidden;
+    }
+}
+@include mobile {
+    .pc_only {
+        display: none;
+        visibility: hidden;
+    }
+    .mobile_only {
+        visibility: visible;
     }
 }

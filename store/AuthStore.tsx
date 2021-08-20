@@ -127,7 +127,7 @@ export const AuthProvider = ({ children }) => {
                                     { Authorization: undefined }
                                 )
                                 .then(({ data }) => {
-                                    if (data.access_token) {
+                                    if (data?.access_token) {
                                         CookieController.setAccessTokenInCokkie(data.access_token);
                                         apiClient.client.defaults.headers.common["Authorization"] =
                                             "Bearer " + data.access_token;

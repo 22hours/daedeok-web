@@ -18,6 +18,7 @@ import ListPageLayout from "components/layout/ListPageLayout";
 import { meta_types } from "@global_types";
 import { useAlert } from "store/GlobalAlertStore";
 import { useConfirm } from "store/GlobalConfirmStore";
+import Link from "next/link";
 
 type Props = {};
 
@@ -207,41 +208,90 @@ const MemberManageList = () => {
                     color={"gray_accent"}
                 />
                 <TableWrapper>
-                    {data.user_list.map((it, idx) => (
-                        <TableRow
-                            key={`adminmanageuseritem${idx}`}
-                            idx={idx + 1}
-                            studentName={it.name}
-                            studentInfo={{
-                                duty: it.duty,
-                                first_division: it.first_division,
-                                second_division: it.second_division,
-                                phone_number: it.phone_num,
-                            }}
-                        >
-                            <div className={style.user_control_col}>
-                                <RoleChangeButton {...it} refresh={refresh} />
-                                <Button
-                                    className={`${style.control_btn}`}
-                                    type={"SQUARE"}
-                                    size={"free"}
-                                    fontSize={"smaller"}
-                                    content={"PW전송"}
-                                    color={"white"}
-                                    onClick={() => callPwSend(it.id)}
-                                />
-                                <Button
-                                    className={`${style.control_btn}`}
-                                    type={"SQUARE"}
-                                    size={"free"}
-                                    fontSize={"smaller"}
-                                    content={"삭제"}
-                                    color={"white"}
-                                    onClick={() => callDeleteUser(it.id)}
-                                />
+                    {data.user_list.map((it, idx) => {
+                        const studentInfo = `${it.duty} ${it.first_division} ${it.second_division} ${it.phone_num}`;
+                        return (
+                            <div key={`adminmanageuseritem${idx}`}>
+                                <div className={style.list_container}>
+                                    <div className={style.first_wrapper}>
+                                        <div className={style.idx_col}>
+                                            <Typo
+                                                type="TEXT"
+                                                size="small"
+                                                content={it.id.toString()}
+                                                color={"brown_font"}
+                                            />
+                                        </div>
+                                        <div className={style.name_col}>
+                                            <Typo type="TEXT" size="medium" content={it.name} color={"brown_font"} />
+                                        </div>
+                                        <div className={`${style.info_col}`}>
+                                            <Typo
+                                                type="TEXT"
+                                                size="small"
+                                                content={studentInfo}
+                                                color={"gray_accent"}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className={style.second_wrapper}>
+                                        <RoleChangeButton {...it} refresh={refresh} />
+                                        <Button
+                                            className={`${style.control_btn}`}
+                                            type={"SQUARE"}
+                                            size={"free"}
+                                            fontSize={"smaller"}
+                                            content={"PW전송"}
+                                            color={"white"}
+                                            onClick={() => callPwSend(it.id)}
+                                        />
+                                        <Button
+                                            className={`${style.control_btn}`}
+                                            type={"SQUARE"}
+                                            size={"free"}
+                                            fontSize={"smaller"}
+                                            content={"삭제"}
+                                            color={"white"}
+                                            onClick={() => callDeleteUser(it.id)}
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                        </TableRow>
-                    ))}
+                            // <TableRow
+                            //     key={`adminmanageuseritem${idx}`}
+                            //     idx={idx + 1}
+                            //     studentName={it.name}
+                            //     studentInfo={{
+                            //         duty: it.duty,
+                            //         first_division: it.first_division,
+                            //         second_division: it.second_division,
+                            //         phone_number: it.phone_num,
+                            //     }}
+                            // >
+                            //     <div className={style.user_control_col}>
+                            //         <RoleChangeButton {...it} refresh={refresh} />
+                            //         <Button
+                            //             className={`${style.control_btn}`}
+                            //             type={"SQUARE"}
+                            //             size={"free"}
+                            //             fontSize={"smaller"}
+                            //             content={"PW전송"}
+                            //             color={"white"}
+                            //             onClick={() => callPwSend(it.id)}
+                            //         />
+                            //         <Button
+                            //             className={`${style.control_btn}`}
+                            //             type={"SQUARE"}
+                            //             size={"free"}
+                            //             fontSize={"smaller"}
+                            //             content={"삭제"}
+                            //             color={"white"}
+                            //             onClick={() => callDeleteUser(it.id)}
+                            //         />
+                            //     </div>
+                            // </TableRow>
+                        );
+                    })}
                 </TableWrapper>
             </div>
         </ListPageLayout>
