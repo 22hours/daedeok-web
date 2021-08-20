@@ -1,15 +1,16 @@
 import CookieController from "lib/client/cookieController";
 import { SecureRoute } from "lib/server/accessController";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useAuthStore } from "store/AuthStore";
 
 type Props = {};
 
 const Logout = (props: Props) => {
-    useEffect(() => {
-        CookieController.removeUserInCookie();
+    const logout = async () => {
+        await CookieController.removeUserInCookie();
         location.replace("/");
+    };
+    useEffect(() => {
+        logout();
     }, []);
 
     return <div>로그아웃 중 입니다</div>;
