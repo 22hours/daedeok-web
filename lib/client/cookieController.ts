@@ -16,7 +16,7 @@ const getExpiredDate = () => {
     return expires;
 };
 
-const setAccessTokenInCokkie = (access_token: string) => {
+const setAccessTokenInCokkie = async (access_token: string) => {
     const expires = getExpiredDate();
     cookie.save("access_token", access_token.toString(), {
         path: "/",
@@ -49,6 +49,7 @@ const getUserWithCookie = (): user => {
 };
 
 const setUserWithCookie = async (user: user) => {
+    console.log("COOKIE CHANGE ! : ", user);
     const expires = getExpiredDate();
 
     for (const [key, value] of Object.entries(user)) {

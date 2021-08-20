@@ -29,7 +29,10 @@
     }
     .body {
         margin-top: 20px;
-
+        .typo_introduce {
+            display: inline-block;
+            text-align: justify;
+        }
         .section_class_info {
             margin-top: 50px;
             .main_body_grid {

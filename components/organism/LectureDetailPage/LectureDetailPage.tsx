@@ -86,6 +86,7 @@ const LectureDetailPage = (props: Props) => {
                 </div>
                 <div className={style.body}>
                     <Typo className={style.typo_introduce} type={"TEXT"} size={"small"} content={data.content} />
+
                     <div className={style.section_class_info}>
                         <div className={style.main_body_grid}>
                             <div className={style.main_body_row}>

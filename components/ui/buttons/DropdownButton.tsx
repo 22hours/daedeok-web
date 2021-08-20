@@ -10,7 +10,7 @@ type Props = {
     mainText: string;
     childButtonItem: Array<{ text: string; url: string; className?: string }>;
     mainButtonSize: "small" | "medium" | "large" | "full";
-    mainFontSize: "huge" | "large" | "medium" | "small" | "smaller";
+    mainFontSize: "huge" | "large" | "medium" | "small" | "smaller" | "smaller_header";
     mainBackgroundColor:
         | "brown_base"
         | "brown_font"
@@ -62,6 +62,7 @@ const ChildButton = (props: {
                 onMouseLeave={toggle}
             >
                 <Typo
+                    className={styles.child_square_typo}
                     type={"BUTTON"}
                     size={props.childFontSize}
                     color={props.childTextColor}

@@ -6,16 +6,18 @@ import React from "react";
 // icons
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import { useAlert } from "store/GlobalAlertStore";
+import Button from "@ui/buttons/Button";
 
 type Props = {
     duration: number;
     setDuration: (duration: number) => void;
     video_url: string;
     timerTick: number;
+    isAttendacned: boolean;
 };
 
 const Video = React.memo((props: Props) => {
-    const { alertOn } = useAlert();
+    const [isAttendanced, setIsAttendanced] = useState();
     const [videoInfo, setVideoInfo] = useState(null);
     const YoutubeRef = useRef(null);
 
@@ -25,7 +27,8 @@ const Video = React.memo((props: Props) => {
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 0, // 동영상 자동 재생
-            controls: 0, // 조작바 X
+            // controls: 0, // 조작바 X
+            controls: props.isAttendacned ? 1 : 0,
             disablekb: 1, // 키보드 조작 X
             modestbranding: 1, // 로고 표시 X
             rel: 0, // 관련동영상 표시 X
@@ -55,9 +58,7 @@ const Video = React.memo((props: Props) => {
         }
     };
 
-    const onEnd = (event) => {
-        console.log(event);
-    };
+    const onEnd = (event) => {};
 
     const getProgress = async () => {
         if (YoutubeRef.current) {
@@ -67,7 +68,7 @@ const Video = React.memo((props: Props) => {
             const durationTime = await videoInfo.player.getDuration();
 
             var res = (playTime / durationTime) * 100;
-            if (res >= 90) {
+            if (res >= 89) {
                 res = 100;
             }
             return res;
@@ -78,8 +79,6 @@ const Video = React.memo((props: Props) => {
         if (YoutubeRef.current) {
             // @ts-ignore
             const player = YoutubeRef.current.getInternalPlayer();
-            console.log(YoutubeRef.current);
-            console.log(player);
 
             const iframe = await player.getIframe();
             var requestFullScreen =
@@ -96,7 +95,9 @@ const Video = React.memo((props: Props) => {
             const timer = setInterval(async () => {
                 // @ts-ignore
                 const curDuration: number = await getProgress();
-                props.setDuration(curDuration);
+                if (!props.isAttendacned) {
+                    props.setDuration(curDuration);
+                }
             }, props.timerTick);
             return () => {
                 clearInterval(timer);

@@ -3,19 +3,18 @@ import dynamic from "next/dynamic";
 import cookies from "next-cookies";
 import { SecureRoute } from "lib/server/accessController";
 import { useRouter } from "next/router";
-import PageHeader from "@ui/PageHeader";
-import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const ClassNoticeNew = () => {
     const router = useRouter();
-    const { alertOn } = useAlert();
+    const { confirmOn } = useConfirm();
     const onCreated = (notice_id) => {
-        alertOn({
-            message: "게시글을 작성하였습니다",
-            type: "POSITIVE",
+        confirmOn({
+            message: "게시글을 작성하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
+            onSuccess: () => router.push(`/class/notice/detail/${notice_id}`),
+            isFailButtonRemove: true,
         });
-        router.push(`/class/notice/detail/${notice_id}`);
     };
     return (
         <div>

@@ -15,7 +15,8 @@ import DateController from "lib/client/dateController";
 
 //store
 import { useAuthStore } from "store/AuthStore";
-import CommentList from "../CommentList/CommentList";
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 import { useRouter } from "next/router";
 
 const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
@@ -26,6 +27,8 @@ const FaqDetail = ({ articleId }) => {
     const router = useRouter();
     const { auth, clientSideApi } = useAuthStore();
     const [noticeDetailData, setNoticeDetailData] = useState<State | null>(null);
+    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
 
     useEffect(() => {
         if (articleId) {
@@ -45,18 +48,25 @@ const FaqDetail = ({ articleId }) => {
 
     //공지사항 삭제
     const handleDelete = async () => {
-        const flag = confirm("삭제하시겠습니까?");
-        if (flag) {
-            const res = await clientSideApi("DELETE", "MAIN", "FAQ_DELETE", {
-                article_id: articleId,
-            });
-            if (res.result === "SUCCESS") {
-                alert("삭제되었습니다.");
-                location.replace("/acinfo/faq");
-            } else {
-                alert("다시 시도해주세요");
-            }
-        }
+        confirmOn({
+            message: "삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "FAQ_DELETE", {
+                    article_id: articleId,
+                });
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        title: "",
+                        //@ts-ignore
+                        message: "삭제되었습니다",
+                        type: "POSITIVE",
+                    });
+                    location.replace("/acinfo/faq");
+                } else {
+                    apiErrorAlert(res.msg);
+                }
+            },
+        });
     };
 
     if (noticeDetailData === null) {

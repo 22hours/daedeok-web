@@ -28,17 +28,20 @@ const Confirm = () => {
                 </DialogContent>
                 <DialogActions>
                     <div className={style.btn_row}>
-                        <Button
-                            className={`${style.error_btn} ${style.btn}`}
-                            type={"TEXT"}
-                            size={"small"}
-                            content={"취소"}
-                            fontSize={"smaller"}
-                            onClick={() => {
-                                setState({ isOpen: false });
-                                state.onFail && state.onFail();
-                            }}
-                        />
+                        {!state.isFailButtonRemove && (
+                            <Button
+                                className={`${style.error_btn} ${style.btn}`}
+                                type={"TEXT"}
+                                size={"small"}
+                                content={"취소"}
+                                fontSize={"smaller"}
+                                onClick={() => {
+                                    setState({ isOpen: false });
+                                    state.onFail && state.onFail();
+                                }}
+                            />
+                        )}
+
                         <Button
                             className={`${style.positive_btn} ${style.btn}`}
                             type={"TEXT"}

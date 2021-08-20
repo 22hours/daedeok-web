@@ -69,9 +69,9 @@ const CollapseButton = (props: Props) => {
                 {icon ? (
                     <>
                         {isOpen ? (
-                            <ArrowDropDownIcon style={{ marginRight: "15px" }} />
+                            <ArrowDropDownIcon style={{ marginRight: "-5px" }} />
                         ) : (
-                            <ArrowRightIcon style={{ marginRight: "15px" }} />
+                            <ArrowRightIcon style={{ marginRight: "-5px" }} />
                         )}
                     </>
                 ) : (

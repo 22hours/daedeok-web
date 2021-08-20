@@ -94,8 +94,7 @@ const QnaDetail = ({ articleId }) => {
                 if (parent_id) {
                     // 대댓일때
                     if (qnaDetailData) {
-                        var newCommentList: res_types.qnaDetailList["comment_list"] =
-                            qnaDetailData?.comment_list.slice();
+                        var newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         newCommentList[matchIdx].children.push({
                             id: new_comment_id,
@@ -116,8 +115,7 @@ const QnaDetail = ({ articleId }) => {
                 } else {
                     // 댓일때
                     if (qnaDetailData) {
-                        const newCommentList: res_types.qnaDetailList["comment_list"] =
-                            qnaDetailData?.comment_list.slice();
+                        const newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
                         newCommentList.push({
                             id: new_comment_id,
                             // @ts-ignore
@@ -170,8 +168,7 @@ const QnaDetail = ({ articleId }) => {
                 if (parent_id) {
                     // 대댓일때
                     if (qnaDetailData) {
-                        var newCommentList: res_types.qnaDetailList["comment_list"] =
-                            qnaDetailData?.comment_list.slice();
+                        var newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
                         newCommentList[matchIdx].children[childMatchIdx].content = content;
@@ -185,8 +182,7 @@ const QnaDetail = ({ articleId }) => {
                 } else {
                     // 댓일때
                     if (qnaDetailData) {
-                        const newCommentList: res_types.qnaDetailList["comment_list"] =
-                            qnaDetailData?.comment_list.slice();
+                        const newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
                         newCommentList[matchIdx].content = content;
                         newCommentList[matchIdx].create_date = new Date().toString();
@@ -231,8 +227,7 @@ const QnaDetail = ({ articleId }) => {
                     if (parent_id) {
                         // 대댓일때
                         if (qnaDetailData) {
-                            var newCommentList: res_types.qnaDetailList["comment_list"] =
-                                qnaDetailData?.comment_list.slice();
+                            var newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
                             const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                             const childMatchIdx = newCommentList[matchIdx].children.findIndex(
                                 (it) => it.id === comment_id
@@ -247,8 +242,7 @@ const QnaDetail = ({ articleId }) => {
                     } else {
                         // 댓일때
                         if (qnaDetailData) {
-                            const newCommentList: res_types.qnaDetailList["comment_list"] =
-                                qnaDetailData?.comment_list.slice();
+                            const newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
                             const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
                             newCommentList.splice(matchIdx, 1);
                             setQnaDetailData({
@@ -269,6 +263,38 @@ const QnaDetail = ({ articleId }) => {
                 }
             },
         });
+    };
+
+    const ControlBtn = () => {
+        if (qnaDetailData) {
+            return (
+                <>
+                    <Button
+                        type="SQUARE"
+                        size="smaller"
+                        fontSize="smaller"
+                        backgroundColor="gray_accent"
+                        content="글삭제"
+                        color="white"
+                        className={style.bottom_btn_style}
+                        onClick={handleDelete}
+                    />
+                    <Link href={`/acinfo/qna/edit/${qnaDetailData.id}`} passHref>
+                        <Button
+                            type="SQUARE"
+                            size="smaller"
+                            fontSize="smaller"
+                            backgroundColor="yellow_accent"
+                            content="수정"
+                            color="white"
+                            className={style.bottom_btn_style}
+                        />
+                    </Link>
+                </>
+            );
+        } else {
+            return null;
+        }
     };
 
     if (qnaDetailData === null) {
@@ -356,31 +382,12 @@ const QnaDetail = ({ articleId }) => {
                     </TableWrapper>
                 </div>
                 <div className={style.bottom_btn_wrapper}>
-                    {qnaDetailData?.user_id.toString() === auth?.user_id.toString() && (
-                        <>
-                            <Button
-                                type="SQUARE"
-                                size="smaller"
-                                fontSize="smaller"
-                                backgroundColor="gray_accent"
-                                content="글삭제"
-                                color="white"
-                                className={style.bottom_btn_style}
-                                onClick={handleDelete}
-                            />
-                            <Link href={`/acinfo/qna/edit/${qnaDetailData.id}`} passHref>
-                                <Button
-                                    type="SQUARE"
-                                    size="smaller"
-                                    fontSize="smaller"
-                                    backgroundColor="yellow_accent"
-                                    content="수정"
-                                    color="white"
-                                    className={style.bottom_btn_style}
-                                />
-                            </Link>
-                        </>
-                    )}
+                    {auth?.role === "ROLE_ADMIN" ? (
+                        <ControlBtn />
+                    ) : qnaDetailData?.user_id.toString() === auth?.user_id.toString() ? (
+                        <ControlBtn />
+                    ) : null}
+
                     <Link href={"/acinfo/qna"} passHref>
                         <Button
                             type="SQUARE"

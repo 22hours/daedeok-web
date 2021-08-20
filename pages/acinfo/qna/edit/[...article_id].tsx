@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { SecureRoute } from "lib/server/accessController";
 import useCategory from "lib/hooks/useCategory";
+import { useConfirm } from "store/GlobalConfirmStore";
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 type State = {
@@ -19,6 +20,7 @@ const QnaEdit = () => {
     const { auth, clientSideApi } = useAuthStore();
     const [originData, setOriginData] = useState<State | null>(null);
     const { categoryOptionList } = useCategory("QNA");
+    const { confirmOn } = useConfirm();
 
     const getOriginData = async () => {
         const res = await clientSideApi("GET", "MAIN", "QNA_FIND_DETAIL", { article_id: article_id });
@@ -35,8 +37,11 @@ const QnaEdit = () => {
     };
 
     const handleEdit = () => {
-        alert("수정되었습니다");
-        router.push(`/acinfo/qna/detail/${article_id}`);
+        confirmOn({
+            message: "게시글을 수정하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
+            onSuccess: () => router.push(`/acinfo/qna/detail/${article_id}`),
+            isFailButtonRemove: true,
+        });
     };
 
     useEffect(() => {

@@ -1,10 +1,11 @@
 import AxiosClient from "lib/api/api";
 import { api_config_type } from "@api_config_type";
-import React, { useEffect, Dispatch, createContext, useReducer, useContext } from "react";
+import React, { useEffect, Dispatch, createContext, useReducer, useContext, useRef } from "react";
 import { meta_types } from "@global_types";
 import CookieController from "lib/client/cookieController";
 import { useRouter } from "next/router";
 import { useAlert } from "./GlobalAlertStore";
+import { useConfirm } from "./GlobalConfirmStore";
 
 // ELEMENT TYPES
 type api_params = api_config_type.api_params;
@@ -57,23 +58,22 @@ export const AuthProvider = ({ children }) => {
     const apiClient = AxiosClient;
 
     const router = useRouter();
+    const { confirmOn } = useConfirm();
     const { alertOn } = useAlert();
     const [auth, dispatch] = useReducer(reducer, null);
 
-    const getNewAccessToken = async () => {
-        const token = CookieController.getTokenInCookie();
-        const res_data = await apiClient.API_CALL("POST", "MAIN", "REFRESH", undefined, { ...token });
-        if (res_data.result === "SUCCESS") {
-            CookieController.setAccessTokenInCokkie(res_data.data.access_token);
-            return res_data.data.access_token;
-        } else {
-            alertOn({
-                title: "세션이 만료되었습니다",
-                message: "다시 로그인해주시기 바랍니다",
-                type: "DEFAULT",
-            });
-            router.replace("/logout");
-        }
+    let isRefreshing = false;
+    let failedQueue: any[] = [];
+    const processQueue = (error, token = null) => {
+        failedQueue.forEach((prom: any) => {
+            if (error) {
+                prom.reject(error);
+            } else {
+                prom.resolve(token);
+            }
+        });
+
+        failedQueue = [];
     };
 
     const clientSideApi = async (
@@ -97,14 +97,65 @@ export const AuthProvider = ({ children }) => {
                 case 701: {
                     // 토큰 만료
                     if (res_data.config) {
-                        const newAccessToken = await getNewAccessToken();
-                        const errorConfig = res_data.config;
-                        return apiClient.client({
-                            method: errorConfig.method,
-                            url: errorConfig.url,
-                            data: errorConfig.data,
-                            params: errorConfig.params,
-                            headers: { ...errorConfig.headers, Authorization: newAccessToken },
+                        const originalRequest = res_data.config;
+
+                        if (isRefreshing) {
+                            return new Promise(function (resolve, reject) {
+                                failedQueue.push({ resolve, reject });
+                            })
+                                .then((token) => {
+                                    originalRequest.headers["Authorization"] = "Bearer " + token;
+                                    return apiClient.client(originalRequest);
+                                })
+                                .catch((err) => {
+                                    return Promise.reject(err);
+                                });
+                        }
+
+                        originalRequest._retry = true;
+                        isRefreshing = true;
+
+                        const token = CookieController.getTokenInCookie();
+                        return new Promise(function (resolve, reject) {
+                            apiClient
+                                .API_CALL(
+                                    "POST",
+                                    "MAIN",
+                                    "REFRESH",
+                                    undefined,
+                                    { ...token },
+                                    { Authorization: undefined }
+                                )
+                                .then(({ data }) => {
+                                    if (data?.access_token) {
+                                        CookieController.setAccessTokenInCokkie(data.access_token);
+                                        apiClient.client.defaults.headers.common["Authorization"] =
+                                            "Bearer " + data.access_token;
+                                        originalRequest.headers["Authorization"] = "Bearer " + data.access_token;
+                                        processQueue(null, data.access_token);
+                                        resolve(apiClient.client(originalRequest));
+                                    } else {
+                                        reject();
+                                        confirmOn({
+                                            message: "다시 로그인해주시기 바랍니다",
+                                            onSuccess: () => router.replace("/logout"),
+                                            isFailButtonRemove: true,
+                                        });
+                                        isRefreshing = false;
+                                    }
+                                })
+                                .catch((err) => {
+                                    processQueue(err, null);
+                                    reject(err);
+                                    confirmOn({
+                                        message: "다시 로그인해주시기 바랍니다",
+                                        onSuccess: () => router.replace("/logout"),
+                                        isFailButtonRemove: true,
+                                    });
+                                })
+                                .finally(() => {
+                                    isRefreshing = false;
+                                });
                         });
                     }
                     break;
@@ -163,6 +214,17 @@ export const AuthProvider = ({ children }) => {
             });
         }
     };
+
+    const firstRef = useRef(true);
+    useEffect(() => {
+        if (firstRef.current) {
+            firstRef.current = false;
+        } else {
+            if (auth === null) {
+                CookieController.removeUserInCookie();
+            }
+        }
+    }, [auth]);
 
     const store: Store = {
         auth,

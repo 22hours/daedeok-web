@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import cookies from "next-cookies";
 import { SecureRoute } from "lib/server/accessController";
 import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 type Props = {};
 
@@ -17,6 +18,7 @@ const ContentEditor = dynamic(() => import("components/organism/ContentEditor/Co
 
 const TutorNoticeEdit = () => {
     const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
 
     const router = useRouter();
     const { notice_id } = router.query;
@@ -41,11 +43,11 @@ const TutorNoticeEdit = () => {
         }
     }, [auth]);
     const handleEdited = () => {
-        alertOn({
-            message: "게시글을 수정하였습니다",
-            type: "POSITIVE",
+        confirmOn({
+            message: "게시글을 수정하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
+            onSuccess: () => router.push(`/class/notice/detail/${notice_id}`),
+            isFailButtonRemove: true,
         });
-        router.push(`/class/notice/detail/${notice_id}`);
     };
     if (originData === null) {
         return <div>NOW LOADING</div>;

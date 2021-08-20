@@ -2,18 +2,23 @@
 @import "styles/meta.scss";
 
 .container {
+    margin-top: 10px;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     margin-bottom: 20px;
     a {
         text-decoration: none;
     }
 
+    .breadcrumb {
+        white-space: nowrap;
+    }
     .breadcrumb:hover {
         color: $brown_base;
     }
     .sep {
-        margin-left: 5px;
-        margin-right: 5px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 }

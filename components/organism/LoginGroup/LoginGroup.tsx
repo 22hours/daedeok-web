@@ -6,10 +6,10 @@ import Typo from "@ui/Typo";
 import TextInput from "@ui/input/TextInput";
 import Button from "@ui/buttons/Button";
 import Link from "next/link";
-import PageHeader from "@ui/PageHeader";
 import style from "./LoginGroup.module.scss";
 import { useEffect } from "react";
 import { useAlert } from "store/GlobalAlertStore";
+import PasswordController from "lib/client/passwordController";
 
 type Props = {};
 
@@ -25,37 +25,37 @@ const LoginGroup = (props: Props) => {
             switch (require_role) {
                 case "ROLE_ADMIN": {
                     alertOn({
-                        title: "에러가 발생하였습니다",
+                        title: "권한이 없습니다",
                         //@ts-ignore
                         message: "관리자만 접근 가능합니다\n관리자 계정으로 로그인 해 주세요",
-                        type: "ERROR",
+                        type: "WARN",
                     });
                     break;
                 }
                 case "ROLE_TUTOR": {
                     alertOn({
-                        title: "에러가 발생하였습니다",
+                        title: "권한이 없습니다",
                         //@ts-ignore
                         message: "강사만 접근 가능합니다강사 계정으로 로그인 해 주세요",
-                        type: "ERROR",
+                        type: "WARN",
                     });
                     break;
                 }
                 case "ROLE_MEMBER": {
                     alertOn({
-                        title: "에러가 발생하였습니다",
+                        title: "권한이 없습니다",
                         //@ts-ignore
                         message: "수강생만 접근 가능합니다\n수강생 계정으로 로그인 해 주세요",
-                        type: "ERROR",
+                        type: "WARN",
                     });
                     break;
                 }
                 case "ROLE_ALL": {
                     alertOn({
-                        title: "에러가 발생하였습니다",
+                        title: "권한이 없습니다",
                         //@ts-ignore
                         message: "로그인 후 이용가능합니다",
-                        type: "ERROR",
+                        type: "WARN",
                     });
                     break;
                 }
@@ -77,13 +77,9 @@ const LoginGroup = (props: Props) => {
             });
             return;
         }
-        // if (pwInput.value.length < 8) {
-        //     alert("비밀번호를 정확히 입력해주세요");
-        //     return;
-        // }
         const res = await clientSideApi("POST", "MAIN", "USER_LOGIN", undefined, {
             id: idInput.value,
-            password: pwInput.value,
+            password: PasswordController.hashPassword(pwInput.value),
         });
         if (res.result === "SUCCESS") {
             login(res.data);
@@ -154,8 +150,10 @@ const LoginGroup = (props: Props) => {
                     </Link>
                 </div>
                 <div className={style.label_row}>
-                    <Link href={`/`} passHref>
-                        <Typo type={"TEXT"} size={"small"} content={"메인페이지로 가기 >"} color={"gray_accent"} />
+                    <Link href={"/"} passHref>
+                        <div>
+                            <Typo type={"TEXT"} size={"small"} content={"메인페이지로 가기 >"} color={"gray_accent"} />
+                        </div>
                     </Link>
                 </div>
             </div>

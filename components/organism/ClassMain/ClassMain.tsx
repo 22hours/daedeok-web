@@ -14,7 +14,7 @@ type MainSectionProps = {
 const MainSection = (props: MainSectionProps) => {
     return (
         <div className={style.section}>
-            <Typo type={"HEADER"} size={"h4"} content={props.sectionTitle} />
+            <Typo className={style.section_header} type={"HEADER"} size={"h4"} content={props.sectionTitle} />
             <div className={style.section_body}>{props.children}</div>
         </div>
     );
@@ -51,9 +51,23 @@ const ClassMain = () => {
             <div className={style.container}>
                 <MainSection sectionTitle={auth.role === "ROLE_TUTOR" ? "현재 진행중인 강의" : "현재 수강중인 강의"}>
                     <div>
-                        {data.lecture_list.map((it, idx) => (
-                            <LecturePannel key={`lectureitem${idx}`} {...it} />
-                        ))}
+                        {data.lecture_list.length === 0 ? (
+                            <>
+                                <Typo
+                                    className={style.section_header}
+                                    type={"TEXT"}
+                                    size={"medium"}
+                                    color={"gray_accent"}
+                                    content={"표시할 강의가 없습니다"}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                {data.lecture_list.map((it, idx) => (
+                                    <LecturePannel key={`lectureitem${idx}`} {...it} />
+                                ))}
+                            </>
+                        )}
                     </div>
                 </MainSection>
                 {auth?.role === "ROLE_TUTOR" && (

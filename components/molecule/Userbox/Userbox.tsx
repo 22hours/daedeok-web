@@ -10,13 +10,15 @@ import React from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useGlobalLoader } from "store/GlobalLoader";
 import style from "./Userbox.module.scss";
+import { useAlert } from "store/GlobalAlertStore";
+import PasswordController from "lib/client/passwordController";
 type Props = {
     className?: string;
 };
 
 const Userbox = (props: Props) => {
     const { auth, login, logout, clientSideApi } = useAuthStore();
-
+    const { alertOn, apiErrorAlert } = useAlert();
     const globalLoader = useGlobalLoader();
     const phone_num = useInput();
     const pw = useInput();
@@ -24,9 +26,10 @@ const Userbox = (props: Props) => {
 
     const handleLogin = async () => {
         globalLoader.toggle();
+
         const res = await clientSideApi("POST", "MAIN", "USER_LOGIN", undefined, {
             id: phone_num.value,
-            password: pw.value,
+            password: PasswordController.hashPassword(pw.value),
         });
         if (res.result === "SUCCESS") {
             phone_num.setValue("");
@@ -36,8 +39,7 @@ const Userbox = (props: Props) => {
             login(res.data);
         } else {
             globalLoader.setValue(false);
-
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
         pw.setValue("");
     };
@@ -117,7 +119,8 @@ const Userbox = (props: Props) => {
                     <Typo type={"TEXT"} size={"small"} content={welcom_text} className={style.wellcome} />
                 </div>
                 <div>
-                    <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={role_kr} />
+                    <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={auth.first_division} />
+                    <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={` ${auth.second_division}`} />
                 </div>
                 <div className={style.bottom}>
                     {auth.role !== "ROLE_ADMIN" && (

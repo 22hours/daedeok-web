@@ -5,7 +5,7 @@
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
     background-color: rgb(240, 240, 240);
 
     .head {
@@ -21,15 +21,21 @@
     }
     .body {
         display: grid;
-        gap: 15px;
-        margin-top: 15px;
+        gap: 8px;
+        margin-top: 8px;
         .item_row {
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: auto 45px;
             align-items: center;
+            cursor: pointer;
+
+            .title_txt {
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
             .typo_item {
-                font-weight: bold;
             }
             .typo_date {
             }

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import { useAuthStore } from "./AuthStore";
 import { useClassStore } from "./ClassStore";
+import { useAlert } from "./GlobalAlertStore";
 
 // STATE TYPES
 type State = {
@@ -34,6 +35,7 @@ export const ClassDetailProvider = (props: ProviderType) => {
     const asPath = router.asPath;
     const [classInfo, setClassInfo] = useState<State>(null);
     const { auth, clientSideApi } = useAuthStore();
+    const { alertOn } = useAlert();
     const getClassInfo = async () => {
         // @ts-ignore
         const { class_id, status }: { class_id: string; status: meta_types.classStatus } = router.query;
@@ -45,7 +47,12 @@ export const ClassDetailProvider = (props: ProviderType) => {
                 class_status: status,
             });
         } else {
-            alert(res.msg);
+            alertOn({
+                title: "에러가 발생했습니다",
+                // @ts-ignore
+                message: res.msg,
+                type: "ERROR",
+            });
         }
     };
 

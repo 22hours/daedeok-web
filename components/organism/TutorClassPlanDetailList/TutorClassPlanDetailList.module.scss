@@ -25,3 +25,51 @@
         width: 100px;
     }
 }
+
+.list_wrapper {
+    @include list_item_container;
+
+    .left_wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .main_info {
+            display: grid;
+            @include desktop {
+                align-items: center;
+                grid-template-columns: 20px 150px auto;
+                gap: 20px;
+            }
+            @include mobile {
+                align-items: flex-start;
+                grid-template-columns: 20px auto auto;
+                gap: 10px;
+            }
+        }
+    }
+    .right_wrapper {
+        @include mobile {
+            margin-top: 10px;
+        }
+    }
+}
+
+@include desktop {
+    .pc_only {
+        visibility: visible;
+    }
+    .mobile_only {
+        visibility: hidden;
+        display: none;
+    }
+}
+@include mobile {
+    .pc_only {
+        visibility: hidden;
+        display: none;
+    }
+    .mobile_only {
+        visibility: visible;
+    }
+}

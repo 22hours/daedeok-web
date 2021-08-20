@@ -40,7 +40,7 @@ const CategoryList = (props: Props) => {
             const res = await clientSideApi("GET", "MAIN", "CATEGORY_FIND", undefined, {
                 keyword: state.keyword,
                 page: parseInt(state.page) - 1,
-                required_count: 7,
+                required_count: 100,
             });
             if (res.result === "SUCCESS") {
                 setData({ ...res.data });
@@ -58,10 +58,7 @@ const CategoryList = (props: Props) => {
         return <div>LOAD</div>;
     } else {
         return (
-            <ListPageLayout
-                headerRight={<ListSearchbar />}
-                footer={<ListPagination total_count={parseInt(data.total_count)} />}
-            >
+            <ListPageLayout>
                 <TableWrapper>
                     <>
                         {data.category_list.map((it, idx) => (

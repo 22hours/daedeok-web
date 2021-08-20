@@ -210,7 +210,7 @@ const CommentItem = (props: Props) => {
     };
 
     return (
-        <div className={style.container}>
+        <div className={`${style.container} ${props.type === "SECOND" ? style.second_container : ""}`}>
             {props.type === "SECOND" && <div className={style.second_left_padding_div}></div>}
             {makeComment()}
         </div>

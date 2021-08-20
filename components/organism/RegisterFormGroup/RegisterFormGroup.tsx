@@ -33,9 +33,6 @@ const InputSection = (props: SectionProps) => {
 };
 
 const DivisionInput = ({ firstDivision, secondDivision }) => {
-    const { clientSideApi } = useAuthStore();
-    type DivisionItem = { first_division: string; second_division: string[] };
-
     const { firstDivisionOptionList, secondDivisionOptionList } = useDivision(firstDivision, secondDivision);
 
     return (
@@ -80,8 +77,6 @@ const RegisterFormGroup = () => {
     const secondDivision = useInput();
     const terms = useBoolean();
     const privacy = useBoolean();
-
-    const checkPw = () => {};
 
     const handleSumbit = async () => {
         if (auth === null) {
@@ -148,10 +143,6 @@ const RegisterFormGroup = () => {
             });
             return;
         }
-        // if (secondDivision.value === "") {
-        //     alert("하위 소속을 입력해주세요");
-        //     return;
-        // }
         if (!terms.value) {
             alertOn({
                 title: "",
@@ -257,12 +248,14 @@ const RegisterFormGroup = () => {
                                 className={style.register_form}
                                 labelContent={"대덕바이블아카데미 이용약관 동의"}
                                 isLabelRight
+                                link={"/docs/terms"}
                             />
                             <CheckBox
                                 {...privacy}
                                 className={style.register_form}
                                 labelContent={"개인정보 처리방침 동의"}
                                 isLabelRight
+                                link={"/docs/privacy"}
                             />
                         </div>
                     </InputSection>

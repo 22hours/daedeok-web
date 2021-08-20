@@ -129,28 +129,62 @@ const TutorClassPlanDetailList = () => {
                 </div>
                 <TableWrapper>
                     {state.student_list.map((it, idx) => {
+                        const studentInfo = `${it.duty} ${it.first_division} ${it.second_division} ${it.phone_num}`;
                         return (
-                            <TableRow
-                                key={`planuseritem:${idx}`}
-                                idx={idx + 1}
-                                studentName={it.name}
-                                studentInfo={{
-                                    duty: it.duty,
-                                    first_division: it.first_division,
-                                    second_division: it.second_division,
-                                    phone_number: it.phone_num.toString(),
-                                }}
-                            >
-                                <Button
-                                    type={"SQUARE"}
-                                    size={"small"}
-                                    fontSize={"smaller"}
-                                    backgroundColor={it.status !== "COMPLETE" ? "brown_base" : "gray_accent"}
-                                    color={"white"}
-                                    content={it.status !== "COMPLETE" ? "출석확인" : "출석완료"}
-                                    onClick={it.status !== "COMPLETE" ? () => postAttendance(it.user_id) : () => {}}
-                                />
-                            </TableRow>
+                            <div key={`studentitem${idx}`}>
+                                <div className={style.list_wrapper}>
+                                    <div className={style.left_wrapper}>
+                                        <div className={style.main_info}>
+                                            <div className={style.list_id}>
+                                                <Typo
+                                                    type="TEXT"
+                                                    size="small"
+                                                    content={it.user_id.toString()}
+                                                    color={"brown_font"}
+                                                />
+                                            </div>
+                                            <div className={style.name}>
+                                                <Typo
+                                                    type="TEXT"
+                                                    size="medium"
+                                                    content={it.name}
+                                                    color={"brown_font"}
+                                                />
+                                            </div>
+                                            <div className={`${style.pc_only}  ${style.student_info_wrapper}`}>
+                                                <Typo
+                                                    type="TEXT"
+                                                    size="small"
+                                                    content={studentInfo}
+                                                    color={"gray_accent"}
+                                                />
+                                            </div>
+                                        </div>
+                                        <Button
+                                            className={`${style.button}`}
+                                            type={"SQUARE"}
+                                            size={"small"}
+                                            fontSize={"smaller"}
+                                            backgroundColor={it.status !== "COMPLETE" ? "brown_base" : "gray_accent"}
+                                            color={"white"}
+                                            content={it.status !== "COMPLETE" ? "출석확인" : "출석완료"}
+                                            onClick={
+                                                it.status !== "COMPLETE" ? () => postAttendance(it.user_id) : () => {}
+                                            }
+                                        />
+                                    </div>
+                                    <div className={style.right_wrapper}>
+                                        <div className={`${style.mobile_only}  ${style.student_info_wrapper}`}>
+                                            <Typo
+                                                type="TEXT"
+                                                size="small"
+                                                content={studentInfo}
+                                                color={"gray_accent"}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         );
                     })}
                 </TableWrapper>

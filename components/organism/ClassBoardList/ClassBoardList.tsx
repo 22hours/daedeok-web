@@ -7,12 +7,11 @@ import DateController from "lib/client/dateController";
 import TableRow from "@ui/board/TableRow";
 import TableWrapper from "@ui/board/TableWrapper";
 import style from "./ClassBoardList.module.scss";
-import Select from "@ui/input/Select";
+import Typo from "@ui/Typo";
 import Button from "@ui/buttons/Button";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
-import useClassBoardCategory from "lib/hooks/useClassBoardCategory";
 
 // List
 import ListSelect from "components/molecule/ListSelect/ListSelect";
@@ -54,7 +53,7 @@ const ClassBoardList = () => {
                 category: state.category === "ALL" ? undefined : state.category,
                 keyword: state.keyword,
                 page: parseInt(state.page) - 1,
-                required_count: 7,
+                required_count: 10,
             }
         );
         if (res.result === "SUCCESS") {
@@ -88,13 +87,32 @@ const ClassBoardList = () => {
                 {boardState.board_list.map((it, idx) => (
                     <div key={idx}>
                         <Link href={`/class/open/${lectureId}/board/detail/${it.id}`} passHref>
-                            <TableRow
-                                idx={idx + 1}
-                                title={it.title}
-                                category={it.category}
-                                author={it.author}
-                                date={DateController.getFormatedDate("YYYY-MM-DD", it.create_date)}
-                            ></TableRow>
+                            <div className={style.class_list}>
+                                <div className={style.title_wrapper}>
+                                    <div className={style.list_id}>
+                                        <Typo type="TEXT" size="small" color="brown_font" content={it.id.toString()} />
+                                    </div>
+                                    <div className={style.list_title}>
+                                        <Typo type="TEXT" size="medium" color="brown_font" content={it.title} />
+                                    </div>
+                                </div>
+                                <div className={style.list_detail_wrapper}>
+                                    <div className={style.detail_item}>
+                                        <Typo type="TEXT" size="small" content={it.category} color={"red_accent"} />
+                                    </div>
+                                    <div className={style.author}>
+                                        <Typo type="TEXT" size="small" content={it.author} color={"gray_accent"} />
+                                    </div>
+                                    <div className={style.detail_item}>
+                                        <Typo
+                                            type="TEXT"
+                                            size="small"
+                                            content={DateController.getFormatedDate("YYYY-MM-DD", it.create_date)}
+                                            color={"gray_accent"}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </Link>
                     </div>
                 ))}

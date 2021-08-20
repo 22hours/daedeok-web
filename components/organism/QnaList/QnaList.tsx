@@ -9,7 +9,9 @@ import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
 import Pagination from "@ui/pagination/Pagination";
 import DateController from "lib/client/dateController";
-
+import Typo from "@ui/Typo";
+//icon
+import HttpsIcon from "@material-ui/icons/Https";
 // List
 import ListSelect from "components/molecule/ListSelect/ListSelect";
 import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
@@ -76,31 +78,66 @@ const QnaList = (props: Props) => {
                 headerLeft={<ListSelect categoryType={"QNA"} />}
                 headerRight={<ListSearchbar />}
                 control_row={
-                    <Link href={`/acinfo/qna/new`} passHref>
-                        <Button
-                            type="SQUARE"
-                            content="글쓰기"
-                            backgroundColor="yellow_accent"
-                            fontSize="smaller"
-                            size="smaller"
-                            color="white"
-                            className={style.new_btn}
-                        />
-                    </Link>
+                    <>
+                        {auth && (
+                            <Link href={`/acinfo/qna/new`} passHref>
+                                <Button
+                                    type="SQUARE"
+                                    content="글쓰기"
+                                    backgroundColor="yellow_accent"
+                                    fontSize="smaller"
+                                    size="smaller"
+                                    color="white"
+                                    className={style.new_btn}
+                                />
+                            </Link>
+                        )}
+                    </>
                 }
                 footer={<ListPagination total_count={data.total_count} />}
             >
                 <TableWrapper>
                     {data.qna_list.map((it, idx) => (
-                        <div key={idx}>
+                        <div key={`qnalistitem${idx}`}>
                             <Link href={`/acinfo/qna/detail/${it.id}`} passHref>
-                                <TableRow
-                                    idx={it.id}
-                                    title={it.title}
-                                    date={DateController.getFormatedDate("YYYY-MM-DD", it.create_date)}
-                                    category={it.category}
-                                    view={`조회수 ${it.view}`}
-                                ></TableRow>
+                                <div className={style.qna_list_wrapper}>
+                                    <div className={style.title_wrapper}>
+                                        <div className={style.list_id}>
+                                            <Typo
+                                                type="TEXT"
+                                                size="small"
+                                                content={it.id.toString()}
+                                                color={"brown_font"}
+                                            />
+                                        </div>
+                                        <div className={style.list_title}>
+                                            {it.secret && <HttpsIcon style={{ fontSize: "15px" }} />}
+
+                                            <Typo type="TEXT" size="medium" content={it.title} color={"brown_font"} />
+                                        </div>
+                                    </div>
+                                    <div className={style.detail_item_list}>
+                                        <div className={style.detail_items}>
+                                            <Typo content={it.category} type="TEXT" size="small" color="red_accent" />
+                                        </div>
+                                        <div className={style.detail_items}>
+                                            <Typo
+                                                content={DateController.getFormatedDate("YYYY-MM-DD", it.create_date)}
+                                                type="TEXT"
+                                                size="small"
+                                                color="gray_accent"
+                                            />
+                                        </div>
+                                        <div className={style.detail_items}>
+                                            <Typo
+                                                content={`조회수 ${it.view}`}
+                                                type="TEXT"
+                                                size="small"
+                                                color="gray_accent"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
                             </Link>
                         </div>
                     ))}

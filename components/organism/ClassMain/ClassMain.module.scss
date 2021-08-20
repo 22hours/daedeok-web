@@ -3,16 +3,19 @@
 
 .container {
     .section {
+        .section_header {
+            margin-bottom: 10px;
+        }
         margin-bottom: 50px;
         .box_grid {
             @include desktop {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 10%;
+                gap: 3%;
             }
             @include mobile {
                 display: grid;
-                gap: 15px;
+                gap: 10px;
             }
         }
     }

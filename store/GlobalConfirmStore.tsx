@@ -15,6 +15,7 @@ type Store = {
         onSuccess: Function;
         onFail?: Function;
         title?: string | undefined;
+        isFailButtonRemove?: boolean;
     }) => void;
 };
 type State =
@@ -25,6 +26,7 @@ type State =
           message: string;
           onSuccess: Function;
           onFail?: Function;
+          isFailButtonRemove?: boolean;
       };
 const initState: State = {
     isOpen: false,
@@ -44,11 +46,13 @@ export const GlobalConfirmProvider = ({ children }) => {
         onSuccess,
         onFail,
         title,
+        isFailButtonRemove,
     }: {
         message: string;
         onSuccess: Function;
         onFail?: Function;
         title?: string;
+        isFailButtonRemove?: boolean;
     }) => {
         setState({
             isOpen: true,
@@ -56,6 +60,7 @@ export const GlobalConfirmProvider = ({ children }) => {
             title: title,
             onSuccess: onSuccess,
             onFail: onFail,
+            isFailButtonRemove: isFailButtonRemove,
         });
     };
 

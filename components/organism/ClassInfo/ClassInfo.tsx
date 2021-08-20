@@ -33,22 +33,26 @@ const HandoutItem = (props: HandoutItem) => {
 };
 const HandoutSection = ({ handout_list }: { handout_list: State["handout_list"] }) => {
     return (
-        <div className={style.handout_row}>
-            <div>
-                <Typo
-                    className={style.head_block_text}
-                    type={"TEXT"}
-                    size={"small"}
-                    content={"강의자료 받기"}
-                    color={"white"}
-                />
-            </div>
-            <div className={style.handout_list_col}>
-                {handout_list.map((it: HandoutItem, idx: number) => (
-                    <HandoutItem key={`handoutitem:${idx}`} {...it} />
-                ))}
-            </div>
-        </div>
+        <>
+            {handout_list.length !== 0 && (
+                <div className={style.handout_row}>
+                    <div>
+                        <Typo
+                            className={style.head_block_text}
+                            type={"TEXT"}
+                            size={"small"}
+                            content={"강의자료 받기"}
+                            color={"white"}
+                        />
+                    </div>
+                    <div className={style.handout_list_col}>
+                        {handout_list.map((it: HandoutItem, idx: number) => (
+                            <HandoutItem key={`handoutitem:${idx}`} {...it} />
+                        ))}
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 

@@ -74,22 +74,24 @@
 }
 .idx_item {
     @include desktop {
+        min-width: 20px;
         margin-right: 50px;
     }
     @include mobile {
+        min-width: 16px;
         margin-right: 10px;
     }
 }
 
 .title_item {
     @include desktop {
-        width: 300px;
+        width: 350px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
     @include mobile {
-        width: 200px;
+        width: 250px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -97,10 +99,12 @@
 }
 .week_item {
     @include desktop {
-        margin-right: 50px;
+        width: 50px;
+        margin-right: 10px;
     }
     @include mobile {
         margin-right: 8px;
+        min-width: 32px;
     }
 }
 .week_title_item {

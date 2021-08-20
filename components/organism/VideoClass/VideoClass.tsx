@@ -20,7 +20,7 @@ type State = {
     duration: number;
     week: number;
     isAttendacned: boolean;
-} | null;
+};
 
 const VideoClass = () => {
     const { alertOn } = useAlert();
@@ -28,13 +28,13 @@ const VideoClass = () => {
     const { episode_id } = router.query;
     const classInfo = useClassDetailStore();
     const { clientSideApi } = useAuthStore();
-    const [state, setState] = useState<State>(null);
+    const [state, setState] = useState<State | null>(null);
 
     const getVideoData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_ONLINE_DETAIL", { episode_id: episode_id });
         if (res.result === "SUCCESS") {
             const data: State = res.data;
-            setState(data);
+            setState({ ...data, isAttendacned: data.duration === 100 });
         } else {
         }
     };
@@ -119,7 +119,13 @@ const VideoClass = () => {
                 </div>
 
                 <div className={style.video_container}>
-                    <Video duration={state.duration} setDuration={setDuration} video_url={video_url} timerTick={5000} />
+                    <Video
+                        duration={state.duration}
+                        setDuration={setDuration}
+                        video_url={video_url}
+                        timerTick={5000}
+                        isAttendacned={state.isAttendacned}
+                    />
                 </div>
 
                 <div className={style.progress_container}>

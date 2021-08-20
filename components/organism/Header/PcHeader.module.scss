@@ -12,8 +12,10 @@
     right: 0;
     bottom: 0;
     position: absolute;
-    display: flex;
-    justify-content: center;
+    // display: flex;
+    // justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 }
 
 .header_wrapper {
@@ -29,6 +31,9 @@
     align-items: center;
     overflow: hidden;
     border-left: 1px solid $gray_accent;
+}
+.font_bold {
+    font-weight: bold !important;
 }
 
 .parent_on {

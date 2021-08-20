@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { useAlert } from "store/GlobalAlertStore";
 type Props = {};
 
 const BannerItem = ({ url }: { url: string }) => {
@@ -14,13 +15,15 @@ const BannerItem = ({ url }: { url: string }) => {
 
 const MainCarousel = (props: Props) => {
     const { clientSideApi } = useAuthStore();
+    const { apiErrorAlert } = useAlert();
+
     const [imgList, setImgList] = useState<string[]>([]);
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "ADMIN_FIND_IMAGE");
         if (res.result === "SUCCESS") {
             setImgList(res.data.image_list.map((it) => it.url));
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
     useEffect(() => {

@@ -211,26 +211,69 @@ const AdminManageDivision = () => {
             <div className={style.body}>
                 <TableWrapper>
                     <>
-                        {data.map((it, idx) => (
-                            <TableRow
-                                key={`divisionlistitem${idx}`}
-                                title={it.first_division || " "}
-                                studentName={it.second_division.map((it) => it).join(",")}
-                            >
-                                <div className={style.control_col}>
-                                    <Button
-                                        className={style.button}
-                                        type={"SQUARE"}
-                                        size={"free"}
-                                        fontSize={"smaller"}
-                                        content={"삭제"}
-                                        backgroundColor={"brown_base"}
-                                        color={"white"}
-                                        onClick={() => deleteDivision(it.first_division)}
+                        <>
+                            <div key={`divisionlistitemheader`} className={style.list_container}>
+                                <div>
+                                    <Typo
+                                        className={style.list_item}
+                                        type="TEXT"
+                                        size="medium"
+                                        content={"상위소속"}
+                                        color={"brown_font"}
                                     />
                                 </div>
-                            </TableRow>
-                        ))}
+                                <div>
+                                    <Typo
+                                        className={style.list_item}
+                                        type="TEXT"
+                                        size="medium"
+                                        content={"하위대상"}
+                                        color={"brown_font"}
+                                    />
+                                </div>
+                                <div>
+                                    <Typo
+                                        className={style.list_item}
+                                        type="TEXT"
+                                        size="medium"
+                                        content={"관리"}
+                                        color={"brown_font"}
+                                    />
+                                </div>
+                            </div>
+                            {data.map((it, idx) => (
+                                <div key={`divisionlistitem${idx}`} className={style.list_container}>
+                                    <div>
+                                        <Typo
+                                            type="TEXT"
+                                            size="normal"
+                                            content={it.first_division}
+                                            color={"brown_font"}
+                                        />
+                                    </div>
+                                    <div>
+                                        <Typo
+                                            type="TEXT"
+                                            size="normal"
+                                            content={it.second_division.map((it) => it).join(",")}
+                                            color={"brown_font"}
+                                        />
+                                    </div>
+                                    <div>
+                                        <Button
+                                            className={style.button}
+                                            type={"SQUARE"}
+                                            size={"free"}
+                                            fontSize={"smaller"}
+                                            content={"삭제"}
+                                            backgroundColor={"brown_base"}
+                                            color={"white"}
+                                            onClick={() => deleteDivision(it.first_division)}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </>
                     </>
                 </TableWrapper>
             </div>

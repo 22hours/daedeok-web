@@ -8,7 +8,7 @@ import useInput from "lib/hooks/useInput";
 import Select from "@ui/input/Select";
 import Button from "@ui/buttons/Button";
 import useDivision from "lib/hooks/useDivision";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { meta_types } from "@global_types";
 import { useAlert } from "store/GlobalAlertStore";
@@ -41,10 +41,16 @@ const MypageGroup = () => {
         }
     }, [auth]);
 
+    const firstRef = useRef(true);
     useEffect(() => {
         if (firstDivision.value) {
             setTimeout(() => {
-                secondDivsion.setValue(auth?.second_division);
+                if (auth?.first_division === firstDivision.value) {
+                    if (firstRef.current) {
+                        secondDivsion.setValue(auth?.second_division);
+                        firstRef.current = false;
+                    }
+                }
             }, 100);
         }
     }, [firstDivision.value]);

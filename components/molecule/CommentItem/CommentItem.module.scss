@@ -1,5 +1,8 @@
 // CommentItem.module
 @import "styles/meta.scss";
+.second_container {
+    margin-top: -12px;
+}
 .container {
     display: flex;
     .second_left_padding_div {
@@ -13,7 +16,7 @@
 }
 .view_container {
     flex-grow: 1;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     .head {
         display: flex;
         justify-content: space-between;

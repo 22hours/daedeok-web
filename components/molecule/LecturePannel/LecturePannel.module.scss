@@ -36,29 +36,50 @@
         }
     }
     .main_row {
+        @include desktop {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            .right {
+                display: flex;
+
+                .sub_col {
+                    display: flex;
+                    .typo__lecture_date_label,
+                    .typo__lecture_limit_label {
+                        font-weight: bold;
+                        margin-left: 10px;
+                        margin-right: 5px;
+                    }
+                    .typo__lecture_date_value,
+                    .typo__lecture_limit_value {
+                    }
+                }
+            }
+        }
+        @include mobile {
+            .right {
+                margin-top: 5px;
+                display: flex;
+
+                .sub_col {
+                    display: flex;
+                    .typo__lecture_date_label,
+                    .typo__lecture_limit_label {
+                        font-weight: bold;
+                        margin-right: 5px;
+                    }
+                    .typo__lecture_date_value,
+                    .typo__lecture_limit_value {
+                    }
+                }
+            }
+        }
         margin-top: 5px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
+
         .left {
             .typo__title {
                 font-weight: bolder;
-            }
-        }
-        .right {
-            display: flex;
-
-            .sub_col {
-                display: flex;
-                .typo__lecture_date_label,
-                .typo__lecture_limit_label {
-                    font-weight: bold;
-                    margin-left: 10px;
-                    margin-right: 5px;
-                }
-                .typo__lecture_date_value,
-                .typo__lecture_limit_value {
-                }
             }
         }
     }

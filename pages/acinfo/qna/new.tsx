@@ -4,22 +4,20 @@ import PageHeader from "@ui/PageHeader";
 import { SecureRoute } from "lib/server/accessController";
 import useCategory from "lib/hooks/useCategory";
 import { useRouter } from "next/router";
-import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 type Props = {};
 
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 const NewQNA = () => {
     const router = useRouter();
     const { categoryOptionList } = useCategory("QNA");
-    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
     const onCreated = (location) => {
-        alertOn({
-            title: "",
-            //@ts-ignore
-            message: "게시글 작성에 성공하였습니다",
-            type: "POSITIVE",
+        confirmOn({
+            message: "게시글을 작성하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
+            onSuccess: () => router.push(`/acinfo/qna/detail/${location}`),
+            isFailButtonRemove: true,
         });
-        router.push(`/acinfo/qna/detail/${location}`);
     };
     return (
         <>

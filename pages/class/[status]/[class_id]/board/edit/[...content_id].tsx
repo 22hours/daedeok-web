@@ -4,15 +4,19 @@ import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
 import { SecureRoute } from "lib/server/accessController";
 import useCategory from "lib/hooks/useCategory";
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 type Props = {};
 
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const ClassBoardEdit = () => {
     const router = useRouter();
+    const { confirmOn } = useConfirm();
+
     const { content_id, class_id, status } = router.query;
     const { clientSideApi } = useAuthStore();
-
+    const { alertOn, apiErrorAlert } = useAlert();
     const { categoryOptionList } = useCategory("CLASS_BOARD");
     const [originData, setOriginData] = useState<{ title: string; category: string; content: string } | null>(null);
     const getOriginData = async () => {
@@ -24,7 +28,7 @@ const ClassBoardEdit = () => {
                 content: res.data.content,
             });
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
@@ -33,8 +37,11 @@ const ClassBoardEdit = () => {
     }, []);
 
     const handleEdited = () => {
-        alert("수정되었습니다");
-        router.replace(`/class/${status}/${class_id}/board/detail/${content_id}`);
+        confirmOn({
+            message: "게시글을 수정하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
+            onSuccess: () => router.replace(`/class/${status}/${class_id}/board/detail/${content_id}`),
+            isFailButtonRemove: true,
+        });
     };
 
     if (originData === null) {
