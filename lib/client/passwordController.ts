@@ -1,3 +1,4 @@
+import crypto from "crypto";
 const checkPasswordValidate = (password: string, phone_num: string) => {
     if (!/^[a-zA-Z0-9]{8,15}$/.test(password)) {
         return false;
@@ -22,7 +23,8 @@ const checkPasswordValidate = (password: string, phone_num: string) => {
 };
 
 const hashPassword = (password: string) => {
-    return password;
+    const hashPassword = crypto.createHash("sha256").update(password).digest("hex");
+    return hashPassword;
 };
 
 const PasswordController = {

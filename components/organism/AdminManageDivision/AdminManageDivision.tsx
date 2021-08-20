@@ -211,26 +211,6 @@ const AdminManageDivision = () => {
             <div className={style.body}>
                 <TableWrapper>
                     <>
-                        {/* {data.map((it, idx) => (
-                            <TableRow
-                                key={`divisionlistitem${idx}`}
-                                title={it.first_division || " "}
-                                studentName={it.second_division.map((it) => it).join(",")}
-                            >
-                                <div className={style.control_col}>
-                                    <Button
-                                        className={style.button}
-                                        type={"SQUARE"}
-                                        size={"free"}
-                                        fontSize={"smaller"}
-                                        content={"삭제"}
-                                        backgroundColor={"brown_base"}
-                                        color={"white"}
-                                        onClick={() => deleteDivision(it.first_division)}
-                                    />
-                                </div>
-                            </TableRow>
-                        ))} */}
                         <>
                             <div key={`divisionlistitemheader`} className={style.list_container}>
                                 <div>

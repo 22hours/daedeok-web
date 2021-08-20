@@ -9,6 +9,7 @@ import Link from "next/link";
 import style from "./LoginGroup.module.scss";
 import { useEffect } from "react";
 import { useAlert } from "store/GlobalAlertStore";
+import PasswordController from "lib/client/passwordController";
 
 type Props = {};
 
@@ -76,13 +77,9 @@ const LoginGroup = (props: Props) => {
             });
             return;
         }
-        // if (pwInput.value.length < 8) {
-        //     alert("비밀번호를 정확히 입력해주세요");
-        //     return;
-        // }
         const res = await clientSideApi("POST", "MAIN", "USER_LOGIN", undefined, {
             id: idInput.value,
-            password: pwInput.value,
+            password: PasswordController.hashPassword(pwInput.value),
         });
         if (res.result === "SUCCESS") {
             login(res.data);

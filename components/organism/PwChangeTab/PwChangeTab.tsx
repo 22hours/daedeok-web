@@ -112,7 +112,7 @@ const PwChangeTab = () => {
     const submitPwChange = async (newPassword: String) => {
         const res = await clientSideApi("PUT", "MAIN", "USER_PASSWORD_RESET", undefined, {
             phone_num: isCertified,
-            password: newPassword,
+            password: PasswordController.hashPassword(newPassword.toString()),
         });
         if (res.result === "SUCCESS") {
             alertOn({

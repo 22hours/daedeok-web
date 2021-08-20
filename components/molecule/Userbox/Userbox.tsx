@@ -11,6 +11,7 @@ import { useAuthStore } from "store/AuthStore";
 import { useGlobalLoader } from "store/GlobalLoader";
 import style from "./Userbox.module.scss";
 import { useAlert } from "store/GlobalAlertStore";
+import PasswordController from "lib/client/passwordController";
 type Props = {
     className?: string;
 };
@@ -25,9 +26,10 @@ const Userbox = (props: Props) => {
 
     const handleLogin = async () => {
         globalLoader.toggle();
+
         const res = await clientSideApi("POST", "MAIN", "USER_LOGIN", undefined, {
             id: phone_num.value,
-            password: pw.value,
+            password: PasswordController.hashPassword(pw.value),
         });
         if (res.result === "SUCCESS") {
             phone_num.setValue("");
