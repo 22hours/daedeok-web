@@ -25,6 +25,7 @@
 .faq_list_wrapper {
     display: grid;
     grid-template-columns: 30px auto;
+    align-items: center;
 
     cursor: pointer;
     padding-top: 20px;
