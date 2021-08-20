@@ -6,12 +6,13 @@ import Typo from "@ui/Typo";
 import useBoolean from "lib/hooks/useBoolean";
 import useInput from "lib/hooks/useInput";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useGlobalLoader } from "store/GlobalLoader";
 import style from "./Userbox.module.scss";
 import { useAlert } from "store/GlobalAlertStore";
 import PasswordController from "lib/client/passwordController";
+import StorageController from "lib/client/storageController";
 type Props = {
     className?: string;
 };
@@ -35,7 +36,11 @@ const Userbox = (props: Props) => {
             phone_num.setValue("");
             pw.setValue("");
             globalLoader.setValue(false);
-
+            if (rememberUser.value) {
+                StorageController.saveIdInStorage(phone_num.value);
+            } else {
+                StorageController.removeIdInStorage();
+            }
             login(res.data);
         } else {
             globalLoader.setValue(false);
@@ -43,6 +48,14 @@ const Userbox = (props: Props) => {
         }
         pw.setValue("");
     };
+
+    useEffect(() => {
+        const savedId = StorageController.getIdFromStorage();
+        if (savedId) {
+            phone_num.setValue(savedId);
+            rememberUser.setValue(true);
+        }
+    }, []);
 
     if (auth === null) {
         return (

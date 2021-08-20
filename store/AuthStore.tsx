@@ -185,9 +185,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = async () => {
-        await CookieController.removeUserInCookie();
-        console.log("COOKIE 삭제 완료");
         dispatch({ type: "LOGOUT" });
+        await CookieController.removeUserInCookie();
         router.replace("/");
     };
 
@@ -204,6 +203,7 @@ export const AuthProvider = ({ children }) => {
 
     const initAuth = () => {
         const userData: meta_types.user = CookieController.getUserWithCookie();
+        console.log(userData);
         if (userData.user_id) {
             dispatch({
                 type: "LOGIN",
