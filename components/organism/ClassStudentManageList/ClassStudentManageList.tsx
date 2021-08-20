@@ -14,6 +14,7 @@ import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
 // List
 import ListPageLayout from "components/layout/ListPageLayout";
+import WindowController from "lib/client/windowController";
 
 type Props = {};
 
@@ -138,33 +139,105 @@ type ClassStudentListItemProps = {
     data: UserListItem;
     cancleStudent: (user_id: string) => void;
 };
+
 const ClassStudentListItem = (props: ClassStudentListItemProps) => {
     const { idx, data } = props;
+    const [mode, setMode] = useState<"pc" | "mobile">("pc");
+
+    const setModeByWindowSize = () => {
+        var width = WindowController.getWindowSize();
+        console.log(width);
+        if (width > 1100) {
+            setMode("pc");
+        } else {
+            setMode("mobile");
+        }
+    };
+
+    useEffect(() => {
+        setModeByWindowSize();
+        window.addEventListener("resize", setModeByWindowSize);
+        return () => {
+            window.removeEventListener("resize", setModeByWindowSize);
+        };
+    }, []);
 
     return (
-        <TableRow
-            idx={idx + 1}
-            studentName={data.name}
-            studentInfo={{
-                duty: data.duty,
-                first_division: data.first_division,
-                second_division: data.second_division,
-                phone_number: data.phone_num,
-            }}
-            key={`userlist${idx}`}
-        >
-            <div className={style.btn_col}>
-                <CertificateBtn data={data} />
-                <Button
-                    className={`${style.btn} ${style.cancle_btn}`}
-                    type={"SQUARE"}
-                    size={"small"}
-                    fontSize={"smaller"}
-                    content={"철회"}
-                    onClick={() => props.cancleStudent(data.user_id)}
-                />
-            </div>
-        </TableRow>
+        <>
+            {mode === "pc" ? (
+                <div className={style.class_student_list_item}>
+                    <div className={style.student_item_wrapper}>
+                        <div className={style.title_wrapper}>
+                            <div className={style.idx}>
+                                <Typo size="small" type="TEXT" color="brown_font" content={(idx + 1).toString()} />
+                            </div>
+                            <Typo size="medium" type="TEXT" color="brown_font" content={data.name} />
+                        </div>
+                        <div className={style.detail_wrapper}>
+                            <div className={style.detail_items}>
+                                <Typo size="small" type="TEXT" color="gray_accent" content={data.duty} />
+                            </div>
+                            <div className={style.detail_items}>
+                                <Typo size="small" type="TEXT" color="gray_accent" content={data.first_division} />
+                            </div>
+                            <div className={style.detail_items}>
+                                <Typo size="small" type="TEXT" color="gray_accent" content={data.second_division} />
+                            </div>
+                            <div className={style.detail_items}>
+                                <Typo size="small" type="TEXT" color="gray_accent" content={data.phone_num} />
+                            </div>
+                        </div>
+                    </div>
+                    <div className={style.btn_col}>
+                        <CertificateBtn data={data} />
+                        <Button
+                            className={`${style.btn} ${style.cancle_btn}`}
+                            type={"SQUARE"}
+                            size={"small"}
+                            fontSize={"smaller"}
+                            content={"철회"}
+                            onClick={() => props.cancleStudent(data.user_id)}
+                        />
+                    </div>
+                </div>
+            ) : (
+                <div className={style.class_student_list_item}>
+                    <div className={style.student_item_wrapper}>
+                        <div className={style.title_wrapper}>
+                            <div className={style.idx}>
+                                <Typo size="small" type="TEXT" color="brown_font" content={(idx + 1).toString()} />
+                            </div>
+                            <Typo size="medium" type="TEXT" color="brown_font" content={data.name} />
+                        </div>
+                        <div className={style.btn_col}>
+                            <CertificateBtn data={data} />
+                            <Button
+                                className={`${style.btn} ${style.cancle_btn}`}
+                                type={"SQUARE"}
+                                size={"small"}
+                                fontSize={"smaller"}
+                                content={"철회"}
+                                onClick={() => props.cancleStudent(data.user_id)}
+                            />
+                        </div>
+                    </div>
+                    <div className={style.detail_wrapper}>
+                        <div className={style.detail_items}>
+                            <Typo size="small" type="TEXT" color="gray_accent" content={data.duty} />
+                        </div>
+                        <div className={style.detail_items}>
+                            <Typo size="small" type="TEXT" color="gray_accent" content={data.first_division} />
+                        </div>
+                        <div className={style.detail_items}>
+                            <Typo size="small" type="TEXT" color="gray_accent" content={data.second_division} />
+                        </div>
+                        <div className={style.detail_items}>
+                            <Typo size="small" type="TEXT" color="gray_accent" content={data.phone_num} />
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 
