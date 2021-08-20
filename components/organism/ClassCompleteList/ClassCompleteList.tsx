@@ -10,11 +10,14 @@ import Pagination from "@ui/pagination/Pagination";
 import TableRow from "@ui/board/TableRow";
 import DateController from "lib/client/dateController";
 import Button from "@ui/buttons/Button";
+import Typo from "@ui/Typo";
 // List
 import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
 import ListSelect from "components/molecule/ListSelect/ListSelect";
 import ListPagination from "components/molecule/ListPagination/ListPagination";
 import ListPageLayout from "components/layout/ListPageLayout";
+import WindowController from "lib/client/windowController";
+import Link from "next/link";
 
 type State = {
     total_count: number;
@@ -53,6 +56,26 @@ const ClassCompleteList = () => {
         }
     };
 
+    const [mode, setMode] = useState<"pc" | "mobile">("pc");
+
+    const setModeByWindowSize = () => {
+        var width = WindowController.getWindowSize();
+        console.log(width);
+        if (width > 1100) {
+            setMode("pc");
+        } else {
+            setMode("mobile");
+        }
+    };
+
+    useEffect(() => {
+        setModeByWindowSize();
+        window.addEventListener("resize", setModeByWindowSize);
+        return () => {
+            window.removeEventListener("resize", setModeByWindowSize);
+        };
+    }, []);
+
     useEffect(() => {
         if (pageState.state.isLoadEnd) {
             getData();
@@ -85,40 +108,51 @@ const ClassCompleteList = () => {
         }
     };
 
-    const ClassList = () => {
+    const ClassListPC = () => {
         return (
             <TableWrapper>
                 {data.lecture_list.map((it, idx) => (
-                    <TableRow
-                        href={`/class/complete/${it.id}/board`}
-                        key={`completelectureitem:${idx}`}
-                        idx={idx + 1}
-                        title={it.title}
-                        date={`${DateController.getFormatedDate(
-                            "YYYY/MM/DD",
-                            it.start_date
-                        )}~${DateController.getFormatedDate("YYYY/MM/DD", it.end_date)}`}
-                    >
-                        {it.status === "ING" ? (
-                            <Button
-                                className={`${style.row_btn} ${style.ing_btn}`}
-                                type={"SQUARE"}
-                                size={"small"}
-                                fontSize={"smaller"}
-                                content={it.status === "ING" ? "미수료" : "수료증"}
+                    <div key={`completelectureitem:${idx}`} className={style.complelte_list}>
+                        <Link href={`/class/complete/${it.id}/board`}>
+                            <div className={style.title_wrapper}>
+                                <Typo content={it.id} color="brown_font" type="TEXT" size="small" />
+                                <div className={style.title}>
+                                    <Typo content={it.title} color="brown_font" type="TEXT" size="medium" />
+                                </div>
+                            </div>
+                        </Link>
+                        <div className={style.detail_wrapper}>
+                            <Typo
+                                content={`${DateController.getFormatedDate(
+                                    "YYYY/MM/DD",
+                                    it.start_date
+                                )}~${DateController.getFormatedDate("YYYY/MM/DD", it.end_date)}`}
+                                size="small"
+                                color="gray_accent"
+                                type="TEXT"
+                                className={style.margin_style}
                             />
-                        ) : (
-                            <a target="_blank" href={it.url} rel="noreferrer">
+                            {it.status === "ING" ? (
                                 <Button
-                                    className={`${style.row_btn} ${style.complete_btn}`}
+                                    className={`${style.row_btn} ${style.ing_btn}`}
                                     type={"SQUARE"}
                                     size={"small"}
                                     fontSize={"smaller"}
-                                    content={"수료증"}
+                                    content={it.status === "ING" ? "미수료" : "수료증"}
                                 />
-                            </a>
-                        )}
-                    </TableRow>
+                            ) : (
+                                <a target="_blank" href={it.url} rel="noreferrer">
+                                    <Button
+                                        className={`${style.row_btn} ${style.complete_btn}`}
+                                        type={"SQUARE"}
+                                        size={"small"}
+                                        fontSize={"smaller"}
+                                        content={"수료증"}
+                                    />
+                                </a>
+                            )}
+                        </div>
+                    </div>
                 ))}
             </TableWrapper>
         );
@@ -130,7 +164,7 @@ const ClassCompleteList = () => {
             headerRight={<ListSearchbar />}
             footer={<ListPagination total_count={data.total_count} />}
         >
-            <ClassList />
+            <ClassListPC />
         </ListPageLayout>
     );
 };
