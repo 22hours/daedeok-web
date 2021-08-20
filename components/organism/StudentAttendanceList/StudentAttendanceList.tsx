@@ -74,7 +74,7 @@ const StudentAttendanceList = () => {
         <div className={style.class_attendance_wrapper}>
             <TableWrapper>
                 {attendanceList?.map((it, idx) => (
-                    <div key={idx}>
+                    <div key={`attendancelist${idx}`}>
                         <TableRow week={it.week.toString() + "주차"} weekTitle={it.title}>
                             <div style={{ width: "90px", marginRight: "20px" }}>
                                 <StatusButton state={it.status} />

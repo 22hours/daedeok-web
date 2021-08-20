@@ -8,6 +8,8 @@ import router from "next/router";
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
+import Typo from "@ui/Typo";
+import DateController from "lib/client/dateController";
 
 type PlanType = {
     id: number;
@@ -40,18 +42,27 @@ const TutorClassPlanList = () => {
             <TableWrapper>
                 {planList.map((it, idx) => {
                     return (
-                        <TableRow key={`planlistitem:${idx}`} week={`${it.week.toString()}주차`} weekTitle={it.title}>
-                            <Link href={`${router.asPath}/detail/${it.id}`} passHref>
-                                <Button
-                                    type={"SQUARE"}
-                                    size={"small"}
-                                    fontSize={"smaller"}
-                                    backgroundColor={"brown_base"}
-                                    color={"white"}
-                                    content={"출석관리"}
-                                />
-                            </Link>
-                        </TableRow>
+                        <div key={`tutorclassplanlist${idx}`}>
+                            <div className={style.list_container}>
+                                <div className={style.week_col}>
+                                    <Typo type="TEXT" size="medium" content={`${it.week}주차`} color={"brown_font"} />
+                                </div>
+                                <div className={style.title_col}>
+                                    <Typo type="TEXT" size="medium" content={it.title} color={"brown_font"} />
+                                </div>
+                                <Link href={`${router.asPath}/detail/${it.id}`} passHref>
+                                    <Button
+                                        type={"SQUARE"}
+                                        size={"small"}
+                                        fontSize={"smaller"}
+                                        backgroundColor={"brown_base"}
+                                        color={"white"}
+                                        content={"출석관리"}
+                                        className={style.btn_col}
+                                    />
+                                </Link>
+                            </div>
+                        </div>
                     );
                 })}
             </TableWrapper>
