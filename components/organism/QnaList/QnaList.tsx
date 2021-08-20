@@ -9,7 +9,9 @@ import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
 import Pagination from "@ui/pagination/Pagination";
 import DateController from "lib/client/dateController";
-
+import Typo from "@ui/Typo";
+//icon
+import HttpsIcon from "@material-ui/icons/Https";
 // List
 import ListSelect from "components/molecule/ListSelect/ListSelect";
 import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
@@ -98,13 +100,51 @@ const QnaList = (props: Props) => {
                     {data.qna_list.map((it, idx) => (
                         <div key={idx}>
                             <Link href={`/acinfo/qna/detail/${it.id}`} passHref>
-                                <TableRow
-                                    idx={`${it.id}`}
-                                    title={`${it.title}`}
-                                    date={DateController.getFormatedDate("YYYY-MM-DD", it.create_date)}
-                                    category={`${it.secret ? "[비밀글] " : ""}${it.category}`}
-                                    view={`조회수 ${it.view}`}
-                                ></TableRow>
+                                <div className={style.qna_list_wrapper}>
+                                    <div className={style.title_wrapper}>
+                                        <div className={style.list_id}>
+                                            <Typo
+                                                type="TEXT"
+                                                size="small"
+                                                content={it.id.toString()}
+                                                color={"brown_font"}
+                                            />
+                                        </div>
+                                        <div className={style.list_title}>
+                                            <Typo type="TEXT" size="medium" content={it.title} color={"brown_font"} />
+                                        </div>
+                                    </div>
+                                    <div className={style.detail_item_list}>
+                                        <div className={style.detail_items}>
+                                            {it.secret ? (
+                                                <Typo
+                                                    content={it.category}
+                                                    type="TEXT"
+                                                    size="small"
+                                                    color="red_accent"
+                                                />
+                                            ) : (
+                                                <HttpsIcon style={{ fontSize: "15px" }} />
+                                            )}
+                                        </div>
+                                        <div className={style.detail_items}>
+                                            <Typo
+                                                content={DateController.getFormatedDate("YYYY-MM-DD", it.create_date)}
+                                                type="TEXT"
+                                                size="small"
+                                                color="gray_accent"
+                                            />
+                                        </div>
+                                        <div className={style.detail_items}>
+                                            <Typo
+                                                content={`조회수 ${it.view}`}
+                                                type="TEXT"
+                                                size="small"
+                                                color="gray_accent"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
                             </Link>
                         </div>
                     ))}
