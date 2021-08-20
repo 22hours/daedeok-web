@@ -93,6 +93,9 @@ const TutorNoticeList = () => {
                                     <div className={style.list_title}>
                                         <Typo type="TEXT" size="medium" content={it.title} color={"brown_font"} />
                                     </div>
+                                    <div className={style.list_author}>
+                                        <Typo type="TEXT" size="small" content={it.author} color={"gray_accent"} />
+                                    </div>
                                 </div>
                                 <div className={style.info_wrapper}>
                                     <Typo

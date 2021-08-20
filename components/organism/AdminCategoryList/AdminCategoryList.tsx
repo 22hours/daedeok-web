@@ -5,6 +5,8 @@ import SearchBar from "@ui/input/SearchBar";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 import { ListCommonProvider, useListCommonStore } from "store/ListCommonStore";
 import style from "./AdminCategoryList.module.scss";
 type Props = {};
@@ -24,6 +26,8 @@ const initState: State = {
     total_count: "0",
 };
 const ListController = () => {
+    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
     const [data, setData] = useState<State>(initState);
 
     const { state, changePage, changeKeyword } = useListCommonStore();
@@ -36,7 +40,7 @@ const ListController = () => {
         if (res.result === "SUCCESS") {
             setData(res.data);
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
@@ -47,21 +51,28 @@ const ListController = () => {
     }, [state]);
 
     const handleDeleteClick = async (category_id: string) => {
-        if (window.confirm("해당 카테고리를 삭제하시겠습니까?\n삭제한 카테고리는 변경할 수 없습니다")) {
-            const res = await clientSideApi("DELETE", "MAIN", "ADMIN_DELETE_CATEGORY", {
-                category_id: category_id,
-            });
-            if (res.result === "SUCCESS") {
-                alert("성공적으로 해당 카테고리를 삭제하였습니다.");
-                setData({
-                    ...data,
-                    category_list: [],
+        confirmOn({
+            message: "해당 카테고리를 삭제하시겠습니까?\n삭제한 카테고리는 변경할 수 없습니다",
+            onSuccess: async () => {
+                const res = await clientSideApi("DELETE", "MAIN", "ADMIN_DELETE_CATEGORY", {
+                    category_id: category_id,
                 });
-                getData();
-            } else {
-                alert(res.msg);
-            }
-        }
+                if (res.result === "SUCCESS") {
+                    alertOn({
+                        message: "성공적으로 해당 카테고리를 삭제하였습니다",
+                        type: "POSITIVE",
+                    });
+                    setData({
+                        ...data,
+                        category_list: [],
+                    });
+                    getData();
+                } else {
+                    apiErrorAlert(res.msg);
+                }
+            },
+            isFailButtonRemove: true,
+        });
     };
 
     return (
