@@ -40,7 +40,7 @@ const IndexPage = (props: Props) => {
         if (res.result === "SUCCESS") {
             setNoticeList(res.data.notice_list);
         } else {
-            alert(res.msg);
+            // alert(res.msg);
         }
     };
     useEffect(() => {

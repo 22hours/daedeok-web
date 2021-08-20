@@ -8,6 +8,7 @@ export const h22_axios = axios.create({});
 h22_axios.interceptors.response.use(
     (response: any): any => {
         var status_code = response.status;
+        // var status_code = 701;
 
         var res: api_config_type.api_response;
         switch (status_code) {

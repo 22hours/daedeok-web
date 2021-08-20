@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
+import { useAlert } from "store/GlobalAlertStore";
 import style from "./ClassSideBar.module.scss";
 
 import MobileSideBar from "./MobileSideBar";
@@ -20,6 +21,7 @@ const SidebarMenuList = () => {
     const { auth, clientSideApi } = useAuthStore();
     const router = useRouter();
     const { class_id } = router.query;
+    const { apiErrorAlert } = useAlert();
 
     const myRole = auth?.role;
 
@@ -29,7 +31,7 @@ const SidebarMenuList = () => {
         if (res.result === "SUCCESS") {
             setOpenList(res.data);
         } else {
-            // alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
     useEffect(() => {

@@ -16,7 +16,7 @@ const getExpiredDate = () => {
     return expires;
 };
 
-const setAccessTokenInCokkie = (access_token: string) => {
+const setAccessTokenInCokkie = async (access_token: string) => {
     const expires = getExpiredDate();
     cookie.save("access_token", access_token.toString(), {
         path: "/",
