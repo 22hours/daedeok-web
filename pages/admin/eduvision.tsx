@@ -43,7 +43,7 @@ const Eduvision = () => {
 
     const handleEdited = () => {
         confirmOn({
-            message: "게시글을 수정하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
+            message: "수정하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
             onSuccess: () => {
                 if (typeof window !== "undefined") {
                     location.reload();
