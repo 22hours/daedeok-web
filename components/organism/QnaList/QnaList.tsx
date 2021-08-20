@@ -111,29 +111,14 @@ const QnaList = (props: Props) => {
                                             />
                                         </div>
                                         <div className={style.list_title}>
+                                            {it.secret && <HttpsIcon style={{ fontSize: "15px" }} />}
+
                                             <Typo type="TEXT" size="medium" content={it.title} color={"brown_font"} />
                                         </div>
                                     </div>
                                     <div className={style.detail_item_list}>
                                         <div className={style.detail_items}>
-                                            {it.secret ? (
-                                                <>
-                                                    <HttpsIcon style={{ fontSize: "15px" }} />
-                                                    <Typo
-                                                        content={it.category}
-                                                        type="TEXT"
-                                                        size="small"
-                                                        color="red_accent"
-                                                    />
-                                                </>
-                                            ) : (
-                                                <Typo
-                                                    content={it.category}
-                                                    type="TEXT"
-                                                    size="small"
-                                                    color="red_accent"
-                                                />
-                                            )}
+                                            <Typo content={it.category} type="TEXT" size="small" color="red_accent" />
                                         </div>
                                         <div className={style.detail_items}>
                                             <Typo
