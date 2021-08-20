@@ -10,6 +10,7 @@ import style from "./LoginGroup.module.scss";
 import { useEffect } from "react";
 import { useAlert } from "store/GlobalAlertStore";
 import PasswordController from "lib/client/passwordController";
+import StorageController from "lib/client/storageController";
 
 type Props = {};
 
@@ -92,6 +93,12 @@ const LoginGroup = (props: Props) => {
             });
         }
     };
+    useEffect(() => {
+        const savedId = StorageController.getIdFromStorage();
+        if (savedId) {
+            idInput.setValue(savedId);
+        }
+    }, []);
 
     if (auth === null) {
         return (
