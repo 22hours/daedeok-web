@@ -96,13 +96,7 @@ const NoticeList = () => {
                                         />
                                     </div>
                                     <div className={style.list_title}>
-                                        <Typo
-                                            type="TEXT"
-                                            size="medium"
-                                            //  content={it.title}
-                                            content={`fdsfkdsfksdfjlksdjflsdkfjlsdkfjslkdfjslkdfdddddddddfdfddd`}
-                                            color={"brown_font"}
-                                        />
+                                        <Typo type="TEXT" size="medium" content={it.title} color={"brown_font"} />
                                     </div>
                                 </div>
                                 <div className={style.info_wrapper}>

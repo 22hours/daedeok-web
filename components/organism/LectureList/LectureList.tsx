@@ -37,15 +37,6 @@ const LectureCloseList = (props: { lecture_list: any }) => {
     const { status } = router.query;
     return (
         <TableWrapper>
-            {/* <div key={idx}>
-                    <TableRow
-                        idx={it.id}
-                        title={it.title}
-                        category={it.category}
-                        date={UseDate("YYYY-MM-DD", it.start_date) + "~" + UseDate("YYYY-MM-DD", it.end_date)}
-                        href={`/lecture/${status}/detail/${it.id}`}
-                    ></TableRow>
-                </div> */}
             {props.lecture_list?.map((it, idx) => (
                 <div key={`lectureitem${idx}`}>
                     <Link href={`/lecture/${status}/detail/${it.id}`} passHref>

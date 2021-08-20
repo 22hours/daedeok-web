@@ -17,6 +17,8 @@ import { useListCommonStore } from "store/ListCommonStore";
 import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
 import ListPagination from "components/molecule/ListPagination/ListPagination";
 import ListPageLayout from "components/layout/ListPageLayout";
+import Typo from "@ui/Typo";
+import DateController from "lib/client/dateController";
 
 type State = res_types.tutorNoticeListItem;
 
@@ -76,13 +78,32 @@ const TutorNoticeList = () => {
         >
             <TableWrapper>
                 {listState.notice_list.map((it, idx) => (
-                    <div key={idx}>
-                        <TableRow
-                            idx={it.id}
-                            title={it.title}
-                            date={UseDate("YYYY-MM-DD", it.create_date)}
-                            href={`/class/notice/detail/${it.id}`}
-                        ></TableRow>
+                    <div key={`noticelistitem${idx}`}>
+                        <Link href={`/acinfo/qna/detail/${it.id}`} passHref>
+                            <div className={style.list_container}>
+                                <div className={style.title_wrapper}>
+                                    <div className={style.idx_typo}>
+                                        <Typo
+                                            type="TEXT"
+                                            size="small"
+                                            content={it.id.toString()}
+                                            color={"brown_font"}
+                                        />
+                                    </div>
+                                    <div className={style.list_title}>
+                                        <Typo type="TEXT" size="medium" content={it.title} color={"brown_font"} />
+                                    </div>
+                                </div>
+                                <div className={style.info_wrapper}>
+                                    <Typo
+                                        content={DateController.getFormatedDate("YYYY-MM-DD", it.create_date)}
+                                        type="TEXT"
+                                        size="small"
+                                        color="gray_accent"
+                                    />
+                                </div>
+                            </div>
+                        </Link>
                     </div>
                 ))}
             </TableWrapper>
