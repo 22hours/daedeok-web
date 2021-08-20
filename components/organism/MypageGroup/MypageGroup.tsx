@@ -60,7 +60,7 @@ const MypageGroup = () => {
             name: name.value,
             duty: duty.value,
             first_division: firstDivision.value,
-            second_division: secondDivsion.value,
+            second_division: secondDivsion.value !== "" ? secondDivsion.value : undefined,
         });
         if (res.result === "SUCCESS") {
             alertOn({
@@ -148,7 +148,9 @@ const MypageGroup = () => {
                                 {...secondDivsion}
                                 className={style.register_form}
                                 form={"box"}
-                                option_list={DivisionOption.secondDivisionOptionList()}
+                                option_list={[{ name: "없음", value: "" }].concat(
+                                    DivisionOption.secondDivisionOptionList()
+                                )}
                                 placeholder={"하위 소속"}
                             />
                         </div>

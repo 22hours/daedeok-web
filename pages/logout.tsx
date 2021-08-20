@@ -1,19 +1,14 @@
 import CookieController from "lib/client/cookieController";
 import { SecureRoute } from "lib/server/accessController";
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
 
 type Props = {};
 
-const Logout = (props: Props) => {
-    const logout = async () => {
-        await CookieController.removeUserInCookie();
-        location.replace("/");
-    };
-    useEffect(() => {
-        logout();
-    }, []);
+const DynamicLogout = dynamic(() => import("components/molecule/DynamicLogout/DynamicLogout"), { ssr: false });
 
-    return <div>로그아웃 중 입니다</div>;
+const Logout = (props: Props) => {
+    return <DynamicLogout />;
 };
 
 export async function getSwerverSideProps(ctx) {

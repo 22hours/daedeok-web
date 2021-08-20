@@ -49,7 +49,7 @@ const DivisionInput = ({ firstDivision, secondDivision }) => {
                     {...secondDivision}
                     className={style.register_form}
                     form={"box"}
-                    option_list={secondDivisionOptionList()}
+                    option_list={[{ name: "없음", value: "" }].concat(secondDivisionOptionList())}
                     placeholder={"하위 소속 선택"}
                 />
             </div>
@@ -167,7 +167,7 @@ const RegisterFormGroup = () => {
             password: password.value,
             duty: duty.value,
             first_division: firstDivision.value,
-            second_division: secondDivision.value,
+            second_division: secondDivision.value !== "" ? secondDivision.value : undefined,
         });
         if (res.result === "SUCCESS") {
             globalLoader.setValue(false);
