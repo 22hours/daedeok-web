@@ -45,13 +45,11 @@ const QnaDetail = ({ articleId }) => {
             const data: State = res.data;
             setQnaDetailData(data);
         } else {
-            alertOn({
-                title: "",
-                //@ts-ignore
+            confirmOn({
                 message: "열람할 수 없는 글 입니다\n확인을 클릭하시면 이전 페이지로 돌아갑니다",
-                type: "WARN",
+                onSuccess: () => router.back(),
+                isFailButtonRemove: true,
             });
-            router.back();
         }
     };
 
@@ -62,13 +60,11 @@ const QnaDetail = ({ articleId }) => {
             onSuccess: async () => {
                 const res = await clientSideApi("DELETE", "MAIN", "QNA_DELETE", { article_id: articleId });
                 if (res.result === "SUCCESS") {
-                    alertOn({
-                        title: "",
-                        //@ts-ignore
+                    confirmOn({
                         message: "삭제되었습니다",
-                        type: "POSITIVE",
+                        onSuccess: () => location.replace("/acinfo/qna"),
+                        isFailButtonRemove: true,
                     });
-                    location.replace("/acinfo/qna");
                 } else {
                     apiErrorAlert(res.msg);
                 }

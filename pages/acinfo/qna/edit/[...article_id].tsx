@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { SecureRoute } from "lib/server/accessController";
 import useCategory from "lib/hooks/useCategory";
 import { useConfirm } from "store/GlobalConfirmStore";
+import { useAlert } from "store/GlobalAlertStore";
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 type State = {
@@ -21,7 +22,7 @@ const QnaEdit = () => {
     const [originData, setOriginData] = useState<State | null>(null);
     const { categoryOptionList } = useCategory("QNA");
     const { confirmOn } = useConfirm();
-
+    const { apiErrorAlert } = useAlert();
     const getOriginData = async () => {
         const res = await clientSideApi("GET", "MAIN", "QNA_FIND_DETAIL", { article_id: article_id });
         if (res.result === "SUCCESS") {
@@ -32,7 +33,7 @@ const QnaEdit = () => {
                 secret: res.data.secret,
             });
         } else {
-            alert(res.msg);
+            apiErrorAlert(res.msg);
         }
     };
 
