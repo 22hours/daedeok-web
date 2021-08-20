@@ -117,14 +117,22 @@ const QnaList = (props: Props) => {
                                     <div className={style.detail_item_list}>
                                         <div className={style.detail_items}>
                                             {it.secret ? (
+                                                <>
+                                                    <HttpsIcon style={{ fontSize: "15px" }} />
+                                                    <Typo
+                                                        content={it.category}
+                                                        type="TEXT"
+                                                        size="small"
+                                                        color="red_accent"
+                                                    />
+                                                </>
+                                            ) : (
                                                 <Typo
                                                     content={it.category}
                                                     type="TEXT"
                                                     size="small"
                                                     color="red_accent"
                                                 />
-                                            ) : (
-                                                <HttpsIcon style={{ fontSize: "15px" }} />
                                             )}
                                         </div>
                                         <div className={style.detail_items}>
