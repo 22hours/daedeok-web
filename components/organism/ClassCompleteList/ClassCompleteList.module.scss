@@ -14,5 +14,41 @@
     }
 }
 .row_btn {
-    width: 100px;
+    @include class_list_pc {
+        width: 100px;
+    }
+    @include class_list_mobile {
+        width: 70px;
+    }
+}
+
+.complelte_list {
+    display: grid;
+    grid-template-columns: auto 250px;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 0.5px $gray_accent solid;
+    .title_wrapper {
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: 30px auto;
+        align-items: center;
+        .title {
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+    .detail_wrapper {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.margin_style {
+    margin-right: 15px;
 }
