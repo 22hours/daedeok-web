@@ -14,7 +14,7 @@ type State = {
 
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
-const NoticeEdit = () => {
+const GuideEdit = () => {
     const router = useRouter();
     const { article_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
@@ -22,7 +22,7 @@ const NoticeEdit = () => {
     const { confirmOn } = useConfirm();
 
     const getOriginData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "FAQ_EDIT", { article_id: article_id });
+        const res = await clientSideApi("GET", "MAIN", "GUIDE_EDIT", { article_id: article_id });
         if (res.result === "SUCCESS") {
             setOriginData({
                 title: res.data.title,
@@ -42,7 +42,7 @@ const NoticeEdit = () => {
     const handleEdited = () => {
         confirmOn({
             message: "게시글을 수정하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
-            onSuccess: () => router.push(`/acinfo/faq/detail/${article_id}`),
+            onSuccess: () => router.push(`/acinfo/guide/detail/${article_id}`),
             isFailButtonRemove: true,
         });
     };
@@ -52,17 +52,17 @@ const NoticeEdit = () => {
     } else {
         return (
             <div>
-                <PageHeader title={"자주묻는 질문"} />
+                <PageHeader title={"아카데미 사용법"} />
                 <ContentEditor
                     type={"EDIT"}
                     editApiConfig={{
                         method: "PUT",
                         domain: "MAIN",
-                        ep: "FAQ_EDIT",
+                        ep: "GUIDE_EDIT",
                         url_query: { article_id: article_id },
                     }}
                     onEdited={handleEdited}
-                    imgPath={"FAQ"}
+                    imgPath={"AC_INFO"}
                     originData={originData}
                 />
             </div>
@@ -73,4 +73,4 @@ const NoticeEdit = () => {
 export async function getServerSideProps(ctx) {
     return SecureRoute(ctx, "ROLE_ADMIN");
 }
-export default NoticeEdit;
+export default GuideEdit;

@@ -24,6 +24,12 @@ declare module "@api_config_type" {
                 | "USER_UPDATE_PASSWORD"
                 | "USER_PASSWORD_RESET"
                 | "USER_ROLE_CHANGE"
+                // GUIDE
+                | "GUIDE_FIND"
+                | "GUIDE_FIND_DETAIL"
+                | "GUIDE_NEW"
+                | "GUIDE_EDIT"
+                | "GUIDE_DELETE"
                 // FAQ
                 | "FAQ_FIND"
                 | "FAQ_FIND_DETAIL"

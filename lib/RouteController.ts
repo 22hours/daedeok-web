@@ -198,6 +198,10 @@ export const RouteController = {
                 name: "대덕바이블아카데미소개",
                 pathname: "/acinfo/introduce",
             },
+            guide: {
+                name: "아카데미 사용법",
+                pathname: "/acinfo/guide",
+            },
             eduvision: {
                 name: "교육비전",
                 pathname: "/acinfo/eduvision",

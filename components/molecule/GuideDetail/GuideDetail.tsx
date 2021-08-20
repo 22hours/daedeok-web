@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import style from "./FaqDetail.module.scss";
+import style from "./GuideDetail.module.scss";
 import { res_types } from "@global_types";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+
 //component
 import Typo from "@ui/Typo";
 import Button from "@ui/buttons/Button";
@@ -19,7 +20,7 @@ const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextView
 
 type State = res_types.faqDetail;
 
-const FaqDetail = ({ articleId }) => {
+const GuideDetail = ({ articleId }) => {
     const router = useRouter();
     const { auth, clientSideApi } = useAuthStore();
     const [noticeDetailData, setNoticeDetailData] = useState<State | null>(null);
@@ -28,12 +29,12 @@ const FaqDetail = ({ articleId }) => {
 
     useEffect(() => {
         if (articleId) {
-            getFaqDetail();
+            getGuideDetail();
         }
     }, [articleId]);
 
-    const getFaqDetail = async () => {
-        const res = await clientSideApi("GET", "MAIN", "FAQ_FIND_DETAIL", {
+    const getGuideDetail = async () => {
+        const res = await clientSideApi("GET", "MAIN", "GUIDE_FIND_DETAIL", {
             article_id: articleId,
         });
         if (res.result === "SUCCESS") {
@@ -47,7 +48,7 @@ const FaqDetail = ({ articleId }) => {
         confirmOn({
             message: "삭제하시겠습니까?",
             onSuccess: async () => {
-                const res = await clientSideApi("DELETE", "MAIN", "FAQ_DELETE", {
+                const res = await clientSideApi("DELETE", "MAIN", "GUIDE_DELETE", {
                     article_id: articleId,
                 });
                 if (res.result === "SUCCESS") {
@@ -57,7 +58,7 @@ const FaqDetail = ({ articleId }) => {
                         message: "삭제되었습니다",
                         type: "POSITIVE",
                     });
-                    location.replace("/acinfo/faq");
+                    location.replace("/acinfo/guide");
                 } else {
                     apiErrorAlert(res.msg);
                 }
@@ -88,12 +89,12 @@ const FaqDetail = ({ articleId }) => {
                 <div className={style.before_after_wrapper}>
                     <TableWrapper>
                         {noticeDetailData.after && (
-                            <Link href={`/acinfo/faq/detail/${noticeDetailData.after.id}`} passHref>
+                            <Link href={`/acinfo/guide/detail/${noticeDetailData.after.id}`} passHref>
                                 <TableRow icon={true} iconType={"after"} title={noticeDetailData.after?.title} />
                             </Link>
                         )}
                         {noticeDetailData.before && (
-                            <Link href={`/acinfo/faq/detail/${noticeDetailData.before.id}`} passHref>
+                            <Link href={`/acinfo/guide/detail/${noticeDetailData.before.id}`} passHref>
                                 <TableRow icon={true} iconType={"before"} title={noticeDetailData.before?.title} />
                             </Link>
                         )}
@@ -112,7 +113,7 @@ const FaqDetail = ({ articleId }) => {
                                 className={style.bottom_btn_style}
                                 onClick={handleDelete}
                             />
-                            <Link href={`/acinfo/faq/edit/${noticeDetailData.id}`} passHref>
+                            <Link href={`/acinfo/guide/edit/${noticeDetailData.id}`} passHref>
                                 <Button
                                     type="SQUARE"
                                     size="smaller"
@@ -125,7 +126,7 @@ const FaqDetail = ({ articleId }) => {
                             </Link>
                         </>
                     )}
-                    <Link href={"/acinfo/faq"} passHref>
+                    <Link href={"/acinfo/guide"} passHref>
                         <Button
                             type="SQUARE"
                             size="smaller"
@@ -141,4 +142,4 @@ const FaqDetail = ({ articleId }) => {
         );
     }
 };
-export default FaqDetail;
+export default GuideDetail;

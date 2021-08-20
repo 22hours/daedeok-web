@@ -164,7 +164,7 @@ const RegisterFormGroup = () => {
         const res = await clientSideApi("POST", "MAIN", "USER_REGISTER", undefined, {
             phone_num: auth,
             name: name.value,
-            password: password.value,
+            password: PasswordController.hashPassword(password.value),
             duty: duty.value,
             first_division: firstDivision.value,
             second_division: secondDivision.value !== "" ? secondDivision.value : undefined,
