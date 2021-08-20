@@ -84,7 +84,7 @@ const NoticeList = () => {
             <TableWrapper>
                 {listState.notice_list.map((it, idx) => (
                     <div key={`noticelistitem${idx}`}>
-                        <Link href={`/acinfo/qna/detail/${it.id}`} passHref>
+                        <Link href={`/acinfo/notice/detail/${it.id}`} passHref>
                             <div className={style.list_container}>
                                 <div className={style.title_wrapper}>
                                     <div className={style.idx_typo}>

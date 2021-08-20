@@ -24,11 +24,17 @@
         gap: 8px;
         margin-top: 8px;
         .item_row {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: auto 45px;
             align-items: center;
             cursor: pointer;
 
+            .title_txt {
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
             .typo_item {
             }
             .typo_date {

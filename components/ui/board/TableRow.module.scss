@@ -99,10 +99,12 @@
 }
 .week_item {
     @include desktop {
-        margin-right: 50px;
+        width: 50px;
+        margin-right: 10px;
     }
     @include mobile {
         margin-right: 8px;
+        min-width: 32px;
     }
 }
 .week_title_item {
