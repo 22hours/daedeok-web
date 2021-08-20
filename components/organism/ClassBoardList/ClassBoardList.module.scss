@@ -1,3 +1,17 @@
+@import "styles/meta.scss";
+
+@mixin class_list_mobile {
+    @media (max-width: 1100px) {
+        @content;
+    }
+}
+
+@mixin class_list_pc {
+    @media (min-width: 1100px) {
+        @content;
+    }
+}
+
 .cursor_none {
     cursor: default;
 }
@@ -21,5 +35,86 @@
     .new_btn {
         padding-right: 15px;
         padding-left: 15px;
+    }
+}
+@include class_list_mobile {
+    .class_list {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-bottom: 0.5px $gray_accent solid;
+        .title_wrapper {
+            display: flex;
+            align-items: center;
+            .list_id {
+                margin-right: 10px;
+            }
+            .list_title {
+                width: 250px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .list_detail_wrapper {
+            display: flex;
+            align-items: center;
+            .author {
+                margin-left: 10px;
+                text-align: center;
+            }
+            .detail_item {
+                margin-left: 10px;
+            }
+        }
+    }
+}
+@include class_list_pc {
+    .class_list {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-bottom: 0.5px $gray_accent solid;
+        .title_wrapper {
+            display: flex;
+            align-items: center;
+            .list_id {
+                @include class_list_pc {
+                    margin-right: 50px;
+                }
+                @include class_list_mobile {
+                    margin-right: 10px;
+                }
+            }
+            .list_title {
+                width: 400px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                @include class_list_mobile {
+                    width: 250px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+        }
+        .list_detail_wrapper {
+            display: flex;
+            align-items: center;
+            .author {
+                width: 70px;
+                margin-left: 10px;
+                text-align: center;
+            }
+            .detail_item {
+                margin-left: 10px;
+            }
+        }
     }
 }

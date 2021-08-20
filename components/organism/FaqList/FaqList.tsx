@@ -79,14 +79,17 @@ const FaqList = () => {
         >
             <TableWrapper>
                 {listState.faq_list.map((it, idx) => (
-                    <div key={idx} className={style.faq_list_wrapper}>
-                        {/* <TableRow idx={it.id} title={it.title} href={`/acinfo/faq/detail/${it.id}`}></TableRow> */}
-                        <div className={style.list_id}>
-                            <Typo type="TEXT" size="small" content={it.id.toString()} color={"brown_font"} />
-                        </div>
-                        <div className={style.list_title}>
-                            <Typo type="TEXT" size="normal" content={it.title} color={"brown_font"} />
-                        </div>
+                    <div key={idx}>
+                        <Link href={`/acinfo/faq/detail/${it.id}`} passHref>
+                            <div className={style.faq_list_wrapper}>
+                                <div className={style.list_id}>
+                                    <Typo type="TEXT" size="small" content={it.id.toString()} color={"brown_font"} />
+                                </div>
+                                <div className={style.list_title}>
+                                    <Typo type="TEXT" size="medium" content={it.title} color={"brown_font"} />
+                                </div>
+                            </div>
+                        </Link>
                     </div>
                 ))}
             </TableWrapper>

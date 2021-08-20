@@ -85,13 +85,13 @@
 
 .title_item {
     @include desktop {
-        width: 300px;
+        width: 350px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
     @include mobile {
-        width: 200px;
+        width: 250px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

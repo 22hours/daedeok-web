@@ -93,7 +93,7 @@ const TableRow = (props: Props) => {
                                     <div className={style.title_item}>
                                         <Typo
                                             type="TEXT"
-                                            size="normal"
+                                            size="medium"
                                             content={title.toString()}
                                             color={classInfo ? "gray_accent" : "brown_font"}
                                         />
