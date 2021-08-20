@@ -17,6 +17,8 @@ const Introduce = () => {
     const router = useRouter();
     const { auth, clientSideApi } = useAuthStore();
     const { alertOn } = useAlert();
+    const { confirmOn } = useConfirm();
+
     const [originData, setOriginData] = useState<State | null>(null);
 
     const getOriginData = async () => {
@@ -41,14 +43,15 @@ const Introduce = () => {
     }, [auth]);
 
     const handleEdited = () => {
-        alertOn({
-            title: "",
-            message: "성공적으로 수정되었습니다",
-            type: "POSITIVE",
+        confirmOn({
+            message: "수정하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
+            onSuccess: () => {
+                if (typeof window !== "undefined") {
+                    location.reload();
+                }
+            },
+            isFailButtonRemove: true,
         });
-        if (typeof window !== "undefined") {
-            location.reload();
-        }
     };
 
     if (originData === null) {

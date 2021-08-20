@@ -3,21 +3,20 @@ import dynamic from "next/dynamic";
 import PageHeader from "@ui/PageHeader";
 import { SecureRoute } from "lib/server/accessController";
 import { useRouter } from "next/router";
-import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const NewFaq = () => {
     const router = useRouter();
-    const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
+
     const onCreated = (article_id) => {
-        alertOn({
-            title: "",
-            //@ts-ignore
-            message: "게시글을 작성하였습니다",
-            type: "POSITIVE",
+        confirmOn({
+            message: "게시글을 작성하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
+            onSuccess: () => router.push(`/acinfo/faq/detail/${article_id}`),
+            isFailButtonRemove: true,
         });
-        router.push(`/acinfo/faq/detail/${article_id}`);
     };
 
     return (

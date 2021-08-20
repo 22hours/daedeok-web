@@ -12,6 +12,8 @@ const ContentEditor = dynamic(() => import("components/organism/ContentEditor/Co
 
 const ClassBoardEdit = () => {
     const router = useRouter();
+    const { confirmOn } = useConfirm();
+
     const { content_id, class_id, status } = router.query;
     const { clientSideApi } = useAuthStore();
     const { alertOn, apiErrorAlert } = useAlert();
@@ -35,13 +37,11 @@ const ClassBoardEdit = () => {
     }, []);
 
     const handleEdited = () => {
-        alertOn({
-            title: "",
-            //@ts-ignore
-            message: "수정되었습니다",
-            type: "POSITIVE",
+        confirmOn({
+            message: "게시글을 수정하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
+            onSuccess: () => router.replace(`/class/${status}/${class_id}/board/detail/${content_id}`),
+            isFailButtonRemove: true,
         });
-        router.replace(`/class/${status}/${class_id}/board/detail/${content_id}`);
     };
 
     if (originData === null) {

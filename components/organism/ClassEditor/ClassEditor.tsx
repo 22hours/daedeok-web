@@ -353,14 +353,12 @@ const ClassEditor = (props: Props) => {
 
     const titleChange = useCallback((e) => dispatch({ type: "SET_TITLE", data: e.target.value }), [state.title]);
     const contentChange = useCallback((e) => dispatch({ type: "SET_CONTENT", data: e.target.value }), [state.content]);
-    const referenceChange = useCallback(
-        (e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }),
-        [state.reference]
-    );
-    const categoryChange = useCallback(
-        (e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }),
-        [state.category]
-    );
+    const referenceChange = useCallback((e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }), [
+        state.reference,
+    ]);
+    const categoryChange = useCallback((e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }), [
+        state.category,
+    ]);
     const addDivisionItem = useCallback(
         (division: class_types.Division) => dispatch({ type: "ADD_DIVISION", data: division }),
         [state.division_list]
@@ -371,22 +369,18 @@ const ClassEditor = (props: Props) => {
         },
         [state.division_list]
     );
-    const removeDivisionItem = useCallback(
-        (idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }),
-        [state.division_list]
-    );
-    const studentLimitChange = useCallback(
-        (value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }),
-        [state.student_limit]
-    );
-    const addHandoutItem = useCallback(
-        (item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }),
-        [state.handout_list]
-    );
-    const removeHandoutItem = useCallback(
-        (idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }),
-        [state.handout_list]
-    );
+    const removeDivisionItem = useCallback((idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }), [
+        state.division_list,
+    ]);
+    const studentLimitChange = useCallback((value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }), [
+        state.student_limit,
+    ]);
+    const addHandoutItem = useCallback((item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }), [
+        state.handout_list,
+    ]);
+    const removeHandoutItem = useCallback((idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }), [
+        state.handout_list,
+    ]);
 
     const addPlanItem = useCallback(
         (planType: class_types.PlanType) => dispatch({ type: "ADD_PLAN", data: planType }),
@@ -419,10 +413,9 @@ const ClassEditor = (props: Props) => {
         [state.plan_list]
     );
 
-    const removePlanItem = useCallback(
-        (idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }),
-        [state.plan_list]
-    );
+    const removePlanItem = useCallback((idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }), [
+        state.plan_list,
+    ]);
 
     //강의종료
     const handleFinish = async () => {
@@ -433,13 +426,11 @@ const ClassEditor = (props: Props) => {
                     lecture_id: class_id,
                 });
                 if (res.result === "SUCCESS") {
-                    alertOn({
-                        title: "",
-                        //@ts-ignore
-                        message: "강의가 종료되었습니다",
-                        type: "POSITIVE",
+                    confirmOn({
+                        message: "강의가 삭제되었습니다\n확인을 클릭하면 강의실 메인으로 이동합니다",
+                        onSuccess: () => location.replace("/class"),
+                        isFailButtonRemove: true,
                     });
-                    location.replace("/class");
                 } else {
                     alertOn({
                         title: "에러가 발생하였습니다",
@@ -465,13 +456,11 @@ const ClassEditor = (props: Props) => {
                     undefined
                 );
                 if (res.result === "SUCCESS") {
-                    alertOn({
-                        title: "",
-                        //@ts-ignore
-                        message: "삭제되었습니다",
-                        type: "POSITIVE",
+                    confirmOn({
+                        message: "강의가 삭제되었습니다\n확인을 클릭하면 강의실 메인으로 이동합니다",
+                        onSuccess: () => location.replace("/class"),
+                        isFailButtonRemove: true,
                     });
-                    location.replace("/class");
                 } else {
                     alertOn({
                         title: "에러가 발생하였습니다",
@@ -551,13 +540,11 @@ const ClassEditor = (props: Props) => {
                     plan_list: state.plan_list,
                 });
                 if (res.result === "SUCCESS") {
-                    alertOn({
-                        title: "",
-                        //@ts-ignore
-                        message: "강의 개설에 성공하였습니다",
-                        type: "POSITIVE",
+                    confirmOn({
+                        message: "강의 개설에 성공하였습니다\n확인을 클릭하면 해당 강의로 이동합니다",
+                        onSuccess: () => location.replace(`/class/open/${res.data}/board`),
+                        isFailButtonRemove: true,
                     });
-                    location.replace(`/class/open/${res.data}/board`);
                 } else {
                     apiErrorAlert(res.msg);
                 }
@@ -601,13 +588,11 @@ const ClassEditor = (props: Props) => {
                     }
                 );
                 if (res.result === "SUCCESS") {
-                    alertOn({
-                        title: "",
-                        //@ts-ignore
-                        message: "수정되었습니다.",
-                        type: "POSITIVE",
+                    confirmOn({
+                        message: "강의가 성공적으로 수정되었습니다\n확인을 클릭하면 해당 강의로 이동합니다",
+                        onSuccess: () => location.replace(`/class/${status}/${class_id}/board`),
+                        isFailButtonRemove: true,
                     });
-                    location.replace(`/class/${status}/${class_id}/board`);
                 } else {
                     alertOn({
                         title: "에러가 발생하였습니다",

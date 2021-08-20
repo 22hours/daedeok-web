@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import cookies from "next-cookies";
 import { SecureRoute } from "lib/server/accessController";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 type State = {
     title: string;
@@ -17,6 +18,7 @@ const NoticeEdit = () => {
     const { article_id } = router.query;
     const { auth, clientSideApi } = useAuthStore();
     const [originData, setOriginData] = useState<State | null>(null);
+    const { confirmOn } = useConfirm();
 
     const getOriginData = async () => {
         const res = await clientSideApi("GET", "MAIN", "TOTAL_NOTICE_EDIT", { article_id: article_id });
@@ -38,8 +40,11 @@ const NoticeEdit = () => {
     }, [auth]);
 
     const handleEdited = () => {
-        alert("수정되었습니다");
-        router.push(`/acinfo/notice/detail/${article_id}`);
+        confirmOn({
+            message: "게시글을 수정하였습니다\n확인을 클릭하면 해당 게시글로 이동합니다",
+            onSuccess: () => router.push(`/acinfo/notice/detail/${article_id}`),
+            isFailButtonRemove: true,
+        });
     };
 
     if (originData === null) {
