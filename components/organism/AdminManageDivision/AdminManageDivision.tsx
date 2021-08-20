@@ -234,13 +234,31 @@ const AdminManageDivision = () => {
                         <>
                             <div key={`divisionlistitemheader`} className={style.list_container}>
                                 <div>
-                                    <Typo type="TEXT" size="medium" content={"상위소속"} color={"brown_font"} />
+                                    <Typo
+                                        className={style.list_item}
+                                        type="TEXT"
+                                        size="medium"
+                                        content={"상위소속"}
+                                        color={"brown_font"}
+                                    />
                                 </div>
                                 <div>
-                                    <Typo type="TEXT" size="medium" content={"하위대상"} color={"brown_font"} />
+                                    <Typo
+                                        className={style.list_item}
+                                        type="TEXT"
+                                        size="medium"
+                                        content={"하위대상"}
+                                        color={"brown_font"}
+                                    />
                                 </div>
                                 <div>
-                                    <Typo type="TEXT" size="medium" content={"관리"} color={"brown_font"} />
+                                    <Typo
+                                        className={style.list_item}
+                                        type="TEXT"
+                                        size="medium"
+                                        content={"관리"}
+                                        color={"brown_font"}
+                                    />
                                 </div>
                             </div>
                             {data.map((it, idx) => (
