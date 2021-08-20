@@ -3,12 +3,9 @@ import { res_types } from "@global_types";
 import style from "./FaqList.module.scss";
 import Link from "next/link";
 //ui
-import TableRow from "@ui/board/TableRow";
-import UseDate from "lib/hooks/useDate";
 import TableWrapper from "@ui/board/TableWrapper";
-import Pagination from "@ui/pagination/Pagination";
-import SearchBar from "@ui/input/SearchBar";
 import Button from "@ui/buttons/Button";
+import Typo from "@ui/Typo";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
@@ -82,8 +79,14 @@ const FaqList = () => {
         >
             <TableWrapper>
                 {listState.faq_list.map((it, idx) => (
-                    <div key={idx}>
-                        <TableRow idx={it.id} title={it.title} href={`/acinfo/faq/detail/${it.id}`}></TableRow>
+                    <div key={idx} className={style.faq_list_wrapper}>
+                        {/* <TableRow idx={it.id} title={it.title} href={`/acinfo/faq/detail/${it.id}`}></TableRow> */}
+                        <div className={style.list_id}>
+                            <Typo type="TEXT" size="small" content={it.id.toString()} color={"brown_font"} />
+                        </div>
+                        <div className={style.list_title}>
+                            <Typo type="TEXT" size="normal" content={it.title} color={"brown_font"} />
+                        </div>
                     </div>
                 ))}
             </TableWrapper>

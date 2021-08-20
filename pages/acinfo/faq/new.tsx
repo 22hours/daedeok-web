@@ -3,13 +3,20 @@ import dynamic from "next/dynamic";
 import PageHeader from "@ui/PageHeader";
 import { SecureRoute } from "lib/server/accessController";
 import { useRouter } from "next/router";
+import { useAlert } from "store/GlobalAlertStore";
+
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
 
 const NewFaq = () => {
     const router = useRouter();
-
+    const { alertOn, apiErrorAlert } = useAlert();
     const onCreated = (article_id) => {
-        alert("게시글을 작성하였습니다");
+        alertOn({
+            title: "",
+            //@ts-ignore
+            message: "게시글을 작성하였습니다",
+            type: "POSITIVE",
+        });
         router.push(`/acinfo/faq/detail/${article_id}`);
     };
 
