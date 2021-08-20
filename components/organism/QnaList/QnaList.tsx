@@ -98,7 +98,7 @@ const QnaList = (props: Props) => {
             >
                 <TableWrapper>
                     {data.qna_list.map((it, idx) => (
-                        <div key={idx}>
+                        <div key={`qnalistitem${idx}`}>
                             <Link href={`/acinfo/qna/detail/${it.id}`} passHref>
                                 <div className={style.qna_list_wrapper}>
                                     <div className={style.title_wrapper}>
