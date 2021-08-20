@@ -27,13 +27,15 @@ const ClassBoardPreviewBox = (props: Props) => {
                 {props.item_list.map((it, idx) => (
                     <Link key={`boarditem${idx}`} href={it.link} passHref>
                         <div className={style.item_row}>
-                            <Typo
-                                className={style.typo_item}
-                                type={"TEXT"}
-                                size={"small"}
-                                content={it.title || ""}
-                                color={"gray_accent"}
-                            />
+                            <div className={style.title_txt}>
+                                <Typo
+                                    className={style.typo_item}
+                                    type={"TEXT"}
+                                    size={"small"}
+                                    content={it.title || ""}
+                                    color={"gray_accent"}
+                                />
+                            </div>
                             {it.date && (
                                 <Typo
                                     className={style.typo_date}

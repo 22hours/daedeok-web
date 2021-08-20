@@ -19,37 +19,42 @@
 @include class_list_pc {
     .class_join_list {
         display: grid;
-        grid-template-columns: auto 500px !important;
+        grid-template-columns: auto 90px !important;
         align-items: center;
         padding-top: 20px;
         padding-bottom: 20px;
         padding-left: 10px;
         padding-right: 10px;
         border-bottom: 0.5px $gray_accent solid;
+        .content_wrapper {
+            display: grid;
+            grid-template-columns: auto 400px;
+            cursor: pointer;
+            .title {
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .detail_item_list {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                .category {
+                    width: 120px;
+                }
+                .date {
+                    width: 190px;
+                }
+                .limit {
+                    width: 70px;
+                    text-align: center;
+                    margin-left: 8px;
+                    margin-right: 8px;
+                }
+            }
+        }
 
-        .title {
-            display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .detail_item_list {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            .category {
-                width: 120px;
-            }
-            .date {
-                width: 190px;
-            }
-            .limit {
-                width: 70px;
-                text-align: center;
-                margin-left: 8px;
-                margin-right: 8px;
-            }
-        }
         .join_btn {
             width: 90px;
         }
@@ -67,6 +72,7 @@
         .title {
             display: grid;
             grid-template-columns: auto 90px !important;
+            cursor: pointer;
             .title_txt {
                 display: inline-block;
                 overflow: hidden;
