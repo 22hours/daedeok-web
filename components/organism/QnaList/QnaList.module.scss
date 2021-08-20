@@ -36,6 +36,7 @@
         border-bottom: 0.5px $gray_accent solid;
         .title_wrapper {
             display: grid;
+            align-items: center;
             grid-template-columns: 30px auto;
             .list_id {
                 width: 25px;
