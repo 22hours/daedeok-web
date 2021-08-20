@@ -1,3 +1,5 @@
+@import "styles/meta.scss";
+
 .header_title {
     margin-top: 70px;
 }
@@ -12,5 +14,69 @@
     }
     .search {
         flex-grow: 0.5;
+    }
+}
+
+.list_wrapper {
+    @include desktop {
+        display: grid;
+        grid-template-columns: auto 500px;
+        align-items: center;
+        gap: 10px;
+    }
+    @include mobile {
+    }
+    cursor: pointer;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 0.5px $gray_accent solid;
+
+    .title_wrapper {
+        @include desktop {
+            gap: 10px;
+        }
+        @include mobile {
+            gap: 5px;
+        }
+        display: grid;
+        grid-template-columns: 20px auto;
+        align-items: center;
+        .list_title {
+            @include desktop {
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            @include mobile {
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .detail_item_list {
+        display: grid;
+        @include desktop {
+            grid-template-columns: 100px 200px 140px;
+            justify-content: flex-end;
+        }
+        @include mobile {
+            margin-top: 5px;
+            grid-template-columns: 70px 160px 100px;
+        }
+
+        .detail_item {
+            white-space: nowrap;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 }

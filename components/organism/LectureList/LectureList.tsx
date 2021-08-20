@@ -21,6 +21,8 @@ import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
 import ListPagination from "components/molecule/ListPagination/ListPagination";
 import PageHeader from "@ui/PageHeader";
 import ListPageLayout from "components/layout/ListPageLayout";
+import Link from "next/link";
+import DateController from "lib/client/dateController";
 
 type State = res_types.classCompleteList;
 
@@ -35,8 +37,7 @@ const LectureCloseList = (props: { lecture_list: any }) => {
     const { status } = router.query;
     return (
         <TableWrapper>
-            {props.lecture_list?.map((it, idx) => (
-                <div key={idx}>
+            {/* <div key={idx}>
                     <TableRow
                         idx={it.id}
                         title={it.title}
@@ -44,6 +45,49 @@ const LectureCloseList = (props: { lecture_list: any }) => {
                         date={UseDate("YYYY-MM-DD", it.start_date) + "~" + UseDate("YYYY-MM-DD", it.end_date)}
                         href={`/lecture/${status}/detail/${it.id}`}
                     ></TableRow>
+                </div> */}
+            {props.lecture_list?.map((it, idx) => (
+                <div key={`lectureitem${idx}`}>
+                    <Link href={`/lecture/${status}/detail/${it.id}`} passHref>
+                        <div className={style.list_wrapper}>
+                            <div className={style.title_wrapper}>
+                                <div className={style.list_id}>
+                                    <Typo type="TEXT" size="small" content={it.id.toString()} color={"brown_font"} />
+                                </div>
+                                <div className={style.list_title}>
+                                    <Typo type="TEXT" size="medium" content={it.title} color={"brown_font"} />
+                                </div>
+                            </div>
+                            <div className={style.detail_item_list}>
+                                <div className={`${style.category_item} ${style.detail_item}`}>
+                                    <Typo content={it.category} type="TEXT" size="small" color="red_accent" />
+                                </div>
+                                <div className={`${style.date_item} ${style.detail_item}`}>
+                                    <Typo
+                                        content={`${DateController.getFormatedDate(
+                                            "YYYY/MM/DD",
+                                            it.start_date
+                                        )}~${DateController.getFormatedDate("YYYY/MM/DD", it.end_date)}`}
+                                        type="TEXT"
+                                        size="small"
+                                        color="gray_accent"
+                                    />
+                                </div>
+                                {status === "open" && (
+                                    <div className={`${style.limit_item} ${style.detail_item}`}>
+                                        <Typo
+                                            content={`수강인원 ${it.student_num}/${
+                                                parseInt(it.student_limit) === -1 ? "무제한" : it.student_limit
+                                            }`}
+                                            type="TEXT"
+                                            size="small"
+                                            color="gray_accent"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </Link>
                 </div>
             ))}
         </TableWrapper>
