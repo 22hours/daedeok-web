@@ -9,7 +9,8 @@ import style from "./ClassJoin.module.scss";
 import Pagination from "@ui/pagination/Pagination";
 import SearchBar from "@ui/input/SearchBar";
 import Select from "@ui/input/Select";
-
+import Typo from "@ui/Typo";
+import Link from "next/link";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useListCommonStore } from "store/ListCommonStore";
@@ -20,6 +21,7 @@ import ListSelect from "components/molecule/ListSelect/ListSelect";
 import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
 import ListPagination from "components/molecule/ListPagination/ListPagination";
 import ListPageLayout from "components/layout/ListPageLayout";
+import WindowController from "lib/client/windowController";
 
 type State = res_types.classPossibleList;
 
@@ -85,6 +87,26 @@ const ClassJoin = () => {
     const [listState, setListState] = useState<State>(initState);
     const searchRef = useRef<HTMLInputElement | null>(null);
 
+    const [mode, setMode] = useState<"pc" | "mobile">("pc");
+
+    const setModeByWindowSize = () => {
+        var width = WindowController.getWindowSize();
+        console.log(width);
+        if (width > 1100) {
+            setMode("pc");
+        } else {
+            setMode("mobile");
+        }
+    };
+
+    useEffect(() => {
+        setModeByWindowSize();
+        window.addEventListener("resize", setModeByWindowSize);
+        return () => {
+            window.removeEventListener("resize", setModeByWindowSize);
+        };
+    }, []);
+
     // 카테고리필터 가능 & 페이지 이동
     const getClassListData = async () => {
         if (state.isLoadEnd) {
@@ -137,25 +159,96 @@ const ClassJoin = () => {
         >
             <TableWrapper>
                 {listState.lecture_list.map((it, idx) => (
-                    <div key={idx}>
-                        <TableRow
-                            title={it.title}
-                            category={it.category}
-                            date={UseDate("YYYY-MM-DD", it.start_date) + "~" + UseDate("YYYY-MM-DD", it.end_date)}
-                            studentLimit={{
-                                student_limit: it.student_limit === -1 ? "무제한" : it.student_limit,
-                                student_num: it.student_num,
-                            }}
-                            href={`/class/join/detail/${it.id}`}
-                        >
-                            <div style={{ width: "90px", marginRight: "20px" }}>
-                                <JoinButton
-                                    state={it.status}
-                                    idx={it.id}
-                                    handleClassJoin={() => handleClassJoin(it.id)}
-                                />
-                            </div>
-                        </TableRow>
+                    <div key={`class_join${idx}`}>
+                        {mode === "pc" ? (
+                            <Link href={`/class/join/detail/${it.id}`} passHref>
+                                <div className={style.class_join_list}>
+                                    <div className={style.title}>
+                                        <Typo type="TEXT" content={it.title} color="brown_font" size="medium" />
+                                    </div>
+                                    <div className={style.detail_item_list}>
+                                        <div className={style.category}>
+                                            <Typo type="TEXT" content={it.category} color="red_accent" size="small" />
+                                        </div>
+                                        <div className={style.date}>
+                                            <Typo
+                                                type="TEXT"
+                                                content={
+                                                    UseDate("YYYY-MM-DD", it.start_date) +
+                                                    "~" +
+                                                    UseDate("YYYY-MM-DD", it.end_date)
+                                                }
+                                                color="brown_font"
+                                                size="small"
+                                            />
+                                        </div>
+                                        <div className={style.limit}>
+                                            <Typo
+                                                type="TEXT"
+                                                content={`${it.student_num}/${
+                                                    it.student_limit === -1 ? "무제한" : it.student_limit
+                                                }`}
+                                                color="brown_font"
+                                                size="small"
+                                            />
+                                        </div>
+                                        <div className={style.join_btn}>
+                                            <JoinButton
+                                                state={it.status}
+                                                idx={it.id}
+                                                handleClassJoin={() => handleClassJoin(it.id)}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        ) : (
+                            <Link href={`/class/join/detail/${it.id}`} passHref>
+                                <div className={style.class_join_list}>
+                                    <div className={style.title}>
+                                        <div className={style.title_txt}>
+                                            <Typo type="TEXT" content={it.title} color="brown_font" size="medium" />
+                                        </div>
+                                        <div className={style.join_btn}>
+                                            <JoinButton
+                                                state={it.status}
+                                                idx={it.id}
+                                                handleClassJoin={() => handleClassJoin(it.id)}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className={style.detail_item_list}>
+                                        <div className={style.category}>
+                                            <Typo type="TEXT" content={it.category} color="red_accent" size="small" />
+                                        </div>
+                                        <div className={style.footer_item_wrapper}>
+                                            <div className={style.date}>
+                                                <Typo
+                                                    type="TEXT"
+                                                    content={
+                                                        UseDate("YYYY-MM-DD", it.start_date) +
+                                                        "~" +
+                                                        UseDate("YYYY-MM-DD", it.end_date)
+                                                    }
+                                                    color="brown_font"
+                                                    size="small"
+                                                />
+                                            </div>
+                                            <div className={style.limit}>
+                                                <Typo
+                                                    type="TEXT"
+                                                    content={`${it.student_num}/${
+                                                        it.student_limit === -1 ? "무제한" : it.student_limit
+                                                    }`}
+                                                    color="brown_font"
+                                                    size="small"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        )}
                     </div>
                 ))}
             </TableWrapper>
