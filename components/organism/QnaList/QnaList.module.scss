@@ -1,3 +1,5 @@
+@import "styles/meta.scss";
+
 .top_form {
     display: flex;
     margin-top: 60px;
@@ -17,5 +19,69 @@
     .new_btn {
         padding-right: 15px;
         padding-left: 15px;
+    }
+}
+@include desktop {
+    .qna_list_wrapper {
+        display: flex;
+        align-items: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-bottom: 0.5px $gray_accent solid;
+        justify-content: space-between;
+        .title_wrapper {
+            display: flex;
+            align-items: center;
+            .list_id {
+                margin-right: 50px;
+            }
+            .list_title {
+                width: 450px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .detail_item_list {
+            width: 300px;
+            display: flex;
+            align-items: center;
+            .detail_items {
+                margin-left: 10px;
+            }
+        }
+    }
+}
+@include mobile {
+    .qna_list_wrapper {
+        align-items: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-bottom: 0.5px $gray_accent solid;
+        justify-content: space-between;
+        .title_wrapper {
+            display: flex;
+            align-items: center;
+            .list_id {
+                margin-right: 10px;
+            }
+            .list_title {
+                width: 200px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .detail_item_list {
+            display: flex;
+            align-items: center;
+            .detail_items {
+                margin-left: 10px;
+            }
+        }
     }
 }
