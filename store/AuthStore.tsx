@@ -135,11 +135,13 @@ export const AuthProvider = ({ children }) => {
                                         processQueue(null, data.access_token);
                                         resolve(apiClient.client(originalRequest));
                                     } else {
+                                        reject();
                                         confirmOn({
                                             message: "다시 로그인해주시기 바랍니다",
                                             onSuccess: () => router.replace("/logout"),
                                             isFailButtonRemove: true,
                                         });
+                                        isRefreshing = false;
                                     }
                                 })
                                 .catch((err) => {
