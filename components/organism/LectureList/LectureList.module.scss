@@ -63,12 +63,12 @@
     .detail_item_list {
         display: grid;
         @include desktop {
-            grid-template-columns: 100px 200px 140px;
+            grid-template-columns: 100px 200px auto;
             justify-content: flex-end;
         }
         @include mobile {
             margin-top: 5px;
-            grid-template-columns: 70px 160px 100px;
+            grid-template-columns: 70px 160px auto;
         }
 
         .detail_item {
