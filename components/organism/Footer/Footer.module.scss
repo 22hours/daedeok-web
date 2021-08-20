@@ -1,6 +1,8 @@
 @import "styles/meta.scss";
 
 .footer {
+    padding-bottom: 50px;
+
     display: grid;
     grid-template-columns: 0.8fr 7fr 0.8fr;
     height: 100%;
@@ -44,6 +46,7 @@
 }
 
 .mobile_footer {
+    padding-bottom: 50px;
     height: 100%;
     .font_size {
         font-size: 8px !important;
