@@ -149,13 +149,6 @@ const LoginGroup = (props: Props) => {
                         />
                     </Link>
                 </div>
-                <div className={style.label_row}>
-                    <Link href={"/"} passHref>
-                        <div>
-                            <Typo type={"TEXT"} size={"small"} content={"메인페이지로 가기 >"} color={"gray_accent"} />
-                        </div>
-                    </Link>
-                </div>
             </div>
         );
     } else {
