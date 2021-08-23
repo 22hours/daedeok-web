@@ -29,6 +29,10 @@ const initState: State = {
 // CONTEXT
 const GlobalAlertContext = React.createContext<Store | null>(null);
 
+const ChildrenComponent = React.memo(({ children }) => {
+    return <>{children}</>;
+});
+
 export const GlobalAlertProvider = ({ children }) => {
     const makeChild = useCallback(() => {
         return <>{children}</>;

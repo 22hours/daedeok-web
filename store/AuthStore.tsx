@@ -201,21 +201,32 @@ export const AuthProvider = ({ children }) => {
         CookieController.setUserWithCookie({ ...auth, ...userData });
     };
 
-    const initAuth = () => {
+    const initAuth = async () => {
         const userData: meta_types.user = CookieController.getUserWithCookie();
-        console.log(userData);
         if (userData.user_id) {
-            dispatch({
-                type: "LOGIN",
-                data: {
-                    ...userData,
-                    lecture_num: userData.lecture_num || 0,
-                },
+            const res = await apiClient.API_CALL("GET", "MAIN", "USER_INFO", undefined, undefined, {
+                Authorization: `Bearer ${userData.access_token}`,
             });
+            if (res.result === "SUCCESS") {
+                login({
+                    ...userData,
+                    ...res.data,
+                    lecture_num: res.data.lecture_num || 0,
+                });
+            } else {
+                dispatch({
+                    type: "LOGIN",
+                    data: {
+                        ...userData,
+                        lecture_num: userData.lecture_num || 0,
+                    },
+                });
+            }
         }
     };
 
     const firstRef = useRef(true);
+
     useEffect(() => {
         if (firstRef.current) {
             firstRef.current = false;

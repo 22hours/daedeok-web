@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useReducer, useState } from "react";
+import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import style from "./ClassEditor.module.scss";
 import { class_types } from "@global_types";
 import ClassTextInput from "./items/ClassTextInput";
@@ -342,12 +342,17 @@ const ClassEditor = (props: Props) => {
 
     const option_list = useClassCategory();
 
+    const firstRef = useRef(true);
     useEffect(() => {
         if (props.type === "EDIT" && props.data) {
-            dispatch({ type: "SET_INIT_STATE", data: props.data });
-            setOriginHandoutList(props.data.handout_list.slice());
-            // @ts-ignore
-            setOriginPlanList(props.data.plan_list.map((it) => it.id));
+            if (firstRef.current) {
+                console.log("DISPATCH");
+                dispatch({ type: "SET_INIT_STATE", data: props.data });
+                setOriginHandoutList(props.data.handout_list.slice());
+                // @ts-ignore
+                setOriginPlanList(props.data.plan_list.map((it) => it.id));
+                firstRef.current = false;
+            }
         }
     }, [props]);
 
@@ -473,6 +478,113 @@ const ClassEditor = (props: Props) => {
         });
     };
 
+    const checkValidation = () => {
+        // TITLE VALIDATION
+        if (!RegexController.isValid(["NO_SPACE", "NO_SPECIAL"], state.title, 3, 50)) {
+            alertOn({
+                title: "",
+                message: "강의 제목은 특수문자, 공백을 포함할 수 없으며 3자이상, 50자 미만으로 이루어져야 합니다",
+                type: "WARN",
+            });
+            return false;
+        }
+
+        // INTRODUCE VALIDATION
+        if (!RegexController.isValid(["NO_SPACE", "NO_SPECIAL"], state.content, 5, 100)) {
+            alertOn({
+                title: "",
+                message: "강의 소개는 특수문자, 공백을 포함할 수 없으며 5자 이상, 100자 미만으로 이루어져야 합니다",
+                type: "WARN",
+            });
+            return false;
+        }
+
+        // STUDENT LIMIT VALIDATION
+        if (!state.student_limit) {
+            alertOn({
+                title: "",
+                message: "정원은 숫자 또는 무제한으로 입력하여야 합니다",
+                type: "WARN",
+            });
+            return false;
+        }
+
+        // PLAN LIST VALIDATION
+        if (state.plan_list.length < 1) {
+            alertOn({
+                title: "",
+                message: "강의 계획은 최소 1개 이상이여야 합니다",
+                type: "WARN",
+            });
+            return false;
+        }
+
+        // PLAN ITEM VALIDATION
+        var flag = true;
+        state.plan_list.forEach((plan_item) => {
+            // WEEK
+            if (!plan_item.week) {
+                flag = false;
+                alertOn({
+                    title: "",
+                    message: "강의계획의 주차는 숫자로만 입력 가능합니다",
+                    type: "WARN",
+                });
+                return false;
+            }
+
+            // TITLE
+            if (!RegexController.isValid(["NO_SPACE", "NO_SPECIAL"], plan_item.title, 1, 50)) {
+                flag = false;
+                alertOn({
+                    title: "",
+                    message: "강의계획의 제목은 특수문자를 포함할 수 없으며, 최소 1자이상, 50자 이하로 작성해야합니다",
+                    type: "WARN",
+                });
+                return false;
+            }
+
+            // TUTOR
+            if (!RegexController.isValid(["NO_SPACE", "NO_SPECIAL"], plan_item.tutor, 1, 50)) {
+                flag = false;
+                alertOn({
+                    title: "",
+                    message:
+                        "강의계획의 강사명은 특수문자를 포함할 수 없으며, 최소 1자이상, 50자 이하로 작성해야합니다",
+                    type: "WARN",
+                });
+                return false;
+            }
+
+            // DATE
+            if (!RegexController.checkDate(plan_item.date)) {
+                flag = false;
+                alertOn({
+                    title: "",
+                    message: "날짜는 YYYY-MM-DD 형식에 맞게 입력해야합니다",
+                    type: "WARN",
+                });
+                return false;
+            }
+
+            // TIME
+            if (!RegexController.checkTime(plan_item.time)) {
+                flag = false;
+                alertOn({
+                    title: "",
+                    message: "시간은 HH:MM 형식에 맞게 입력해야합니다",
+                    type: "WARN",
+                });
+                return false;
+            }
+        });
+        if (!flag) {
+            return false;
+        }
+
+        return true;
+    };
+
     const handleSumbit = async () => {
         const makeDivisionList = () => {
             var reqDivisionList: { first_division: string; second_division: string[] }[] = [];
@@ -500,28 +612,7 @@ const ClassEditor = (props: Props) => {
             return reqDivisionList;
         };
 
-        var flag = true;
-        state.plan_list.forEach((plan_item) => {
-            if (!RegexController.checkDate(plan_item.date)) {
-                flag = false;
-                alertOn({
-                    title: "",
-                    message: "날짜는 YYYY-MM-DD 형식에 맞게 입력해야합니다",
-                    type: "WARN",
-                });
-                return false;
-            }
-            if (!RegexController.checkTime(plan_item.time)) {
-                flag = false;
-                alertOn({
-                    title: "",
-                    message: "시간은 HH:MM 형식에 맞게 입력해야합니다",
-                    type: "WARN",
-                });
-                return false;
-            }
-        });
-        if (!flag) {
+        if (!checkValidation()) {
             return;
         }
 
@@ -597,7 +688,7 @@ const ClassEditor = (props: Props) => {
                     alertOn({
                         title: "에러가 발생하였습니다",
                         //@ts-ignore
-                        message: "다시 시도해주세요.",
+                        message: res.msg,
                         type: "ERROR",
                     });
                 }

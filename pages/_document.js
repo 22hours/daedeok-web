@@ -38,10 +38,7 @@ export default class RootDocument extends Document {
                     <meta charSet="utf-8" />
                     <meta name="description" content="My First Static Website" />
                     <meta name="keywords" content="nextjs,static,website" />
-                    <meta
-                        name="viewport"
-                        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-                    />
+                    <meta name="viewport" content="user-scalable=no, width=device-width"></meta>
 
                     {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
                 </Head>

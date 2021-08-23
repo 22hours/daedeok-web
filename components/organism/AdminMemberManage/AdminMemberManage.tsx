@@ -209,7 +209,9 @@ const MemberManageList = () => {
                 />
                 <TableWrapper>
                     {data.user_list.map((it, idx) => {
-                        const studentInfo = `${it.duty} ${it.first_division} ${it.second_division} ${it.phone_num}`;
+                        const studentInfo = `${it.duty} ${it.first_division}${
+                            it.second_division ? ` ${it.second_division} ` : ""
+                        } ${it.phone_num}`;
                         return (
                             <div key={`adminmanageuseritem${idx}`}>
                                 <div className={style.list_container}>
@@ -257,39 +259,6 @@ const MemberManageList = () => {
                                     </div>
                                 </div>
                             </div>
-                            // <TableRow
-                            //     key={`adminmanageuseritem${idx}`}
-                            //     idx={idx + 1}
-                            //     studentName={it.name}
-                            //     studentInfo={{
-                            //         duty: it.duty,
-                            //         first_division: it.first_division,
-                            //         second_division: it.second_division,
-                            //         phone_number: it.phone_num,
-                            //     }}
-                            // >
-                            //     <div className={style.user_control_col}>
-                            //         <RoleChangeButton {...it} refresh={refresh} />
-                            //         <Button
-                            //             className={`${style.control_btn}`}
-                            //             type={"SQUARE"}
-                            //             size={"free"}
-                            //             fontSize={"smaller"}
-                            //             content={"PW전송"}
-                            //             color={"white"}
-                            //             onClick={() => callPwSend(it.id)}
-                            //         />
-                            //         <Button
-                            //             className={`${style.control_btn}`}
-                            //             type={"SQUARE"}
-                            //             size={"free"}
-                            //             fontSize={"smaller"}
-                            //             content={"삭제"}
-                            //             color={"white"}
-                            //             onClick={() => callDeleteUser(it.id)}
-                            //         />
-                            //     </div>
-                            // </TableRow>
                         );
                     })}
                 </TableWrapper>

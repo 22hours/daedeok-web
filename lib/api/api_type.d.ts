@@ -16,6 +16,7 @@ declare module "@api_config_type" {
                 | "REFRESH"
                 | "TEST2"
                 // USER
+                | "USER_INFO"
                 | "USER_LOGIN"
                 | "USER_CHECK"
                 | "USER_DELETE"

@@ -128,15 +128,19 @@ $mobile_footer_height: 139px;
 
 .article {
     @include container;
+    flex-grow: 1;
 }
 
 .footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-color: $brown_base;
     @include mobile {
-        height: $mobile_footer_height;
+        min-height: $mobile_footer_height;
     }
 
     @include desktop {
-        height: $pc_footer_height;
+        min-height: $pc_footer_height;
     }
 }

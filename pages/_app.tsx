@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { GlobalLoaderProvider } from "store/GlobalLoader";
 import { GlobalAlertProvider } from "store/GlobalAlertStore";
 import { GlobalConfirmProvider } from "store/GlobalConfirmStore";
+import Head from "next/head";
 
 const MyApp = ({ Component, pageProps }) => {
     useEffect(() => {
@@ -46,6 +47,14 @@ const MyApp = ({ Component, pageProps }) => {
 
     return (
         <>
+            <Head>
+                <meta charSet="utf-8" />
+                <meta name="description" content="My First Static Website" />
+                <meta name="keywords" content="nextjs,static,website" />
+                <meta name="viewport" content="user-scalable=no, width=device-width"></meta>
+
+                {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
+            </Head>
             <CssBaseline />
             <GlobalLoaderProvider>
                 <GlobalConfirmProvider>

@@ -129,7 +129,9 @@ const TutorClassPlanDetailList = () => {
                 </div>
                 <TableWrapper>
                     {state.student_list.map((it, idx) => {
-                        const studentInfo = `${it.duty} ${it.first_division} ${it.second_division} ${it.phone_num}`;
+                        const studentInfo = `${it.duty} ${it.first_division}${
+                            it.second_division ? ` ${it.second_division} ` : ""
+                        } ${it.phone_num}`;
                         return (
                             <div key={`studentitem${idx}`}>
                                 <div className={style.list_wrapper}>

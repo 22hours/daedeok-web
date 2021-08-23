@@ -180,9 +180,11 @@ const ClassStudentListItem = (props: ClassStudentListItemProps) => {
                             <div className={style.detail_items}>
                                 <Typo size="small" type="TEXT" color="gray_accent" content={data.first_division} />
                             </div>
-                            <div className={style.detail_items}>
-                                <Typo size="small" type="TEXT" color="gray_accent" content={data.second_division} />
-                            </div>
+                            {data.second_division && (
+                                <div className={style.detail_items}>
+                                    <Typo size="small" type="TEXT" color="gray_accent" content={data.second_division} />
+                                </div>
+                            )}
                             <div className={style.detail_items}>
                                 <Typo size="small" type="TEXT" color="gray_accent" content={data.phone_num} />
                             </div>
@@ -228,9 +230,11 @@ const ClassStudentListItem = (props: ClassStudentListItemProps) => {
                         <div className={style.detail_items}>
                             <Typo size="small" type="TEXT" color="gray_accent" content={data.first_division} />
                         </div>
-                        <div className={style.detail_items}>
-                            <Typo size="small" type="TEXT" color="gray_accent" content={data.second_division} />
-                        </div>
+                        {data.second_division && (
+                            <div className={style.detail_items}>
+                                <Typo size="small" type="TEXT" color="gray_accent" content={data.second_division} />
+                            </div>
+                        )}
                         <div className={style.detail_items}>
                             <Typo size="small" type="TEXT" color="gray_accent" content={data.phone_num} />
                         </div>

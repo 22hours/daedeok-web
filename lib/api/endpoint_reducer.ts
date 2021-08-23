@@ -13,6 +13,8 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case "REFRESH":
             return "user/reissue";
         // USER
+        case "USER_INFO":
+            return `user/info`;
         case `USER_LOGIN`:
             return `user/login`;
         case `USER_CHECK`:
