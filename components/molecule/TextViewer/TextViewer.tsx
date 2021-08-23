@@ -14,8 +14,10 @@ const TextViewer = (props: Props) => {
     useEffect(() => {
         if (props.content) {
             if (viewerRef.current) {
+                let replaceContent = props.content.replace(/<br\s*\/?>/gm, "");
+                let rereplace = replaceContent.replace(/\n/g, "<br/>");
                 //@ts-ignore
-                viewerRef.current.getInstance().setMarkdown(props.content.replaceAll("\n", "\n<br/>"));
+                viewerRef.current.getInstance().setMarkdown(rereplace);
             }
         }
     }, [props]);

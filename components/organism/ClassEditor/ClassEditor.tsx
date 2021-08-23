@@ -479,7 +479,7 @@ const ClassEditor = (props: Props) => {
     };
 
     const checkValidation = () => {
-        // TITLE
+        // TITLE VALIDATION
         if (!RegexController.isValid(["NO_SPACE", "NO_SPECIAL"], state.title, 3, 50)) {
             alertOn({
                 title: "",
@@ -489,11 +489,21 @@ const ClassEditor = (props: Props) => {
             return false;
         }
 
-        // INTRODUCE
+        // INTRODUCE VALIDATION
         if (!RegexController.isValid(["NO_SPACE", "NO_SPECIAL"], state.content, 5, 100)) {
             alertOn({
                 title: "",
                 message: "강의 소개는 특수문자, 공백을 포함할 수 없으며 5자 이상, 100자 미만으로 이루어져야 합니다",
+                type: "WARN",
+            });
+            return false;
+        }
+
+        // STUDENT LIMIT VALIDATION
+        if (!state.student_limit) {
+            alertOn({
+                title: "",
+                message: "정원은 숫자 또는 무제한으로 입력하여야 합니다",
                 type: "WARN",
             });
             return false;
@@ -509,9 +519,44 @@ const ClassEditor = (props: Props) => {
             return false;
         }
 
-        // DATE & TIME VALIDATION
+        // PLAN ITEM VALIDATION
         var flag = true;
         state.plan_list.forEach((plan_item) => {
+            // WEEK
+            if (!plan_item.week) {
+                flag = false;
+                alertOn({
+                    title: "",
+                    message: "강의계획의 주차는 숫자로만 입력 가능합니다",
+                    type: "WARN",
+                });
+                return false;
+            }
+
+            // TITLE
+            if (!RegexController.isValid(["NO_SPACE", "NO_SPECIAL"], plan_item.title, 1, 50)) {
+                flag = false;
+                alertOn({
+                    title: "",
+                    message: "강의계획의 제목은 특수문자를 포함할 수 없으며, 최소 1자이상, 50자 이하로 작성해야합니다",
+                    type: "WARN",
+                });
+                return false;
+            }
+
+            // TUTOR
+            if (!RegexController.isValid(["NO_SPACE", "NO_SPECIAL"], plan_item.tutor, 1, 50)) {
+                flag = false;
+                alertOn({
+                    title: "",
+                    message:
+                        "강의계획의 강사명은 특수문자를 포함할 수 없으며, 최소 1자이상, 50자 이하로 작성해야합니다",
+                    type: "WARN",
+                });
+                return false;
+            }
+
+            // DATE
             if (!RegexController.checkDate(plan_item.date)) {
                 flag = false;
                 alertOn({
@@ -521,6 +566,8 @@ const ClassEditor = (props: Props) => {
                 });
                 return false;
             }
+
+            // TIME
             if (!RegexController.checkTime(plan_item.time)) {
                 flag = false;
                 alertOn({
