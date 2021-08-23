@@ -30,7 +30,6 @@ const isValidSingle = (regex: RegexCondition, value: string, inputName?: string)
     switch (regex) {
         case "NO_SPACE": {
             if (check(pattern_space, value)) {
-                alert(`${inputName}에는 공백을 포함할 수 없습니다`);
                 return false;
             } else {
                 return true;
@@ -38,7 +37,6 @@ const isValidSingle = (regex: RegexCondition, value: string, inputName?: string)
         }
         case "NO_SPECIAL": {
             if (check(pattern_special, value)) {
-                alert(`${inputName}에는 특수문자를 포함할 수 없습니다`);
                 return false;
             } else {
                 return true;
@@ -51,9 +49,9 @@ const isValidSingle = (regex: RegexCondition, value: string, inputName?: string)
 const isValid = (
     regexConditionList: RegexCondition[],
     value: string,
-    inputName?: string,
     minLength?: number,
-    maxLength?: number
+    maxLength?: number,
+    inputName?: string
 ): boolean => {
     var flag = true;
     regexConditionList.forEach((regex) => {
@@ -62,6 +60,12 @@ const isValid = (
             return false;
         }
     });
+    if (minLength) {
+        if (value.length < minLength) return false;
+    }
+    if (maxLength) {
+        if (value.length > maxLength) return false;
+    }
     return flag;
 };
 

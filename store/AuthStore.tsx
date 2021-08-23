@@ -203,7 +203,6 @@ export const AuthProvider = ({ children }) => {
 
     const initAuth = () => {
         const userData: meta_types.user = CookieController.getUserWithCookie();
-        console.log(userData);
         if (userData.user_id) {
             dispatch({
                 type: "LOGIN",
