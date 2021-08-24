@@ -122,6 +122,7 @@ declare module "@global_types" {
         // FOR CLASS MAIN
         type LectureItem = {
             lecture_id: string;
+            seq_num: srting;
             title: string;
             type: meta_types.classType[];
             start_date: string;

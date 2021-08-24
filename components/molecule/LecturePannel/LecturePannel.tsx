@@ -22,7 +22,7 @@ const LecturePannel = (props: Props) => {
                             className={style.typo__lecture_id}
                             type={"TEXT"}
                             size={"smaller"}
-                            content={`강의 ${props.lecture_id}`}
+                            content={`강의 ${props.seq_num}`}
                             color={"white"}
                         />
                     </div>
