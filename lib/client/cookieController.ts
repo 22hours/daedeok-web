@@ -49,7 +49,6 @@ const getUserWithCookie = (): user => {
 };
 
 const setUserWithCookie = async (user: user) => {
-    console.log("COOKIE CHANGE ! : ", user);
     const expires = getExpiredDate();
 
     for (const [key, value] of Object.entries(user)) {
@@ -78,7 +77,6 @@ const removeUserInCookie = () => {
         refresh_token: "string",
     };
     for (const [key, _] of Object.entries(userObj)) {
-        console.log("REMOVE COOKIE : ", key);
         cookie.remove(key);
     }
 };
