@@ -81,7 +81,7 @@ const JoinButton = ({ state, idx, handleClassJoin }) => {
 };
 
 const ClassJoin = () => {
-    const { clientSideApi } = useAuthStore();
+    const { auth, clientSideApi } = useAuthStore();
     const { alertOn, apiErrorAlert } = useAlert();
     const { state, changePage, changeKeyword } = useListCommonStore();
     const [listState, setListState] = useState<State>(initState);
@@ -91,7 +91,6 @@ const ClassJoin = () => {
 
     const setModeByWindowSize = () => {
         var width = WindowController.getWindowSize();
-        console.log(width);
         if (width > 1100) {
             setMode("pc");
         } else {
@@ -124,15 +123,17 @@ const ClassJoin = () => {
     };
 
     useEffect(() => {
-        if (state.isLoadEnd) {
-            getClassListData();
-            if (searchRef.current) {
-                if (state.keyword !== searchRef.current.value) {
-                    searchRef.current.value = "";
+        if (auth !== null) {
+            if (state.isLoadEnd) {
+                getClassListData();
+                if (searchRef.current) {
+                    if (state.keyword !== searchRef.current.value) {
+                        searchRef.current.value = "";
+                    }
                 }
             }
         }
-    }, [state]);
+    }, [state, auth]);
 
     // 수강신청
     const handleClassJoin = async (idx) => {
