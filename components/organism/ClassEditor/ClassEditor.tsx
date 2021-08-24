@@ -490,7 +490,7 @@ const ClassEditor = (props: Props) => {
         }
 
         // INTRODUCE VALIDATION
-        if (!RegexController.isValid(["NO_SPACE", "NO_SPECIAL"], state.content, 5, 100)) {
+        if (!RegexController.isValid(["NO_SPECIAL"], state.content, 5, 100)) {
             alertOn({
                 title: "",
                 message: "강의 소개는 특수문자, 공백을 포함할 수 없으며 5자 이상, 100자 미만으로 이루어져야 합니다",
