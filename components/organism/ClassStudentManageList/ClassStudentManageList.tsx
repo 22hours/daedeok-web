@@ -15,6 +15,7 @@ import { useClassDetailStore } from "store/ClassDetailStore";
 // List
 import ListPageLayout from "components/layout/ListPageLayout";
 import WindowController from "lib/client/windowController";
+import { useRouter } from "next/router";
 
 type Props = {};
 
@@ -33,6 +34,8 @@ const CertificateBtn = ({ data }: { data: UserListItem }) => {
     const ClassDetailStore = useClassDetailStore();
     const { clientSideApi } = useAuthStore();
     const { apiErrorAlert, alertOn } = useAlert();
+    const router = useRouter();
+    const { status } = router.query;
     const [fileState, setFileState] = useState<string | null>(null);
     useEffect(() => {
         if (data) {
@@ -82,9 +85,9 @@ const CertificateBtn = ({ data }: { data: UserListItem }) => {
     const getBtnText = () => {
         if (data.status === "COMPLETE") {
             if (fileState !== null) {
-                return "다운로드";
+                return status === "close" ? "다운로드" : "수료";
             } else {
-                return "업로드";
+                return status === "close" ? "업로드" : "수료";
             }
         } else {
             return "진행중";
@@ -94,6 +97,21 @@ const CertificateBtn = ({ data }: { data: UserListItem }) => {
     const btn_text = getBtnText();
     return (
         <div className={style.left_btn_wrapper}>
+            {btn_text === "수료" && (
+                <Button
+                    className={leftBtnClassName}
+                    type={"SQUARE"}
+                    size={"small"}
+                    fontSize={"smaller"}
+                    content={btn_text}
+                    onClick={() =>
+                        alertOn({
+                            message: "수료증은 해당 강의가 종료된 이후 업로드 가능합니다",
+                            type: "WARN",
+                        })
+                    }
+                />
+            )}
             {btn_text === "진행중" && (
                 <Button
                     className={leftBtnClassName}
