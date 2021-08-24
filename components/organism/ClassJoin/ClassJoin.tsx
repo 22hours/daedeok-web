@@ -22,6 +22,7 @@ import ListSearchbar from "components/molecule/ListSearchbar/ListSearchbar";
 import ListPagination from "components/molecule/ListPagination/ListPagination";
 import ListPageLayout from "components/layout/ListPageLayout";
 import WindowController from "lib/client/windowController";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 type State = res_types.classPossibleList;
 
@@ -83,6 +84,7 @@ const JoinButton = ({ state, idx, handleClassJoin }) => {
 const ClassJoin = () => {
     const { auth, clientSideApi } = useAuthStore();
     const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
     const { state, changePage, changeKeyword } = useListCommonStore();
     const [listState, setListState] = useState<State>(initState);
     const searchRef = useRef<HTMLInputElement | null>(null);
@@ -140,12 +142,10 @@ const ClassJoin = () => {
         console.log(idx);
         const res_data = await clientSideApi("POST", "MAIN", "LECTURE_JOIN", { lecture_id: idx });
         if (res_data.result === "SUCCESS") {
-            alertOn({
-                title: "",
-                message: "수강신청이 완료되었습니다",
-                type: "POSITIVE",
+            confirmOn({
+                message: `수강신청이 완료되었습니다`,
+                onSuccess: () => location.reload(),
             });
-            location.reload();
         } else {
             const msg = res_data?.msg;
             apiErrorAlert(msg);
