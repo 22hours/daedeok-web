@@ -432,7 +432,7 @@ const ClassEditor = (props: Props) => {
                 });
                 if (res.result === "SUCCESS") {
                     confirmOn({
-                        message: "강의가 삭제되었습니다\n확인을 클릭하면 강의실 메인으로 이동합니다",
+                        message: "강의가 종료되었습니다\n확인을 클릭하면 강의실 메인으로 이동합니다",
                         onSuccess: () => location.replace("/class"),
                         isFailButtonRemove: true,
                     });
