@@ -40,6 +40,8 @@ const GuideDetail = ({ articleId }) => {
         if (res.result === "SUCCESS") {
             const data: State = res.data;
             setNoticeDetailData(data);
+        } else {
+            apiErrorAlert(res.msg);
         }
     };
 
@@ -52,13 +54,10 @@ const GuideDetail = ({ articleId }) => {
                     article_id: articleId,
                 });
                 if (res.result === "SUCCESS") {
-                    alertOn({
-                        title: "",
-                        //@ts-ignore
-                        message: "삭제되었습니다",
-                        type: "POSITIVE",
+                    confirmOn({
+                        message: "삭제되었습니다 확인을 누르면 목록으로 돌아갑니다",
+                        onSuccess: () => router.replace("/acinfo/guide"),
                     });
-                    location.replace("/acinfo/guide");
                 } else {
                     apiErrorAlert(res.msg);
                 }

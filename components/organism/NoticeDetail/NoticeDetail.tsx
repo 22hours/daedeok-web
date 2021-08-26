@@ -57,20 +57,12 @@ const NoticeDetail = ({ noticeId }) => {
                     article_id: noticeId,
                 });
                 if (res.result === "SUCCESS") {
-                    alertOn({
-                        title: "",
-                        //@ts-ignore
-                        message: "삭제되었습니다",
-                        type: "POSITIVE",
+                    confirmOn({
+                        message: "삭제되었습니다 확인을 누르면 목록으로 돌아갑니다",
+                        onSuccess: () => router.replace("/acinfo/notice"),
                     });
-                    location.replace("/acinfo/notice");
                 } else {
-                    alertOn({
-                        title: "",
-                        //@ts-ignore
-                        message: "삭제되었습니다",
-                        type: "POSITIVE",
-                    });
+                    apiErrorAlert(res.msg);
                 }
             },
         });

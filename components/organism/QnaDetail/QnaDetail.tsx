@@ -62,7 +62,7 @@ const QnaDetail = ({ articleId }) => {
                 if (res.result === "SUCCESS") {
                     confirmOn({
                         message: "삭제되었습니다",
-                        onSuccess: () => location.replace("/acinfo/qna"),
+                        onSuccess: () => router.replace("/acinfo/qna"),
                         isFailButtonRemove: true,
                     });
                 } else {

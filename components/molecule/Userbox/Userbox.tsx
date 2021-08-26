@@ -18,8 +18,8 @@ type Props = {
 };
 
 const Userbox = (props: Props) => {
-    const { auth, login, logout, clientSideApi } = useAuthStore();
-    const { alertOn, apiErrorAlert } = useAlert();
+    const { auth, login, clientSideApi } = useAuthStore();
+    const { apiErrorAlert } = useAlert();
     const globalLoader = useGlobalLoader();
     const phone_num = useInput();
     const pw = useInput();
@@ -166,11 +166,11 @@ const Userbox = (props: Props) => {
                         </div>
                     </Link>
 
-                    <Link href={"/logout"} passHref>
+                    <a href={"/logout"}>
                         <div className={style.control_btn}>
                             <Typo className={style.control_typo} type={"TEXT"} size={"small"} content={`로그아웃 > `} />
                         </div>
-                    </Link>
+                    </a>
                 </div>
             </div>
         );

@@ -71,6 +71,7 @@ const TextInput = (props: Props) => {
                 maxLength={props.maxLength || undefined}
                 placeholder={props.placeholder || undefined}
                 disabled={props.disable}
+                min={0}
             />
         </div>
     );

@@ -112,7 +112,6 @@ const reducer = (state: State, action: Action) => {
             }
         }
         case "ADD_DIVISION_LIST": {
-            console.log(action.data);
             var newDivisonList = state.division_list.slice();
             newDivisonList = newDivisonList.concat(action.data);
             return {
@@ -346,7 +345,6 @@ const ClassEditor = (props: Props) => {
     useEffect(() => {
         if (props.type === "EDIT" && props.data) {
             if (firstRef.current) {
-                console.log("DISPATCH");
                 dispatch({ type: "SET_INIT_STATE", data: props.data });
                 setOriginHandoutList(props.data.handout_list.slice());
                 // @ts-ignore
@@ -612,7 +610,15 @@ const ClassEditor = (props: Props) => {
             return reqDivisionList;
         };
 
-        if (!checkValidation()) {
+        // if (!checkValidation()) {
+        //     return;
+        // }
+
+        if (state.student_limit < 0 && state.student_limit !== -1) {
+            alertOn({
+                message: "정원은 음수가 될 수 없습니다",
+                type: "WARN",
+            });
             return;
         }
 

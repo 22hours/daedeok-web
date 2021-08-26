@@ -64,19 +64,8 @@ const setUserWithCookie = async (user: user) => {
 };
 
 const removeUserInCookie = () => {
-    const userObj: user = {
-        user_id: "",
-        name: "",
-        role: "ROLE_MEMBER",
-        duty: "string",
-        lecture_num: 3,
-        phone_num: "",
-        first_division: "",
-        second_division: "",
-        access_token: "",
-        refresh_token: "string",
-    };
-    for (const [key, _] of Object.entries(userObj)) {
+    const cookieData = cookie.loadAll();
+    for (const [key, _] of Object.entries(cookieData)) {
         cookie.remove(key);
     }
 };

@@ -39,8 +39,6 @@ const IndexPage = (props: Props) => {
         });
         if (res.result === "SUCCESS") {
             setNoticeList(res.data.notice_list);
-        } else {
-            // alert(res.msg);
         }
     };
     useEffect(() => {
@@ -51,7 +49,6 @@ const IndexPage = (props: Props) => {
 
     const setModeByWindowSize = () => {
         var width = WindowController.getWindowSize();
-        console.log(width);
         if (width > 775) {
             console.log("PC");
             setMode("pc");

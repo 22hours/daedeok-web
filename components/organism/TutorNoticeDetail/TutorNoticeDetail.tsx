@@ -55,11 +55,10 @@ const TutorNoticeDetail = () => {
             onSuccess: async () => {
                 const res = await clientSideApi("DELETE", "MAIN", "TUTOR_NOTICE_DELETE", notice_id);
                 if (res.result === "SUCCESS") {
-                    alertOn({
-                        message: "삭제되었습니다",
-                        type: "POSITIVE",
+                    confirmOn({
+                        message: "삭제되었습니다 확인을 누르면 목록으로 돌아갑니다",
+                        onSuccess: () => router.replace("/class/notice"),
                     });
-                    location.replace("/class/notice");
                 } else {
                     apiErrorAlert(res.msg);
                 }

@@ -4,14 +4,10 @@ import { useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
 
 const DynamicLogout = () => {
-    const router = useRouter();
     const { logout } = useAuthStore();
+
     const callLogout = async () => {
         await logout();
-
-        setTimeout(() => {
-            router.replace("/");
-        }, 1000);
     };
     useEffect(() => {
         callLogout();
