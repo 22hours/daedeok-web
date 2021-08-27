@@ -70,12 +70,23 @@ const removeUserInCookie = () => {
     }
 };
 
+const removeUserInCookieWithCallBack = (cb: Function) => {
+    const cookieData = cookie.loadAll();
+    for (const [key, _] of Object.entries(cookieData)) {
+        cookie.remove(key);
+    }
+    if (cb !== null) {
+        cb();
+    }
+};
+
 const CookieController = {
     setUserWithCookie,
     removeUserInCookie,
     getUserWithCookie,
     getTokenInCookie,
     setAccessTokenInCokkie,
+    removeUserInCookieWithCallBack,
 };
 
 export default CookieController;

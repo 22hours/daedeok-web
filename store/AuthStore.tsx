@@ -138,7 +138,7 @@ export const AuthProvider = ({ children }) => {
                                         reject();
                                         confirmOn({
                                             message: "다시 로그인해주시기 바랍니다",
-                                            onSuccess: () => router.replace("/logout"),
+                                            onSuccess: () => location.replace("/logout"),
                                             isFailButtonRemove: true,
                                         });
                                         isRefreshing = false;
@@ -149,7 +149,7 @@ export const AuthProvider = ({ children }) => {
                                     reject(err);
                                     confirmOn({
                                         message: "다시 로그인해주시기 바랍니다",
-                                        onSuccess: () => router.replace("/logout"),
+                                        onSuccess: () => location.replace("/logout"),
                                         isFailButtonRemove: true,
                                     });
                                 })
@@ -184,10 +184,9 @@ export const AuthProvider = ({ children }) => {
         CookieController.setUserWithCookie(userData);
     };
 
-    const logout = async () => {
+    const logout = () => {
         dispatch({ type: "LOGOUT" });
-        await CookieController.removeUserInCookie();
-        router.replace("/");
+        CookieController.removeUserInCookieWithCallBack(() => location.replace("/"));
     };
 
     const update = (userData: meta_types.user) => {
@@ -203,6 +202,9 @@ export const AuthProvider = ({ children }) => {
 
     const initAuth = async () => {
         const userData: meta_types.user = CookieController.getUserWithCookie();
+
+        console.log(auth);
+        console.log(userData);
         if (userData.user_id) {
             const res = await apiClient.API_CALL("GET", "MAIN", "USER_INFO", undefined, undefined, {
                 Authorization: `Bearer ${userData.access_token}`,
