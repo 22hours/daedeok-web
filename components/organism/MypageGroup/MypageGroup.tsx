@@ -178,7 +178,7 @@ const MypageGroup = () => {
                         />
                     </div>
                     <div className={style.danger_btn_row}>
-                        <Link href={"/logout"} passHref>
+                        <a href={"/logout"}>
                             <Button
                                 type={"ROUND"}
                                 size={"medium"}
@@ -188,7 +188,7 @@ const MypageGroup = () => {
                                 color={"white"}
                                 className={style.btn}
                             />
-                        </Link>
+                        </a>
 
                         <Button
                             type={"ROUND"}
