@@ -29,7 +29,7 @@ const initState: State = {
 };
 
 const TutorNoticeList = () => {
-    const { clientSideApi } = useAuthStore();
+    const { auth, clientSideApi } = useAuthStore();
     const { state, changePage, changeKeyword } = useListCommonStore();
     const [listState, setListState] = useState<State>(initState);
     const searchRef = useRef<HTMLInputElement | null>(null);
@@ -48,15 +48,17 @@ const TutorNoticeList = () => {
     };
 
     useEffect(() => {
-        if (state.isLoadEnd) {
-            getTutorNoticeData();
-            if (searchRef.current) {
-                if (state.keyword !== searchRef.current.value) {
-                    searchRef.current.value = "";
+        if (auth !== null) {
+            if (state.isLoadEnd) {
+                getTutorNoticeData();
+                if (searchRef.current) {
+                    if (state.keyword !== searchRef.current.value) {
+                        searchRef.current.value = "";
+                    }
                 }
             }
         }
-    }, [state]);
+    }, [state, auth]);
 
     return (
         <ListPageLayout

@@ -9,7 +9,7 @@ type Props = {
 
 const TextViewer = (props: Props) => {
     var width = WindowController.getWindowSize();
-
+    console.log(props);
     const viewerRef = useRef(null);
     useEffect(() => {
         if (props.content) {
@@ -23,7 +23,7 @@ const TextViewer = (props: Props) => {
     }, [props]);
     return (
         <div style={{ maxWidth: width - 50 }} className={style.container}>
-            <Viewer ref={viewerRef} />
+            <Viewer initialValue={props.content} />
         </div>
     );
 };
