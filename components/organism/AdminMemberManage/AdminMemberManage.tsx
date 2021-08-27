@@ -98,10 +98,11 @@ const MemberManageList = () => {
     const { confirmOn } = useConfirm();
     const { alertOn } = useAlert();
     const pageState = useListCommonStore();
-    const { clientSideApi } = useAuthStore();
+    const { auth, clientSideApi } = useAuthStore();
 
     const [data, setData] = useState<State>(initState);
     const getData = async () => {
+        console.log(auth);
         const res = await clientSideApi("GET", "MAIN", "ADMIN_FIND_USER", undefined, {
             category: pageState.state.category === "ALL" ? undefined : pageState.state.category,
             keyword: pageState.state.keyword,
@@ -125,10 +126,12 @@ const MemberManageList = () => {
     };
 
     useEffect(() => {
-        if (pageState.state.isLoadEnd) {
-            getData();
+        if (auth !== null) {
+            if (pageState.state.isLoadEnd) {
+                getData();
+            }
         }
-    }, [pageState.state]);
+    }, [auth, pageState]);
 
     const callPwSend = async (user_id: string) => {
         confirmOn({

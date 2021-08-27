@@ -203,18 +203,26 @@ export const AuthProvider = ({ children }) => {
     const initAuth = async () => {
         const userData: meta_types.user = CookieController.getUserWithCookie();
 
-        console.log(auth);
-        console.log(userData);
         if (userData.user_id) {
-            const res = await apiClient.API_CALL("GET", "MAIN", "USER_INFO", undefined, undefined, {
-                Authorization: `Bearer ${userData.access_token}`,
-            });
-            if (res.result === "SUCCESS") {
-                login({
-                    ...userData,
-                    ...res.data,
-                    lecture_num: res.data.lecture_num || 0,
+            if (userData.role !== "ROLE_ADMIN") {
+                const res = await apiClient.API_CALL("GET", "MAIN", "USER_INFO", undefined, undefined, {
+                    Authorization: `Bearer ${userData.access_token}`,
                 });
+                if (res.result === "SUCCESS") {
+                    login({
+                        ...userData,
+                        ...res.data,
+                        lecture_num: res.data.lecture_num || 0,
+                    });
+                } else {
+                    dispatch({
+                        type: "LOGIN",
+                        data: {
+                            ...userData,
+                            lecture_num: userData.lecture_num || 0,
+                        },
+                    });
+                }
             } else {
                 dispatch({
                     type: "LOGIN",
