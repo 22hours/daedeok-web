@@ -2,6 +2,7 @@ import style from "./TextViewer.module.scss";
 import { Viewer } from "@toast-ui/react-editor";
 import { useEffect, useRef } from "react";
 import WindowController from "lib/client/windowController";
+import "@toast-ui/editor/dist/toastui-editor.css";
 
 type Props = {
     content: string;
