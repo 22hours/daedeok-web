@@ -200,42 +200,30 @@ const LectureDetailPage = (props: Props) => {
                         </div>
                     </div>
                     <div className={style.section_plan_list}>
-                        <div className={style.plan_row}>
-                            <div className={style.first_col_left}></div>
-                            <div className={style.first_col_right}></div>
-                        </div>
                         {data.lecture_plan.map((it, idx) => (
-                            <div key={`lectureplan${idx}`} className={style.plan_row}>
-                                <div className={style.week_col}>
-                                    <Typo
-                                        className={style.typo__week}
-                                        type={"TEXT"}
-                                        size={"small"}
-                                        content={`${it.week}주`}
-                                    />
+                            <div key={`lecture detail::${idx}`} className={style.list_item}>
+                                <div className={style.week_item}>
+                                    <Typo size="normal" content={it.week + "주"} type="TEXT" />
                                 </div>
-                                <div className={style.info_col}>
-                                    <Typo
-                                        className={style.typo__plan_value}
-                                        type={"TEXT"}
-                                        size={"small"}
-                                        content={it.title}
-                                    />
-                                    <Typo
-                                        className={style.typo__plan_value}
-                                        type={"TEXT"}
-                                        size={"small"}
-                                        content={it.tutor}
-                                    />
-                                    <Typo
-                                        className={style.typo__plan_value}
-                                        type={"TEXT"}
-                                        size={"small"}
-                                        content={it.location}
-                                    />
+                                <div className={style.other_item}>
+                                    <div className={style.title_box}>
+                                        <Typo size="normal" content={it.title} type="TEXT" />
+                                    </div>
+                                    <div className={style.other_box}>
+                                        <Typo size="normal" content={it.tutor} type="TEXT" />
+                                        <Typo
+                                            size="normal"
+                                            content={it.location === "ONLINE" ? "영상 강의" : it.location}
+                                            type="TEXT"
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        ))}
+                        ))}{" "}
+                        <div className={style.list_item}>
+                            <div className={style.week_item}></div>
+                            <div className={style.other_item}></div>
+                        </div>
                     </div>
                 </div>
                 <div className={style.footer}>
