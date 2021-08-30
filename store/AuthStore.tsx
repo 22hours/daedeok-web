@@ -58,6 +58,7 @@ export const AuthProvider = ({ children }) => {
     const apiClient = AxiosClient;
 
     const router = useRouter();
+
     const { confirmOn } = useConfirm();
     const { alertOn } = useAlert();
     const [auth, dispatch] = useReducer(reducer, null);
@@ -257,7 +258,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        initAuth();
+        if (router.asPath !== "/logout") {
+            initAuth();
+        }
     }, []);
 
     return (
