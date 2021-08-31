@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-sync-scripts */
-import useInput from "lib/hooks/useInput";
-import { RefObject, useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import ImageResize from "@looop/quill-image-resize-module-react";
+import ImageResize from "@winterlood/quill-image-resize-module-react";
 import { useAuthStore } from "store/AuthStore";
 import { useEditorController } from "store/WysiwygEditorStore";
 import style from "./QuillEditor.module.scss";
@@ -35,10 +34,28 @@ const QuillEditor = (props: Props) => {
         "align",
         "color",
         "background",
+        "width",
+        "class",
+        "style",
+        "float",
+        "margin",
     ];
+    var Parchment = Quill.import("parchment");
 
     Quill.register("modules/ImageResize", ImageResize);
-
+    Quill.register(
+        new Parchment.Attributor.Style("display", "display", {
+            whitelist: ["inline"],
+        })
+    );
+    Quill.register(
+        new Parchment.Attributor.Style("float", "float", {
+            whitelist: ["left", "right", "center"],
+        })
+    );
+    Quill.register(new Parchment.Attributor.Style("margin", "margin", {}));
+    //@ts-ignore
+    window.Quill = Quill;
     const modules = useMemo(
         () => ({
             ImageResize: {
@@ -66,28 +83,24 @@ const QuillEditor = (props: Props) => {
         }),
         []
     );
-    try {
-        return (
-            <ReactQuill
-                ref={(element) => {
-                    if (element !== null) {
-                        props.editorRef.current = element;
-                    }
-                }}
-                className={style.container}
-                style={{ height: "600px" }}
-                theme="snow"
-                modules={modules}
-                formats={formats}
-                value={props.content || ""}
-                onChange={(content, delta, source, editor) => {
-                    props.setContent(editor.getHTML().toString());
-                }}
-            />
-        );
-    } catch (exception) {
-        console.log(exception);
-    }
+    return (
+        <ReactQuill
+            ref={(element) => {
+                if (element !== null) {
+                    props.editorRef.current = element;
+                }
+            }}
+            className={style.container}
+            style={{ height: "600px" }}
+            theme="snow"
+            modules={modules}
+            formats={formats}
+            value={props.content || ""}
+            onChange={(content, delta, source, editor) => {
+                props.setContent(editor.getHTML().toString());
+            }}
+        />
+    );
 };
 
 export default QuillEditor;

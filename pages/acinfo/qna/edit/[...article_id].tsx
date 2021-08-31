@@ -46,7 +46,7 @@ const QnaEdit = () => {
     };
 
     useEffect(() => {
-        if (auth) {
+        if (auth !== null) {
             getOriginData();
         }
     }, [auth]);

@@ -12,7 +12,6 @@ import Button from "@ui/buttons/Button";
 import { useRouter } from "next/router";
 import { useAlert } from "store/GlobalAlertStore";
 import QuillEditor from "../QuillEditor/QuillEditor";
-import { ErrorBoundary } from "react-error-boundary";
 
 type api_params = api_config_type.api_params;
 
@@ -65,16 +64,6 @@ type PresenterProps = {
     categoryOption?: { value: string; name: string }[];
     isHeaderHide?: boolean;
 };
-
-function ErrorFallback({ error, resetErrorBoundary }) {
-    return (
-        <div role="alert">
-            <p>Something went wrong:</p>
-            <pre>{error.message}</pre>
-            <button onClick={resetErrorBoundary}>Try again</button>
-        </div>
-    );
-}
 
 const ContentEditorPresenter = (props: PresenterProps) => {
     const { alertOn } = useAlert();
@@ -159,20 +148,13 @@ const ContentEditorPresenter = (props: PresenterProps) => {
                 )}
             </div>
             <div className={style.body}>
-                <ErrorBoundary
-                    FallbackComponent={ErrorFallback}
-                    onReset={() => {
-                        // reset the state of your app so the error doesn't happen again
-                    }}
-                >
-                    <QuillEditor
-                        editorRef={editorController.editorRef}
-                        content={content.value}
-                        setContent={content.setValue}
-                        initialValue={props.originData?.content || ""}
-                        uploadDummyImage={editorController.uploadDummyImage}
-                    />
-                </ErrorBoundary>
+                <QuillEditor
+                    editorRef={editorController.editorRef}
+                    content={content.value}
+                    setContent={content.setValue}
+                    initialValue={props.originData?.content || ""}
+                    uploadDummyImage={editorController.uploadDummyImage}
+                />
             </div>
             <div className={style.footer}>
                 <Button
