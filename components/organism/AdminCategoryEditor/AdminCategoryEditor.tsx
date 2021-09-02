@@ -1,6 +1,5 @@
 import Button from "@ui/buttons/Button";
 import TextInput from "@ui/input/TextInput";
-import TextEditor from "components/molecule/TextEditor/TextEditor";
 import ListController from "lib/client/listController";
 import useInput from "lib/hooks/useInput";
 import { useRouter } from "next/router";
@@ -8,6 +7,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useAlert } from "store/GlobalAlertStore";
 import { useEditorController, WysiwygEditorProvider } from "store/WysiwygEditorStore";
+import QuillEditor from "../QuillEditor/QuillEditor";
 import style from "./AdminCategoryEditor.module.scss";
 type Props = {
     type: "NEW" | "EDIT";
@@ -25,13 +25,14 @@ const AdminCategoryController = (props: Props) => {
     const editorController = useEditorController();
 
     const category = useInput();
+    const content = useInput();
     const { clientSideApi } = useAuthStore();
 
     // NEW
     const handleSubmit = async () => {
         const res = await clientSideApi("POST", "MAIN", "ADMIN_NEW_CATEGORY", undefined, {
             category: category.value,
-            content: editorController.getMarkdownContent(),
+            content: content.value,
         });
         if (res.result === "SUCCESS") {
             alertOn({
@@ -54,7 +55,7 @@ const AdminCategoryController = (props: Props) => {
             { category_id: category_id },
             {
                 category: category.value,
-                content: editorController.getMarkdownContent(),
+                content: content.value,
             }
         );
         if (res.result === "SUCCESS") {
@@ -77,6 +78,7 @@ const AdminCategoryController = (props: Props) => {
     useEffect(() => {
         if (props.type === "EDIT" && props.originData) {
             category.setValue(props.originData.category);
+            content.setValue(props.originData.content);
         }
     }, [props]);
 
@@ -86,11 +88,12 @@ const AdminCategoryController = (props: Props) => {
                 <TextInput {...category} form={"underline"} type={"text"} placeholder={"카테고리명 입력"} />
             </div>
             <div className={style.body}>
-                <TextEditor
+                <QuillEditor
                     editorRef={editorController.editorRef}
+                    content={content.value}
+                    setContent={content.setValue}
                     initialValue={props.originData?.content || ""}
                     uploadDummyImage={editorController.uploadDummyImage}
-                    onLoad={editorController.onLoadEditor}
                 />
             </div>
             <div className={style.footer}>
