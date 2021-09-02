@@ -1,20 +1,17 @@
 import React, { useState, useEffect, createContext, RefObject, useContext, useRef, useCallback } from "react";
-import { Editor } from "@toast-ui/react-editor";
 import { useAuthStore } from "./AuthStore";
 import ListController from "lib/client/listController";
+import ReactQuill, { Quill } from "react-quill";
 
 // ELEMENT TYPES
 type Store = {
-    editorRef: RefObject<Editor>;
-    uploadDummyImage: (blob: Blob | File) => Promise<any>;
-    saveOriginImgList: () => void;
-    getMarkdownContent: () => string;
+    editorRef: React.MutableRefObject<ReactQuill>;
+    uploadDummyImage: () => Promise<void>;
     getUpdatedImgList: () => {
         new_item_list: any[];
         deleted_item_list: any[];
     };
-    setMarkdownContent: (md: string) => void;
-    onLoadEditor: () => void;
+    setOrginImageListForEdit: (content: string) => void;
 };
 // ACTION TYPES
 type Action = {};
@@ -28,68 +25,56 @@ export const WysiwygEditorProvider = ({ children }) => {
     const [originImgList, setOriginImgList] = useState<string[]>([]);
     const { clientSideApi } = useAuthStore();
 
-    const editorRef = useRef<Editor>(null);
+    const editorRef = useRef<ReactQuill>();
 
-    const uploadDummyImage = async (blob: Blob | File) => {
-        var bodyFormData = new FormData();
-        bodyFormData.append("file_list", blob);
-        const res = await clientSideApi("POST", "MAIN", "UPLOAD_DUMMY", undefined, bodyFormData);
-        if (res.result === "SUCCESS") {
-            return res.data[0];
-        } else {
-            alert(res.msg);
-        }
-    };
-
-    const getImageSourceList = (): string[] => {
-        if (editorRef.current) {
-            // const rootElm = editorRef.current.getRootElement();
-            const rootElm = editorRef.current.getRootElement().getElementsByClassName("toastui-editor-contents")[1];
-            //@ts-ignore
-            const htmlImgList: HTMLImageElement[] = rootElm.getElementsByTagName("img");
-            var imgList: HTMLImageElement[] = [].slice.call(htmlImgList);
-
-            const res_list: string[] = [];
-
-            imgList.forEach((imgElm) => {
-                const curSrc = imgElm.getAttribute("src");
-                if (curSrc) {
-                    if (res_list.indexOf(curSrc) === -1) {
-                        res_list.push(curSrc);
-                    }
+    const getImageListInElement = (elm: Element | Document) => {
+        const imageTagList = elm.getElementsByTagName("img");
+        var imgList: HTMLImageElement[] = [].slice.call(imageTagList);
+        const res_list: string[] = [];
+        imgList.forEach((imgElm) => {
+            const curSrc = imgElm.getAttribute("src");
+            if (curSrc) {
+                if (res_list.indexOf(curSrc) === -1) {
+                    res_list.push(curSrc);
                 }
-            });
-            // @ts-ignore
-            return res_list;
-        } else {
-            return [];
-        }
+            }
+        });
+        return res_list;
     };
 
-    const saveOriginImgList = () => {
-        const cur_origin_img_list = getImageSourceList();
-        setOriginImgList(cur_origin_img_list);
-    };
+    const uploadDummyImage = async () => {
+        const input = document.createElement("input");
+        input.setAttribute("type", "file");
+        input.setAttribute("accept", ".png,.jpg,.jpeg,.gif");
+        input.click();
 
-    const setMarkdownContent = (md: string) => {
-        if (editorRef.current) {
-            //@ts-ignore
-            editorRef.current.getInstance().setMarkdown(md);
-        }
-    };
+        input.onchange = async (e: any) => {
+            const files = e.target.files;
+            const formData = new FormData();
+            formData.append("file_list", files[0]);
 
-    const getMarkdownContent = (): string => {
-        if (editorRef.current) {
-            //@ts-ignore
-            const md = editorRef.current.getInstance().getMarkdown();
-            return md;
-        } else {
-            return "";
-        }
+            const res = await clientSideApi("POST", "MAIN", "UPLOAD_DUMMY", undefined, formData);
+            if (res.result === "SUCCESS") {
+                // @ts-ignore
+                const range = editorRef.current?.getEditor().getSelection()?.index;
+                if (range !== null && range !== undefined) {
+                    let quill = editorRef.current?.getEditor();
+
+                    quill?.setSelection(range, 1);
+
+                    quill?.clipboard.dangerouslyPasteHTML(range, `<img src=${res.data[0]}  />`);
+                    return { ...res, success: true };
+                }
+            } else {
+                alert(res.msg);
+            }
+        };
     };
 
     const getUpdatedImgList = () => {
-        const curImgList = getImageSourceList();
+        const quillContainerElm = document.getElementsByClassName("ql-container")[0];
+        const curImgList = getImageListInElement(quillContainerElm);
+
         const { deleted_item_list, new_item_list } = ListController.getUpdateInList(originImgList, curImgList, true);
         return {
             new_item_list: new_item_list,
@@ -97,39 +82,18 @@ export const WysiwygEditorProvider = ({ children }) => {
         };
     };
 
-    const onLoadEditor = () => {
-        setTimeout(() => {
-            console.log("LOAD END");
-            const rootElmList: HTMLCollection = document.getElementsByClassName("toastui-editor-contents");
-            const rootElm = rootElmList.item(1);
-            if (rootElm) {
-                //@ts-ignore
-                const htmlImgList: HTMLImageElement[] = rootElm.getElementsByTagName("img");
-                var imgList: HTMLImageElement[] = [].slice.call(htmlImgList);
-
-                const res_list: string[] = [];
-
-                imgList.forEach((imgElm) => {
-                    const curSrc = imgElm.getAttribute("src");
-                    if (curSrc) {
-                        if (res_list.indexOf(curSrc) === -1) {
-                            res_list.push(curSrc);
-                        }
-                    }
-                });
-                saveOriginImgList();
-            }
-        }, 1000);
+    const setOrginImageListForEdit = (content: string) => {
+        let domparser = new DOMParser();
+        const contentDocs = domparser.parseFromString(content, "text/html");
+        setOriginImgList(getImageListInElement(contentDocs));
     };
 
     const store: Store = {
+        // @ts-ignore
         editorRef: editorRef,
         uploadDummyImage: uploadDummyImage,
-        saveOriginImgList: saveOriginImgList,
-        getMarkdownContent: getMarkdownContent,
         getUpdatedImgList: getUpdatedImgList,
-        setMarkdownContent: setMarkdownContent,
-        onLoadEditor: onLoadEditor,
+        setOrginImageListForEdit: setOrginImageListForEdit,
     };
 
     return <WysiwygEditorContext.Provider value={store}>{children}</WysiwygEditorContext.Provider>;

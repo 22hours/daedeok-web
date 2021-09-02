@@ -24,6 +24,7 @@ type State = res_types.qnaDetailList;
 
 const QnaDetail = ({ articleId }) => {
     const router = useRouter();
+
     const { alertOn, apiErrorAlert } = useAlert();
     const { confirmOn } = useConfirm();
 
@@ -32,10 +33,12 @@ const QnaDetail = ({ articleId }) => {
     const [qnaDetailData, setQnaDetailData] = useState<State | null>(null);
 
     useEffect(() => {
-        if (article_id) {
-            getQnaDetail();
+        if (auth !== null) {
+            if (article_id) {
+                getQnaDetail();
+            }
         }
-    }, [article_id]);
+    }, [auth, article_id]);
 
     const getQnaDetail = async () => {
         const res = await clientSideApi("GET", "MAIN", "QNA_FIND_DETAIL", {

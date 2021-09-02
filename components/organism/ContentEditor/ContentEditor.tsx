@@ -8,10 +8,11 @@ import useBoolean from "lib/hooks/useBoolean";
 import TextInput from "@ui/input/TextInput";
 import Select from "@ui/input/Select";
 import CheckBox from "@ui/input/CheckBox";
-import TextEditor from "components/molecule/TextEditor/TextEditor";
 import Button from "@ui/buttons/Button";
 import { useRouter } from "next/router";
 import { useAlert } from "store/GlobalAlertStore";
+import QuillEditor from "../QuillEditor/QuillEditor";
+
 type api_params = api_config_type.api_params;
 
 type ApiConfigType = {
@@ -63,6 +64,7 @@ type PresenterProps = {
     categoryOption?: { value: string; name: string }[];
     isHeaderHide?: boolean;
 };
+
 const ContentEditorPresenter = (props: PresenterProps) => {
     const { alertOn } = useAlert();
     const editorController = useEditorController();
@@ -71,12 +73,14 @@ const ContentEditorPresenter = (props: PresenterProps) => {
     const title = useInput();
     const category = useInput();
     const secret = useBoolean();
+    const content = useInput();
 
     useEffect(() => {
         if (props.originData) {
             title.setValue(props.originData.title);
             category.setValue(props.originData.category);
             secret.setValue(props.originData.secret);
+            content.setValue(props.originData.content);
         }
     }, [props.originData]);
 
@@ -99,8 +103,7 @@ const ContentEditorPresenter = (props: PresenterProps) => {
                 return;
             }
         }
-        const content = editorController.getMarkdownContent();
-        if (content.length < 5) {
+        if (content.value.length < 5) {
             alertOn({
                 title: "",
                 message: "본문을 5자 이상으로 작성해주세요",
@@ -109,7 +112,7 @@ const ContentEditorPresenter = (props: PresenterProps) => {
             return;
         }
 
-        props.onSubmit(title.value, editorController.getMarkdownContent(), category.value, secret.value);
+        props.onSubmit(title.value, content.value, category.value, secret.value);
     };
 
     return (
@@ -145,11 +148,12 @@ const ContentEditorPresenter = (props: PresenterProps) => {
                 )}
             </div>
             <div className={style.body}>
-                <TextEditor
+                <QuillEditor
                     editorRef={editorController.editorRef}
+                    content={content.value}
+                    setContent={content.setValue}
                     initialValue={props.originData?.content || ""}
                     uploadDummyImage={editorController.uploadDummyImage}
-                    onLoad={editorController.onLoadEditor}
                 />
             </div>
             <div className={style.footer}>
@@ -214,7 +218,6 @@ const ContentEditController = (props: EditProps) => {
 
     const handleEdit = async (title, content, category, secret) => {
         const { deleted_item_list, new_item_list } = editorController.getUpdatedImgList();
-
         const reqOption = {
             ...props.editApiConfig,
         };
@@ -236,6 +239,12 @@ const ContentEditController = (props: EditProps) => {
             apiErrorAlert(res.msg);
         }
     };
+
+    useEffect(() => {
+        if (props.originData) {
+            editorController.setOrginImageListForEdit(props.originData.content);
+        }
+    }, [props]);
 
     return (
         <ContentEditorPresenter

@@ -111,3 +111,14 @@ pre {
     white-space: -o-pre-wrap; /* Opera 7 */
     word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
+
+.quill {
+    display: flex;
+    flex-direction: column;
+    .ql-toolbar {
+    }
+
+    .ql-container {
+        font-family: "SCDream4" !important;
+    }
+}
