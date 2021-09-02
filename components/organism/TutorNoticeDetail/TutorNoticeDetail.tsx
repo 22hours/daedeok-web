@@ -45,9 +45,11 @@ const TutorNoticeDetail = () => {
 
     useEffect(() => {
         if (auth !== null) {
+            setNoticeDetailData(null);
             getTutorNotieDetail();
         }
-    }, [auth]);
+    }, [auth, notice_id]);
+
     //공지사항 삭제
     const handleDelete = async () => {
         confirmOn({
