@@ -18,6 +18,7 @@ import CommentList from "../CommentList/CommentList";
 import { useRouter } from "next/router";
 import { useAlert } from "store/GlobalAlertStore";
 import { useConfirm } from "store/GlobalConfirmStore";
+import CookieController from "lib/client/cookieController";
 const TextViewer = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
 type State = res_types.qnaDetailList;
@@ -33,8 +34,13 @@ const QnaDetail = ({ articleId }) => {
     const [qnaDetailData, setQnaDetailData] = useState<State | null>(null);
 
     useEffect(() => {
-        if (auth !== null) {
-            if (article_id) {
+        if (article_id) {
+            const token = CookieController.getTokenInCookie();
+            if (token?.access_token) {
+                if (auth !== null) {
+                    getQnaDetail();
+                }
+            } else {
                 getQnaDetail();
             }
         }

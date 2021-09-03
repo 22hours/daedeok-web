@@ -65,7 +65,7 @@ const QuillEditor = (props: Props) => {
                     border: "none",
                     color: "white",
                 },
-                modules: ["Resize", "DisplaySize", "Toolbar"],
+                modules: ["Resize", "DisplaySize"],
             },
 
             toolbar: {
@@ -79,6 +79,9 @@ const QuillEditor = (props: Props) => {
                 handlers: {
                     image: uploadDummyImage,
                 },
+            },
+            clipboard: {
+                matchVisual: false,
             },
         }),
         []

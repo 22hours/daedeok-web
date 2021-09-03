@@ -263,6 +263,9 @@ $mobile_font_resize_size: 3px;
 }
 
 @mixin container {
+    .main_col {
+        overflow: hidden;
+    }
     @media only screen and (max-width: 600px) {
         display: flex;
 

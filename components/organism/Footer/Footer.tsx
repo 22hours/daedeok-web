@@ -31,7 +31,9 @@ const Footer = () => {
                 <div className={style.footer}>
                     <div></div>
                     <div className={style.footer_main}>
-                        <Image src={FooterLogo} alt={FooterLogo.src}></Image>
+                        <div className={style.image_wrapper}>
+                            <Image src={FooterLogo} alt={FooterLogo.src}></Image>
+                        </div>
                         <div className={style.footer_info}>
                             <Typo type={"TEXT"} size={"smaller"} color={"white"} content={footerAddress} />
                             <div className={style.space}></div>
