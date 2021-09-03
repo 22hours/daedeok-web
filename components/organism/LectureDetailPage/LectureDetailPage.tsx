@@ -203,11 +203,11 @@ const LectureDetailPage = (props: Props) => {
                         {data.lecture_plan.map((it, idx) => (
                             <div key={`lecture detail::${idx}`} className={style.list_item}>
                                 <div className={style.week_item}>
-                                    <Typo size="normal" content={it.week + "주"} type="TEXT" />
+                                    <Typo size="small" content={it.week + "주"} type="TEXT" />
                                 </div>
                                 <div className={style.other_item}>
                                     <div className={style.title_box}>
-                                        <Typo size="normal" content={it.title} type="TEXT" />
+                                        <Typo size="medium" content={it.title} type="TEXT" />
                                     </div>
                                     <div className={style.other_box}>
                                         <Typo size="normal" content={it.tutor} type="TEXT" />
