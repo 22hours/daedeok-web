@@ -110,7 +110,7 @@ const ClassJoinDetailList = () => {
                         size="small"
                         color="red_accent"
                         //@ts-ignore
-                        content={"청년부 소모임"}
+                        content={detailData?.category}
                         className={style.detail_category}
                     />
                     <Typo
