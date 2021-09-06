@@ -3,6 +3,7 @@ import style from "./RegisterFormGroup.module.scss";
 import TextInput from "@ui/input/TextInput";
 import PageHeader from "@ui/PageHeader";
 import { FirebaseProvider } from "store/FirebaseStore";
+import Link from "next/link";
 import Typo from "@ui/Typo";
 import Button from "@ui/buttons/Button";
 import Select from "@ui/input/Select";
@@ -243,20 +244,42 @@ const RegisterFormGroup = () => {
 
                     <InputSection>
                         <div className={style.agree_row}>
-                            <CheckBox
-                                {...terms}
-                                className={style.register_form}
-                                labelContent={"대덕바이블아카데미 이용약관 동의"}
-                                isLabelRight
-                                link={"/docs/terms"}
-                            />
-                            <CheckBox
-                                {...privacy}
-                                className={style.register_form}
-                                labelContent={"개인정보 처리방침 동의"}
-                                isLabelRight
-                                link={"/docs/privacy"}
-                            />
+                            <div className={style.checkbox_wrapper}>
+                                <CheckBox
+                                    {...terms}
+                                    className={style.register_form}
+                                    labelContent={"대덕바이블아카데미 이용약관 동의"}
+                                    isLabelRight
+                                />
+                                <Link href="/docs/terms" passHref>
+                                    <Button
+                                        className={style.link_style}
+                                        content="[보기]"
+                                        type="TEXT"
+                                        color="gray_accent"
+                                        size="small"
+                                        fontSize="smaller"
+                                    />
+                                </Link>
+                            </div>
+                            <div className={style.checkbox_wrapper}>
+                                <CheckBox
+                                    {...privacy}
+                                    className={style.register_form}
+                                    labelContent={"개인정보 처리방침 동의"}
+                                    isLabelRight
+                                />
+                                <Link href="/docs/privacy" passHref>
+                                    <Button
+                                        className={style.link_style}
+                                        content="[보기]"
+                                        type="TEXT"
+                                        color="gray_accent"
+                                        size="small"
+                                        fontSize="smaller"
+                                    />
+                                </Link>
+                            </div>
                         </div>
                     </InputSection>
                     <div className={style.call_row}>

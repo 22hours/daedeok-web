@@ -28,8 +28,16 @@
         }
     }
     .agree_row {
-        .register_form {
+        .checkbox_wrapper {
+            display: flex;
+            align-items: center;
             margin-bottom: 10px;
+            .link_style {
+                margin-left: 8px;
+                span:hover {
+                    color: blue;
+                }
+            }
         }
     }
     .call_row {
