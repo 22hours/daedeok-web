@@ -12,7 +12,7 @@ const TextViewer = (props: Props) => {
     const setModeByWindowSize = () => {
         var width = WindowController.getWindowSize();
         console.log(width);
-        if (width > 420) {
+        if (width > 760) {
             setMode("pc");
         } else {
             setMode("mobile");
