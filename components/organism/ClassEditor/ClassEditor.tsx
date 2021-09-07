@@ -799,14 +799,14 @@ const ClassEditor = (props: Props) => {
                 option_list={option_list.categoryOptionList || []}
             />
             <DaySelectInput
-                labelName={"요일선택"}
+                labelName={"요일"}
                 placeholder={"강의 요일을 선택하세요"}
                 value={state.day}
                 onChange={dayChange}
                 //@ts-ignore
                 option_list={date_list || []}
             />
-            <TimeInput labelName="시간 선택" onChange={timeChange} value={state.time} />
+            <TimeInput labelName="시간" onChange={timeChange} value={state.time} />
             <DivisionInput
                 divisionList={state.division_list}
                 addDivisionItem={addDivisionItem}
