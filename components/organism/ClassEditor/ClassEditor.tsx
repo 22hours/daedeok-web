@@ -20,6 +20,8 @@ import { useConfirm } from "store/GlobalConfirmStore";
 import ClassCategorySelect from "components/molecule/ClassCategorySelect/ClassCategorySelect";
 import useClassCategory from "lib/hooks/useClassCategory";
 import RegexController from "lib/client/regexController";
+import DaySelectInput from "./items/DaySelectInput";
+import TimeInput from "./items/TimeInput";
 
 type Props = {
     data?: class_types.ClassInfo;
@@ -52,7 +54,10 @@ type Action =
     | { type: "SET_PLAN_VIDEO_LINK"; data: { idx: number; video_link: string } }
     | { type: "SET_PLAN_INTRODUCE"; data: { idx: number; introduce: string } }
     | { type: "SET_PLAN_ZOOM_LINK"; data: { idx: number; zoom_link: string } }
-    | { type: "REMOVE_PLAN"; data: number };
+    | { type: "REMOVE_PLAN"; data: number }
+    | { type: "SET_DAY"; data: State["day"] }
+    | { type: "SET_TIME"; data: string };
+
 const initState: State = {
     title: "",
     content: "",
@@ -62,7 +67,10 @@ const initState: State = {
     reference: "",
     handout_list: [],
     plan_list: [],
+    day: "",
+    time: "",
 };
+
 const reducer = (state: State, action: Action) => {
     switch (action.type) {
         case "SET_INIT_STATE": {
@@ -133,7 +141,18 @@ const reducer = (state: State, action: Action) => {
                 student_limit: action.data,
             };
         }
-
+        case "SET_DAY": {
+            return {
+                ...state,
+                day: action.data,
+            };
+        }
+        case "SET_TIME": {
+            return {
+                ...state,
+                time: action.data,
+            };
+        }
         case "ADD_HANDOUT": {
             const newHandoutList = state.handout_list.slice();
             newHandoutList.push(action.data);
@@ -340,6 +359,36 @@ const ClassEditor = (props: Props) => {
     const { status, class_id } = router.query;
 
     const option_list = useClassCategory();
+    const date_list = [
+        {
+            value: "월요일",
+            name: "월요일",
+        },
+        {
+            value: "화요일",
+            name: "화요일",
+        },
+        {
+            value: "수요일",
+            name: "수요일",
+        },
+        {
+            value: "목요일",
+            name: "목요일",
+        },
+        {
+            value: "금요일",
+            name: "금요일",
+        },
+        {
+            value: "토요일",
+            name: "토요일",
+        },
+        {
+            value: "일요일",
+            name: "일요일",
+        },
+    ];
 
     const firstRef = useRef(true);
     useEffect(() => {
@@ -356,12 +405,18 @@ const ClassEditor = (props: Props) => {
 
     const titleChange = useCallback((e) => dispatch({ type: "SET_TITLE", data: e.target.value }), [state.title]);
     const contentChange = useCallback((e) => dispatch({ type: "SET_CONTENT", data: e.target.value }), [state.content]);
-    const referenceChange = useCallback((e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }), [
-        state.reference,
-    ]);
-    const categoryChange = useCallback((e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }), [
-        state.category,
-    ]);
+    const referenceChange = useCallback(
+        (e) => dispatch({ type: "SET_REFERENCE", data: e.target.value }),
+        [state.reference]
+    );
+    const categoryChange = useCallback(
+        (e) => dispatch({ type: "SET_CATEGORY", data: e.target.value }),
+        [state.category]
+    );
+    const dayChange = useCallback((e) => dispatch({ type: "SET_DAY", data: e.target.value }), [state.day]);
+
+    const timeChange = useCallback((e) => dispatch({ type: "SET_TIME", data: e.target.value }), [state.time]);
+
     const addDivisionItem = useCallback(
         (division: class_types.Division) => dispatch({ type: "ADD_DIVISION", data: division }),
         [state.division_list]
@@ -372,18 +427,22 @@ const ClassEditor = (props: Props) => {
         },
         [state.division_list]
     );
-    const removeDivisionItem = useCallback((idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }), [
-        state.division_list,
-    ]);
-    const studentLimitChange = useCallback((value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }), [
-        state.student_limit,
-    ]);
-    const addHandoutItem = useCallback((item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }), [
-        state.handout_list,
-    ]);
-    const removeHandoutItem = useCallback((idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }), [
-        state.handout_list,
-    ]);
+    const removeDivisionItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }),
+        [state.division_list]
+    );
+    const studentLimitChange = useCallback(
+        (value: number) => dispatch({ type: "SET_STUDENT_LIMIT", data: value }),
+        [state.student_limit]
+    );
+    const addHandoutItem = useCallback(
+        (item: class_types.Handout) => dispatch({ type: "ADD_HANDOUT", data: item }),
+        [state.handout_list]
+    );
+    const removeHandoutItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_HANDOUT", data: idx }),
+        [state.handout_list]
+    );
 
     const addPlanItem = useCallback(
         (planType: class_types.PlanType) => dispatch({ type: "ADD_PLAN", data: planType }),
@@ -416,9 +475,10 @@ const ClassEditor = (props: Props) => {
         [state.plan_list]
     );
 
-    const removePlanItem = useCallback((idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }), [
-        state.plan_list,
-    ]);
+    const removePlanItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_PLAN", data: idx }),
+        [state.plan_list]
+    );
 
     //강의종료
     const handleFinish = async () => {
@@ -635,6 +695,9 @@ const ClassEditor = (props: Props) => {
                     reference: state.reference,
                     handout_list: state.handout_list,
                     plan_list: state.plan_list,
+                    //추가해야함
+                    // day:state.day,
+                    // time:state.time,
                 });
                 if (res.result === "SUCCESS") {
                     confirmOn({
@@ -682,6 +745,9 @@ const ClassEditor = (props: Props) => {
                         },
                         delete_plan_list: deletePlanList,
                         plan_list: state.plan_list,
+                        //추가해야함
+                        // day:state.day,
+                        // time:state.time
                     }
                 );
                 if (res.result === "SUCCESS") {
@@ -732,6 +798,15 @@ const ClassEditor = (props: Props) => {
                 //@ts-ignore
                 option_list={option_list.categoryOptionList || []}
             />
+            <DaySelectInput
+                labelName={"요일선택"}
+                placeholder={"강의 요일을 선택하세요"}
+                value={state.day}
+                onChange={dayChange}
+                //@ts-ignore
+                option_list={date_list || []}
+            />
+            <TimeInput labelName="시간 선택" onChange={timeChange} value={state.time} />
             <DivisionInput
                 divisionList={state.division_list}
                 addDivisionItem={addDivisionItem}

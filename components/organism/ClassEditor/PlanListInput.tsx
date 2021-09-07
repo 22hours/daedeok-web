@@ -196,7 +196,6 @@ const PlanTextInput = (props) => {
     const { item, idx, keyidx, setPlanItem } = props;
     const router = useRouter();
     const { status } = router.query;
-
     return (
         <TextInput
             // @ts-ignore
