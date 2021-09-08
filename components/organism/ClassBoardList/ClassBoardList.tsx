@@ -81,7 +81,7 @@ const ClassBoardList = () => {
                     />
                 </Link>
             }
-            footer={<ListPagination total_count={boardState.total_count} />}
+            footer={<ListPagination total_count={boardState.total_count} required_count={7} />}
         >
             <TableWrapper>
                 {boardState.board_list.map((it, idx) => (

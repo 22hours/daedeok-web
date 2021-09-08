@@ -1,6 +1,8 @@
 @import "styles/meta.scss";
 
 .detail_header {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     padding-bottom: 12px;

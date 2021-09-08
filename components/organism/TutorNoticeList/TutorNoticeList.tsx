@@ -76,7 +76,7 @@ const TutorNoticeList = () => {
                     />
                 </Link>
             }
-            footer={<ListPagination total_count={listState.total_count} />}
+            footer={<ListPagination total_count={listState.total_count} required_count={7} />}
         >
             <TableWrapper>
                 {listState.notice_list.map((it, idx) => (

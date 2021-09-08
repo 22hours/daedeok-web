@@ -75,7 +75,7 @@ const FaqList = () => {
                     )}
                 </>
             }
-            footer={<ListPagination total_count={listState.total_count} />}
+            footer={<ListPagination total_count={listState.total_count} required_count={7} />}
         >
             <TableWrapper>
                 {listState.faq_list.map((it, idx) => (

@@ -836,8 +836,8 @@ const ClassEditor = (props: Props) => {
             />
 
             <div className={style.submit_row}>
-                {status !== "close" &&
-                    (props.type === "NEW" ? (
+                {status !== "close" ? (
+                    props.type === "NEW" ? (
                         <Button
                             className={style.submit_btn}
                             type="SQUARE"
@@ -889,7 +889,23 @@ const ClassEditor = (props: Props) => {
                                 onClick={handleSumbit}
                             />
                         </>
-                    ))}
+                    )
+                ) : (
+                    <>
+                        <Button
+                            className={style.submit_btn}
+                            type="SQUARE"
+                            size="small"
+                            fontSize="smaller"
+                            line="inline"
+                            backgroundColor="brown_base"
+                            color="white"
+                            content={"강의삭제"}
+                            alignment="center"
+                            onClick={handleDelete}
+                        />
+                    </>
+                )}
             </div>
         </div>
     );
