@@ -54,6 +54,13 @@ const MyApp = ({ Component, pageProps }) => {
                 <meta name="viewport" content="user-scalable=no, width=device-width"></meta>
 
                 {/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `     if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+                window.location = 'microsoft-edge:' + window.location;
+              }`,
+                    }}
+                ></script>
             </Head>
             <CssBaseline />
             <GlobalLoaderProvider>
