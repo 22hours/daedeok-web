@@ -128,6 +128,7 @@ declare module "@api_config_type" {
                 | "LECTURE_FINISH"
                 //DELETE
                 | "LECTURE_DELETE"
+                | "LECTURE_CANCEL"
                 // DIVISION
                 | "FIND_DIVISION"
                 | "ADD_DIVISION"

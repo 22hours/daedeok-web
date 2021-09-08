@@ -69,7 +69,7 @@ const ClassCloseList = () => {
         <ListPageLayout
             headerLeft={<ListSelect categoryType={"CLASS"} />}
             headerRight={<ListSearchbar />}
-            footer={<ListPagination total_count={data.total_count} />}
+            footer={<ListPagination total_count={data.total_count} required_count={7} />}
         >
             <TableWrapper>
                 {data.lecture_list?.map((it, idx) => (

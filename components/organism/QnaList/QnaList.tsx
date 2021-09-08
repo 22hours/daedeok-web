@@ -94,7 +94,7 @@ const QnaList = (props: Props) => {
                         )}
                     </>
                 }
-                footer={<ListPagination total_count={data.total_count} />}
+                footer={<ListPagination total_count={data.total_count} required_count={7} />}
             >
                 <TableWrapper>
                     {data.qna_list.map((it, idx) => (

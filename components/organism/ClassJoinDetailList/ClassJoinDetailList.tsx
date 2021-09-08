@@ -138,7 +138,9 @@ const ClassJoinDetailList = () => {
                         size="small"
                         color="gray_accent"
                         //@ts-ignore
-                        content={`수강인원 ${detailData?.student_num}/${detailData?.student_limit}`}
+                        content={`수강인원 ${detailData?.student_num}/${
+                            detailData?.student_limit === -1 ? "무제한" : detailData?.student_limit
+                        }`}
                         className={style.detail_limit}
                     />
                 </div>

@@ -116,6 +116,8 @@ declare module "@global_types" {
             reference: string;
             handout_list: handout[];
             plan_list: PlanItem[];
+            day: string;
+            time: string;
         };
     }
     export namespace req_types {

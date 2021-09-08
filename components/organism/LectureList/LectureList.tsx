@@ -130,7 +130,7 @@ const LectureList = ({ status }: Props) => {
             <ListPageLayout
                 headerLeft={<ListSelect categoryType={"CLASS"} />}
                 headerRight={<ListSearchbar />}
-                footer={<ListPagination total_count={listState.total_count} />}
+                footer={<ListPagination total_count={listState.total_count} required_count={7} />}
             >
                 <LectureCloseList lecture_list={listState.lecture_list} />
             </ListPageLayout>

@@ -115,7 +115,7 @@ const ClassJoin = () => {
                 category: state.category === "ALL" ? undefined : state.category,
                 keyword: state.keyword,
                 page: parseInt(state.page) - 1,
-                required_count: 7,
+                required_count: 20,
             });
             if (res.result === "SUCCESS") {
                 var data = res.data;
@@ -156,7 +156,7 @@ const ClassJoin = () => {
         <ListPageLayout
             headerLeft={<ListSelect categoryType={"CLASS"} />}
             headerRight={<ListSearchbar />}
-            footer={<ListPagination total_count={listState.total_count} />}
+            footer={<ListPagination total_count={listState.total_count} required_count={20} />}
         >
             <TableWrapper>
                 {listState.lecture_list.map((it, idx) => (

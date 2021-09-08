@@ -7,6 +7,10 @@ import React, { useState, useEffect } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
 import style from "./ClassInfo.module.scss";
+import { useAlert } from "store/GlobalAlertStore";
+import { useConfirm } from "store/GlobalConfirmStore";
+import { useRouter } from "next/router";
+
 //controller
 import DateController from "lib/client/dateController";
 
@@ -127,8 +131,41 @@ type State = {
 const ClassInfo = () => {
     const { clientSideApi } = useAuthStore();
     const classDetailState = useClassDetailStore();
-
+    const { alertOn } = useAlert();
+    const { confirmOn } = useConfirm();
     const [state, setState] = useState<State | null>(null);
+    const router = useRouter();
+    const { status, class_id } = router.query;
+    //강의삭제
+    const handleDelete = async () => {
+        confirmOn({
+            message: "정말 삭제하시겠습니까?",
+            onSuccess: async () => {
+                const res = await clientSideApi(
+                    "DELETE",
+                    "MAIN",
+                    "LECTURE_CANCEL",
+                    { lecture_id: class_id },
+                    undefined
+                );
+                if (res.result === "SUCCESS") {
+                    confirmOn({
+                        message: "강의가 삭제되었습니다\n확인을 클릭하면 강의실 메인으로 이동합니다",
+                        onSuccess: () => location.replace("/class"),
+                        isFailButtonRemove: true,
+                    });
+                } else {
+                    alertOn({
+                        title: "에러가 발생하였습니다",
+                        //@ts-ignore
+                        message: "다시 시도해주세요",
+                        type: "ERROR",
+                    });
+                }
+            },
+        });
+    };
+
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_DETAIL_HANDOUT", {
             lecture_id: classDetailState.class_id,
@@ -153,6 +190,20 @@ const ClassInfo = () => {
             <div className={style.container}>
                 <HandoutSection handout_list={state.handout_list} />
                 <LecturePlanSection lecture_plan_list={state.lecture_plan_list} />
+                <div className={style.submit_row}>
+                    <Button
+                        className={style.submit_btn}
+                        type="SQUARE"
+                        size="small"
+                        fontSize="smaller"
+                        line="inline"
+                        backgroundColor="brown_base"
+                        color="white"
+                        content={"강의철회"}
+                        alignment="center"
+                        onClick={handleDelete}
+                    />
+                </div>
             </div>
         );
     }

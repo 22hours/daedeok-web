@@ -109,16 +109,16 @@
 }
 .week_title_item {
     @include desktop {
-        width: 300px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        // width: 300px;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
     }
     @include mobile {
-        width: 100px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        // width: 100px;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
     }
 }
 
