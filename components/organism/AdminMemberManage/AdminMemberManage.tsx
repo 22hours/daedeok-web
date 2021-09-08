@@ -107,7 +107,7 @@ const MemberManageList = () => {
             category: pageState.state.category === "ALL" ? undefined : pageState.state.category,
             keyword: pageState.state.keyword,
             page: parseInt(pageState.state.page) - 1,
-            required_count: 7,
+            required_count: 10,
         });
         if (res.result === "SUCCESS") {
             setData(res.data);
@@ -200,7 +200,7 @@ const MemberManageList = () => {
                 </div>
             }
             headerRight={<ListSearchbar />}
-            footer={<ListPagination total_count={data.total_count} />}
+            footer={<ListPagination total_count={data.total_count} required_count={10} />}
         >
             <div className={style.body}>
                 <Typo
