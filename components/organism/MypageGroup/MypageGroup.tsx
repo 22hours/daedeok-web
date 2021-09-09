@@ -30,7 +30,15 @@ const MypageGroup = () => {
     const firstDivision = useInput(auth?.first_division);
     const secondDivsion = useInput(auth?.second_division);
     const DivisionOption = useDivision(firstDivision, secondDivsion);
-
+    const dutyList = [
+        { name: "목사", value: "목사" },
+        { name: "전도사", value: "전도사" },
+        { name: "장로", value: "장로" },
+        { name: "권사", value: "권사" },
+        { name: "집사", value: "집사" },
+        { name: "청년", value: "청년" },
+        { name: "학생", value: "학생" },
+    ];
     useEffect(() => {
         if (auth) {
             name.setValue(auth.name);
@@ -133,7 +141,13 @@ const MypageGroup = () => {
                         <TextInput {...phoneNum} className={style.register_form} type={"text"} form={"box"} disable />
                     </InputRow>
                     <InputRow>
-                        <TextInput {...duty} className={style.register_form} type={"text"} form={"box"} />
+                        <Select
+                            {...duty}
+                            className={style.register_form}
+                            form={"box"}
+                            option_list={dutyList}
+                            placeholder={"직분"}
+                        />
                     </InputRow>
                     <InputRow>
                         <div className={style.input_division_row}>
@@ -143,6 +157,7 @@ const MypageGroup = () => {
                                 form={"box"}
                                 option_list={DivisionOption.firstDivisionOptionList()}
                                 placeholder={"상위 소속"}
+                                disable
                             />
                             <Select
                                 {...secondDivsion}
@@ -152,6 +167,7 @@ const MypageGroup = () => {
                                     DivisionOption.secondDivisionOptionList()
                                 )}
                                 placeholder={"하위 소속"}
+                                disable
                             />
                         </div>
                     </InputRow>
