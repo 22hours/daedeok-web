@@ -18,7 +18,15 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
     const { alertOn, apiErrorAlert } = useAlert();
     const nowTime = moment();
     const diffTime = moment.duration(nowTime.diff(time)).asMinutes();
+    var nowLink = "";
 
+    if (link.indexOf("http") !== -1 || link.indexOf("https") !== -1) {
+        nowLink = link;
+    } else {
+        nowLink = "https://" + link;
+    }
+
+    console.log(nowLink);
     const handleError = () => {
         if (diffTime >= 0) {
         } else {
@@ -61,7 +69,7 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
             return (
                 <>
                     {diffTime >= -30 && diffTime <= 180 ? (
-                        <Link href={link} passHref>
+                        <Link href={nowLink} passHref>
                             <a target="_blank">
                                 <Button
                                     content={"ZOOM"}
@@ -164,11 +172,6 @@ const StudentClassPlanList = () => {
 
     return (
         <div className={style.class_plan_list_wrapper}>
-            <Link href={"http://www.naver.com"} passHref>
-                <a target="_blank">
-                    <button>test</button>
-                </a>
-            </Link>
             <TableWrapper>
                 {planList.map((it, idx) => (
                     <div key={`studentclassplanlist${nanoid()}`}>
