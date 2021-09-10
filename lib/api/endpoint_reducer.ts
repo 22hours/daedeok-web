@@ -226,6 +226,10 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
         case "DELETE_DIVISION":
             return `division`;
         // ADMIN
+        case "ADMIN_FIND_MEMBER":
+            return `user/admin/member/${url_query.user_id}`;
+        case "ADMIN_UPDATE_MEMBER":
+            return `user/admin/member/${url_query.user_id}`;
         case "ADMIN_FIND_USER":
             return "user/admin";
         case "ADMIN_RESET_PW":

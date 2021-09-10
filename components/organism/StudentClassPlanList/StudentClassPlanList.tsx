@@ -164,6 +164,11 @@ const StudentClassPlanList = () => {
 
     return (
         <div className={style.class_plan_list_wrapper}>
+            <Link href={"http://www.naver.com"} passHref>
+                <a target="_blank">
+                    <button>test</button>
+                </a>
+            </Link>
             <TableWrapper>
                 {planList.map((it, idx) => (
                     <div key={`studentclassplanlist${nanoid()}`}>

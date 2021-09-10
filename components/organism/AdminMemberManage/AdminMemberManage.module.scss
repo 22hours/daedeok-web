@@ -39,6 +39,7 @@
 
     .first_wrapper {
         align-items: center;
+        cursor: pointer;
         @include desktop {
             display: grid;
             grid-template-columns: 20px 150px 300px auto;

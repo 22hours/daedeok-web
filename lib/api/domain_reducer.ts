@@ -1,8 +1,8 @@
 import { api_config_type } from "@api_config_type";
 
-const NOW_TESTING = false;
+const NOW_TESTING = true;
 
-export const MAIN_HOST = NOW_TESTING ? "http://192.168.0.8:8080" : "https://www.ddba.or.kr";
+export const MAIN_HOST = NOW_TESTING ? "http://192.168.0.6:8080" : "https://www.ddba.or.kr";
 
 export const MAIN_HOST_BASE_LOCATION = NOW_TESTING ? "daedeok" : "daedeok";
 

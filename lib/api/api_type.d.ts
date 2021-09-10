@@ -136,6 +136,8 @@ declare module "@api_config_type" {
                 // ADMIN
                 | "ADMIN_RESET_PW"
                 | "ADMIN_DELETE_USER"
+                | "ADMIN_FIND_MEMBER"
+                | "ADMIN_UPDATE_MEMBER"
                 | "ADMIN_FIND_USER"
                 | "ADMIN_NEW_CATEGORY"
                 | "ADMIN_UPDATE_CATEGORY"
