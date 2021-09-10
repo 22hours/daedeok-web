@@ -259,14 +259,16 @@ const RegisterFormGroup = () => {
                                     isLabelRight
                                 />
                                 <Link href="/docs/terms" passHref>
-                                    <Button
-                                        className={style.link_style}
-                                        content="[보기]"
-                                        type="TEXT"
-                                        color="gray_accent"
-                                        size="small"
-                                        fontSize="smaller"
-                                    />
+                                    <a target="_blank">
+                                        <Button
+                                            className={style.link_style}
+                                            content="[보기]"
+                                            type="TEXT"
+                                            color="gray_accent"
+                                            size="small"
+                                            fontSize="smaller"
+                                        />
+                                    </a>
                                 </Link>
                             </div>
                             <div className={style.checkbox_wrapper}>
@@ -277,14 +279,16 @@ const RegisterFormGroup = () => {
                                     isLabelRight
                                 />
                                 <Link href="/docs/privacy" passHref>
-                                    <Button
-                                        className={style.link_style}
-                                        content="[보기]"
-                                        type="TEXT"
-                                        color="gray_accent"
-                                        size="small"
-                                        fontSize="smaller"
-                                    />
+                                    <a target="_blank">
+                                        <Button
+                                            className={style.link_style}
+                                            content="[보기]"
+                                            type="TEXT"
+                                            color="gray_accent"
+                                            size="small"
+                                            fontSize="smaller"
+                                        />
+                                    </a>
                                 </Link>
                             </div>
                         </div>

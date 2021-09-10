@@ -143,8 +143,9 @@ const ClassJoin = () => {
         const res_data = await clientSideApi("POST", "MAIN", "LECTURE_JOIN", { lecture_id: idx });
         if (res_data.result === "SUCCESS") {
             confirmOn({
-                message: `수강신청이 완료되었습니다`,
-                onSuccess: () => location.reload(),
+                message: `수강신청이 완료되었습니다.\n 확인버튼을 누르면 강의실 메인으로 이동합니다. `,
+                onSuccess: () => location.replace(`/class`),
+                onFail: () => location.reload(),
             });
         } else {
             const msg = res_data?.msg;

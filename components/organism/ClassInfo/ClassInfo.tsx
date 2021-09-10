@@ -139,7 +139,7 @@ const ClassInfo = () => {
     //강의삭제
     const handleDelete = async () => {
         confirmOn({
-            message: "정말 삭제하시겠습니까?",
+            message: "정말 철회하시겠습니까?",
             onSuccess: async () => {
                 const res = await clientSideApi(
                     "DELETE",
@@ -150,7 +150,7 @@ const ClassInfo = () => {
                 );
                 if (res.result === "SUCCESS") {
                     confirmOn({
-                        message: "강의가 삭제되었습니다\n확인을 클릭하면 강의실 메인으로 이동합니다",
+                        message: "강의가 철회되었습니다\n확인을 클릭하면 강의실 메인으로 이동합니다",
                         onSuccess: () => location.replace("/class"),
                         isFailButtonRemove: true,
                     });
