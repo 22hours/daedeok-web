@@ -20,7 +20,7 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
     const diffTime = moment.duration(nowTime.diff(time)).asMinutes();
     var nowLink = "";
 
-    if (link.indexOf("http") !== -1 || link.indexOf("https") !== -1) {
+    if (link?.indexOf("http") !== -1 || link?.indexOf("https") !== -1) {
         nowLink = link;
     } else {
         nowLink = "https://" + link;
