@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useAlert } from "store/GlobalAlertStore";
 import { useAuthStore } from "store/AuthStore";
+import router from "next/router";
 const TextEditor = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
 const Eduvision = () => {
@@ -23,7 +24,9 @@ const Eduvision = () => {
         }
     };
     useEffect(() => {
-        getData();
+        // getData();
+        window.open("http://ddbaa.or.kr/vision");
+        router.back();
     }, []);
     return (
         <div>
