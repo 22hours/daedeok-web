@@ -162,7 +162,7 @@ const ClassCompleteList = () => {
         <ListPageLayout
             headerLeft={<ListSelect categoryType={"CLASS"} />}
             headerRight={<ListSearchbar />}
-            footer={<ListPagination total_count={data.total_count} />}
+            footer={<ListPagination total_count={data.total_count} required_count={7} />}
         >
             <ClassListPC />
         </ListPageLayout>
