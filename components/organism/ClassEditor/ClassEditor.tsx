@@ -696,8 +696,8 @@ const ClassEditor = (props: Props) => {
                     handout_list: state.handout_list,
                     plan_list: state.plan_list,
                     //추가해야함
-                    // day:state.day,
-                    // time:state.time,
+                    day: state.day,
+                    time: state.time,
                 });
                 if (res.result === "SUCCESS") {
                     confirmOn({
@@ -746,8 +746,8 @@ const ClassEditor = (props: Props) => {
                         delete_plan_list: deletePlanList,
                         plan_list: state.plan_list,
                         //추가해야함
-                        // day:state.day,
-                        // time:state.time
+                        day: state.day,
+                        time: state.time,
                     }
                 );
                 if (res.result === "SUCCESS") {
