@@ -45,7 +45,7 @@ const ClassCloseList = () => {
 
     const { clientSideApi } = useAuthStore();
     const getData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND", undefined, {
+        const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_FINISH", undefined, {
             status: "FINISH",
             category: pageState.state.category === "ALL" ? undefined : pageState.state.category,
             keyword: pageState.state.keyword,

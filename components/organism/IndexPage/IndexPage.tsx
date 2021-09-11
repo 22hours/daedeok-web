@@ -155,7 +155,7 @@ const IndexPage = (props: Props) => {
                                                 </Link>
                                             </div>
                                             <div className={style.notice_body}>
-                                                {noticeList.map((it, idx) => (
+                                                {noticeList?.map((it, idx) => (
                                                     <Link
                                                         key={`mainnoticeitem${idx}`}
                                                         href={`/acinfo/notice/detail/${it.id}`}
@@ -261,7 +261,7 @@ const IndexPage = (props: Props) => {
                                                 </Link>
                                             </div>
                                             <div className={style.notice_body}>
-                                                {noticeList.map((it, idx) => (
+                                                {noticeList?.map((it, idx) => (
                                                     <Link
                                                         key={`mainnoticeitem${idx}`}
                                                         href={`/acinfo/notice/detail/${it.id}`}

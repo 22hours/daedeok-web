@@ -140,6 +140,8 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `lecture/possible`;
         case `LECTURE_FIND_COMPLETE`:
             return `lecture/complete`;
+        case `LECTURE_FIND_FINISH`:
+            return `lecture/finish`;
         case "LECTURE_FIND_CLASS_TITLE":
             return `lecture/${url_query.lecture_id}/custom`;
         case "LECTURE_FIND_USER_ATTENDANCE":

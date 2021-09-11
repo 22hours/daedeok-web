@@ -70,13 +70,12 @@ const RegisterFormGroup = () => {
         setAuth(authState);
     };
     const dutyList = [
-        { name: "목사", value: "목사" },
-        { name: "전도사", value: "전도사" },
-        { name: "장로", value: "장로" },
-        { name: "권사", value: "권사" },
+        { name: "성도", value: "성도" },
         { name: "집사", value: "집사" },
-        { name: "청년", value: "청년" },
-        { name: "학생", value: "학생" },
+        { name: "권사", value: "권사" },
+        { name: "장로", value: "장로" },
+        { name: "전도사", value: "전도사" },
+        { name: "목사", value: "목사" },
     ];
     const name = useInput();
     const password = useInput();

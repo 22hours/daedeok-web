@@ -19,7 +19,6 @@ const InputRow = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
 
 const AdminMemberEdit = (props) => {
     const { memberData } = props;
-    console.log(memberData);
     const { alertOn, apiErrorAlert } = useAlert();
     const { update, clientSideApi } = useAuthStore();
     const router = useRouter();
@@ -31,13 +30,12 @@ const AdminMemberEdit = (props) => {
     const secondDivsion = useInput(memberData?.second_division);
     const DivisionOption = useDivision(firstDivision, secondDivsion);
     const dutyList = [
-        { name: "목사", value: "목사" },
-        { name: "전도사", value: "전도사" },
-        { name: "장로", value: "장로" },
-        { name: "권사", value: "권사" },
+        { name: "성도", value: "성도" },
         { name: "집사", value: "집사" },
-        { name: "청년", value: "청년" },
-        { name: "학생", value: "학생" },
+        { name: "권사", value: "권사" },
+        { name: "장로", value: "장로" },
+        { name: "전도사", value: "전도사" },
+        { name: "목사", value: "목사" },
     ];
 
     useEffect(() => {
@@ -99,24 +97,8 @@ const AdminMemberEdit = (props) => {
                         type={"HEADER"}
                         color={"red_accent"}
                         size={"h2"}
-                        content={`${memberData?.name} ${memberData.duty}`}
+                        content={`${memberData?.name}`}
                     />
-                    <Typo className={style.hello_text} type={"HEADER"} size={"h2"} content={`님 환영합니다`} />
-                    <div className={style.division_row}>
-                        <Typo
-                            className={style.hello_text}
-                            type={"HEADER"}
-                            size={"h4"}
-                            content={memberData.first_division}
-                        />
-                        <Typo className={style.hello_text} type={"HEADER"} size={"h4"} content={" / "} />
-                        <Typo
-                            className={style.hello_text}
-                            type={"HEADER"}
-                            size={"h4"}
-                            content={memberData.second_division}
-                        />
-                    </div>
                 </div>
 
                 <div>
