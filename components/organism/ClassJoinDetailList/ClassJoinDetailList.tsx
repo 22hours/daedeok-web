@@ -163,26 +163,16 @@ const ClassJoinDetailList = () => {
                             : detailData?.student_limit + " (선착순 신청 후 마감)"
                     }
                 />
-                <ListForm
-                    label={"강의형태"}
-                    //@ts-ignore
-                    content={classType?.join(" - ")}
-                />
+                <ListForm label={"강의형태"} content={classType?.join(" - ")} />
                 <ListForm
                     label={"대상"}
                     //@ts-ignore
                     content={detailData?.division_list}
                 />
-                <ListForm
-                    label={"참고자료"}
-                    //@ts-ignore
-                    content={detailData?.reference}
-                />
-                <ListForm
-                    label={"강의계획"}
-                    //@ts-ignore
-                    content={detailData?.reference}
-                />
+                <ListForm label={"요일"} content={"월요일"} />
+                <ListForm label={"시간"} content={"13:00"} />
+                <ListForm label={"참고자료"} content={detailData?.reference} />
+                <ListForm label={"강의계획"} content={detailData?.reference} />
             </div>
             <div className={style.plan_list}>
                 {detailData?.lecture_plan?.map((it, idx) => (
