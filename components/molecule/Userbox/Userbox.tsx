@@ -13,6 +13,7 @@ import style from "./Userbox.module.scss";
 import { useAlert } from "store/GlobalAlertStore";
 import PasswordController from "lib/client/passwordController";
 import StorageController from "lib/client/storageController";
+
 type Props = {
     className?: string;
 };
@@ -133,7 +134,12 @@ const Userbox = (props: Props) => {
                 </div>
                 <div>
                     <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={auth.first_division} />
-                    <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={` ${auth.second_division}`} />
+                    <Typo
+                        type={"TEXT"}
+                        size={"small"}
+                        color={"gray_accent"}
+                        content={` ${auth.second_division === null ? "" : auth.second_division}`}
+                    />
                 </div>
                 <div className={style.bottom}>
                     {auth.role !== "ROLE_ADMIN" && (
@@ -153,7 +159,6 @@ const Userbox = (props: Props) => {
                         </>
                     )}
                 </div>
-
                 <div className={style.control_row}>
                     <Link href={"/mypage"} passHref>
                         <div className={style.control_btn}>
@@ -165,7 +170,6 @@ const Userbox = (props: Props) => {
                             />
                         </div>
                     </Link>
-
                     <a href={"/logout"}>
                         <div className={style.control_btn}>
                             <Typo className={style.control_typo} type={"TEXT"} size={"small"} content={`로그아웃 > `} />
