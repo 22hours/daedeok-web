@@ -169,8 +169,8 @@ const ClassJoinDetailList = () => {
                     //@ts-ignore
                     content={detailData?.division_list}
                 />
-                <ListForm label={"요일"} content={"월요일"} />
-                <ListForm label={"시간"} content={"13:00"} />
+                <ListForm label={"요일"} content={detailData?.day} />
+                <ListForm label={"시간"} content={detailData?.time} />
                 <ListForm label={"참고자료"} content={detailData?.reference} />
                 <ListForm label={"강의계획"} content={detailData?.reference} />
             </div>

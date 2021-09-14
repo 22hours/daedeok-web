@@ -226,6 +226,8 @@ declare module "@global_types" {
             content: string;
             tutor: string;
             type: Array<string>;
+            day: string;
+            time: string;
             division_list: Array<{ first_division: string; second_division: string }>;
             reference: string;
             lecture_plan: Array<{ week: number; title: string; tutor: string; location: string }>;
