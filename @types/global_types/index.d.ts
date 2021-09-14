@@ -230,7 +230,15 @@ declare module "@global_types" {
             time: string;
             division_list: Array<{ first_division: string; second_division: string }>;
             reference: string;
-            lecture_plan: Array<{ week: number; title: string; tutor: string; location: string }>;
+            lecture_plan: Array<{
+                id: string;
+                week: string;
+                title: string;
+                location: string;
+                type: meta_types.classType;
+                date: string;
+                tutor: string;
+            }>;
         };
         //(공통) 강의 게시판 상세
         type classBoardDetail = {

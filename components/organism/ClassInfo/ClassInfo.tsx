@@ -97,7 +97,6 @@ const LecturePlanItem = (props: LecturePlanItem) => {
             </div>
         </TableRow>
     );
-    // return <div className={style.lecture_plan_item}>{props.title}</div>;
 };
 
 const LecturePlanSection = ({ lecture_plan_list }: { lecture_plan_list: LecturePlanItem[] }) => {

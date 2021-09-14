@@ -2,17 +2,61 @@ import React, { useEffect, useState } from "react";
 import style from "./ClassJoinDetailList.module.scss";
 import { res_types } from "@global_types";
 import Link from "next/link";
+import { meta_types } from "@global_types";
 
 //ui
 import Typo from "@ui/Typo";
 import Button from "@ui/buttons/Button";
+import TableWrapper from "@ui/board/TableWrapper";
+import TableRow from "@ui/board/TableRow";
+
 //hooks
 import UseDate from "lib/hooks/useDate";
 import { nanoid } from "nanoid";
+import DateController from "lib/client/dateController";
 
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
+
+type LecturePlanItem = {
+    id: string;
+    week: string;
+    title: string;
+    location: string;
+    type: meta_types.classType;
+    date: string;
+    tutor: string;
+};
+
+const LecturePlanItem = (props: LecturePlanItem) => {
+    return (
+        <TableRow
+            week={props.week + "주차"}
+            weekTitle={props.title}
+            date={`${DateController.getFormatedDate("YYYY/MM/DD HH:MM", props.date)}`}
+        >
+            <div>
+                <Typo
+                    className={style.lecture_plan_children}
+                    type={"TEXT"}
+                    size={"small"}
+                    content={props.tutor}
+                    color={"gray_accent"}
+                />
+                <Typo
+                    className={style.lecture_plan_children}
+                    type={"TEXT"}
+                    size={"small"}
+                    content={
+                        props.location === "ZOOM" ? "ZOOM" : props.location === "ONLINE" ? "영상강의" : props.location
+                    }
+                    color={"gray_accent"}
+                />
+            </div>
+        </TableRow>
+    );
+};
 
 const ClassJoinDetailList = () => {
     const { clientSideApi } = useAuthStore();
@@ -60,6 +104,28 @@ const ClassJoinDetailList = () => {
         );
     };
 
+    const LecturePlanSection = ({ lecture_plan_list }: { lecture_plan_list: LecturePlanItem[] }) => {
+        return (
+            <div className={style.lecture_plan_row}>
+                <div>
+                    <Typo
+                        className={style.head_block_text}
+                        type={"TEXT"}
+                        size={"small"}
+                        content={"강의계획"}
+                        color={"white"}
+                    />
+                </div>
+                <div className={style.lecture_plan_list_container}>
+                    <TableWrapper>
+                        {lecture_plan_list.map((it, idx) => (
+                            <LecturePlanItem key={`lectureplanitem:${idx}`} {...it} />
+                        ))}
+                    </TableWrapper>
+                </div>
+            </div>
+        );
+    };
     const getClassJoinDetailData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_DETAIL", { lecture_id: class_id }, {});
         if (res.result === "SUCCESS") {
@@ -174,32 +240,10 @@ const ClassJoinDetailList = () => {
                 <ListForm label={"참고자료"} content={detailData?.reference} />
                 <ListForm label={"강의계획"} content={detailData?.reference} />
             </div>
-            <div className={style.plan_list}>
-                {detailData?.lecture_plan?.map((it, idx) => (
-                    <div key={nanoid()} className={style.list_item}>
-                        <div className={style.week_item}>
-                            <Typo size="normal" content={it.week + "주"} type="TEXT" />
-                        </div>
-                        <div className={style.other_item}>
-                            <div className={style.title_box}>
-                                <Typo size="normal" content={it.title} type="TEXT" />
-                            </div>
-                            <div className={style.other_box}>
-                                <Typo size="normal" content={it.tutor} type="TEXT" />
-                                <Typo
-                                    size="normal"
-                                    content={it.location === "ONLINE" ? "영상 강의" : it.location}
-                                    type="TEXT"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                ))}
-                <div className={style.list_item}>
-                    <div className={style.week_item}></div>
-                    <div className={style.other_item}></div>
-                </div>
-            </div>
+            <LecturePlanSection
+                //@ts-ignore
+                lecture_plan_list={detailData?.lecture_plan}
+            />
             <div className={style.go_back_btn_wrapper}>
                 <Link href="/class/join" passHref>
                     <Button
