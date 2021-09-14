@@ -81,7 +81,11 @@ const ClassCloseList = () => {
                                         <Typo
                                             type="TEXT"
                                             size="small"
-                                            content={it.id.toString()}
+                                            content={(
+                                                data.total_count -
+                                                (parseInt(pageState.state.page) - 1) * 10 -
+                                                idx
+                                            ).toString()}
                                             color={"brown_font"}
                                         />
                                     </div>

@@ -141,7 +141,7 @@ const TutorClassPlanDetailList = () => {
                                                 <Typo
                                                     type="TEXT"
                                                     size="small"
-                                                    content={it.user_id.toString()}
+                                                    content={(idx + 1).toString()}
                                                     color={"brown_font"}
                                                 />
                                             </div>

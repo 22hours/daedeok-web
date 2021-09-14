@@ -115,7 +115,16 @@ const ClassCompleteList = () => {
                     <div key={`completelectureitem:${idx}`} className={style.complelte_list}>
                         <Link href={`/class/complete/${it.id}/board`}>
                             <div className={style.title_wrapper}>
-                                <Typo content={it.id} color="brown_font" type="TEXT" size="small" />
+                                <Typo
+                                    content={(
+                                        data.total_count -
+                                        (parseInt(pageState.state.page) - 1) * 7 -
+                                        idx
+                                    ).toString()}
+                                    color="brown_font"
+                                    type="TEXT"
+                                    size="small"
+                                />
                                 <div className={style.title}>
                                     <Typo content={it.title} color="brown_font" type="TEXT" size="medium" />
                                 </div>
