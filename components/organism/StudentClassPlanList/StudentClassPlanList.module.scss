@@ -6,26 +6,32 @@
 .cursor_none {
     cursor: default;
 }
-
-.planlist_wrapper {
-    display: grid;
-    grid-template-columns: auto 90px;
-    align-items: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
+.class_join_wrapper {
+    padding-top: 15px;
+    padding-bottom: 15px;
     padding-left: 10px;
     padding-right: 10px;
     border-bottom: 0.5px $gray_accent solid;
-    .title_wrapper {
-        display: inline-block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    align-items: center;
+    .planlist_wrapper {
+        display: grid;
+        grid-template-columns: auto 90px;
+        align-items: center;
+
+        .title_wrapper {
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .button {
+            width: 90px;
+        }
     }
-    .button {
-        width: 90px;
+    .margin_style {
+        margin-right: 10px;
     }
-}
-.margin_style {
-    margin-right: 10px;
+    .bottom_box {
+        margin-top: 3px;
+    }
 }

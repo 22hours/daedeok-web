@@ -118,7 +118,7 @@ const ClassJoinDetailList = () => {
                 </div>
                 <div className={style.lecture_plan_list_container}>
                     <TableWrapper>
-                        {lecture_plan_list.map((it, idx) => (
+                        {lecture_plan_list?.map((it, idx) => (
                             <LecturePlanItem key={`lectureplanitem:${idx}`} {...it} />
                         ))}
                     </TableWrapper>
