@@ -147,6 +147,15 @@
             }
         }
     }
+
+    .lecture_plan_list_container {
+        margin-top: 30px;
+        .lecture_plan_children {
+            display: block;
+            text-align: right;
+        }
+    }
+
     .footer {
         margin-top: 20px;
         display: flex;

@@ -10,6 +10,7 @@ import TableWrapper from "@ui/board/TableWrapper";
 import { SettingsApplications } from "@material-ui/icons";
 import Link from "next/link";
 import Button from "@ui/buttons/Button";
+import LecturePlanItem from "components/organism/LecturePlanItem/LecturePlanItem";
 
 type Props = {};
 type State = {
@@ -21,18 +22,24 @@ type State = {
     end_date: string;
     student_limit: string;
     student_num: string;
+    day: string;
+    time: string;
     content: string;
     tutor: string;
     type: meta_types.classType[];
     division_list: { first_division: string; second_division: string[] }[];
     reference: string;
     lecture_plan: {
+        id: string;
         week: string;
         title: string;
-        tutor: string;
         location: string;
+        type: meta_types.classType;
+        date: string;
+        tutor: string;
     }[];
 };
+
 const LectureDetailPage = (props: Props) => {
     const [data, setData] = useState<State | null>(null);
     const router = useRouter();
@@ -169,6 +176,40 @@ const LectureDetailPage = (props: Props) => {
                                 />
                             </div>
                         </div>
+                        <div className={style.main_body_grid}>
+                            <div className={style.main_body_row}>
+                                <Typo
+                                    className={style.label}
+                                    type={"TEXT"}
+                                    size={"small"}
+                                    content={"요일"}
+                                    color={"white"}
+                                />
+                                <TextInput
+                                    className={style.value}
+                                    form={"underline"}
+                                    type={"text"}
+                                    value={data.day}
+                                    disable
+                                />
+                            </div>
+                            <div className={style.main_body_row}>
+                                <Typo
+                                    className={style.label}
+                                    type={"TEXT"}
+                                    size={"small"}
+                                    content={"시간"}
+                                    color={"white"}
+                                />
+                                <TextInput
+                                    className={style.value}
+                                    form={"underline"}
+                                    type={"text"}
+                                    value={data.time}
+                                    disable
+                                />
+                            </div>
+                        </div>
                         <div className={style.main_body_grid_single}>
                             <div className={style.main_body_row}>
                                 <Typo
@@ -199,31 +240,10 @@ const LectureDetailPage = (props: Props) => {
                             </div>
                         </div>
                     </div>
-                    <div className={style.section_plan_list}>
-                        {data.lecture_plan.map((it, idx) => (
-                            <div key={`lecture detail::${idx}`} className={style.list_item}>
-                                <div className={style.week_item}>
-                                    <Typo size="small" content={it.week + "주"} type="TEXT" />
-                                </div>
-                                <div className={style.other_item}>
-                                    <div className={style.title_box}>
-                                        <Typo size="medium" content={it.title} type="TEXT" />
-                                    </div>
-                                    <div className={style.other_box}>
-                                        <Typo size="normal" content={it.tutor} type="TEXT" />
-                                        <Typo
-                                            size="normal"
-                                            content={it.location === "ONLINE" ? "영상 강의" : it.location}
-                                            type="TEXT"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        ))}{" "}
-                        <div className={style.list_item}>
-                            <div className={style.week_item}></div>
-                            <div className={style.other_item}></div>
-                        </div>
+                    <div className={style.lecture_plan_list_container}>
+                        <TableWrapper>
+                            <LecturePlanItem lecture_plan={data?.lecture_plan} />
+                        </TableWrapper>
                     </div>
                 </div>
                 <div className={style.footer}>
