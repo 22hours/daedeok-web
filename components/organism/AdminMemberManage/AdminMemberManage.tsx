@@ -99,8 +99,8 @@ const MemberManageList = () => {
     const { alertOn } = useAlert();
     const pageState = useListCommonStore();
     const { auth, clientSideApi } = useAuthStore();
-
     const [data, setData] = useState<State>(initState);
+    console.log(pageState.state.page);
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "ADMIN_FIND_USER", undefined, {
             category: pageState.state.category === "ALL" ? undefined : pageState.state.category,
@@ -223,7 +223,11 @@ const MemberManageList = () => {
                                                 <Typo
                                                     type="TEXT"
                                                     size="small"
-                                                    content={it.id.toString()}
+                                                    content={(
+                                                        data.total_count -
+                                                        (parseInt(pageState.state.page) - 1) * 10 -
+                                                        idx
+                                                    ).toString()}
                                                     color={"brown_font"}
                                                 />
                                             </div>

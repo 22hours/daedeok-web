@@ -38,7 +38,7 @@ const NoticeList = () => {
             const res = await clientSideApi("GET", "MAIN", "TOTAL_NOTICE_FIND", undefined, {
                 keyword: state.keyword,
                 page: parseInt(state.page) - 1,
-                required_count: 7,
+                required_count: 10,
             });
             if (res.result === "SUCCESS") {
                 setListState({ ...res.data });
@@ -79,7 +79,7 @@ const NoticeList = () => {
                     )}
                 </>
             }
-            footer={<ListPagination total_count={listState.total_count} required_count={7} />}
+            footer={<ListPagination total_count={listState.total_count} required_count={10} />}
         >
             <TableWrapper>
                 {listState.notice_list.map((it, idx) => (
@@ -91,7 +91,11 @@ const NoticeList = () => {
                                         <Typo
                                             type="TEXT"
                                             size="small"
-                                            content={it.id.toString()}
+                                            content={(
+                                                listState?.total_count -
+                                                (parseInt(state?.page) - 1) * 10 -
+                                                idx
+                                            ).toString()}
                                             color={"brown_font"}
                                         />
                                     </div>

@@ -75,7 +75,7 @@ const GuideList = () => {
                     )}
                 </>
             }
-            footer={<ListPagination total_count={listState.total_count} required_count={7} />}
+            footer={<ListPagination total_count={listState.total_count} required_count={10} />}
         >
             <TableWrapper>
                 {listState.faq_list.map((it, idx) => (
@@ -83,7 +83,16 @@ const GuideList = () => {
                         <Link href={`/acinfo/guide/detail/${it.id}`} passHref>
                             <div className={style.guide_list_wrapper}>
                                 <div className={style.list_id}>
-                                    <Typo type="TEXT" size="small" content={it.id.toString()} color={"brown_font"} />
+                                    <Typo
+                                        type="TEXT"
+                                        size="small"
+                                        content={(
+                                            listState?.total_count -
+                                            (parseInt(state?.page) - 1) * 10 -
+                                            idx
+                                        ).toString()}
+                                        color={"brown_font"}
+                                    />
                                 </div>
                                 <div className={style.list_title}>
                                     <Typo type="TEXT" size="medium" content={it.title} color={"brown_font"} />

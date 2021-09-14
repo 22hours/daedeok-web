@@ -33,7 +33,7 @@ const initState: State = {
     total_count: 0,
 };
 
-const LectureCloseList = (props: { lecture_list: any }) => {
+const LectureCloseList = (props: { lecture_list: any; page: string; total_count: number }) => {
     const router = useRouter();
     const { status } = router.query;
 
@@ -69,7 +69,11 @@ const LectureCloseList = (props: { lecture_list: any }) => {
                                             <Typo
                                                 type="TEXT"
                                                 size="smaller"
-                                                content={it.id.toString()}
+                                                content={(
+                                                    props?.total_count -
+                                                    (parseInt(props?.page) - 1) * 7 -
+                                                    idx
+                                                ).toString()}
                                                 color={"brown_font"}
                                             />
                                         </div>
@@ -232,7 +236,11 @@ const LectureList = ({ status }: Props) => {
                 headerRight={<ListSearchbar />}
                 footer={<ListPagination total_count={listState.total_count} required_count={7} />}
             >
-                <LectureCloseList lecture_list={listState.lecture_list} />
+                <LectureCloseList
+                    lecture_list={listState.lecture_list}
+                    total_count={listState.total_count}
+                    page={state.page}
+                />
             </ListPageLayout>
         </>
     );

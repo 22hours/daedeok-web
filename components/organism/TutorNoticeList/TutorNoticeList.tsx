@@ -88,7 +88,11 @@ const TutorNoticeList = () => {
                                         <Typo
                                             type="TEXT"
                                             size="small"
-                                            content={it.id.toString()}
+                                            content={(
+                                                listState?.total_count -
+                                                (parseInt(state.page) - 1) * 7 -
+                                                idx
+                                            ).toString()}
                                             color={"brown_font"}
                                         />
                                     </div>
