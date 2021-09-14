@@ -1,0 +1,96 @@
+@import "styles/meta.scss";
+.lecture_list_pc {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 1px solid $gray_accent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title {
+        display: flex;
+        .week {
+            margin-right: 12px;
+            min-width: 45px;
+        }
+    }
+    .detail_item {
+        display: flex;
+        align-items: center;
+        min-width: 500px;
+        justify-content: space-between;
+        .date {
+            margin-left: 20px;
+        }
+        .tutor_location {
+            display: block;
+        }
+    }
+}
+.lecture_list_tablet {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 1px solid $gray_accent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title {
+        display: flex;
+        .week {
+            margin-right: 12px;
+            min-width: 30px;
+        }
+    }
+    .detail_item {
+        display: flex;
+        align-items: center;
+        min-width: 240px;
+        justify-content: space-between;
+        .date {
+            margin-left: 10px;
+            max-width: 80px;
+            text-align: center;
+            margin-right: 5px;
+        }
+        .tutor_location {
+            display: block;
+        }
+    }
+}
+
+.lecture_list_mobile {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 1px solid $gray_accent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title {
+        display: flex;
+        margin-right: 5px;
+        .week {
+            margin-right: 5px;
+            min-width: 30px;
+        }
+    }
+    .detail_item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .date {
+            margin-left: 10px;
+            max-width: 75px;
+            text-align: center;
+            margin-right: 5px;
+        }
+        .tutor_location {
+            display: block;
+            text-align: center;
+        }
+    }
+}
