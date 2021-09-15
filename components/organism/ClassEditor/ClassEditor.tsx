@@ -110,7 +110,6 @@ const reducer = (state: State, action: Action) => {
             if (matchIdx === -1) {
                 const newDivisonList = state.division_list.slice();
                 newDivisonList.push(action.data);
-
                 return {
                     ...state,
                     division_list: newDivisonList,
