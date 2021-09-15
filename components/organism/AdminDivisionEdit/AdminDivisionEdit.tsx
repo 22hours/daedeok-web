@@ -7,7 +7,7 @@ import TextInput from "@ui/input/TextInput";
 import Icon from "@ui/Icon";
 import Typo from "@ui/Typo";
 import Button from "@ui/buttons/Button";
-import ListController from "lib/client/listController";
+import DivisionController from "lib/client/divisionController";
 
 type SecondDivistionItemProps = {
     idx: number;
@@ -30,7 +30,7 @@ const SecondDivisionItem = (props: SecondDivistionItemProps) => {
     );
 };
 
-type second_division_list = { id?: number; second_division: string }[];
+type second_division_list = { id: any; second_division: string }[];
 
 const AdminDivisionEdit = () => {
     const router = useRouter();
@@ -78,7 +78,7 @@ const AdminDivisionEdit = () => {
 
     const addSecondDivisionItem = useCallback(() => {
         const cloneList = secondDivisionList.slice();
-        cloneList.push({ second_division: "" });
+        cloneList.push({ id: null, second_division: "" });
         setSecondDivisionList(cloneList);
     }, [secondDivisionList]);
 
@@ -112,31 +112,26 @@ const AdminDivisionEdit = () => {
             });
             return;
         }
+        const diffItemList = DivisionController.getUpdateInList(originSecondDivisionList, secondDivisionList);
 
-        const diffItemList = ListController.getUpdateInList(originSecondDivisionList, secondDivisionList);
-        // const res = await props.addNewDivision(first_division.value, secondDivisionList);
-        // if (res) {
-        //     first_division.setValue("");
-        //     setSecondDivisionList([""]);
-        // }
-        console.log(diffItemList);
+        updateDivisionList(diffItemList);
     };
 
-    const addNewDivision = async (first_division, second_division_list): Promise<boolean> => {
-        const res = await clientSideApi("POST", "MAIN", "ADD_DIVISION", undefined, {
-            first_division: first_division,
-            second_division: second_division_list,
-        });
-        if (res.result === "SUCCESS") {
-            alertOn({
-                message: "성공적으로 추가되었습니다",
-                type: "POSITIVE",
-            });
-            return true;
-        } else {
-            apiErrorAlert(res.msg);
-            return false;
-        }
+    const updateDivisionList = async (diffItemList) => {
+        // const res = await clientSideApi("POST", "MAIN", "UPDATE_DIVISION", undefined, {
+        //     before: first_division,
+        //     after: firstDivision,
+        //     delete_second_division_list: diffItemList.deleted_item_list,
+        //     update_second_division_list: diffItemList.new_item_list,
+        // });
+        // if (res.result === "SUCCESS") {
+        //     alertOn({
+        //         message: "성공적으로 추가되었습니다",
+        //         type: "POSITIVE",
+        //     });
+        // } else {
+        //     apiErrorAlert(res.msg);
+        // }
     };
 
     const getDivision = async () => {
@@ -144,7 +139,7 @@ const AdminDivisionEdit = () => {
             first_division: first_division,
         });
         if (res.result === "SUCCESS") {
-            setSecondDivisionList(res.data);
+            setSecondDivisionList(res.data?.second_division_list);
         } else {
             apiErrorAlert(res.msg);
         }

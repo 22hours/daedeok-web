@@ -134,6 +134,7 @@ declare module "@api_config_type" {
                 | "FIND_DIVISION"
                 | "ADD_DIVISION"
                 | "DELETE_DIVISION"
+                | "UPDATE_DIVISION"
                 // ADMIN
                 | "ADMIN_RESET_PW"
                 | "ADMIN_DELETE_USER"
