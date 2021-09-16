@@ -41,39 +41,9 @@ const AdminDivisionEdit = () => {
     const [secondDivisionList, setSecondDivisionList] = useState<second_division_list>([]);
     const [originSecondDivisionList, setOriginSecondDivisionList] = useState<second_division_list>([]);
 
-    const [deleteList, setDeleteList] = useState<second_division_list>([]);
-    const [updateList, setUpdateList] = useState<second_division_list>([]);
-
     useEffect(() => {
-        // getDivision();
-        setSecondDivisionList([
-            {
-                id: 1,
-                second_division: "1학년",
-            },
-            {
-                id: 2,
-                second_division: "2학년",
-            },
-            {
-                id: 3,
-                second_division: "3학년",
-            },
-        ]);
-        setOriginSecondDivisionList([
-            {
-                id: 1,
-                second_division: "1학년",
-            },
-            {
-                id: 2,
-                second_division: "2학년",
-            },
-            {
-                id: 3,
-                second_division: "3학년",
-            },
-        ]);
+        getDivision();
+        setOriginSecondDivisionList(secondDivisionList);
     }, [first_division]);
 
     const addSecondDivisionItem = useCallback(() => {
@@ -118,20 +88,20 @@ const AdminDivisionEdit = () => {
     };
 
     const updateDivisionList = async (diffItemList) => {
-        // const res = await clientSideApi("POST", "MAIN", "UPDATE_DIVISION", undefined, {
-        //     before: first_division,
-        //     after: firstDivision,
-        //     delete_second_division_list: diffItemList.deleted_item_list,
-        //     update_second_division_list: diffItemList.new_item_list,
-        // });
-        // if (res.result === "SUCCESS") {
-        //     alertOn({
-        //         message: "성공적으로 추가되었습니다",
-        //         type: "POSITIVE",
-        //     });
-        // } else {
-        //     apiErrorAlert(res.msg);
-        // }
+        const res = await clientSideApi("POST", "MAIN", "UPDATE_DIVISION", undefined, {
+            before: first_division,
+            after: firstDivision,
+            delete_second_division_list: diffItemList.deleted_item_list,
+            update_second_division_list: diffItemList.new_item_list,
+        });
+        if (res.result === "SUCCESS") {
+            alertOn({
+                message: "성공적으로 수정되었습니다",
+                type: "POSITIVE",
+            });
+        } else {
+            apiErrorAlert(res.msg);
+        }
     };
 
     const getDivision = async () => {
@@ -139,7 +109,7 @@ const AdminDivisionEdit = () => {
             first_division: first_division,
         });
         if (res.result === "SUCCESS") {
-            setSecondDivisionList(res.data?.second_division_list);
+            setSecondDivisionList(res?.data?.second_division_list);
         } else {
             apiErrorAlert(res.msg);
         }
