@@ -5,19 +5,20 @@ import TextInput from "@ui/input/TextInput";
 import ListController from "lib/client/listController";
 import useFileInput from "lib/hooks/useFileInput";
 import useInput from "lib/hooks/useInput";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
 import { useAlert } from "store/GlobalAlertStore";
 import style from "./AdminManagePopup.module.scss";
-type ImageItemType = string;
 
-type ImageItemProps = {
-    value: string;
+type PopUpItemProps = {
+    imgUrl: string;
+    linkUrl: string;
     idx: number;
-    editImageItem: (idx: number, value: string) => void;
-    removeImageItem: (idx: number) => void;
+    editPopUpLink: (idx: number, linkUrl: string) => void;
+    editPopUpImage: (idx: number, imgUrl: string) => void;
+    removePopUpItem: (idx: number) => void;
 };
-const ImageItem = (props: ImageItemProps) => {
+const PopUpItem = (props: PopUpItemProps) => {
     const { alertOn, apiErrorAlert } = useAlert();
 
     const { clientSideApi } = useAuthStore();
@@ -25,7 +26,9 @@ const ImageItem = (props: ImageItemProps) => {
 
     const uploadDummy = async (file: File) => {
         var bodyFormData = new FormData();
+
         bodyFormData.append("file_list", file);
+        console.log(bodyFormData);
         const res = await clientSideApi("POST", "MAIN", "UPLOAD_DUMMY", undefined, bodyFormData);
         return res;
     };
@@ -33,8 +36,9 @@ const ImageItem = (props: ImageItemProps) => {
     const setUrl = async (file: File) => {
         const url_res = await uploadDummy(file);
         if (url_res?.result === "SUCCESS") {
+            console.log(url_res);
             const res_url = url_res.data[0];
-            props.editImageItem(props.idx, res_url);
+            props.editPopUpImage(props.idx, res_url);
         } else {
             apiErrorAlert(url_res.msg);
         }
@@ -60,12 +64,12 @@ const ImageItem = (props: ImageItemProps) => {
                         color={"white"}
                     />
                 </FileInput>
-                <Icon onClick={() => props.removeImageItem(props.idx)} type={"delete"} />
+                <Icon onClick={() => props.removePopUpItem(props.idx)} type={"delete"} />
             </div>
             <div className={style.item_body}>
                 <TextInput
-                    value={props.value}
-                    onChange={(e) => props.editImageItem(props.idx, e.target.value)}
+                    value={props.imgUrl}
+                    onChange={(e) => props.editPopUpImage(props.idx, e.target.value)}
                     form={"box"}
                     type={"text"}
                 />
@@ -83,8 +87,8 @@ const ImageItem = (props: ImageItemProps) => {
             </div>
             <div className={style.item_body}>
                 <TextInput
-                    value={props.value}
-                    onChange={(e) => props.editImageItem(props.idx, e.target.value)}
+                    value={props.linkUrl}
+                    onChange={(e) => props.editPopUpLink(props.idx, e.target.value)}
                     form={"box"}
                     type={"text"}
                 />
@@ -93,38 +97,56 @@ const ImageItem = (props: ImageItemProps) => {
     );
 };
 
-type State = ImageItemType[];
 const AdminManagePopup = () => {
     const { alertOn, apiErrorAlert } = useAlert();
     const { auth, clientSideApi } = useAuthStore();
-    const [originImgList, setOriginImgList] = useState<State>([]);
-    const [data, setData] = useState<State>([]);
+
+    const [originPopUpList, setOriginPopUpList] = useState<{ id: any; url: string; link: string }[]>([]);
+    const [data, setData] = useState<{ id: any; url: string; link: string }[]>([]);
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "FIND_POPUP");
         if (res.result === "SUCCESS") {
-            const imageList = res.data?.image_list?.map((it) => it.url) || [];
-            setData(imageList);
-            setOriginImgList(imageList);
+            const popupData = res.data?.popup_list.slice();
+
+            const curData: any[] = [];
+            const originPopupData: any[] = [];
+
+            popupData.forEach((element) => {
+                curData.push({ ...element });
+                originPopupData.push({ ...element });
+            });
+
+            setData(curData);
+            setOriginPopUpList(originPopupData);
         } else {
             apiErrorAlert(res.msg);
         }
     };
     useEffect(() => {
-        // if (auth) {
-        //     getData();
-        // }
+        if (auth) {
+            getData();
+        }
     }, [auth]);
 
-    const editImageItem = useCallback(
-        (idx: number, value: string) => {
+    const editPopUpImage = useCallback(
+        (idx: number, imgUrl: string) => {
             const cloneList = data.slice();
-            cloneList[idx] = value;
+            cloneList[idx].url = imgUrl;
             setData(cloneList);
         },
         [data]
     );
 
-    const removeImageItem = useCallback(
+    const editPopUpLink = useCallback(
+        (idx: number, linkUrl: string) => {
+            const cloneList = data.slice();
+            cloneList[idx].link = linkUrl;
+            setData(cloneList);
+        },
+        [data]
+    );
+
+    const removePopUpItem = useCallback(
         (idx: number) => {
             const cloneList = data.slice();
             cloneList.splice(idx, 1);
@@ -133,64 +155,111 @@ const AdminManagePopup = () => {
         [data]
     );
 
-    const addImageItem = useCallback(() => {
-        if (data.length > 2) {
+    const addPopUpItem = useCallback(() => {
+        if (data.length >= 2) {
             alertOn({ message: "2개 이상으로는 추가할 수 없습니다", type: "WARN" });
             return;
         }
-
         const cloneList = data.slice();
-        cloneList.push("");
+        cloneList.push({ id: null, url: "", link: "" });
         setData(cloneList);
     }, [data]);
 
-    const saveImageList = async () => {
+    const savePopUpList = async () => {
         const image_server_host = "https://daedeok.s3.ap-northeast-2.amazonaws.com";
 
-        const { new_item_list, deleted_item_list } = ListController.getUpdateInList(originImgList, data, true);
-        const new_image_list = new_item_list.filter((it) => it.includes(image_server_host));
-        const delete_image_list = deleted_item_list.filter((it) => it.includes(image_server_host));
+        console.log("이전");
+        console.log(originPopUpList);
+        console.log("변경된");
+        console.log(data);
+
+        const { new_item_list, deleted_item_list } = ListController.getUpdateInList(originPopUpList, data, false);
+        const new_image_list = new_item_list.filter((it) => it.url.includes(image_server_host));
+        const delete_image_list = deleted_item_list.filter((it) => it.url.includes(image_server_host));
+
+        const final_new_image_list = new_image_list.map((it) => it.url);
+        const final_del_image_list = delete_image_list.map((it) => it.url);
+
+        console.log("추가");
+        console.log(final_new_image_list);
+        console.log(new_item_list);
+        console.log("삭제");
+        console.log(deleted_item_list);
+        console.log(final_del_image_list);
+
+        const unchanged_popup_id_list = [];
+        if (originPopUpList) {
+            originPopUpList.forEach((element) => {
+                var flag = false;
+                delete_image_list.forEach((n_e) => {
+                    //변경된 id 가 있다면
+                    if (element.id === n_e.id) {
+                        flag = true;
+                    }
+                });
+                if (!flag) {
+                    unchanged_popup_id_list.push(
+                        //@ts-ignore
+                        element.id
+                    );
+                }
+            });
+        }
+        console.log("변경X");
+        console.log(unchanged_popup_id_list);
 
         var expression =
             /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
         var regex = new RegExp(expression);
 
-        const flag = data.findIndex((it) => !it.match(regex)) === -1;
-        if (!flag) {
-            alertOn({ message: "이미지 주소는 공백일 수 없으며\nhttps로 시작하는 주소여야만합니다", type: "WARN" });
-        } else {
-            // TODO
-            const request_url_list = data.map((it) => {
+        const imgFlag = data.findIndex((it) => !it.url.match(regex)) === -1;
+        const linkFlag = data.findIndex((it) => !it.link.match(regex)) === -1;
+        if (imgFlag && linkFlag) {
+            const request_url_list = new_item_list.map((it) => {
                 return {
-                    url: it,
+                    url: it?.url,
+                    link: it?.link,
                 };
             });
-            const res = await clientSideApi("PUT", "MAIN", "ADMIN_SAVE_IMAGE", undefined, request_url_list);
+            console.log("전송값");
+            console.log(request_url_list);
+            const res = await clientSideApi("PUT", "MAIN", "SAVE_POPUP", undefined, {
+                unchanged_popup_id_list: unchanged_popup_id_list,
+                popup_list: request_url_list,
+            });
             if (res.result === "SUCCESS") {
                 await clientSideApi("PUT", "MAIN", "UPDATE_FILE", undefined, {
-                    new_file_list: new_image_list,
-                    delete_file_list: delete_image_list,
-                    to_path: "MAIN_IMAGE",
+                    new_file_list: final_new_image_list,
+                    delete_file_list: final_del_image_list,
+                    to_path: "POPUP",
                 });
                 alertOn({ message: "성공적으로 저장하였습니다", type: "POSITIVE" });
                 setData([]);
                 getData();
+                console.log(request_url_list);
             } else {
                 apiErrorAlert(res.msg);
             }
+        } else {
+            alertOn({
+                message: "이미지와 링크 주소는 공백일 수 없으며\nhttps로 시작하는 주소여야만합니다",
+                type: "WARN",
+            });
         }
     };
 
     return (
         <div className={style.container}>
             <div className={style.body}>
-                {data.map((it, idx) => (
-                    <ImageItem
-                        key={`adminimageitem:${idx}`}
-                        value={it}
+                {data?.map((it, idx) => (
+                    <PopUpItem
+                        key={`adminpopupitem:${idx}`}
+                        imgUrl={it.url}
+                        linkUrl={it.link}
                         idx={idx}
-                        editImageItem={editImageItem}
-                        removeImageItem={removeImageItem}
+                        editPopUpImage={editPopUpImage}
+                        editPopUpLink={editPopUpLink}
+                        removePopUpItem={removePopUpItem}
                     />
                 ))}
             </div>
@@ -203,7 +272,7 @@ const AdminManagePopup = () => {
                     content={"이미지 추가"}
                     backgroundColor={"brown_base"}
                     color={"white"}
-                    onClick={addImageItem}
+                    onClick={addPopUpItem}
                 />
                 <Button
                     className={`${style.footer_btn}`}
@@ -213,7 +282,7 @@ const AdminManagePopup = () => {
                     content={"저장"}
                     backgroundColor={"yellow_accent"}
                     color={"white"}
-                    onClick={saveImageList}
+                    onClick={savePopUpList}
                 />
             </div>
         </div>

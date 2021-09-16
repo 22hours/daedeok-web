@@ -152,8 +152,7 @@ declare module "@api_config_type" {
                 | "ACINFO_EDUVISION"
                 // >>> POPUP
                 | "FIND_POPUP"
-                | "SAVE_POPUP";
-
+                | "SAVE_POPUP"
                 | "ADMIN_FIND_DIVISION"
                 // >>> DUTY
                 | "FIND_DUTY";
