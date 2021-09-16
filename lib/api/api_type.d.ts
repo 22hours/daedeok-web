@@ -150,6 +150,10 @@ declare module "@api_config_type" {
                 | "ADMIN_SAVE_IMAGE"
                 | "ACINFO_INTRODUCE"
                 | "ACINFO_EDUVISION"
+                // >>> POPUP
+                | "FIND_POPUP"
+                | "SAVE_POPUP";
+
                 | "ADMIN_FIND_DIVISION"
                 // >>> DUTY
                 | "FIND_DUTY";

@@ -73,6 +73,7 @@ const CommonSidebar = () => {
             { name: "메인페이지 이미지 관리", link: "/admin/image" },
             { name: "대덕바이블 아카데미 소개 관리", link: "/admin/introduce" },
             { name: "교육비전 관리", link: "/admin/eduvision" },
+            { name: "팝업 관리", link: "/admin/popup" },
         ];
         return (
             <>
