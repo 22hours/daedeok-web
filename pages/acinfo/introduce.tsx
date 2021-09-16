@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useAlert } from "store/GlobalAlertStore";
 import { useAuthStore } from "store/AuthStore";
+import router from "next/router";
 
 const TextEditor = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
 
@@ -19,7 +20,9 @@ const Introduce = () => {
         }
     };
     useEffect(() => {
-        getData();
+        // getData();
+        window.open("http://ddbaa.or.kr/about");
+        router.back();
     }, []);
     return (
         <div>

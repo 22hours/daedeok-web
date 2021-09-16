@@ -68,7 +68,7 @@ const TableRow = (props: Props) => {
                                     <div className={style.week_item}>
                                         <Typo
                                             type="TEXT"
-                                            size="normal"
+                                            size="small"
                                             content={week}
                                             color={"gray_accent"}
                                             className={style.mobile_text}
@@ -86,7 +86,7 @@ const TableRow = (props: Props) => {
                                 )}
                                 {weekTitle && (
                                     <div className={style.week_title_item}>
-                                        <Typo type="TEXT" size="medium" content={weekTitle} color={"gray_accent"} />
+                                        <Typo type="TEXT" size="normal" content={weekTitle} color={"gray_accent"} />
                                     </div>
                                 )}
                                 {title && (
@@ -235,7 +235,7 @@ const TableRow = (props: Props) => {
                             <div className={style.week_item}>
                                 <Typo
                                     type="TEXT"
-                                    size="normal"
+                                    size="small"
                                     content={week}
                                     color={"gray_accent"}
                                     className={style.mobile_text}
@@ -253,7 +253,7 @@ const TableRow = (props: Props) => {
                         )}
                         {weekTitle && (
                             <div className={style.week_title_item}>
-                                <Typo type="TEXT" size="medium" content={weekTitle} color={"gray_accent"} />
+                                <Typo type="TEXT" size="normal" content={weekTitle} color={"gray_accent"} />
                             </div>
                         )}
                         {title && (

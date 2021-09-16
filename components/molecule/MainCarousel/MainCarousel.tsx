@@ -21,7 +21,7 @@ const MainCarousel = (props: Props) => {
     const getData = async () => {
         const res = await clientSideApi("GET", "MAIN", "ADMIN_FIND_IMAGE");
         if (res.result === "SUCCESS") {
-            setImgList(res.data.image_list.map((it) => it.url));
+            setImgList(res.data?.image_list?.map((it) => it.url));
         } else {
             apiErrorAlert(res.msg);
         }

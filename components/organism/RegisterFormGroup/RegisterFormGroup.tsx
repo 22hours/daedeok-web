@@ -17,6 +17,7 @@ import useDivision from "lib/hooks/useDivision";
 import PasswordController from "lib/client/passwordController";
 import { useGlobalLoader } from "store/GlobalLoader";
 import { useAlert } from "store/GlobalAlertStore";
+import { stringify } from "querystring";
 
 const PhoneAuth = dynamic(import("components/molecule/PhoneAuth"));
 
@@ -69,6 +70,11 @@ const RegisterFormGroup = () => {
     const onAuthStateCallBack = (authState: string | null) => {
         setAuth(authState);
     };
+    const [dutyList, setDutyList] = useState<{ name: string; value: string }[]>([]);
+
+    useEffect(() => {
+        getDutyList();
+    }, []);
 
     const name = useInput();
     const password = useInput();
@@ -78,6 +84,17 @@ const RegisterFormGroup = () => {
     const secondDivision = useInput();
     const terms = useBoolean();
     const privacy = useBoolean();
+
+    const getDutyList = async () => {
+        const res = await clientSideApi("GET", "MAIN", "FIND_DUTY", undefined, undefined);
+        if (res.result === "SUCCESS") {
+            var dutyItemList: { name: string; value: string }[] = [];
+            res.data?.forEach((element) => {
+                dutyItemList.push({ name: element, value: element });
+            });
+            setDutyList(dutyItemList);
+        }
+    };
 
     const handleSumbit = async () => {
         if (auth === null) {
@@ -193,7 +210,6 @@ const RegisterFormGroup = () => {
         <FirebaseProvider>
             <div className={style.container}>
                 <PageHeader title={"회원가입"} isUnderbar />
-
                 <div>
                     <InputSection helpText={"휴대폰 번호는 로그인 아이디로 사용됩니다"}>
                         <PhoneAuth
@@ -233,15 +249,14 @@ const RegisterFormGroup = () => {
                     </InputSection>
                     <DivisionInput firstDivision={firstDivision} secondDivision={secondDivision} />
                     <InputSection>
-                        <TextInput
+                        <Select
                             {...duty}
                             className={style.register_form}
-                            type={"text"}
                             form={"box"}
+                            option_list={dutyList}
                             placeholder={"직분"}
                         />
                     </InputSection>
-
                     <InputSection>
                         <div className={style.agree_row}>
                             <div className={style.checkbox_wrapper}>
@@ -252,14 +267,16 @@ const RegisterFormGroup = () => {
                                     isLabelRight
                                 />
                                 <Link href="/docs/terms" passHref>
-                                    <Button
-                                        className={style.link_style}
-                                        content="[보기]"
-                                        type="TEXT"
-                                        color="gray_accent"
-                                        size="small"
-                                        fontSize="smaller"
-                                    />
+                                    <a target="_blank">
+                                        <Button
+                                            className={style.link_style}
+                                            content="[보기]"
+                                            type="TEXT"
+                                            color="gray_accent"
+                                            size="small"
+                                            fontSize="smaller"
+                                        />
+                                    </a>
                                 </Link>
                             </div>
                             <div className={style.checkbox_wrapper}>
@@ -270,14 +287,16 @@ const RegisterFormGroup = () => {
                                     isLabelRight
                                 />
                                 <Link href="/docs/privacy" passHref>
-                                    <Button
-                                        className={style.link_style}
-                                        content="[보기]"
-                                        type="TEXT"
-                                        color="gray_accent"
-                                        size="small"
-                                        fontSize="smaller"
-                                    />
+                                    <a target="_blank">
+                                        <Button
+                                            className={style.link_style}
+                                            content="[보기]"
+                                            type="TEXT"
+                                            color="gray_accent"
+                                            size="small"
+                                            fontSize="smaller"
+                                        />
+                                    </a>
                                 </Link>
                             </div>
                         </div>

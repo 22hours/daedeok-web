@@ -94,7 +94,7 @@ const QnaList = (props: Props) => {
                         )}
                     </>
                 }
-                footer={<ListPagination total_count={data.total_count} />}
+                footer={<ListPagination total_count={data.total_count} required_count={10} />}
             >
                 <TableWrapper>
                     {data.qna_list.map((it, idx) => (
@@ -106,7 +106,11 @@ const QnaList = (props: Props) => {
                                             <Typo
                                                 type="TEXT"
                                                 size="small"
-                                                content={it.id.toString()}
+                                                content={(
+                                                    data.total_count -
+                                                    (parseInt(state?.page) - 1) * 10 -
+                                                    idx
+                                                ).toString()}
                                                 color={"brown_font"}
                                             />
                                         </div>

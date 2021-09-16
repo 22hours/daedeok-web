@@ -140,6 +140,8 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `lecture/possible`;
         case `LECTURE_FIND_COMPLETE`:
             return `lecture/complete`;
+        case `LECTURE_FIND_FINISH`:
+            return `lecture/finish`;
         case "LECTURE_FIND_CLASS_TITLE":
             return `lecture/${url_query.lecture_id}/custom`;
         case "LECTURE_FIND_USER_ATTENDANCE":
@@ -192,6 +194,8 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `lecture/${url_query.lecture_id}`;
         case "LECTURE_MANAGE_STUDENT":
             return `lecture/${url_query.lecture_id}/user`;
+        case "LECTURE_CANCEL":
+            return `lecture/cancel/${url_query.lecture_id}`;
         // FILE
         case "UPDATE_FILE":
             return `file`;
@@ -223,7 +227,13 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `division`;
         case "DELETE_DIVISION":
             return `division`;
+        case "UPDATE_DIVISION":
+            return `division`;
         // ADMIN
+        case "ADMIN_FIND_MEMBER":
+            return `user/admin/member/${url_query.user_id}`;
+        case "ADMIN_UPDATE_MEMBER":
+            return `user/admin/member/${url_query.user_id}`;
         case "ADMIN_FIND_USER":
             return "user/admin";
         case "ADMIN_RESET_PW":
@@ -248,11 +258,18 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `acinfo/introduce`;
         case "ACINFO_EDUVISION":
             return `acinfo/eduvision`;
+
         //POPUP
         case "FIND_POPUP":
             return `popup`;
         case "SAVE_POPUP":
             return `popup`;
+
+        case "ADMIN_FIND_DIVISION":
+            return `division/detail`;
+        case "FIND_DUTY":
+            return `user/duty`;
+
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);
     }

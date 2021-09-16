@@ -81,7 +81,7 @@ const ClassBoardList = () => {
                     />
                 </Link>
             }
-            footer={<ListPagination total_count={boardState.total_count} />}
+            footer={<ListPagination total_count={boardState.total_count} required_count={10} />}
         >
             <TableWrapper>
                 {boardState.board_list.map((it, idx) => (
@@ -90,7 +90,16 @@ const ClassBoardList = () => {
                             <div className={style.class_list}>
                                 <div className={style.title_wrapper}>
                                     <div className={style.list_id}>
-                                        <Typo type="TEXT" size="small" color="brown_font" content={it.id.toString()} />
+                                        <Typo
+                                            type="TEXT"
+                                            size="small"
+                                            color="brown_font"
+                                            content={(
+                                                boardState?.total_count -
+                                                (parseInt(state?.page) - 1) * 10 -
+                                                idx
+                                            ).toString()}
+                                        />
                                     </div>
                                     <div className={style.list_title}>
                                         <Typo type="TEXT" size="medium" color="brown_font" content={it.title} />

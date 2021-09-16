@@ -10,7 +10,8 @@ import Typo from "@ui/Typo";
 import { useAuthStore } from "store/AuthStore";
 import { useClassDetailStore } from "store/ClassDetailStore";
 import { useAlert } from "store/GlobalAlertStore";
-
+//
+import DateController from "lib/client/dateController";
 import moment from "moment";
 
 const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
@@ -18,7 +19,15 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
     const { alertOn, apiErrorAlert } = useAlert();
     const nowTime = moment();
     const diffTime = moment.duration(nowTime.diff(time)).asMinutes();
+    var nowLink = "";
 
+    if (link?.indexOf("http") !== -1 || link?.indexOf("https") !== -1) {
+        nowLink = link;
+    } else {
+        nowLink = "https://" + link;
+    }
+
+    console.log(nowLink);
     const handleError = () => {
         if (diffTime >= 0) {
         } else {
@@ -61,7 +70,7 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
             return (
                 <>
                     {diffTime >= -30 && diffTime <= 180 ? (
-                        <Link href={link} passHref>
+                        <Link href={nowLink} passHref>
                             <a target="_blank">
                                 <Button
                                     content={"ZOOM"}
@@ -143,7 +152,7 @@ const ClassTypeBtn = ({ type, idx, classId, link, time }) => {
 
 const StudentClassPlanList = () => {
     const [planList, setPlanList] = useState<
-        Array<{ id: number; week: number; title: string; type: string; link: string; date: string }>
+        Array<{ id: number; week: number; title: string; day: string; type: string; link: string; date: string }>
     >([]);
     const { clientSideApi } = useAuthStore();
     const lectureId = useClassDetailStore();
@@ -167,25 +176,43 @@ const StudentClassPlanList = () => {
             <TableWrapper>
                 {planList.map((it, idx) => (
                     <div key={`studentclassplanlist${nanoid()}`}>
-                        <div className={style.planlist_wrapper}>
-                            <div className={style.title_wrapper}>
+                        <div className={style.class_join_wrapper}>
+                            <div className={style.planlist_wrapper}>
+                                <div className={style.title_wrapper}>
+                                    <Typo
+                                        color="gray_accent"
+                                        content={`${it.week.toString()} 주차`}
+                                        size="normal"
+                                        type="TEXT"
+                                        className={style.margin_style}
+                                    />
+                                    <Typo color="gray_accent" content={it.title} size="normal" type="TEXT" />
+                                </div>
+                                <div className={style.button}>
+                                    <ClassTypeBtn
+                                        type={it.type}
+                                        idx={it.id}
+                                        classId={lectureId.class_id}
+                                        link={it.link}
+                                        time={it.date}
+                                    ></ClassTypeBtn>
+                                </div>
+                            </div>
+                            <div className={style.bottom_box}>
                                 <Typo
                                     color="gray_accent"
-                                    content={`${it.week.toString()} 주차`}
-                                    size="normal"
+                                    content={`${DateController.getFormatedDate("YYYY/MM/DD HH:MM", it.date)}`}
+                                    size="small"
                                     type="TEXT"
                                     className={style.margin_style}
                                 />
-                                <Typo color="gray_accent" content={it.title} size="normal" type="TEXT" />
-                            </div>
-                            <div className={style.button}>
-                                <ClassTypeBtn
-                                    type={it.type}
-                                    idx={it.id}
-                                    classId={lectureId.class_id}
-                                    link={it.link}
-                                    time={it.date}
-                                ></ClassTypeBtn>
+                                <Typo
+                                    color="gray_accent"
+                                    content={`${it?.day}`}
+                                    size="small"
+                                    type="TEXT"
+                                    className={style.margin_style}
+                                />
                             </div>
                         </div>
                     </div>

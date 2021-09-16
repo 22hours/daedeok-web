@@ -120,10 +120,8 @@ pre {
 
     .ql-container {
         font-family: "SCDream4" !important;
-        .ql-mobile-editor {
-            img {
-                width: 100%;
-            }
+        img {
+            max-width: 100%;
         }
     }
 }

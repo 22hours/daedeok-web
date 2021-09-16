@@ -76,7 +76,7 @@ const TutorNoticeList = () => {
                     />
                 </Link>
             }
-            footer={<ListPagination total_count={listState.total_count} />}
+            footer={<ListPagination total_count={listState.total_count} required_count={7} />}
         >
             <TableWrapper>
                 {listState.notice_list.map((it, idx) => (
@@ -88,7 +88,11 @@ const TutorNoticeList = () => {
                                         <Typo
                                             type="TEXT"
                                             size="small"
-                                            content={it.id.toString()}
+                                            content={(
+                                                listState?.total_count -
+                                                (parseInt(state.page) - 1) * 7 -
+                                                idx
+                                            ).toString()}
                                             color={"brown_font"}
                                         />
                                     </div>

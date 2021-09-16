@@ -45,7 +45,7 @@ const ClassCloseList = () => {
 
     const { clientSideApi } = useAuthStore();
     const getData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND", undefined, {
+        const res = await clientSideApi("GET", "MAIN", "LECTURE_FIND_FINISH", undefined, {
             status: "FINISH",
             category: pageState.state.category === "ALL" ? undefined : pageState.state.category,
             keyword: pageState.state.keyword,
@@ -69,7 +69,7 @@ const ClassCloseList = () => {
         <ListPageLayout
             headerLeft={<ListSelect categoryType={"CLASS"} />}
             headerRight={<ListSearchbar />}
-            footer={<ListPagination total_count={data.total_count} />}
+            footer={<ListPagination total_count={data.total_count} required_count={7} />}
         >
             <TableWrapper>
                 {data.lecture_list?.map((it, idx) => (
@@ -81,7 +81,11 @@ const ClassCloseList = () => {
                                         <Typo
                                             type="TEXT"
                                             size="small"
-                                            content={it.id.toString()}
+                                            content={(
+                                                data.total_count -
+                                                (parseInt(pageState.state.page) - 1) * 10 -
+                                                idx
+                                            ).toString()}
                                             color={"brown_font"}
                                         />
                                     </div>

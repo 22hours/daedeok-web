@@ -99,15 +99,14 @@ const MemberManageList = () => {
     const { alertOn } = useAlert();
     const pageState = useListCommonStore();
     const { auth, clientSideApi } = useAuthStore();
-
     const [data, setData] = useState<State>(initState);
+    console.log(pageState.state.page);
     const getData = async () => {
-        console.log(auth);
         const res = await clientSideApi("GET", "MAIN", "ADMIN_FIND_USER", undefined, {
             category: pageState.state.category === "ALL" ? undefined : pageState.state.category,
             keyword: pageState.state.keyword,
             page: parseInt(pageState.state.page) - 1,
-            required_count: 7,
+            required_count: 10,
         });
         if (res.result === "SUCCESS") {
             setData(res.data);
@@ -131,7 +130,7 @@ const MemberManageList = () => {
                 getData();
             }
         }
-    }, [auth, pageState]);
+    }, [pageState.state]);
 
     const callPwSend = async (user_id: string) => {
         confirmOn({
@@ -200,7 +199,7 @@ const MemberManageList = () => {
                 </div>
             }
             headerRight={<ListSearchbar />}
-            footer={<ListPagination total_count={data.total_count} />}
+            footer={<ListPagination total_count={data.total_count} required_count={10} />}
         >
             <div className={style.body}>
                 <Typo
@@ -218,27 +217,38 @@ const MemberManageList = () => {
                         return (
                             <div key={`adminmanageuseritem${idx}`}>
                                 <div className={style.list_container}>
-                                    <div className={style.first_wrapper}>
-                                        <div className={style.idx_col}>
-                                            <Typo
-                                                type="TEXT"
-                                                size="small"
-                                                content={it.id.toString()}
-                                                color={"brown_font"}
-                                            />
+                                    <Link href={`/admin/member/${it.id}`} passHref>
+                                        <div className={style.first_wrapper}>
+                                            <div className={style.idx_col}>
+                                                <Typo
+                                                    type="TEXT"
+                                                    size="small"
+                                                    content={(
+                                                        data.total_count -
+                                                        (parseInt(pageState.state.page) - 1) * 10 -
+                                                        idx
+                                                    ).toString()}
+                                                    color={"brown_font"}
+                                                />
+                                            </div>
+                                            <div className={style.name_col}>
+                                                <Typo
+                                                    type="TEXT"
+                                                    size="medium"
+                                                    content={it.name}
+                                                    color={"brown_font"}
+                                                />
+                                            </div>
+                                            <div className={`${style.info_col}`}>
+                                                <Typo
+                                                    type="TEXT"
+                                                    size="small"
+                                                    content={studentInfo}
+                                                    color={"gray_accent"}
+                                                />
+                                            </div>
                                         </div>
-                                        <div className={style.name_col}>
-                                            <Typo type="TEXT" size="medium" content={it.name} color={"brown_font"} />
-                                        </div>
-                                        <div className={`${style.info_col}`}>
-                                            <Typo
-                                                type="TEXT"
-                                                size="small"
-                                                content={studentInfo}
-                                                color={"gray_accent"}
-                                            />
-                                        </div>
-                                    </div>
+                                    </Link>
                                     <div className={style.second_wrapper}>
                                         <RoleChangeButton {...it} refresh={refresh} />
                                         <Button

@@ -82,6 +82,7 @@ declare module "@api_config_type" {
                 | "LECTURE_FIND"
                 | "LECTURE_FIND_POSSIBLE"
                 | "LECTURE_FIND_COMPLETE"
+                | "LECTURE_FIND_FINISH"
                 | "LECTURE_FIND_USER_ATTENDANCE"
                 // >>> SIDEBAR
                 | "LECTURE_FIND_SIDEBAR"
@@ -124,17 +125,21 @@ declare module "@api_config_type" {
                 | "LECTUER_PLAN_LIST"
                 // >>>  JOIN
                 | "LECTURE_JOIN"
-                //FINISH
+                // >>> FINISH
                 | "LECTURE_FINISH"
-                //DELETE
+                // >>> DELETE
                 | "LECTURE_DELETE"
-                // DIVISION
+                | "LECTURE_CANCEL"
+                // >>> DIVISION
                 | "FIND_DIVISION"
                 | "ADD_DIVISION"
                 | "DELETE_DIVISION"
-                // ADMIN
+                | "UPDATE_DIVISION"
+                // >>> ADMIN
                 | "ADMIN_RESET_PW"
                 | "ADMIN_DELETE_USER"
+                | "ADMIN_FIND_MEMBER"
+                | "ADMIN_UPDATE_MEMBER"
                 | "ADMIN_FIND_USER"
                 | "ADMIN_NEW_CATEGORY"
                 | "ADMIN_UPDATE_CATEGORY"
@@ -145,9 +150,13 @@ declare module "@api_config_type" {
                 | "ADMIN_SAVE_IMAGE"
                 | "ACINFO_INTRODUCE"
                 | "ACINFO_EDUVISION"
-                // POPUP
+                // >>> POPUP
                 | "FIND_POPUP"
                 | "SAVE_POPUP";
+
+                | "ADMIN_FIND_DIVISION"
+                // >>> DUTY
+                | "FIND_DUTY";
             url_query?: string | { lecture_id: string; board_id: string } | any;
             data?: any;
             extraHeader?: any;

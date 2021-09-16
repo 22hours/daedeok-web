@@ -1,7 +1,7 @@
 import useInput from "lib/hooks/useInput";
 import { useCallback, useEffect, useState } from "react";
 import style from "./AdminManageDivision.module.scss";
-
+import Link from "next/link";
 import Typo from "@ui/Typo";
 import TextInput from "@ui/input/TextInput";
 import Icon from "@ui/Icon";
@@ -211,69 +211,73 @@ const AdminManageDivision = () => {
             <div className={style.body}>
                 <TableWrapper>
                     <>
-                        <>
-                            <div key={`divisionlistitemheader`} className={style.list_container}>
-                                <div>
-                                    <Typo
-                                        className={style.list_item}
-                                        type="TEXT"
-                                        size="medium"
-                                        content={"상위소속"}
-                                        color={"brown_font"}
-                                    />
-                                </div>
-                                <div>
-                                    <Typo
-                                        className={style.list_item}
-                                        type="TEXT"
-                                        size="medium"
-                                        content={"하위대상"}
-                                        color={"brown_font"}
-                                    />
-                                </div>
-                                <div>
-                                    <Typo
-                                        className={style.list_item}
-                                        type="TEXT"
-                                        size="medium"
-                                        content={"관리"}
-                                        color={"brown_font"}
-                                    />
-                                </div>
+                        <div key={`divisionlistitemheader`} className={style.list_container}>
+                            <div>
+                                <Typo
+                                    className={style.list_item}
+                                    type="TEXT"
+                                    size="medium"
+                                    content={"상위소속"}
+                                    color={"brown_font"}
+                                />
                             </div>
-                            {data.map((it, idx) => (
-                                <div key={`divisionlistitem${idx}`} className={style.list_container}>
-                                    <div>
-                                        <Typo
-                                            type="TEXT"
-                                            size="normal"
-                                            content={it.first_division}
-                                            color={"brown_font"}
-                                        />
-                                    </div>
-                                    <div>
-                                        <Typo
-                                            type="TEXT"
-                                            size="normal"
-                                            content={it.second_division.map((it) => it).join(",")}
-                                            color={"brown_font"}
-                                        />
-                                    </div>
-                                    <div>
+                            <div>
+                                <Typo
+                                    className={style.list_item}
+                                    type="TEXT"
+                                    size="medium"
+                                    content={"하위대상"}
+                                    color={"brown_font"}
+                                />
+                            </div>
+                            <div>
+                                <Typo
+                                    className={style.list_item}
+                                    type="TEXT"
+                                    size="medium"
+                                    content={"관리"}
+                                    color={"brown_font"}
+                                />
+                            </div>
+                        </div>
+                        {data.map((it, idx) => (
+                            <div key={`divisionlistitem${idx}`} className={style.list_container}>
+                                <div className={style.first_division}>
+                                    <Typo type="TEXT" size="normal" content={it.first_division} color={"brown_font"} />
+                                </div>
+                                <div className={style.second_division}>
+                                    <Typo
+                                        type="TEXT"
+                                        size="normal"
+                                        content={it.second_division.map((it) => it).join(",")}
+                                        color={"brown_font"}
+                                    />
+                                </div>
+                                <div>
+                                    <Button
+                                        className={style.button}
+                                        type={"SQUARE"}
+                                        size={"free"}
+                                        fontSize={"smaller"}
+                                        content={"삭제"}
+                                        backgroundColor={"brown_base"}
+                                        color={"white"}
+                                        onClick={() => deleteDivision(it.first_division)}
+                                    />
+                                    <Link href={`/admin/division/edit?first_division=${it.first_division}`} passHref>
                                         <Button
-                                            className={style.button}
+                                            className={style.edit_btn}
                                             type={"SQUARE"}
                                             size={"free"}
                                             fontSize={"smaller"}
-                                            content={"삭제"}
+                                            content={"수정"}
                                             backgroundColor={"brown_base"}
                                             color={"white"}
-                                            onClick={() => deleteDivision(it.first_division)}
                                         />
-                                    </div>
+                                    </Link>
                                 </div>
-                            ))}
-                        </>
+                            </div>
+                        ))}
                     </>
                 </TableWrapper>
             </div>

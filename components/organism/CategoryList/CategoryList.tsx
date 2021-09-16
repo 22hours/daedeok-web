@@ -63,7 +63,7 @@ const CategoryList = (props: Props) => {
                     <>
                         {data.category_list.map((it, idx) => (
                             <Link key={`admincategoryitem${idx}`} href={`/lecture-category/detail/${it.id}`} passHref>
-                                <TableRow idx={idx + 1} title={it.category}></TableRow>
+                                <TableRow idx={parseInt(data?.total_count) - idx} title={it.category}></TableRow>
                             </Link>
                         ))}
                     </>

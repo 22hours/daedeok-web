@@ -115,7 +115,7 @@ const ClassJoin = () => {
                 category: state.category === "ALL" ? undefined : state.category,
                 keyword: state.keyword,
                 page: parseInt(state.page) - 1,
-                required_count: 7,
+                required_count: 20,
             });
             if (res.result === "SUCCESS") {
                 var data = res.data;
@@ -143,8 +143,9 @@ const ClassJoin = () => {
         const res_data = await clientSideApi("POST", "MAIN", "LECTURE_JOIN", { lecture_id: idx });
         if (res_data.result === "SUCCESS") {
             confirmOn({
-                message: `수강신청이 완료되었습니다`,
-                onSuccess: () => location.reload(),
+                message: `수강신청이 완료되었습니다.\n 확인버튼을 누르면 강의실 메인으로 이동합니다. `,
+                onSuccess: () => location.replace(`/class`),
+                onFail: () => location.reload(),
             });
         } else {
             const msg = res_data?.msg;
@@ -156,12 +157,12 @@ const ClassJoin = () => {
         <ListPageLayout
             headerLeft={<ListSelect categoryType={"CLASS"} />}
             headerRight={<ListSearchbar />}
-            footer={<ListPagination total_count={listState.total_count} />}
+            footer={<ListPagination total_count={listState.total_count} required_count={20} />}
         >
             <TableWrapper>
                 {listState.lecture_list.map((it, idx) => (
                     <div key={`class_join${idx}`}>
-                        {mode === "pc" ? (
+                        {/* {mode === "pc" ? (
                             <div className={style.class_join_list}>
                                 <Link href={`/class/join/detail/${it.id}`} passHref>
                                     <div className={style.content_wrapper}>
@@ -210,53 +211,56 @@ const ClassJoin = () => {
                                     />
                                 </div>
                             </div>
-                        ) : (
-                            <div className={style.class_join_list}>
-                                <div className={style.title}>
-                                    <Link href={`/class/join/detail/${it.id}`} passHref>
-                                        <div className={style.title_txt}>
-                                            <Typo type="TEXT" content={it.title} color="brown_font" size="medium" />
-                                        </div>
-                                    </Link>
-                                    <div className={style.join_btn}>
-                                        <JoinButton
-                                            state={it.status}
-                                            idx={it.id}
-                                            handleClassJoin={() => handleClassJoin(it.id)}
+                        ) : ( */}
+                        <div className={style.class_join_list}>
+                            <div className={style.title}>
+                                <Link href={`/class/join/detail/${it.id}`} passHref>
+                                    <div className={style.title_txt}>
+                                        <Typo type="TEXT" content={it.title} color="brown_font" size="medium" />
+                                    </div>
+                                </Link>
+                                <div className={style.join_btn}>
+                                    <JoinButton
+                                        state={it.status}
+                                        idx={it.id}
+                                        handleClassJoin={() => handleClassJoin(it.id)}
+                                    />
+                                </div>
+                            </div>
+                            <div className={style.detail_item_list}>
+                                <div className={style.category}>
+                                    <Typo type="TEXT" content={it.category} color="red_accent" size="small" />
+                                </div>
+                                <div className={style.footer_item_wrapper}>
+                                    <div className={style.date}>
+                                        <Typo
+                                            type="TEXT"
+                                            content={
+                                                UseDate("YYYY-MM-DD", it.start_date) +
+                                                "~" +
+                                                UseDate("YYYY-MM-DD", it.end_date)
+                                            }
+                                            color="gray_accent"
+                                            size="small"
+                                        />
+                                    </div>
+                                    <div className={style.date}>
+                                        <Typo type="TEXT" content={"월요일 15:00"} color="gray_accent" size="small" />
+                                    </div>
+                                    <div className={style.limit}>
+                                        <Typo
+                                            type="TEXT"
+                                            content={`${it.student_num}/${
+                                                it.student_limit === -1 ? "무제한" : it.student_limit
+                                            }`}
+                                            color="gray_accent"
+                                            size="small"
                                         />
                                     </div>
                                 </div>
-                                <div className={style.detail_item_list}>
-                                    <div className={style.category}>
-                                        <Typo type="TEXT" content={it.category} color="red_accent" size="small" />
-                                    </div>
-                                    <div className={style.footer_item_wrapper}>
-                                        <div className={style.date}>
-                                            <Typo
-                                                type="TEXT"
-                                                content={
-                                                    UseDate("YYYY-MM-DD", it.start_date) +
-                                                    "~" +
-                                                    UseDate("YYYY-MM-DD", it.end_date)
-                                                }
-                                                color="gray_accent"
-                                                size="small"
-                                            />
-                                        </div>
-                                        <div className={style.limit}>
-                                            <Typo
-                                                type="TEXT"
-                                                content={`${it.student_num}/${
-                                                    it.student_limit === -1 ? "무제한" : it.student_limit
-                                                }`}
-                                                color="gray_accent"
-                                                size="small"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                        )}
+                        </div>
+                        {/* )} */}
                     </div>
                 ))}
             </TableWrapper>

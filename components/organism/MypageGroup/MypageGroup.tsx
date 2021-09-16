@@ -8,7 +8,7 @@ import useInput from "lib/hooks/useInput";
 import Select from "@ui/input/Select";
 import Button from "@ui/buttons/Button";
 import useDivision from "lib/hooks/useDivision";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { meta_types } from "@global_types";
 import { useAlert } from "store/GlobalAlertStore";
@@ -30,7 +30,10 @@ const MypageGroup = () => {
     const firstDivision = useInput(auth?.first_division);
     const secondDivsion = useInput(auth?.second_division);
     const DivisionOption = useDivision(firstDivision, secondDivsion);
-
+    const [dutyList, setDutyList] = useState<{ name: string; value: string }[]>([]);
+    useEffect(() => {
+        getDutyList();
+    }, []);
     useEffect(() => {
         if (auth) {
             name.setValue(auth.name);
@@ -55,6 +58,16 @@ const MypageGroup = () => {
         }
     }, [firstDivision.value]);
 
+    const getDutyList = async () => {
+        const res = await clientSideApi("GET", "MAIN", "FIND_DUTY", undefined, undefined);
+        if (res.result === "SUCCESS") {
+            var dutyItemList: { name: string; value: string }[] = [];
+            res.data?.forEach((element) => {
+                dutyItemList.push({ name: element, value: element });
+            });
+            setDutyList(dutyItemList);
+        }
+    };
     const updateMyPage = async () => {
         const res = await clientSideApi("PUT", "MAIN", "USER_UPDATE_INFO", undefined, {
             name: name.value,
@@ -133,7 +146,13 @@ const MypageGroup = () => {
                         <TextInput {...phoneNum} className={style.register_form} type={"text"} form={"box"} disable />
                     </InputRow>
                     <InputRow>
-                        <TextInput {...duty} className={style.register_form} type={"text"} form={"box"} />
+                        <Select
+                            {...duty}
+                            className={style.register_form}
+                            form={"box"}
+                            option_list={dutyList}
+                            placeholder={"직분"}
+                        />
                     </InputRow>
                     <InputRow>
                         <div className={style.input_division_row}>
@@ -143,6 +162,7 @@ const MypageGroup = () => {
                                 form={"box"}
                                 option_list={DivisionOption.firstDivisionOptionList()}
                                 placeholder={"상위 소속"}
+                                disable
                             />
                             <Select
                                 {...secondDivsion}
@@ -152,6 +172,7 @@ const MypageGroup = () => {
                                     DivisionOption.secondDivisionOptionList()
                                 )}
                                 placeholder={"하위 소속"}
+                                disable
                             />
                         </div>
                     </InputRow>
