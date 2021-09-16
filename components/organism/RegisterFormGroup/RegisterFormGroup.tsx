@@ -140,7 +140,7 @@ const RegisterFormGroup = () => {
         if (!PasswordController.checkPasswordValidate(password.value, auth)) {
             alertOn({
                 title: "",
-                message: "비밀번호는 8자 이상, 최소1개의 영문자와 숫자를 포함하시길 바랍니다",
+                message: "비밀번호는 8자 이상, 15자 이하로 구성해 주세요",
                 type: "WARN",
             });
             return;
@@ -229,7 +229,7 @@ const RegisterFormGroup = () => {
                             placeholder={"이름"}
                         />
                     </InputSection>
-                    <InputSection helpText={"비밀번호는 8자이상 영문/숫자를 조합하여 생성해주세요"}>
+                    <InputSection helpText={"비밀번호는 8자이상, 15자 이하로 구성해 주세요"}>
                         <div className={style.password_row}>
                             <TextInput
                                 {...password}

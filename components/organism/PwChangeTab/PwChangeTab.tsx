@@ -44,7 +44,7 @@ const FormGroupTab = (props: FormGroupTabProps) => {
         if (!PasswordController.checkPasswordValidate(pw.value, "password")) {
             alertOn({
                 title: "",
-                message: "비밀번호는 8자 이상, 최소1개의 영문자와 숫자를 포함하시길 바랍니다",
+                message: "비밀번호는 8자 이상, 15자 이하로 구성해 주세요",
                 type: "WARN",
             });
             return;

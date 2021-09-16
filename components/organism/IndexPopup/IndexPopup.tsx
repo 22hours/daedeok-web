@@ -36,11 +36,10 @@ const ImageModal = (props) => {
                 aria-describedby="simple-modal-description"
             >
                 <div className={style.modal_container}>
-                    <div
-                        // style={{ backgroundImage: `url('${props.img}')` }}
-                        className={style.modal_inner}
-                    >
-                        <img src={props.img} />
+                    <div className={style.modal_inner}>
+                        <a target="_blank" href={props.lifnk || "#"} rel="noreferrer">
+                            <img src={props.url} />
+                        </a>
                     </div>
                     <div className={style.modal_info_wrapper}>
                         <div className={style.modal_info_btn} onClick={() => showFlag.toggle()}>
@@ -57,26 +56,15 @@ const ImageModal = (props) => {
 };
 
 const IndexPopup = (props: Props) => {
-    const dummy = [
-        {
-            id: "1",
-            img:
-                "https://eventusstorage.blob.core.windows.net/evs/Image/ppssacademy/21926/ProjectInfo/Cover/876b750f4ab74d459e81506925b9353a.jpg",
-            link: "https://naver.com",
-        },
-        {
-            id: "2",
-            img:
-                "https://images.chosun.com/resizer/nIy21WxR9noPUM6WgEstpKZGjRY=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/YV2M7H5QCCEOUAXPKJ4OTBQCMM.jpg",
-            link: "https://naver.com",
-        },
-    ];
-
     const { clientSideApi } = useAuthStore();
     const [modalData, setModalData] = useState([]);
     const getData = async () => {
-        const data = await dummy;
-        setModalData(popupStorageController.getVisibleModalList(data));
+        const res = await clientSideApi("GET", "MAIN", "FIND_POPUP");
+        if (res.result === "SUCCESS") {
+            const modalData = res.data.popup_list;
+            setModalData(popupStorageController.getVisibleModalList(modalData));
+        } else {
+        }
     };
     useEffect(() => {
         getData();

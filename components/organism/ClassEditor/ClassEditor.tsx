@@ -39,6 +39,7 @@ type Action =
     | { type: "SET_CATEGORY"; data: State["category"] }
     | { type: "ADD_DIVISION"; data: class_types.Division }
     | { type: "ADD_DIVISION_LIST"; data: class_types.Division[] }
+    | { type: "SET_DIVISION_LIST"; data: class_types.Division[] }
     | { type: "REMOVE_DIVISION"; data: number }
     | { type: "SET_STUDENT_LIMIT"; data: State["student_limit"] }
     | { type: "ADD_HANDOUT"; data: class_types.Handout }
@@ -124,6 +125,12 @@ const reducer = (state: State, action: Action) => {
             return {
                 ...state,
                 division_list: newDivisonList,
+            };
+        }
+        case "SET_DIVISION_LIST": {
+            return {
+                ...state,
+                division_list: action.data,
             };
         }
         case "REMOVE_DIVISION": {
@@ -417,7 +424,15 @@ const ClassEditor = (props: Props) => {
     const timeChange = useCallback((e) => dispatch({ type: "SET_TIME", data: e.target.value }), [state.time]);
 
     const addDivisionItem = useCallback(
-        (division: class_types.Division) => dispatch({ type: "ADD_DIVISION", data: division }),
+        (division: class_types.Division) => {
+            const matchIdx = state.division_list.findIndex(
+                (it: class_types.Division) =>
+                    it.first_division === division.first_division && it.second_division === "전체"
+            );
+            if (matchIdx === -1) {
+                dispatch({ type: "ADD_DIVISION", data: division });
+            }
+        },
         [state.division_list]
     );
     const addDivisonList = useCallback(
@@ -426,6 +441,14 @@ const ClassEditor = (props: Props) => {
         },
         [state.division_list]
     );
+
+    const setDivisionList = useCallback(
+        (division_list: class_types.Division[]) => {
+            dispatch({ type: "SET_DIVISION_LIST", data: division_list });
+        },
+        [state.division_list]
+    );
+
     const removeDivisionItem = useCallback(
         (idx: number) => dispatch({ type: "REMOVE_DIVISION", data: idx }),
         [state.division_list]
@@ -810,6 +833,7 @@ const ClassEditor = (props: Props) => {
                 divisionList={state.division_list}
                 addDivisionItem={addDivisionItem}
                 addDivisonList={addDivisonList}
+                setDivisionList={setDivisionList}
                 removeDivisionItem={removeDivisionItem}
             />
             <ClassTextInput

@@ -1,13 +1,16 @@
 import crypto from "crypto";
 const checkPasswordValidate = (password: string, phone_num: string) => {
-    if (!/^[a-zA-Z0-9]{8,15}$/.test(password)) {
+    if (password.length < 8 || password.length > 15) {
         return false;
     }
-    var checkNumber = password.search(/[0-9]/g);
-    var checkEnglish = password.search(/[a-z]/gi);
-    if (checkNumber < 0 || checkEnglish < 0) {
-        return false;
-    }
+    // if (!/^[a-zA-Z0-9]{8,15}$/.test(password)) {
+    //     return false;
+    // }
+    // var checkNumber = password.search(/[0-9]/g);
+    // var checkEnglish = password.search(/[a-z]/gi);
+    // if (checkNumber < 0 || checkEnglish < 0) {
+    //     return false;
+    // }
 
     // if (/(\w)\1\1\1/.test(password)) {
     //     alert("동일한 문자를 4번 이상 사용하실 수 없습니다.");

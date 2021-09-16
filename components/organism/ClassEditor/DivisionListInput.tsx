@@ -11,13 +11,19 @@ type DivisionProps = {
     divisionList: class_types.ClassInfo["division_list"];
     addDivisionItem: (division: class_types.Division) => void;
     addDivisonList: (division_list: class_types.Division[]) => void;
+    setDivisionList: (division_list: class_types.Division[]) => void;
     removeDivisionItem: (idx: number) => void;
 };
 type DivisionSelectOption = { value: string; name: string };
 const DivisionListInput = (props: DivisionProps) => {
     return (
         <div className={style.DivisionListInput}>
-            <DivisionInputInner addDivisionItem={props.addDivisionItem} addDivisonList={props.addDivisonList} />
+            <DivisionInputInner
+                divisionList={props.divisionList}
+                addDivisionItem={props.addDivisionItem}
+                addDivisonList={props.addDivisonList}
+                setDivisionList={props.setDivisionList}
+            />
             <DivisionItemList divisionList={props.divisionList} removeDivisionItem={props.removeDivisionItem} />
         </div>
     );
@@ -65,8 +71,10 @@ const DivisionItemList = (props: DivisionItemListProps) => {
 
 // DIVISON INPUT INNER
 type InnerProps = {
+    divisionList: class_types.ClassInfo["division_list"];
     addDivisionItem: (division: class_types.Division) => void;
     addDivisonList: (division_list: class_types.Division[]) => void;
+    setDivisionList: (division_list: class_types.Division[]) => void;
 };
 const DivisionInputInner = React.memo((props: InnerProps) => {
     const first_division = useInput();
@@ -77,15 +85,17 @@ const DivisionInputInner = React.memo((props: InnerProps) => {
     useEffect(() => {
         if (first_division.value !== "" && second_division.value !== "") {
             if (second_division.value === "ALL") {
-                const newItemList: class_types.Division[] = [];
-                secondDivisionOptionList().forEach((second_division) => {
-                    newItemList.push({
-                        first_division: first_division.value,
-                        second_division: second_division.name,
-                    });
+                var newList = props.divisionList.slice();
+                newList = newList.filter((it) => it.first_division !== first_division.value);
+                newList.push({
+                    first_division: first_division.value,
+                    second_division: "전체",
                 });
-                console.log(newItemList);
-                props.addDivisonList(newItemList);
+                props.setDivisionList(newList);
+                // props.addDivisionItem({
+                //     first_division: first_division.value,
+                //     second_division: "전체",
+                // });
             } else {
                 props.addDivisionItem({
                     first_division: first_division.value,
