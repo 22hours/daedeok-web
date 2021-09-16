@@ -29,14 +29,22 @@ const AdminMemberEdit = (props) => {
     const firstDivision = useInput(memberData?.first_division);
     const secondDivsion = useInput(memberData?.second_division);
     const DivisionOption = useDivision(firstDivision, secondDivsion);
-    const dutyList = [
-        { name: "성도", value: "성도" },
-        { name: "집사", value: "집사" },
-        { name: "권사", value: "권사" },
-        { name: "장로", value: "장로" },
-        { name: "전도사", value: "전도사" },
-        { name: "목사", value: "목사" },
-    ];
+    const [dutyList, setDutyList] = useState<{ name: string; value: string }[]>([]);
+
+    useEffect(() => {
+        getDutyList();
+    }, []);
+
+    const getDutyList = async () => {
+        const res = await clientSideApi("GET", "MAIN", "FIND_DUTY", undefined, undefined);
+        if (res.result === "SUCCESS") {
+            var dutyItemList: { name: string; value: string }[] = [];
+            res.data?.forEach((element) => {
+                dutyItemList.push({ name: element, value: element });
+            });
+            setDutyList(dutyItemList);
+        }
+    };
 
     useEffect(() => {
         if (memberData) {

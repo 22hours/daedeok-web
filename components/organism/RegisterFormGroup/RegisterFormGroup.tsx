@@ -17,6 +17,7 @@ import useDivision from "lib/hooks/useDivision";
 import PasswordController from "lib/client/passwordController";
 import { useGlobalLoader } from "store/GlobalLoader";
 import { useAlert } from "store/GlobalAlertStore";
+import { stringify } from "querystring";
 
 const PhoneAuth = dynamic(import("components/molecule/PhoneAuth"));
 
@@ -69,14 +70,12 @@ const RegisterFormGroup = () => {
     const onAuthStateCallBack = (authState: string | null) => {
         setAuth(authState);
     };
-    const dutyList = [
-        { name: "성도", value: "성도" },
-        { name: "집사", value: "집사" },
-        { name: "권사", value: "권사" },
-        { name: "장로", value: "장로" },
-        { name: "전도사", value: "전도사" },
-        { name: "목사", value: "목사" },
-    ];
+    const [dutyList, setDutyList] = useState<{ name: string; value: string }[]>([]);
+
+    useEffect(() => {
+        getDutyList();
+    }, []);
+
     const name = useInput();
     const password = useInput();
     const rePassword = useInput();
@@ -85,6 +84,17 @@ const RegisterFormGroup = () => {
     const secondDivision = useInput();
     const terms = useBoolean();
     const privacy = useBoolean();
+
+    const getDutyList = async () => {
+        const res = await clientSideApi("GET", "MAIN", "FIND_DUTY", undefined, undefined);
+        if (res.result === "SUCCESS") {
+            var dutyItemList: { name: string; value: string }[] = [];
+            res.data?.forEach((element) => {
+                dutyItemList.push({ name: element, value: element });
+            });
+            setDutyList(dutyItemList);
+        }
+    };
 
     const handleSumbit = async () => {
         if (auth === null) {
@@ -200,7 +210,6 @@ const RegisterFormGroup = () => {
         <FirebaseProvider>
             <div className={style.container}>
                 <PageHeader title={"회원가입"} isUnderbar />
-
                 <div>
                     <InputSection helpText={"휴대폰 번호는 로그인 아이디로 사용됩니다"}>
                         <PhoneAuth

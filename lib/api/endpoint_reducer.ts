@@ -260,6 +260,8 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `acinfo/eduvision`;
         case "ADMIN_FIND_DIVISION":
             return `division/detail`;
+        case "FIND_DUTY":
+            return `user/duty`;
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);
     }

@@ -125,17 +125,17 @@ declare module "@api_config_type" {
                 | "LECTUER_PLAN_LIST"
                 // >>>  JOIN
                 | "LECTURE_JOIN"
-                //FINISH
+                // >>> FINISH
                 | "LECTURE_FINISH"
-                //DELETE
+                // >>> DELETE
                 | "LECTURE_DELETE"
                 | "LECTURE_CANCEL"
-                // DIVISION
+                // >>> DIVISION
                 | "FIND_DIVISION"
                 | "ADD_DIVISION"
                 | "DELETE_DIVISION"
                 | "UPDATE_DIVISION"
-                // ADMIN
+                // >>> ADMIN
                 | "ADMIN_RESET_PW"
                 | "ADMIN_DELETE_USER"
                 | "ADMIN_FIND_MEMBER"
@@ -150,7 +150,9 @@ declare module "@api_config_type" {
                 | "ADMIN_SAVE_IMAGE"
                 | "ACINFO_INTRODUCE"
                 | "ACINFO_EDUVISION"
-                | "ADMIN_FIND_DIVISION";
+                | "ADMIN_FIND_DIVISION"
+                // >>> DUTY
+                | "FIND_DUTY";
             url_query?: string | { lecture_id: string; board_id: string } | any;
             data?: any;
             extraHeader?: any;
