@@ -96,13 +96,11 @@ const ImageItem = (props: ImageItemProps) => {
 type State = ImageItemType[];
 const AdminManagePopup = () => {
     const { alertOn, apiErrorAlert } = useAlert();
-
     const { auth, clientSideApi } = useAuthStore();
-
     const [originImgList, setOriginImgList] = useState<State>([]);
     const [data, setData] = useState<State>([]);
     const getData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "ADMIN_FIND_IMAGE");
+        const res = await clientSideApi("GET", "MAIN", "FIND_POPUP");
         if (res.result === "SUCCESS") {
             const imageList = res.data?.image_list?.map((it) => it.url) || [];
             setData(imageList);
@@ -112,9 +110,9 @@ const AdminManagePopup = () => {
         }
     };
     useEffect(() => {
-        if (auth) {
-            getData();
-        }
+        // if (auth) {
+        //     getData();
+        // }
     }, [auth]);
 
     const editImageItem = useCallback(
@@ -136,8 +134,8 @@ const AdminManagePopup = () => {
     );
 
     const addImageItem = useCallback(() => {
-        if (data.length > 4) {
-            alertOn({ message: "4개 이상으로는 추가할 수 없습니다", type: "WARN" });
+        if (data.length > 2) {
+            alertOn({ message: "2개 이상으로는 추가할 수 없습니다", type: "WARN" });
             return;
         }
 

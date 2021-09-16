@@ -248,6 +248,11 @@ export const endpoint_reducer = (ep: api_params["ep"], url_query: api_params["ur
             return `acinfo/introduce`;
         case "ACINFO_EDUVISION":
             return `acinfo/eduvision`;
+        //POPUP
+        case "FIND_POPUP":
+            return `popup`;
+        case "SAVE_POPUP":
+            return `popup`;
         default:
             throw new Error(`EP REDUCER ERROR IN :: API.TSX`);
     }
