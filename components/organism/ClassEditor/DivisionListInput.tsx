@@ -84,26 +84,44 @@ const DivisionInputInner = React.memo((props: InnerProps) => {
 
     useEffect(() => {
         if (first_division.value !== "" && second_division.value !== "") {
-            if (second_division.value === "ALL") {
-                var newList = props.divisionList.slice();
-                newList = newList.filter((it) => it.first_division !== first_division.value);
-                newList.push({
-                    first_division: first_division.value,
-                    second_division: "전체",
-                });
-                props.setDivisionList(newList);
-                // props.addDivisionItem({
-                //     first_division: first_division.value,
-                //     second_division: "전체",
-                // });
+            //전체일경우
+            if (first_division.value === "ALL") {
             } else {
-                props.addDivisionItem({
-                    first_division: first_division.value,
-                    second_division: second_division.value,
-                });
+                //전체가 아닐 경우
+                if (second_division.value === "ALL") {
+                    var newList = props.divisionList.slice();
+                    newList = newList.filter((it) => it.first_division !== first_division.value);
+                    newList.push({
+                        first_division: first_division.value,
+                        second_division: "전체",
+                    });
+                    props.setDivisionList(newList);
+                    // props.addDivisionItem({
+                    //     first_division: first_division.value,
+                    //     second_division: "전체",
+                    // });
+                } else {
+                    props.addDivisionItem({
+                        first_division: first_division.value,
+                        second_division: second_division.value,
+                    });
+                }
+            }
+            var nowList = props.divisionList.slice();
+            nowList = nowList.filter((it) => it.first_division === "전체");
+            //이미 전체가 있는 경우
+            if (nowList.length > 0) {
+                props.setDivisionList([{ first_division: "전체", second_division: "" }]);
             }
         }
     }, [second_division.value]);
+
+    useEffect(() => {
+        //전체 선택
+        if (first_division.value === "ALL") {
+            props.setDivisionList([{ first_division: "전체", second_division: "" }]);
+        }
+    }, [first_division.value]);
 
     return (
         <div>
@@ -112,7 +130,7 @@ const DivisionInputInner = React.memo((props: InnerProps) => {
                 value={first_division.value}
                 onChange={first_division.onChange}
                 placeholder={"상위소속"}
-                option_list={firstDivisionOptionList()}
+                option_list={[{ name: "전체", value: "ALL" }].concat(firstDivisionOptionList())}
             />
             <ClassSelectInput
                 labelName={"하위 소속"}

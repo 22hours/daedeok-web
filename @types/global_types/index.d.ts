@@ -279,6 +279,8 @@ declare module "@global_types" {
                 student_limit: number;
                 student_num: number;
                 status: "IMPOSSIBLE" | "POSSIBLE" | "ING";
+                day: string;
+                time: string;
             }>;
             total_count: number;
             total_page?: number;

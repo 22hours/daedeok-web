@@ -245,7 +245,12 @@ const ClassJoin = () => {
                                         />
                                     </div>
                                     <div className={style.date}>
-                                        <Typo type="TEXT" content={"월요일 15:00"} color="gray_accent" size="small" />
+                                        <Typo
+                                            type="TEXT"
+                                            content={`${it.day} ${it.time}`}
+                                            color="gray_accent"
+                                            size="small"
+                                        />
                                     </div>
                                     <div className={style.limit}>
                                         <Typo

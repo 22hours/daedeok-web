@@ -673,6 +673,7 @@ const ClassEditor = (props: Props) => {
                 if (firstDivisionIdx === -1) {
                     // NO REMAIN
                     const second_division_list: any[] = [];
+
                     second_division_list.push(item.second_division);
                     reqDivisionList.push({
                         first_division: item.first_division,
@@ -704,15 +705,38 @@ const ClassEditor = (props: Props) => {
             return;
         }
 
+        const makeReqDivisionList = () => {
+            var reqDivsionList: any[] | null = [];
+            var nestedDivsionList = makeDivisionList();
+
+            // 전체 검사
+            if (nestedDivsionList.length === 1 && nestedDivsionList[0].first_division === "전체") {
+                reqDivsionList = null;
+            } else {
+                // 부분검사
+                reqDivsionList = nestedDivsionList.map((it) => {
+                    if (it.second_division.length === 1) {
+                        if (it.second_division[0] === "전체") {
+                            return {
+                                ...it,
+                                second_division: null,
+                            };
+                        }
+                    }
+                    return it;
+                });
+            }
+            return reqDivsionList;
+        };
+
         if (props.type === "NEW") {
             // NEW
-
             if (state.student_limit !== 0) {
                 const res = await clientSideApi("POST", "MAIN", "LECTURE_NEW", undefined, {
                     title: state.title,
                     content: state.content,
                     category: state.category,
-                    division_list: makeDivisionList(),
+                    division_list: makeReqDivisionList(),
                     student_limit: state.student_limit,
                     reference: state.reference,
                     handout_list: state.handout_list,
@@ -758,7 +782,7 @@ const ClassEditor = (props: Props) => {
                         title: state.title,
                         content: state.content,
                         category: state.category,
-                        division_list: makeDivisionList(),
+                        division_list: makeReqDivisionList(),
                         student_limit: state.student_limit,
                         reference: state.reference,
                         handout_list: {

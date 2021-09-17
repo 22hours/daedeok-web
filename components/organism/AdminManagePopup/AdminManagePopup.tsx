@@ -188,25 +188,38 @@ const AdminManagePopup = () => {
         console.log(final_del_image_list);
 
         const unchanged_popup_id_list = [];
-        if (originPopUpList) {
-            originPopUpList.forEach((element) => {
-                var flag = false;
-                delete_image_list.forEach((n_e) => {
-                    //변경된 id 가 있다면
-                    if (element.id === n_e.id) {
-                        flag = true;
+
+        console.log(originPopUpList.length);
+
+        const getUnchangedIdList = () => {
+            console.log("실행");
+            if (originPopUpList.length > 0) {
+                console.log("실행됨");
+                originPopUpList.forEach((element) => {
+                    var flag = false;
+                    deleted_item_list.forEach((n_e) => {
+                        //변경된 id 가 있다면
+                        console.log("아이디");
+                        console.log(element.id);
+                        console.log(n_e.id);
+                        if (element.id === n_e.id) {
+                            console;
+                            flag = true;
+                        }
+                    });
+                    if (!flag) {
+                        unchanged_popup_id_list.push(
+                            //@ts-ignore
+                            element.id
+                        );
                     }
                 });
-                if (!flag) {
-                    unchanged_popup_id_list.push(
-                        //@ts-ignore
-                        element.id
-                    );
-                }
-            });
-        }
-        console.log("변경X");
-        console.log(unchanged_popup_id_list);
+            }
+            console.log("변경X");
+            console.log(unchanged_popup_id_list);
+        };
+
+        getUnchangedIdList();
 
         var expression =
             /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
