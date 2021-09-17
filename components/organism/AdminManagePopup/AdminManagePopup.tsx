@@ -168,10 +168,10 @@ const AdminManagePopup = () => {
     const savePopUpList = async () => {
         const image_server_host = "https://daedeok.s3.ap-northeast-2.amazonaws.com";
 
-        console.log("이전");
-        console.log(originPopUpList);
-        console.log("변경된");
-        console.log(data);
+        // console.log("이전");
+        // console.log(originPopUpList);
+        // console.log("변경된");
+        // console.log(data);
 
         const { new_item_list, deleted_item_list } = ListController.getUpdateInList(originPopUpList, data, false);
         const new_image_list = new_item_list.filter((it) => it.url.includes(image_server_host));
@@ -180,28 +180,28 @@ const AdminManagePopup = () => {
         const final_new_image_list = new_image_list.map((it) => it.url);
         const final_del_image_list = delete_image_list.map((it) => it.url);
 
-        console.log("추가");
-        console.log(final_new_image_list);
-        console.log(new_item_list);
-        console.log("삭제");
-        console.log(deleted_item_list);
-        console.log(final_del_image_list);
+        // console.log("추가");
+        // console.log(final_new_image_list);
+        // console.log(new_item_list);
+        // console.log("삭제");
+        // console.log(deleted_item_list);
+        // console.log(final_del_image_list);
 
         const unchanged_popup_id_list = [];
 
-        console.log(originPopUpList.length);
+        // console.log(originPopUpList.length);
 
         const getUnchangedIdList = () => {
-            console.log("실행");
+            // console.log("실행");
             if (originPopUpList.length > 0) {
-                console.log("실행됨");
+                // console.log("실행됨");
                 originPopUpList.forEach((element) => {
                     var flag = false;
                     deleted_item_list.forEach((n_e) => {
                         //변경된 id 가 있다면
-                        console.log("아이디");
-                        console.log(element.id);
-                        console.log(n_e.id);
+                        // console.log("아이디");
+                        // console.log(element.id);
+                        // console.log(n_e.id);
                         if (element.id === n_e.id) {
                             console;
                             flag = true;
@@ -215,8 +215,8 @@ const AdminManagePopup = () => {
                     }
                 });
             }
-            console.log("변경X");
-            console.log(unchanged_popup_id_list);
+            // console.log("변경X");
+            // console.log(unchanged_popup_id_list);
         };
 
         getUnchangedIdList();
@@ -234,8 +234,8 @@ const AdminManagePopup = () => {
                     link: it?.link,
                 };
             });
-            console.log("전송값");
-            console.log(request_url_list);
+            // console.log("전송값");
+            // console.log(request_url_list);
             const res = await clientSideApi("PUT", "MAIN", "SAVE_POPUP", undefined, {
                 unchanged_popup_id_list: unchanged_popup_id_list,
                 popup_list: request_url_list,
@@ -249,7 +249,7 @@ const AdminManagePopup = () => {
                 alertOn({ message: "성공적으로 저장하였습니다", type: "POSITIVE" });
                 setData([]);
                 getData();
-                console.log(request_url_list);
+                // console.log(request_url_list);
             } else {
                 apiErrorAlert(res.msg);
             }

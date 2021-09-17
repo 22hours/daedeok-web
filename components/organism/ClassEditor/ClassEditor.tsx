@@ -408,9 +408,9 @@ const ClassEditor = (props: Props) => {
         if (props.type === "EDIT" && props.data) {
             if (firstRef.current) {
                 dispatch({ type: "SET_INIT_STATE", data: props.data });
-                console.log("---------");
-                console.log(props.data);
-                console.log(props.data.division_list);
+                // console.log("---------");
+                // console.log(props.data);
+                // console.log(props.data.division_list);
                 dispatch({ type: "SET_INIT_DIVISION", data: props.data.division_list });
                 setOriginHandoutList(props.data.handout_list.slice());
                 // @ts-ignore
