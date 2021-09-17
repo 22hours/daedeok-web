@@ -166,12 +166,18 @@ const LectureDetailPage = (props: Props) => {
                                     className={style.value}
                                     form={"underline"}
                                     type={"text"}
-                                    value={data.division_list
-                                        .map((first_item) => {
-                                            const secondDivList = first_item.second_division.map((it) => it).join(", ");
-                                            return `${first_item.first_division} - ${secondDivList}`;
-                                        })
-                                        .join(" | ")}
+                                    value={
+                                        data.division_list.length === 0
+                                            ? "전체"
+                                            : data.division_list
+                                                  .map((first_item) => {
+                                                      const secondDivList = first_item.second_division
+                                                          .map((it) => it)
+                                                          .join(", ");
+                                                      return `${first_item.first_division} - ${secondDivList}`;
+                                                  })
+                                                  .join(" | ")
+                                    }
                                     disable
                                 />
                             </div>

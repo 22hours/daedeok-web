@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useAlert } from "store/GlobalAlertStore";
 
 const AdminMemberEditPage = () => {
-    const { clientSideApi } = useAuthStore();
+    const { clientSideApi, auth } = useAuthStore();
     const router = useRouter();
     const { user_id } = router.query;
     const { apiErrorAlert } = useAlert();
@@ -14,8 +14,10 @@ const AdminMemberEditPage = () => {
     const [memberData, setMemberData] = useState("");
 
     useEffect(() => {
-        getMemberDetail();
-    }, []);
+        if (auth) {
+            getMemberDetail();
+        }
+    }, [auth]);
 
     const getMemberDetail = async () => {
         const res = await clientSideApi("GET", "MAIN", "ADMIN_FIND_MEMBER", { user_id: user_id });

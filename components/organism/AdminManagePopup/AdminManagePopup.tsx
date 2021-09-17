@@ -59,7 +59,7 @@ const PopUpItem = (props: PopUpItemProps) => {
                         type={"SQUARE"}
                         size={"small"}
                         fontSize={"smaller"}
-                        content={"이미지 업로드"}
+                        content={"팝업 이미지 업로드"}
                         backgroundColor={"brown_base"}
                         color={"white"}
                     />
@@ -282,7 +282,7 @@ const AdminManagePopup = () => {
                     type={"SQUARE"}
                     size={"small"}
                     fontSize={"smaller"}
-                    content={"이미지 추가"}
+                    content={"팝업 추가"}
                     backgroundColor={"brown_base"}
                     color={"white"}
                     onClick={addPopUpItem}

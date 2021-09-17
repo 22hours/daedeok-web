@@ -29,10 +29,10 @@ type Props = {
     createClass?: Function;
     editClass?: Function;
 };
-
 type State = class_types.ClassInfo;
 type Action =
     | { type: "SET_INIT_STATE"; data: State }
+    | { type: "SET_INIT_DIVISION"; data: State["division_list"] }
     | { type: "SET_TITLE"; data: State["title"] }
     | { type: "SET_CONTENT"; data: State["content"] }
     | { type: "SET_REFERENCE"; data: State["reference"] }
@@ -77,6 +77,13 @@ const reducer = (state: State, action: Action) => {
         case "SET_INIT_STATE": {
             return {
                 ...action.data,
+            };
+        }
+        case "SET_INIT_DIVISION": {
+            return {
+                ...state,
+                division_list:
+                    action.data.length === 0 ? [{ first_division: "전체", second_division: null }] : action.data,
             };
         }
         case "SET_TITLE": {
@@ -401,6 +408,7 @@ const ClassEditor = (props: Props) => {
         if (props.type === "EDIT" && props.data) {
             if (firstRef.current) {
                 dispatch({ type: "SET_INIT_STATE", data: props.data });
+                dispatch({ type: "SET_INIT_DIVISION", data: props.data.division_list });
                 setOriginHandoutList(props.data.handout_list.slice());
                 // @ts-ignore
                 setOriginPlanList(props.data.plan_list.map((it) => it.id));
@@ -673,7 +681,6 @@ const ClassEditor = (props: Props) => {
                 if (firstDivisionIdx === -1) {
                     // NO REMAIN
                     const second_division_list: any[] = [];
-
                     second_division_list.push(item.second_division);
                     reqDivisionList.push({
                         first_division: item.first_division,

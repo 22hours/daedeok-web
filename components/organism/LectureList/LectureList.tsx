@@ -98,7 +98,7 @@ const LectureCloseList = (props: { lecture_list: any; page: string; total_count:
                                         </div>
                                         <div className={`${style.date_item} ${style.detail_item}`}>
                                             <Typo
-                                                content={`월요일 13:00`}
+                                                content={`${it.day} ${it.time}`}
                                                 type="TEXT"
                                                 size="smaller"
                                                 color="gray_accent"

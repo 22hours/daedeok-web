@@ -73,18 +73,27 @@ const ClassJoinDetailList = () => {
                         <div className={style.label}>
                             <Typo size="normal" content={label} color="white" type="TEXT" />
                         </div>
-                        <div className={style.list_content}>
-                            {content?.map((it, idx) => (
+                        {content?.length === 0 ? (
+                            <div className={style.list_content}>
                                 <div key={nanoid()} className={style.division}>
-                                    <Typo
-                                        size="normal"
-                                        content={it.first_division + " " + it.second_division}
-                                        type="TEXT"
-                                        className={style.content}
-                                    />
+                                    <Typo size="normal" content={"전체"} type="TEXT" className={style.content} />
                                 </div>
-                            ))}
-                        </div>
+                                ))
+                            </div>
+                        ) : (
+                            <div className={style.list_content}>
+                                {content?.map((it, idx) => (
+                                    <div key={nanoid()} className={style.division}>
+                                        <Typo
+                                            size="normal"
+                                            content={it.first_division + " " + it.second_division}
+                                            type="TEXT"
+                                            className={style.content}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <div className={style.list_item}>

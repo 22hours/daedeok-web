@@ -8,6 +8,7 @@ import Icon from "@ui/Icon";
 import Typo from "@ui/Typo";
 import Button from "@ui/buttons/Button";
 import DivisionController from "lib/client/divisionController";
+import { useConfirm } from "store/GlobalConfirmStore";
 
 type SecondDivistionItemProps = {
     idx: number;
@@ -37,13 +38,13 @@ const AdminDivisionEdit = () => {
     const { first_division } = router.query;
     const { auth, clientSideApi } = useAuthStore();
     const { alertOn, apiErrorAlert } = useAlert();
+    const { confirmOn } = useConfirm();
     const [firstDivision, setFirstDivision] = useState<any>(first_division);
     const [secondDivisionList, setSecondDivisionList] = useState<second_division_list>([]);
     const [originSecondDivisionList, setOriginSecondDivisionList] = useState<second_division_list>([]);
 
     useEffect(() => {
         getDivision();
-        setOriginSecondDivisionList(secondDivisionList);
     }, [first_division]);
 
     const addSecondDivisionItem = useCallback(() => {
@@ -88,17 +89,22 @@ const AdminDivisionEdit = () => {
     };
 
     const updateDivisionList = async (diffItemList) => {
-        const res = await clientSideApi("POST", "MAIN", "UPDATE_DIVISION", undefined, {
+        const res = await clientSideApi("PUT", "MAIN", "UPDATE_DIVISION", undefined, {
             before: first_division,
-            after: firstDivision,
+            after: firstDivision === first_division ? null : firstDivision,
             delete_second_division_list: diffItemList.deleted_item_list,
             update_second_division_list: diffItemList.new_item_list,
         });
         if (res.result === "SUCCESS") {
+            // confirmOn({
+            //     message: "성공적으로 수정되었습니다 확인을 누르면 소속관리 페이지로 이동합니다",
+            //     onSuccess: () => location.replace("/admin/division"),
+            // });
             alertOn({
                 message: "성공적으로 수정되었습니다",
                 type: "POSITIVE",
             });
+            location.replace("/admin/division");
         } else {
             apiErrorAlert(res.msg);
         }
@@ -109,7 +115,17 @@ const AdminDivisionEdit = () => {
             first_division: first_division,
         });
         if (res.result === "SUCCESS") {
-            setSecondDivisionList(res?.data?.second_division_list);
+            const nowData = res?.data?.second_division_list.slice();
+
+            const curData: any[] = [];
+            const originDivisionData: any[] = [];
+
+            nowData.forEach((element) => {
+                curData.push({ ...element });
+                originDivisionData.push({ ...element });
+            });
+            setSecondDivisionList(curData);
+            setOriginSecondDivisionList(originDivisionData);
         } else {
             apiErrorAlert(res.msg);
         }

@@ -46,7 +46,7 @@ const ImageModal = (props) => {
                             <CheckBox labelContent={"오늘 하루 보지않기"} {...showFlag} isLabelRight />
                         </div>
                         <div onClick={handleClose} className={style.modal_info_btn}>
-                            <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={"끄기"} />
+                            <Typo type={"TEXT"} size={"small"} color={"gray_accent"} content={"닫기"} />
                         </div>
                     </div>
                 </div>

@@ -295,6 +295,8 @@ declare module "@global_types" {
                 end_date: string;
                 student_limit: number;
                 student_num: number;
+                day: string;
+                time: string;
             }>;
             total_count: number;
             total_page?: number;
