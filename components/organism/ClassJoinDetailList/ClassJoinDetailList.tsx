@@ -78,7 +78,6 @@ const ClassJoinDetailList = () => {
                                 <div key={nanoid()} className={style.division}>
                                     <Typo size="normal" content={"전체"} type="TEXT" className={style.content} />
                                 </div>
-                                ))
                             </div>
                         ) : (
                             <div className={style.list_content}>

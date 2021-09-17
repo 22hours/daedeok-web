@@ -17,12 +17,19 @@ const Lecture = () => {
             const division_list: res_types.classDetail["division_list"] = [];
             res.data.division_list.forEach((division_raw_item) => {
                 const cur_second_division_list: string[] = division_raw_item.second_division;
-                cur_second_division_list.forEach((second_division_item) => {
+                if (cur_second_division_list.length !== 0) {
+                    cur_second_division_list.forEach((second_division_item) => {
+                        division_list.push({
+                            first_division: division_raw_item.first_division,
+                            second_division: second_division_item,
+                        });
+                    });
+                } else {
                     division_list.push({
                         first_division: division_raw_item.first_division,
-                        second_division: second_division_item,
+                        second_division: "전체",
                     });
-                });
+                }
             });
             console.log(res.data);
             setData({ ...res.data, division_list: division_list });

@@ -96,15 +96,15 @@ const AdminDivisionEdit = () => {
             update_second_division_list: diffItemList.new_item_list,
         });
         if (res.result === "SUCCESS") {
-            // confirmOn({
-            //     message: "성공적으로 수정되었습니다 확인을 누르면 소속관리 페이지로 이동합니다",
-            //     onSuccess: () => location.replace("/admin/division"),
-            // });
-            alertOn({
-                message: "성공적으로 수정되었습니다",
-                type: "POSITIVE",
+            confirmOn({
+                message: "성공적으로 수정되었습니다 확인을 누르면 소속관리 페이지로 이동합니다",
+                onSuccess: () => location.replace("/admin/division"),
             });
-            location.replace("/admin/division");
+            // alertOn({
+            //     message: "성공적으로 수정되었습니다",
+            //     type: "POSITIVE",
+            // });
+            // location.replace("/admin/division");
         } else {
             apiErrorAlert(res.msg);
         }

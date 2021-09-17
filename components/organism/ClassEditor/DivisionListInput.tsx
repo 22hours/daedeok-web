@@ -131,6 +131,7 @@ const DivisionInputInner = React.memo((props: InnerProps) => {
                 onChange={first_division.onChange}
                 placeholder={"상위소속"}
                 option_list={[{ name: "전체", value: "ALL" }].concat(firstDivisionOptionList())}
+                // option_list={firstDivisionOptionList()}
             />
             <ClassSelectInput
                 labelName={"하위 소속"}

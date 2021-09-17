@@ -138,7 +138,7 @@ const Userbox = (props: Props) => {
                         type={"TEXT"}
                         size={"small"}
                         color={"gray_accent"}
-                        content={` ${auth.second_division === null ? "" : auth.second_division}`}
+                        content={` ${auth.second_division === null || undefined ? "" : auth.second_division}`}
                     />
                 </div>
                 <div className={style.bottom}>
