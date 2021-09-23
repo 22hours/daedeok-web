@@ -3,6 +3,7 @@ import style from "./ClassJoinDetailList.module.scss";
 import { res_types } from "@global_types";
 import Link from "next/link";
 import { meta_types } from "@global_types";
+import LecturePlanItem from "components/organism/LecturePlanItem/LecturePlanItem";
 
 //ui
 import Typo from "@ui/Typo";
@@ -18,45 +19,6 @@ import DateController from "lib/client/dateController";
 //store
 import { useAuthStore } from "store/AuthStore";
 import { useRouter } from "next/router";
-
-type LecturePlanItem = {
-    id: string;
-    week: string;
-    title: string;
-    location: string;
-    type: meta_types.classType;
-    date: string;
-    tutor: string;
-};
-
-const LecturePlanItem = (props: LecturePlanItem) => {
-    return (
-        <TableRow
-            week={props.week + "주차"}
-            weekTitle={props.title}
-            date={`${DateController.getFormatedDate("YYYY/MM/DD HH:MM", props.date)}`}
-        >
-            <div>
-                <Typo
-                    className={style.lecture_plan_children}
-                    type={"TEXT"}
-                    size={"small"}
-                    content={props.tutor}
-                    color={"gray_accent"}
-                />
-                <Typo
-                    className={style.lecture_plan_children}
-                    type={"TEXT"}
-                    size={"small"}
-                    content={
-                        props.location === "ZOOM" ? "ZOOM" : props.location === "ONLINE" ? "영상강의" : props.location
-                    }
-                    color={"gray_accent"}
-                />
-            </div>
-        </TableRow>
-    );
-};
 
 const ClassJoinDetailList = () => {
     const { clientSideApi } = useAuthStore();
@@ -112,28 +74,6 @@ const ClassJoinDetailList = () => {
         );
     };
 
-    const LecturePlanSection = ({ lecture_plan_list }: { lecture_plan_list: LecturePlanItem[] }) => {
-        return (
-            <div className={style.lecture_plan_row}>
-                <div>
-                    <Typo
-                        className={style.head_block_text}
-                        type={"TEXT"}
-                        size={"small"}
-                        content={"강의계획"}
-                        color={"white"}
-                    />
-                </div>
-                <div className={style.lecture_plan_list_container}>
-                    <TableWrapper>
-                        {lecture_plan_list?.map((it, idx) => (
-                            <LecturePlanItem key={`classjoindetaillistitem:${idx}`} {...it} />
-                        ))}
-                    </TableWrapper>
-                </div>
-            </div>
-        );
-    };
     const getClassJoinDetailData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_DETAIL", { lecture_id: class_id }, {});
         if (res.result === "SUCCESS") {
@@ -168,7 +108,7 @@ const ClassJoinDetailList = () => {
     };
 
     return (
-        <div>
+        <div className={style.class_join_detail}>
             <div className={style.detail_header}>
                 <div>
                     <Typo
@@ -248,10 +188,15 @@ const ClassJoinDetailList = () => {
                 <ListForm label={"참고자료"} content={detailData?.reference} />
                 <ListForm label={"강의계획"} content={detailData?.reference} />
             </div>
-            <LecturePlanSection
-                //@ts-ignore
-                lecture_plan_list={detailData?.lecture_plan}
-            />
+            <div className={style.lecture_plan_list_container}>
+                <TableWrapper>
+                    <LecturePlanItem
+                        //@ts-ignore
+                        lecture_plan={detailData?.lecture_plan}
+                        type={"class"}
+                    />
+                </TableWrapper>
+            </div>
             <div className={style.go_back_btn_wrapper}>
                 <Link href="/class/join" passHref>
                     <Button

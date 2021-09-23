@@ -15,6 +15,7 @@ type LecturePlanList = {
         date: string;
         tutor: string;
     }[];
+    type?: string;
 };
 
 const LecturePlanItem = (props: LecturePlanList) => {
@@ -23,12 +24,22 @@ const LecturePlanItem = (props: LecturePlanList) => {
     );
     const setModeByWindowSize = () => {
         var width = WindowController.getWindowSize();
-        if (width > 950) {
-            setMode("lecture_list_pc");
-        } else if (width <= 950 && width > 700) {
-            setMode("lecture_list_tablet");
+        if (props.type === "class") {
+            if (width > 1150) {
+                setMode("lecture_list_pc");
+            } else if (width <= 1150 && width > 850) {
+                setMode("lecture_list_tablet");
+            } else {
+                setMode("lecture_list_mobile");
+            }
         } else {
-            setMode("lecture_list_mobile");
+            if (width > 950) {
+                setMode("lecture_list_pc");
+            } else if (width <= 950 && width > 700) {
+                setMode("lecture_list_tablet");
+            } else {
+                setMode("lecture_list_mobile");
+            }
         }
     };
 

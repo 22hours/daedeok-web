@@ -7,6 +7,7 @@ import { useRouter } from "next/dist/client/router";
 import React, { useState, useEffect, Dispatch, createContext, useReducer, useContext } from "react";
 import { ClassDetailProvider } from "./ClassDetailStore";
 import ClassPageInfoLayout from "components/layout/ClassPageInfoLayout";
+import style from "styles/pageheader.module.scss";
 
 // ELEMENT TYPES
 
@@ -89,6 +90,16 @@ const RenderChildren = ({ state, children }) => {
             >
                 <ClassPageInfoLayout isDetailPage={true}>{children}</ClassPageInfoLayout>
             </ClassDetailProvider>
+        );
+    } else if (router.pathname.includes("/class/join/detail")) {
+        return (
+            <div>
+                <ClassPageInfoLayout>
+                    <BreadCrumbs className={style.bread_crumbs} item_list={state.breadCrumbList} />
+                    <Typo type={"HEADER"} className={style.page_header} size={"h4"} content={state.pageTitle} />
+                    {children}
+                </ClassPageInfoLayout>
+            </div>
         );
     } else {
         return (

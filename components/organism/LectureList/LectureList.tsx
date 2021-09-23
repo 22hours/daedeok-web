@@ -133,7 +133,11 @@ const LectureCloseList = (props: { lecture_list: any; page: string; total_count:
                                             <Typo
                                                 type="TEXT"
                                                 size="smaller"
-                                                content={it.id.toString()}
+                                                content={(
+                                                    props?.total_count -
+                                                    (parseInt(props?.page) - 1) * 7 -
+                                                    idx
+                                                ).toString()}
                                                 color={"brown_font"}
                                             />
                                         </div>

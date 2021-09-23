@@ -58,6 +58,7 @@ const LectureDetailPage = (props: Props) => {
             getData();
         }
     }, [router.query]);
+
     if (data === null) {
         return <div>LOAD</div>;
     } else {
@@ -248,7 +249,7 @@ const LectureDetailPage = (props: Props) => {
                     </div>
                     <div className={style.lecture_plan_list_container}>
                         <TableWrapper>
-                            <LecturePlanItem lecture_plan={data?.lecture_plan} />
+                            <LecturePlanItem lecture_plan={data?.lecture_plan} type={"lecture"} />
                         </TableWrapper>
                     </div>
                 </div>

@@ -13,6 +13,14 @@ type Props = {
 };
 const popupStorageController = new PopupStorageController();
 
+const dummy = [
+    {
+        id: "1",
+        img: "https://images.chosun.com/resizer/nIy21WxR9noPUM6WgEstpKZGjRY=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/YV2M7H5QCCEOUAXPKJ4OTBQCMM.jpg",
+        link: "https://naver.com",
+    },
+];
+
 const ImageModal = (props) => {
     const showFlag = useBoolean(false);
     const [open, setOpen] = useState(true);
@@ -38,7 +46,7 @@ const ImageModal = (props) => {
                 <div className={style.modal_container}>
                     <div className={style.modal_inner}>
                         <a target="_blank" href={props.lifnk || "#"} rel="noreferrer">
-                            <img src={props.url} />
+                            <img src="https://images.chosun.com/resizer/nIy21WxR9noPUM6WgEstpKZGjRY=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/YV2M7H5QCCEOUAXPKJ4OTBQCMM.jpg" />
                         </a>
                     </div>
                     <div className={style.modal_info_wrapper}>
@@ -59,12 +67,14 @@ const IndexPopup = (props: Props) => {
     const { clientSideApi } = useAuthStore();
     const [modalData, setModalData] = useState([]);
     const getData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "FIND_POPUP");
-        if (res.result === "SUCCESS") {
-            const modalData = res.data.popup_list;
-            setModalData(popupStorageController.getVisibleModalList(modalData));
-        } else {
-        }
+        const data = dummy;
+        setModalData(popupStorageController.getVisibleModalList(data));
+        // const res = await clientSideApi("GET", "MAIN", "FIND_POPUP");
+        // if (res.result === "SUCCESS") {
+        //     const modalData = res.data.popup_list;
+        //     setModalData(popupStorageController.getVisibleModalList(modalData));
+        // } else {
+        // }
     };
     useEffect(() => {
         getData();

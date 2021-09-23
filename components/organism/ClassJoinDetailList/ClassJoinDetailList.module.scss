@@ -1,147 +1,153 @@
 @import "styles/meta.scss";
 
-.detail_header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 12px;
-    padding-top: 10px;
-    border-bottom: 3px solid $gray_accent;
-
-    .detail_category {
-        margin-right: 10px;
+.class_join_detail {
+    @include mobile {
+        padding-right: 10px;
+        padding-left: 10px;
     }
-
-    .detail_date {
-        margin-right: 10px;
-    }
-
-    .detail_limit {
-        margin-right: 10px;
-    }
-}
-
-.detail_content {
-    margin-top: 15px;
-}
-
-.detail_list {
-    margin-top: 80px;
-    .list_item {
+    .detail_header {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
         align-items: center;
-        margin-bottom: 30px;
-        .label {
-            min-width: 140px;
-            padding-top: 3px;
-            padding-bottom: 5px;
-            text-align: center;
-            background-color: $brown_base;
+        padding-bottom: 12px;
+        padding-top: 10px;
+        border-bottom: 3px solid $gray_accent;
+
+        .detail_category {
+            margin-right: 10px;
         }
-        .list_content {
-            margin-left: 20px;
-            border-bottom: 1px solid $gray_accent;
-            width: 100%;
-            line-height: 2;
-            .division {
-                margin-right: 5px;
-            }
+
+        .detail_date {
+            margin-right: 10px;
         }
-        .content {
-            display: inline-block;
-            text-align: justify;
-            margin-left: 8px;
+
+        .detail_limit {
+            margin-right: 10px;
         }
     }
-}
-.plan_list {
-    .list_item {
-        display: flex;
-        .week_item {
-            @include desktop {
+
+    .detail_content {
+        margin-top: 15px;
+    }
+
+    .detail_list {
+        margin-top: 80px;
+        .list_item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            .label {
+                min-width: 140px;
+                padding-top: 3px;
+                padding-bottom: 5px;
                 text-align: center;
-                min-width: 80px;
-                display: flex;
-                justify-content: center;
-                padding-top: 20px;
-                align-items: center;
-                padding-bottom: 20px;
-                border-top: 1px $gray_accent solid;
+                background-color: $brown_base;
             }
-            @include mobile {
-                display: flex;
-                text-align: center;
-                align-items: center;
-                min-width: 35px;
-                padding-top: 20px;
-                padding-bottom: 20px;
-                border-top: 1px $gray_accent solid;
+            .list_content {
+                margin-left: 20px;
+                border-bottom: 1px solid $gray_accent;
+                width: 100%;
+                line-height: 2;
+                .division {
+                    margin-right: 5px;
+                }
+            }
+            .content {
+                display: inline-block;
+                text-align: justify;
+                margin-left: 8px;
             }
         }
-        .other_item {
-            @include desktop {
-                display: grid;
-                grid-template-columns: 6fr 2fr;
-                text-align: center;
-                margin-left: 30px;
-                width: 100%;
-                padding-right: 10px;
-                padding-left: 10px;
-                padding-top: 20px;
-                padding-bottom: 20px;
-                border-top: 1px $gray_accent solid;
-                .title_box {
-                    // display: inline-block;
-                    // overflow: hidden;
-                    // text-overflow: ellipsis;
-                    // white-space: nowrap;
-                }
-                .other_box {
-                    margin-left: 10px;
+    }
+    .plan_list {
+        .list_item {
+            display: flex;
+            .week_item {
+                @include desktop {
+                    text-align: center;
+                    min-width: 80px;
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: center;
+                    padding-top: 20px;
+                    align-items: center;
+                    padding-bottom: 20px;
+                    border-top: 1px $gray_accent solid;
+                }
+                @include mobile {
+                    display: flex;
+                    text-align: center;
+                    align-items: center;
+                    min-width: 35px;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                    border-top: 1px $gray_accent solid;
                 }
             }
-            @include mobile {
-                display: grid;
-                grid-template-columns: 6fr 2fr;
-                text-align: center;
-                margin-left: 30px;
-                align-items: center;
-                width: 100%;
-                padding-right: 10px;
-                padding-left: 10px;
-                padding-top: 20px;
-                padding-bottom: 20px;
-                border-top: 1px $gray_accent solid;
-                .title_box {
+            .other_item {
+                @include desktop {
+                    display: grid;
+                    grid-template-columns: 6fr 2fr;
+                    text-align: center;
+                    margin-left: 30px;
+                    width: 100%;
+                    padding-right: 10px;
+                    padding-left: 10px;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                    border-top: 1px $gray_accent solid;
+                    .title_box {
+                        // display: inline-block;
+                        // overflow: hidden;
+                        // text-overflow: ellipsis;
+                        // white-space: nowrap;
+                    }
+                    .other_box {
+                        margin-left: 10px;
+                        display: flex;
+                        justify-content: space-between;
+                    }
                 }
-                .other_box {
-                    margin-left: 10px;
+                @include mobile {
+                    display: grid;
+                    grid-template-columns: 6fr 2fr;
+                    text-align: center;
+                    margin-left: 30px;
+                    align-items: center;
+                    width: 100%;
+                    padding-right: 10px;
+                    padding-left: 10px;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                    border-top: 1px $gray_accent solid;
+                    .title_box {
+                    }
+                    .other_box {
+                        margin-left: 10px;
+                    }
                 }
             }
         }
     }
-}
 
-.go_back_btn_wrapper {
-    margin-top: 60px;
-    display: flex;
-    justify-content: flex-end;
-    .go_back_btn {
-        padding-top: 18px;
-        padding-bottom: 18px;
+    .go_back_btn_wrapper {
+        margin-top: 60px;
+        display: flex;
+        justify-content: flex-end;
+        .go_back_btn {
+            padding-top: 18px;
+            padding-bottom: 18px;
+        }
     }
-}
-.lecture_plan_row {
-    margin-top: 30px;
-
-    .lecture_plan_list_container {
+    .lecture_plan_row {
         margin-top: 30px;
-        .lecture_plan_children {
-            display: block;
-            text-align: right;
+
+        .lecture_plan_list_container {
+            margin-top: 30px;
+            .lecture_plan_children {
+                display: block;
+                text-align: right;
+            }
         }
     }
 }

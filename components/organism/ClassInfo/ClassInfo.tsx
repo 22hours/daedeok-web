@@ -10,12 +10,21 @@ import style from "./ClassInfo.module.scss";
 import { useAlert } from "store/GlobalAlertStore";
 import { useConfirm } from "store/GlobalConfirmStore";
 import { useRouter } from "next/router";
+import LecturePlanItem from "components/organism/LecturePlanItem/LecturePlanItem";
 
 //controller
 import DateController from "lib/client/dateController";
 
 type HandoutItem = { id: string; name: string; url: string };
-
+type LecturePlanItem = {
+    id: string;
+    week: string;
+    title: string;
+    location: string;
+    type: meta_types.classType;
+    date: string;
+    tutor: string;
+};
 // HANDOUT
 const HandoutItem = (props: HandoutItem) => {
     return (
@@ -60,45 +69,6 @@ const HandoutSection = ({ handout_list }: { handout_list: State["handout_list"] 
     );
 };
 
-type LecturePlanItem = {
-    id: string;
-    week: string;
-    title: string;
-    location: string;
-    type: meta_types.classType;
-    date: string;
-    tutor: string;
-};
-
-const LecturePlanItem = (props: LecturePlanItem) => {
-    return (
-        <TableRow
-            week={props.week + "주차"}
-            weekTitle={props.title}
-            date={`${DateController.getFormatedDate("YYYY/MM/DD HH:MM", props.date)}`}
-        >
-            <div>
-                <Typo
-                    className={style.lecture_plan_children}
-                    type={"TEXT"}
-                    size={"small"}
-                    content={props.tutor}
-                    color={"gray_accent"}
-                />
-                <Typo
-                    className={style.lecture_plan_children}
-                    type={"TEXT"}
-                    size={"small"}
-                    content={
-                        props.location === "ZOOM" ? "ZOOM" : props.location === "ONLINE" ? "영상강의" : props.location
-                    }
-                    color={"gray_accent"}
-                />
-            </div>
-        </TableRow>
-    );
-};
-
 const LecturePlanSection = ({ lecture_plan_list }: { lecture_plan_list: LecturePlanItem[] }) => {
     return (
         <div className={style.lecture_plan_row}>
@@ -113,9 +83,11 @@ const LecturePlanSection = ({ lecture_plan_list }: { lecture_plan_list: LectureP
             </div>
             <div className={style.lecture_plan_list_container}>
                 <TableWrapper>
-                    {lecture_plan_list.map((it, idx) => (
-                        <LecturePlanItem key={`lectureplanitem:${idx}`} {...it} />
-                    ))}
+                    <LecturePlanItem
+                        //@ts-ignore
+                        lecture_plan={lecture_plan_list}
+                        type={"class"}
+                    />
                 </TableWrapper>
             </div>
         </div>
@@ -189,6 +161,7 @@ const ClassInfo = () => {
             <div className={style.container}>
                 <HandoutSection handout_list={state.handout_list} />
                 <LecturePlanSection lecture_plan_list={state.lecture_plan_list} />
+
                 <div className={style.submit_row}>
                     <Button
                         className={style.submit_btn}

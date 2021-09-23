@@ -17,7 +17,7 @@ const NewCommentSection = (props: NewCommentSectionProps) => {
                 <TextArea
                     {...comment}
                     placeholder={"댓글을 입력해주세요."}
-                    maxLength={120}
+                    maxLength={480}
                     className={style.new_comment_input}
                     //@ts-ignore
                     // refs={newCommentRef}

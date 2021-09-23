@@ -43,6 +43,7 @@ const Sep = () => {
 
 type Props = {
     item_list: meta_types.BreadCrumbItem[];
+    className?: string;
 };
 
 const BreadCrumbs = (props: Props) => {
@@ -51,12 +52,11 @@ const BreadCrumbs = (props: Props) => {
         <div className={style.container}>
             {props.item_list.map((it, idx) => {
                 const isLast = idx === item_len - 1;
-
                 return (
-                    <>
-                        <BreadItem key={`breacrumbs:${idx}`} {...it} isLast={isLast} />
+                    <div key={`breacrumbs:${idx}`} className={`${props.className || ""}`}>
+                        <BreadItem {...it} isLast={isLast} />
                         {!isLast && <Sep />}
-                    </>
+                    </div>
                 );
             })}
         </div>

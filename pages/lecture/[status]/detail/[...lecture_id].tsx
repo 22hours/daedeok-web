@@ -8,7 +8,7 @@ const LectureDetail = () => {
     const router = useRouter();
     const { status } = router.query;
     return (
-        <div>
+        <div style={{ paddingLeft: "10px", paddingRight: "10px" }}>
             <PageHeader title={status === "open" ? "현재 진행중인 강의" : "종료된 강의"} />
             <LectureDetailPage />
         </div>

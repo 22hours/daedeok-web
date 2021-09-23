@@ -1,0 +1,12 @@
+@import "styles/meta.scss";
+.page_header {
+    @include mobile {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+.bread_crumbs {
+    @include mobile {
+        padding-left: 10px;
+    }
+}
