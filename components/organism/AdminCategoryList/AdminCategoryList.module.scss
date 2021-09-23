@@ -4,20 +4,41 @@
     display: flex;
     justify-content: flex-end;
     .add_btn {
-        width: 80px;
+        @include desktop {
+            width: 70px;
+        }
+        @include mobile {
+            width: 60px;
+        }
     }
 }
 .body {
     margin-top: 20px;
-    .control_col {
+
+    .category_row {
         display: flex;
-        .control_btn {
-            width: 80px;
-            margin-left: 10px;
-        }
-        .edit_btn {
-        }
-        .delete_btn {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-bottom: 0.5px solid $gray_form;
+        justify-content: space-between;
+        .control_col {
+            display: flex;
+            .control_btn {
+                @include desktop {
+                    width: 70px;
+                    margin-left: 10px;
+                }
+                @include mobile {
+                    width: 60px;
+                    margin-left: 10px;
+                }
+            }
+            .edit_btn {
+            }
+            .delete_btn {
+            }
         }
     }
 }

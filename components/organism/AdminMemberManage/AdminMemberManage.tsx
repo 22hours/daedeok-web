@@ -237,6 +237,7 @@ const MemberManageList = () => {
                                                     size="medium"
                                                     content={it.name}
                                                     color={"brown_font"}
+                                                    className={style.member_idx}
                                                 />
                                             </div>
                                             <div className={`${style.info_col}`}>

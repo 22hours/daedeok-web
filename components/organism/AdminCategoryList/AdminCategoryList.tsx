@@ -2,6 +2,7 @@ import TableRow from "@ui/board/TableRow";
 import TableWrapper from "@ui/board/TableWrapper";
 import Button from "@ui/buttons/Button";
 import SearchBar from "@ui/input/SearchBar";
+import Typo from "@ui/Typo";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "store/AuthStore";
@@ -95,7 +96,16 @@ const ListController = () => {
                     <>
                         <TableRow title={"카테고리"} />
                         {data.category_list.map((it, idx) => (
-                            <TableRow title={it.category} key={`admincategoryitem${idx}`}>
+                            <div className={style.category_row} key={`admincategoryitem${idx}`}>
+                                <div>
+                                    <Typo
+                                        type="TEXT"
+                                        content={it?.category}
+                                        size="medium"
+                                        color={"brown_font"}
+                                        className={style.member_idx}
+                                    />
+                                </div>
                                 <div className={style.control_col}>
                                     <Link href={`/admin/category/edit/${it.id}`} passHref>
                                         <Button
@@ -119,7 +129,7 @@ const ListController = () => {
                                         onClick={() => handleDeleteClick(it.id)}
                                     />
                                 </div>
-                            </TableRow>
+                            </div>
                         ))}
                     </>
                 </TableWrapper>
