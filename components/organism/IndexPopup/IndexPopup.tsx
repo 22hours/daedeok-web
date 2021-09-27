@@ -46,7 +46,7 @@ const ImageModal = (props) => {
                 <div className={style.modal_container}>
                     <div className={style.modal_inner}>
                         <a target="_blank" href={props.lifnk || "#"} rel="noreferrer">
-                            <img src="https://images.chosun.com/resizer/nIy21WxR9noPUM6WgEstpKZGjRY=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/YV2M7H5QCCEOUAXPKJ4OTBQCMM.jpg" />
+                            <img src={props.url} />
                         </a>
                     </div>
                     <div className={style.modal_info_wrapper}>
