@@ -45,7 +45,7 @@ const ImageModal = (props) => {
             >
                 <div className={style.modal_container}>
                     <div className={style.modal_inner}>
-                        <a target="_blank" href={props.lifnk || "#"} rel="noreferrer">
+                        <a target="_blank" href={props.link || "#"} rel="noreferrer">
                             <img src={props.url} />
                         </a>
                     </div>

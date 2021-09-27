@@ -20,7 +20,6 @@ type PopUpItemProps = {
 };
 const PopUpItem = (props: PopUpItemProps) => {
     const { alertOn, apiErrorAlert } = useAlert();
-
     const { clientSideApi } = useAuthStore();
     const file = useFileInput();
 
