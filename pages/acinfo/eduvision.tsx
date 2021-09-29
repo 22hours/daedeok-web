@@ -1,39 +1,18 @@
-import PageHeader from "@ui/PageHeader";
 import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import { useAlert } from "store/GlobalAlertStore";
-import { useAuthStore } from "store/AuthStore";
-import router from "next/router";
-const TextEditor = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
+import Head from "next/head";
 
-const Eduvision = () => {
-    const [state, setState] = useState<string | null>(null);
-    const { alertOn } = useAlert();
-    const { clientSideApi } = useAuthStore();
-    const getData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "ACINFO_EDUVISION");
-        if (res.result === "SUCCESS") {
-            setState(res.data.content);
-        } else {
-            alertOn({
-                title: "",
-                // @ts-ignore
-                message: res.msg,
-                type: "ERROR",
-            });
-        }
-    };
+export default function Eduvision() {
     useEffect(() => {
-        // getData();
-        window.open("http://ddbaa.or.kr/vision");
-        router.back();
+        location.replace("http://ddbaa.or.kr/vision");
     }, []);
-    return (
-        <div>
-            <PageHeader title={"교육비전"} />
-            {state !== null && <TextEditor content={state} />}
-        </div>
-    );
-};
 
-export default Eduvision;
+    return (
+        <>
+            <Head>
+                <title>교육비전</title>
+            </Head>
+        </>
+    );
+}
+
+Eduvision.Layout = (page: any) => <>{page}</>;

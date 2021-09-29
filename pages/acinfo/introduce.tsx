@@ -1,35 +1,22 @@
 import PageHeader from "@ui/PageHeader";
-import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import { useAlert } from "store/GlobalAlertStore";
-import { useAuthStore } from "store/AuthStore";
-import router from "next/router";
+import React, { useRef } from "react";
+import Head from "next/head";
+import { useEffect } from "react";
 
-const TextEditor = dynamic(() => import("components/molecule/TextViewer/TextViewer"), { ssr: false });
+export default function Introduce() {
+    const frame = useRef<HTMLIFrameElement | null>(null);
 
-const Introduce = () => {
-    const [state, setState] = useState<string | null>(null);
-    const { alertOn, apiErrorAlert } = useAlert();
-    const { clientSideApi } = useAuthStore();
-    const getData = async () => {
-        const res = await clientSideApi("GET", "MAIN", "ACINFO_INTRODUCE");
-        if (res.result === "SUCCESS") {
-            setState(res.data.content);
-        } else {
-            apiErrorAlert(res.msg);
-        }
-    };
     useEffect(() => {
-        // getData();
-        window.open("http://ddbaa.or.kr/about");
-        router.back();
+        location.replace("http://ddbaa.or.kr/about");
     }, []);
-    return (
-        <div>
-            <PageHeader title={"대덕바이블 아카데미 소개"} />
-            {state !== null && <TextEditor content={state} />}
-        </div>
-    );
-};
 
-export default Introduce;
+    return (
+        <>
+            <Head>
+                <title>대덕바이블 아카데미 소개</title>
+            </Head>
+        </>
+    );
+}
+
+Introduce.Layout = (page: any) => <>{page}</>;
