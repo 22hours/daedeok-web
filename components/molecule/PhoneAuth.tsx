@@ -65,9 +65,10 @@ const PhoneAuth = (props: Props) => {
             }
 
             case "SET_PHONENUM": {
+                var phoneNumber = action.data.replace(/[^0-9]/gi, "");
                 return {
                     ...state,
-                    phoneNumber: action.data,
+                    phoneNumber: phoneNumber,
                 };
             }
 
@@ -103,7 +104,6 @@ const PhoneAuth = (props: Props) => {
                     type: "ERROR",
                 });
             }
-
             dispatch({ type: "SET_SMS_STATE", data: "IDLE" });
         };
 
