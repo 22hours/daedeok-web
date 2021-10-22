@@ -69,7 +69,6 @@ const ContentEditorPresenter = (props: PresenterProps) => {
     const { alertOn } = useAlert();
     const editorController = useEditorController();
     const router = useRouter();
-
     const title = useInput();
     const category = useInput();
     const secret = useBoolean();
@@ -156,6 +155,7 @@ const ContentEditorPresenter = (props: PresenterProps) => {
                     uploadDummyImage={editorController.uploadDummyImage}
                 />
             </div>
+            <div>여기가 첨부파일 자리</div>
             <div className={style.footer}>
                 <Button
                     className={`${style.cancel_btn} ${style.footer_btn}`}
