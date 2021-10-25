@@ -3,7 +3,6 @@
 .container {
     .head {
         margin-top: 40px;
-
         @include desktop {
             display: flex;
             .category_select {
@@ -28,6 +27,7 @@
     .body {
         margin-top: 20px;
     }
+
     .footer {
         margin-top: 40px;
         margin-bottom: 50px;
@@ -53,5 +53,24 @@
                 color: white;
             }
         }
+    }
+}
+
+.upload_files_box {
+    margin-top: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border: 0.5px solid lightgray;
+    display: flex;
+    align-items: center;
+}
+.attach_item_list {
+    display: flex;
+    margin-left: 15px;
+    align-items: center;
+    .item_text {
+        margin-right: 3px;
     }
 }

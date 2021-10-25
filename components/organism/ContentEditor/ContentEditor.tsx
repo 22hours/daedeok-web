@@ -1,5 +1,5 @@
 import style from "./ContentEditor.module.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useReducer } from "react";
 import { useEditorController, WysiwygEditorProvider } from "store/WysiwygEditorStore";
 import { api_config_type } from "@api_config_type";
 import useInput from "lib/hooks/useInput";
@@ -12,6 +12,7 @@ import Button from "@ui/buttons/Button";
 import { useRouter } from "next/router";
 import { useAlert } from "store/GlobalAlertStore";
 import QuillEditor from "../QuillEditor/QuillEditor";
+import AttachmentInput from "./AttachmentInput";
 
 type api_params = api_config_type.api_params;
 
@@ -48,7 +49,7 @@ type EditProps = {
         | "MAIN_IMAGE"
         | "ACINFO_INTRODUCE"
         | "ACINFO_EDUVISION";
-    originData: { title: string; content: string; category?: string; secret?: boolean };
+    originData: { title: string; content: string; category?: string; secret?: boolean; attachment_list: any[] };
     isCategory?: boolean;
     isSecret?: boolean;
     categoryOption?: { value: string; name: string }[];
@@ -58,11 +59,50 @@ type EditProps = {
 type PresenterProps = {
     type: "NEW" | "EDIT";
     onSubmit: (title: string, content: string, category?: string, secret?: boolean) => void;
-    originData?: { title: string; content: string; category?: string; secret?: boolean };
+    originData?: { title: string; content: string; category?: string; secret?: boolean; attachment_list: any[] };
     isCategory?: boolean;
     isSecret?: boolean;
     categoryOption?: { value: string; name: string }[];
     isHeaderHide?: boolean;
+};
+
+type AttachmentState = {
+    attachment_list: any[];
+};
+
+const initState: AttachmentState = {
+    attachment_list: [],
+};
+
+type Action =
+    | { type: "ADD_ATTACHMENT"; data: { name: string; url: string } }
+    | { type: "REMOVE_ATTACHMENT"; data: number }
+    | { type: "SET_ATTACHMENT"; data: { name: string; url: string }[] };
+
+const reducer = (state: AttachmentState, action: Action) => {
+    switch (action.type) {
+        case "ADD_ATTACHMENT": {
+            const newAttachment = state.attachment_list.slice();
+            newAttachment.push(action.data);
+            return {
+                ...state,
+                attachment_list: newAttachment,
+            };
+        }
+        case "REMOVE_ATTACHMENT": {
+            const newAttachment = state.attachment_list.slice();
+            newAttachment.splice(action.data, 1);
+            return {
+                ...state,
+                attachment_list: newAttachment,
+            };
+        }
+        case "SET_ATTACHMENT": {
+            return {
+                attachment_list: action.data,
+            };
+        }
+    }
 };
 
 const ContentEditorPresenter = (props: PresenterProps) => {
@@ -74,12 +114,25 @@ const ContentEditorPresenter = (props: PresenterProps) => {
     const secret = useBoolean();
     const content = useInput();
 
+    //파일 업로드
+    const [state, dispatch] = useReducer(reducer, initState);
+
+    const addAttachmentItem = useCallback(
+        (item: { name: string; url: string }) => dispatch({ type: "ADD_ATTACHMENT", data: item }),
+        [state.attachment_list]
+    );
+    const removeAttachmentItem = useCallback(
+        (idx: number) => dispatch({ type: "REMOVE_ATTACHMENT", data: idx }),
+        [state.attachment_list]
+    );
+
     useEffect(() => {
         if (props.originData) {
             title.setValue(props.originData.title);
             category.setValue(props.originData.category);
             secret.setValue(props.originData.secret);
             content.setValue(props.originData.content);
+            dispatch({ type: "SET_ATTACHMENT", data: props.originData.attachment_list });
         }
     }, [props.originData]);
 
@@ -155,7 +208,13 @@ const ContentEditorPresenter = (props: PresenterProps) => {
                     uploadDummyImage={editorController.uploadDummyImage}
                 />
             </div>
-            <div>여기가 첨부파일 자리</div>
+            <div>
+                <AttachmentInput
+                    value={state.attachment_list}
+                    addAttachmentItem={addAttachmentItem}
+                    removeAttachmentItem={removeAttachmentItem}
+                />
+            </div>
             <div className={style.footer}>
                 <Button
                     className={`${style.cancel_btn} ${style.footer_btn}`}

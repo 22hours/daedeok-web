@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import style from "./ClassEditor.module.scss";
 import { class_types } from "@global_types";
-
 import { nanoid } from "nanoid";
 import Typo from "@ui/Typo";
 import Icon from "@ui/Icon";
