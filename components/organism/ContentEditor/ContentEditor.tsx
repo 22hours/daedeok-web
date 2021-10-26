@@ -13,6 +13,8 @@ import { useRouter } from "next/router";
 import { useAlert } from "store/GlobalAlertStore";
 import QuillEditor from "../QuillEditor/QuillEditor";
 import AttachmentInput from "./AttachmentInput";
+import ListController from "lib/client/listController";
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 type api_params = api_config_type.api_params;
 
@@ -49,7 +51,13 @@ type EditProps = {
         | "MAIN_IMAGE"
         | "ACINFO_INTRODUCE"
         | "ACINFO_EDUVISION";
-    originData: { title: string; content: string; category?: string; secret?: boolean; attachment_list: any[] };
+    originData: {
+        title: string;
+        content: string;
+        category?: string;
+        secret?: boolean;
+        attachment_list?: { url: string; name: string }[];
+    };
     isCategory?: boolean;
     isSecret?: boolean;
     categoryOption?: { value: string; name: string }[];
@@ -58,8 +66,21 @@ type EditProps = {
 
 type PresenterProps = {
     type: "NEW" | "EDIT";
-    onSubmit: (title: string, content: string, category?: string, secret?: boolean) => void;
-    originData?: { title: string; content: string; category?: string; secret?: boolean; attachment_list: any[] };
+    onSubmit: (
+        title: string,
+        content: string,
+        category?: string,
+        secret?: boolean,
+        attachment_list?: { url: string; name: string }[],
+        originAttach?: { url: string; name: string }[]
+    ) => void;
+    originData?: {
+        title: string;
+        content: string;
+        category?: string;
+        secret?: boolean;
+        attachment_list?: { url: string; name: string }[];
+    };
     isCategory?: boolean;
     isSecret?: boolean;
     categoryOption?: { value: string; name: string }[];
@@ -67,7 +88,7 @@ type PresenterProps = {
 };
 
 type AttachmentState = {
-    attachment_list: any[];
+    attachment_list: { url: string; name: string }[];
 };
 
 const initState: AttachmentState = {
@@ -113,6 +134,7 @@ const ContentEditorPresenter = (props: PresenterProps) => {
     const category = useInput();
     const secret = useBoolean();
     const content = useInput();
+    const [originAttach, setOriginAttach] = useState<{ url: string; name: string }[]>([]);
 
     //파일 업로드
     const [state, dispatch] = useReducer(reducer, initState);
@@ -132,7 +154,10 @@ const ContentEditorPresenter = (props: PresenterProps) => {
             category.setValue(props.originData.category);
             secret.setValue(props.originData.secret);
             content.setValue(props.originData.content);
-            dispatch({ type: "SET_ATTACHMENT", data: props.originData.attachment_list });
+            if (props.originData.attachment_list) {
+                dispatch({ type: "SET_ATTACHMENT", data: props.originData?.attachment_list });
+                setOriginAttach(props?.originData.attachment_list.slice());
+            }
         }
     }, [props.originData]);
 
@@ -163,8 +188,10 @@ const ContentEditorPresenter = (props: PresenterProps) => {
             });
             return;
         }
+        console.log(state.attachment_list);
+        console.log(originAttach);
 
-        props.onSubmit(title.value, content.value, category.value, secret.value);
+        props.onSubmit(title.value, content.value, category.value, secret.value, state.attachment_list, originAttach);
     };
 
     return (
@@ -208,7 +235,7 @@ const ContentEditorPresenter = (props: PresenterProps) => {
                     uploadDummyImage={editorController.uploadDummyImage}
                 />
             </div>
-            <div>
+            <div className={style.attachment_box}>
                 <AttachmentInput
                     value={state.attachment_list}
                     addAttachmentItem={addAttachmentItem}
@@ -240,7 +267,7 @@ const ContentEditorPresenter = (props: PresenterProps) => {
 const ContentCreateController = (props: NewProps) => {
     const { clientSideApi } = useAuthStore();
     const { apiErrorAlert } = useAlert();
-    const handleCreate = async (title, content, category, secret) => {
+    const handleCreate = async (title, content, category, secret, attachment_list, originAttach) => {
         const reqOption = {
             ...props.submitApiConfig,
         };
@@ -250,6 +277,7 @@ const ContentCreateController = (props: NewProps) => {
             content: content,
             category: props.isCategory ? category : undefined,
             secret: props.isSecret ? secret : undefined,
+            attachment_list: attachment_list,
         });
         if (res.result === "SUCCESS") {
             props.onCreated(res.data);
@@ -275,23 +303,37 @@ const ContentEditController = (props: EditProps) => {
     const { clientSideApi } = useAuthStore();
     const { apiErrorAlert } = useAlert();
 
-    const handleEdit = async (title, content, category, secret) => {
+    const handleEdit = async (title, content, category, secret, attachmentList, originAttach) => {
+        console.log("수정");
         const { deleted_item_list, new_item_list } = editorController.getUpdatedImgList();
         const reqOption = {
             ...props.editApiConfig,
         };
+
+        const diffItemList = ListController.getUpdateInList(originAttach, attachmentList);
+
+        const new_attach_files = diffItemList?.new_item_list?.map((elm) => elm.url);
+        const delete_attach_files = diffItemList?.deleted_item_list?.map((elm) => elm.url);
+
+        const new_files = new_item_list.concat(new_attach_files);
+        const delete_files = deleted_item_list.concat(delete_attach_files);
+
+        console.log(new_files);
+        console.log(delete_files);
+
         const res = await clientSideApi(reqOption.method, reqOption.domain, reqOption.ep, reqOption.url_query, {
             ...reqOption.data,
             title: props.isHeaderHide ? undefined : title,
             content: content,
             category: props.isCategory ? category : undefined,
             secret: props.isSecret ? secret : undefined,
+            attachment_list: attachmentList,
         });
         if (res.result === "SUCCESS") {
             props.onEdited();
             clientSideApi("PUT", "MAIN", "UPDATE_FILE", undefined, {
-                new_file_list: new_item_list,
-                delete_file_list: deleted_item_list,
+                new_file_list: new_files,
+                delete_file_list: delete_files,
                 to_path: props.imgPath,
             });
         } else {
@@ -304,7 +346,6 @@ const ContentEditController = (props: EditProps) => {
             editorController.setOrginImageListForEdit(props.originData.content);
         }
     }, [props]);
-
     return (
         <ContentEditorPresenter
             type={props.type}

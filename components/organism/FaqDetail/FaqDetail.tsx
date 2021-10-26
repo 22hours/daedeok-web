@@ -81,6 +81,7 @@ const FaqDetail = ({ articleId }) => {
                     <TextViewer
                         //@ts-ignore
                         content={noticeDetailData?.content}
+                        attachment={noticeDetailData?.attachment_list}
                     />
                 </div>
 

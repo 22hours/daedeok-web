@@ -250,6 +250,7 @@ declare module "@global_types" {
             author: string;
             create_date: string;
             view: number;
+            attachment_list?: { url: string; name: string }[];
             comment_list: CommentItem[];
             after: {
                 id: number;
@@ -380,6 +381,7 @@ declare module "@global_types" {
             user_id: number;
             title: string;
             content: string;
+            attachment_list?: { url: string; name: string }[];
             create_date: string;
             comment_list: CommentItem[];
             after: { id: number; user_id: number; title: string; create_date: string };
@@ -396,6 +398,7 @@ declare module "@global_types" {
             create_date: string;
             secret: boolean;
             view: number;
+            attachment_list?: { url: string; name: string }[];
             comment_list: CommentItem[];
             after: {
                 id: number;
@@ -424,6 +427,7 @@ declare module "@global_types" {
             title: string;
             content: string;
             create_date: string;
+            attachment_list?: { url: string; name: string }[];
             after: { id: number; user_id: number; title: string; create_date: string };
             before: { id: number; user_id: number; title: string; create_date: string };
         };
@@ -432,6 +436,7 @@ declare module "@global_types" {
             user_id: number;
             title: string;
             content: string;
+            attachment_list?: { url: string; name: string }[];
             after: { id: number; user_id: number; title: string; create_date: string };
             before: { id: number; user_id: number; title: string; create_date: string };
         };
