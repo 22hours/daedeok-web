@@ -13,7 +13,7 @@ type Props = {
 const AttachmentItem = (props: { url: string; name: string }) => {
     return (
         <div className={style.attachment_item}>
-            <Typo type={"TEXT"} size={"small"} content={props.name} />
+            <Typo type={"TEXT"} size={"small"} content={props.name} className={style.attach_name} />
             <a href={props.url} target="_blank" rel="noreferrer">
                 <Button
                     type={"SQUARE"}

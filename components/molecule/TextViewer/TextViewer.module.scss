@@ -18,7 +18,7 @@
         padding-right: 3px !important;
     }
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     padding-left: 15px;
     padding-right: 15px;
     width: 100%;
@@ -26,7 +26,7 @@
         @include mobile {
             margin-left: 0px !important;
         }
-
+        margin-left: 30px;
         width: 100%;
     }
 }
@@ -40,13 +40,13 @@
 
 .attachment_item {
     display: flex;
-    text-align: center;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
-
     .attach_name {
+        margin-right: 3px;
         @include mobile {
-            display: inline-block;
+            width: calc(100% - 80px);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
