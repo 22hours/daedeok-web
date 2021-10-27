@@ -36,7 +36,7 @@ const TextViewer = (props: Props) => {
                     <div className={"ql-editor"} dangerouslySetInnerHTML={{ __html: props.content }}></div>
                 </div>
             </div>
-            {props.attachment ? (
+            {props.attachment?.length !== 0 ? (
                 <div className={style.file_download_box}>
                     <Typo type="TEXT" content="첨부파일" size="small" className={style.text_style} />
                     <div className={style.file_download_list}>
