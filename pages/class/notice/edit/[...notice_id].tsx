@@ -12,6 +12,7 @@ type Props = {};
 type State = {
     title: string;
     content: string;
+    attachment_list: { url: string; name: string }[];
 };
 
 const ContentEditor = dynamic(() => import("components/organism/ContentEditor/ContentEditor"), { ssr: false });
@@ -31,6 +32,7 @@ const TutorNoticeEdit = () => {
             setOriginData({
                 title: res.data.title,
                 content: res.data.content,
+                attachment_list: res.data.attachment_list,
             });
         } else {
             apiErrorAlert(res.msg);

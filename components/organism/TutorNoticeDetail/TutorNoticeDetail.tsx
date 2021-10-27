@@ -88,7 +88,8 @@ const TutorNoticeDetail = () => {
                 if (parent_id) {
                     // 대댓일때
                     if (noticeDetailData) {
-                        var newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                        var newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                            noticeDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         newCommentList[matchIdx].children.push({
                             id: new_comment_id,
@@ -109,7 +110,8 @@ const TutorNoticeDetail = () => {
                 } else {
                     // 댓일때
                     if (noticeDetailData) {
-                        const newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                        const newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                            noticeDetailData?.comment_list.slice();
                         newCommentList.push({
                             id: new_comment_id,
                             // @ts-ignore
@@ -157,7 +159,8 @@ const TutorNoticeDetail = () => {
             if (parent_id) {
                 // 대댓일때
                 if (noticeDetailData) {
-                    var newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                    var newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                        noticeDetailData?.comment_list.slice();
                     const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                     const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
                     newCommentList[matchIdx].children[childMatchIdx].content = content;
@@ -172,7 +175,8 @@ const TutorNoticeDetail = () => {
             } else {
                 // 댓일때
                 if (noticeDetailData) {
-                    const newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                    const newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                        noticeDetailData?.comment_list.slice();
                     const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
                     newCommentList[matchIdx].content = content;
                     newCommentList[matchIdx].create_date = new Date().toString();
@@ -201,7 +205,8 @@ const TutorNoticeDetail = () => {
                     if (parent_id) {
                         // 대댓일때
                         if (noticeDetailData) {
-                            var newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                            var newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                                noticeDetailData?.comment_list.slice();
                             const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                             const childMatchIdx = newCommentList[matchIdx].children.findIndex(
                                 (it) => it.id === comment_id
@@ -217,7 +222,8 @@ const TutorNoticeDetail = () => {
                     } else {
                         // 댓일때
                         if (noticeDetailData) {
-                            const newCommentList: res_types.tutorNoticeDetail["comment_list"] = noticeDetailData?.comment_list.slice();
+                            const newCommentList: res_types.tutorNoticeDetail["comment_list"] =
+                                noticeDetailData?.comment_list.slice();
                             const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
                             newCommentList.splice(matchIdx, 1);
                             setNoticeDetailData({
@@ -261,6 +267,7 @@ const TutorNoticeDetail = () => {
                     <TextViewer
                         //@ts-ignore
                         content={noticeDetailData?.content}
+                        attachment={noticeDetailData?.attachment_list}
                     />
                 </div>
                 <CommentList

@@ -334,6 +334,7 @@ const ClassBoardDetail = () => {
                     <TextViewer
                         //@ts-ignore
                         content={boardDetailData?.content}
+                        attachment={boardDetailData?.attachment_list}
                     />
                 </div>
                 <CommentList

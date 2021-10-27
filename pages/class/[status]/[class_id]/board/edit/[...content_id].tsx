@@ -18,7 +18,12 @@ const ClassBoardEdit = () => {
     const { clientSideApi } = useAuthStore();
     const { alertOn, apiErrorAlert } = useAlert();
     const { categoryOptionList } = useCategory("CLASS_BOARD");
-    const [originData, setOriginData] = useState<{ title: string; category: string; content: string } | null>(null);
+    const [originData, setOriginData] = useState<{
+        title: string;
+        category: string;
+        content: string;
+        attachment_list: { url: string; name: string }[];
+    } | null>(null);
     const getOriginData = async () => {
         const res = await clientSideApi("GET", "MAIN", "LECTURE_BOARD_DETAIL", { content_id: content_id });
         if (res.result === "SUCCESS") {
@@ -26,6 +31,7 @@ const ClassBoardEdit = () => {
                 title: res.data.title,
                 category: res.data.category,
                 content: res.data.content,
+                attachment_list: res.data.attachment_list,
             });
         } else {
             apiErrorAlert(res.msg);

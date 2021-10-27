@@ -13,6 +13,7 @@ type State = {
     content: string;
     secret: boolean;
     category: string;
+    attachment_list: { url: string; name: string }[];
 };
 
 const QnaEdit = () => {
@@ -31,6 +32,7 @@ const QnaEdit = () => {
                 content: res.data.content,
                 category: res.data.category,
                 secret: res.data.secret,
+                attachment_list: res.data.attachment_list,
             });
         } else {
             apiErrorAlert(res.msg);

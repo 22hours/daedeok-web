@@ -99,7 +99,8 @@ const QnaDetail = ({ articleId }) => {
                 if (parent_id) {
                     // 대댓일때
                     if (qnaDetailData) {
-                        var newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
+                        var newCommentList: res_types.qnaDetailList["comment_list"] =
+                            qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         newCommentList[matchIdx].children.push({
                             id: new_comment_id,
@@ -120,7 +121,8 @@ const QnaDetail = ({ articleId }) => {
                 } else {
                     // 댓일때
                     if (qnaDetailData) {
-                        const newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
+                        const newCommentList: res_types.qnaDetailList["comment_list"] =
+                            qnaDetailData?.comment_list.slice();
                         newCommentList.push({
                             id: new_comment_id,
                             // @ts-ignore
@@ -173,7 +175,8 @@ const QnaDetail = ({ articleId }) => {
                 if (parent_id) {
                     // 대댓일때
                     if (qnaDetailData) {
-                        var newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
+                        var newCommentList: res_types.qnaDetailList["comment_list"] =
+                            qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                         const childMatchIdx = newCommentList[matchIdx].children.findIndex((it) => it.id === comment_id);
                         newCommentList[matchIdx].children[childMatchIdx].content = content;
@@ -187,7 +190,8 @@ const QnaDetail = ({ articleId }) => {
                 } else {
                     // 댓일때
                     if (qnaDetailData) {
-                        const newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
+                        const newCommentList: res_types.qnaDetailList["comment_list"] =
+                            qnaDetailData?.comment_list.slice();
                         const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
                         newCommentList[matchIdx].content = content;
                         newCommentList[matchIdx].create_date = new Date().toString();
@@ -232,7 +236,8 @@ const QnaDetail = ({ articleId }) => {
                     if (parent_id) {
                         // 대댓일때
                         if (qnaDetailData) {
-                            var newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
+                            var newCommentList: res_types.qnaDetailList["comment_list"] =
+                                qnaDetailData?.comment_list.slice();
                             const matchIdx = newCommentList.findIndex((it) => it.id === parent_id);
                             const childMatchIdx = newCommentList[matchIdx].children.findIndex(
                                 (it) => it.id === comment_id
@@ -247,7 +252,8 @@ const QnaDetail = ({ articleId }) => {
                     } else {
                         // 댓일때
                         if (qnaDetailData) {
-                            const newCommentList: res_types.qnaDetailList["comment_list"] = qnaDetailData?.comment_list.slice();
+                            const newCommentList: res_types.qnaDetailList["comment_list"] =
+                                qnaDetailData?.comment_list.slice();
                             const matchIdx = newCommentList.findIndex((it) => it.id === comment_id);
                             newCommentList.splice(matchIdx, 1);
                             setQnaDetailData({
@@ -340,6 +346,7 @@ const QnaDetail = ({ articleId }) => {
                     <TextViewer
                         //@ts-ignore
                         content={qnaDetailData?.content}
+                        attachment={qnaDetailData?.attachment_list}
                     />
                 </div>
                 <CommentList
