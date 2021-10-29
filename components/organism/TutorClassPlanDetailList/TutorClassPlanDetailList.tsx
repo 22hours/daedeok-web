@@ -46,7 +46,7 @@ const TutorClassPlanDetailList = () => {
     };
 
     const postAttendance = async (user_id: number) => {
-        if (state?.type === "OFFLINE") {
+        if (state?.type !== "ONLINE") {
             const res = await clientSideApi(
                 "POST",
                 "MAIN",
