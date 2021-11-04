@@ -4,7 +4,11 @@ import CSS from "csstype";
 
 type Props = {
     value?: string;
-    accept: "image/*" | ".hwp,.word,.docx,.pptx,.show" | "image/*,.hwp,.word,.docx,.pptx,.show";
+    accept:
+        | "image/*"
+        | ".hwp,.word,.docx,.pptx,.show"
+        | "image/*,.hwp,.word,.docx,.pptx,.show"
+        | "image/*,.hwp,.word,.docx,.pptx,.show,.pdf";
     onChange: (e) => void;
     children: JSX.Element;
     className?: string;

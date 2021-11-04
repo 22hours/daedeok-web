@@ -53,7 +53,7 @@ const AttachmentInput = (props: AttachmentProps) => {
                 <FileInput
                     {...attachmentList}
                     //@ts-ignore
-                    accept={"image/*,.hwp,.word,.docx,.pptx,.show"}
+                    accept={"image/*,.hwp,.word,.docx,.pptx,.show,.pdf"}
                     className={style.file_input_button}
                 >
                     <Button
