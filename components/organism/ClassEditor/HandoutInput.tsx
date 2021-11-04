@@ -55,7 +55,7 @@ const HandoutInput = (props: HandoutProps) => {
                     <FileInput
                         {...localHandout}
                         //@ts-ignore
-                        accept={"image/*,.hwp,.word,.docx,.pptx,.show"}
+                        accept={"image/*,.hwp,.word,.docx,.doc,.pptx,.ppt,.show,.pdf"}
                         className={style.file_input_button}
                     >
                         {status !== "close" ? (

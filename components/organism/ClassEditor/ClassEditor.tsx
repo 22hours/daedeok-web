@@ -16,7 +16,6 @@ import { useRouter } from "next/router";
 import { useClassDetailStore } from "store/ClassDetailStore";
 import { useAlert } from "store/GlobalAlertStore";
 import { useConfirm } from "store/GlobalConfirmStore";
-
 import ClassCategorySelect from "components/molecule/ClassCategorySelect/ClassCategorySelect";
 import useClassCategory from "lib/hooks/useClassCategory";
 import RegexController from "lib/client/regexController";

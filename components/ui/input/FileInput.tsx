@@ -8,7 +8,7 @@ type Props = {
         | "image/*"
         | ".hwp,.word,.docx,.pptx,.show"
         | "image/*,.hwp,.word,.docx,.pptx,.show"
-        | "image/*,.hwp,.word,.docx,.pptx,.show,.pdf";
+        | "image/*,.hwp,.word,.docx,.doc,.pptx,.ppt,.show,.pdf";
     onChange: (e) => void;
     children: JSX.Element;
     className?: string;
