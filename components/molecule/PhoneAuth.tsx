@@ -90,6 +90,7 @@ const PhoneAuth = (props: Props) => {
 
     // 인증번호 요청
     const requestAuth = async () => {
+        console.log(state.phoneNumber);
         const registerCallBack = (result: boolean) => {
             if (result) {
                 alertOn({

@@ -6,14 +6,13 @@ import { useAlert } from "store/GlobalAlertStore";
 const TEST = false;
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCh6HqY3ecTgHP3UcwXnx_rO8WCKBlanIg",
-    authDomain: "system-monitor-6737e.firebaseapp.com",
-    databaseURL: "https://system-monitor-6737e.firebaseio.com",
-    projectId: "system-monitor-6737e",
-    storageBucket: "system-monitor-6737e.appspot.com",
-    messagingSenderId: "382753654296",
-    appId: "1:382753654296:web:6219aa1c33e163e6ab656d",
-    measurementId: "G-X67903P8LT",
+    apiKey: "AIzaSyBlzidD-PYqWdqoCyLNHkf9VJNNyJPxQmE",
+    authDomain: "class-assignment-5d78c.firebaseapp.com",
+    projectId: "class-assignment-5d78c",
+    storageBucket: "class-assignment-5d78c.appspot.com",
+    messagingSenderId: "200887423991",
+    appId: "1:200887423991:web:d69ab750cca51eb169d4f2",
+    measurementId: "G-DSB4G6MFRR",
 };
 
 // ELEMENT TYPES
@@ -43,6 +42,7 @@ export const FirebaseProvider = ({ children }) => {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("sign-in-button", {
             size: "invisible",
             callback: (response) => {
+                console.log("recaptcha solved");
                 // reCAPTCHA solved, allow signInWithPhoneNumber.
             },
         });
