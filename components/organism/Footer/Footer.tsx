@@ -92,15 +92,6 @@ const Footer = () => {
             />
           </div>
 
-          <div className={style.center_wrapper}>
-            <Typo
-              type={"TEXT"}
-              size={"smaller"}
-              color={"white"}
-              content={"개인정보관리책임자 : 이연곤"}
-            />
-          </div>
-
           <div className={style.button_wrapper}>
             <Link href={"/docs/terms"} passHref>
               <div className={style.button_box}>
